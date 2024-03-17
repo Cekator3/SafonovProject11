@@ -4,13 +4,11 @@ namespace App\Models;
 
 use App\Enums\UserRole;
 use Illuminate\Notifications\Notifiable;
-use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Contracts\Auth\CanResetPassword;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
-class User extends Authenticatable implements MustVerifyEmail, CanResetPassword
+class User extends Authenticatable implements CanResetPassword
 {
     use HasFactory, Notifiable;
 
@@ -28,13 +26,6 @@ class User extends Authenticatable implements MustVerifyEmail, CanResetPassword
         'role' => UserRole::class,
     ];
 
-    /**
-     * Get logs that was fired by this user
-     */
-    public function application_events() : HasMany
-    {
-        return $this->hasMany(ApplicationEvent::class);
-    }
 
     /**
      * Returns true if the user is a customer.

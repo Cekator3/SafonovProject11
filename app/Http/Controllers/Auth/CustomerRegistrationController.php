@@ -61,9 +61,9 @@ class CustomerRegistrationController extends Controller
                 ->withErrors($errors->getAllErrors())
                 ->withInput();
         }
-
         if ($dataForAuth === null)
             throw new Exception("Authentication data does not exist, but no errors have occurred");
+
         $this->loginUserViaCookies($dataForAuth, $newUser->rememberUser);
 
         return redirect()->route('home');
