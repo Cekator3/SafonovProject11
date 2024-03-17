@@ -1,0 +1,85 @@
+/* Styles for website header */
+
+/* Logo and navigation */
+body > header
+{
+    /* Displays logo and nav on opposite sides */
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+
+    /* Places logo and nav on the same text line */
+    align-items: baseline;
+}
+
+/* Logo */
+.company-logo
+{
+    /* Sets size of logo */
+    height: 66%;
+    width: max(19.5%, 500px);
+
+    /* Sets logo (svg) */
+    background-image: var(--logo-image);
+    background-repeat: no-repeat;
+    background-size: contain;
+
+    /* Moves logo to left bottom edge */
+    background-position: left bottom;
+
+    /* Moves logo to the bottom of header */
+    position: relative;
+    top: 34%;
+}
+
+/* navigation */
+body > header > nav
+{
+    /* Removes markers and margins */
+    list-style-type: none;
+    padding-left: 0;
+    margin-left: 0;
+
+    /* Evenly distributes nav items */
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+
+    /* Moves nav with the logo (to the bottom of header) */
+    position: relative;
+    top: 34%;
+
+    /* Sets font */
+    font-family: ManropeVariable, Manrope, Arial, Helvetica, sans-serif;
+    font-weight: 400;
+    font-size: 1rem;        /* 16 px */
+    line-height: 1.375rem;  /* 21.86px */
+}
+
+/* --------------------- */
+/* Nav items */
+/* --------------------- */
+body > header > nav li
+{
+    /* Sets gap between nav items */
+    padding-right: 34px;
+
+    /* Disables text wrapping */
+    text-wrap: nowrap;
+}
+
+body > header > nav:last-child
+{
+    /* Removes uneccecary gap */
+    padding-right: 0;
+}
+/* --------------------- */
+
+@media (max-width: 1024px)
+{
+    .company-logo
+    {
+        /* Moves logo to bottom left half */
+        background-position: 23% bottom;
+    }
+}

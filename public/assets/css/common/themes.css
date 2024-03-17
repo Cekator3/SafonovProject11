@@ -1,0 +1,46 @@
+/* dark theme (customer) */
+:root
+{
+    /* Common */
+    --main-bg-color: #0C061F;
+    --main-bg-image: url('/assets/images/main-background.svg');
+    --main-text-color: white;
+    --secondary-text-color: #828282;
+
+    /* logo */
+    --logo-image: url('/assets/images/logo.svg');
+
+    /* Auth form */
+    --auth-action-link-gradient: linear-gradient(91.99deg, rgba(254, 79, 174, 0.6) 1.95%, rgba(84, 111, 255, 0.6) 46.14%, rgba(255, 169, 171, 0.6) 76.72%);
+
+    /* Form text input font size */
+    --form-input-text-font-size: 0.9375rem;   /* 15px */
+
+    /* form input colors */
+    --form-input-placeholder-color: hsla(0, 0%, 100%, 0.61);
+    --form-input-text-color: white;
+    --form-input-text-border-color: white;
+    --form-input-text-bg-color: #0C061F;
+    --form-input-error-text-color: rgb(250, 119, 124);
+
+    /* Form input margins */
+    --form-input-text-first-letter-padding: 1rem;
+
+    /* form checkbox colors */
+    --form-checkbox-active-color: #0075FF;
+    --form-checkbox-not-active-color: var(--main-text-color);
+
+    /* form submit colors */
+    --form-submit-filled-gradient: linear-gradient(to right, #FFA9AB 0%, #DB3FCE 16.7%, #FF59AD 33.36%, #655FFF 50%, #FF59AD 66.66%, #DB3FCE 83.3333%, #FFA9AB 100%);
+    --form-submit-filled-bg-size: 200% auto;
+    --form-submit-hollow-gradient: radial-gradient(366.3% 1692.2% at 97.13% 90.22%, #FFA9AB 0%, #DB3FCE 10.07%, #FF59AD 20.19%, #655FFF 30.5%);
+    --form-submit-text-color: #0C061F;
+    --form-submit-box-shadow: inset -2px -2px 3px rgba(255, 255, 255, 0.6),
+                              inset 2px 2px 3px rgba(0, 0, 0, 0.6);
+}
+
+/* 
+.light
+{
+} 
+*/
