@@ -31,7 +31,7 @@ class PasswordResetLinkController extends Controller
 
         if ($errors->hasAny()) {
             return redirect()->back()
-                             ->withErrors($errors->getAllErrors())
+                             ->withErrors($errors->getAll())
                              ->withInput();
         }
 

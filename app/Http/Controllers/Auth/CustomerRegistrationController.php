@@ -27,12 +27,7 @@ class CustomerRegistrationController extends Controller
     private function retrieveDataFromRegistrationForm(Request $request) : CustomerViewModel
     {
         $user = new CustomerViewModel();
-        $user->login        = $request->string('login', '');
         $user->email        = $request->string('email', '');
-        $user->phoneNumber  = $request->string('phone_number', '');
-        $user->name         = $request->string('name', '');
-        $user->surname      = $request->string('surname', '');
-        $user->patronymic   = $request->string('patronymic', '');
         $user->password     = $request->string('password', '');
         $user->passwordConfirmation = $request->string('password_confirmation', '');
         $user->rememberUser = $request->boolean('remember_me', false);
@@ -57,9 +52,9 @@ class CustomerRegistrationController extends Controller
         CustomerRegistrationService::registerCustomer($newUser, $dataForAuth, $errors);
 
         if ($errors->hasAny()) {
-            return redirect(route('register'))
-                ->withErrors($errors->getAllErrors())
-                ->withInput();
+            return redirect()->back()
+                             ->withErrors($errors->getAll())
+                             ->withInput();
         }
         if ($dataForAuth === null)
             throw new Exception("Authentication data does not exist, but no errors have occurred");

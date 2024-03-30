@@ -18,7 +18,7 @@ class HumanNameFormatValidationService
         {
             $errMessage = __('validation.max.string', ['attribute' => 'name', 
                                                        'max' => $maxLen]);
-            $errors->addError('name', $errMessage);
+            $errors->add('name', $errMessage);
             return;
         }
     }

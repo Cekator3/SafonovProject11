@@ -4,6 +4,7 @@ namespace App\Services\Auth\PasswordReset;
 use App\Models\User;
 use App\Errors\UserInputErrors;
 use App\Repositories\UserRepository;
+use App\ViewModels\CustomerResetPasswordCredentials;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Auth\Events\PasswordReset;
 use App\Services\UserCredentialsValidation\FormatValidation\EmailFormatValidationService;
@@ -16,16 +17,18 @@ class PasswordResetService
         if ($token === '')
         {
             $errMessage = __('validation.required', ['attribute' => 'token']);
-            $errors->addError('token', $errMessage);
+            $errors->add('token', $errMessage);
         }
     }
 
-    private static function validateUserInput(string $token, 
-                                              string $email, 
-                                              string $password, 
-                                              string $passwordConfirmation, 
+    private static function validateUserInput(CustomerResetPasswordCredentials $userCredentials,
                                               UserInputErrors $errors) : void
     {
+        $token = $userCredentials->getToken();
+        $email = $userCredentials->getEmail();
+        $password = $userCredentials->getPassword();
+        $passwordConfirmation = $userCredentials->getPasswordConfirmation();
+
         static::validateToken($token, $errors);
         EmailFormatValidationService::validateEmail($email, $errors);
         PasswordFormatValidationService::validatePassword($password, 
@@ -35,43 +38,33 @@ class PasswordResetService
         );
     }
 
-    private static function resetPassword(array $userCredentials, 
+    private static function resetPassword(CustomerResetPasswordCredentials $userCredentials, 
                                           UserInputErrors $errors) : void
     {
-        $status = Password::Reset($userCredentials, function (User $user, string $password) 
+        $status = Password::Reset($userCredentials->getAll(), function (User $user, string $password) 
         {
             UserRepository::changeUserPassword($user, $password);
             event(new PasswordReset($user));
         });
 
         if ($status !== Password::PASSWORD_RESET)
-            $errors->addError('status', __($status));
+            $errors->add('status', __($status));
     }
 
     /**
      * Resets user's password.
      * 
-     * @param string $token The user's reset password token.
-     * @param string $email The user's email address.
-     * @param string $password The user's new password.
-     * @param string $passwordConfirmation The user's new password confirmation.
-     * @param UserInputErrors $errors An object for storing validation errors.
+     * @param CustomerResetPasswordCredentials $userCredentials Customer's data for resetting password
+     * @param UserInputErrors $errors 
+     * User's inputs errors that prevented successful execution of the action.
      */
-    public static function resetPasswordByEmail(string $token, 
-                                                string $email, 
-                                                string $password,
-                                                string $passwordConfirmation,
+    public static function resetPasswordByEmail(CustomerResetPasswordCredentials $userCredentials,
                                                 UserInputErrors $errors) : void
     {
-        static::validateUserInput($token, $email, $password, $passwordConfirmation, $errors);
+        static::validateUserInput($userCredentials, $errors);
         if ($errors->hasAny())
             return;
 
-        $userCredentials = [
-            'token' => $token,
-            'email' => $email,
-            'password' => $password,
-        ];
         static::resetPassword($userCredentials, $errors);
     }
 }

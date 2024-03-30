@@ -16,7 +16,7 @@ class HumanSurnameFormatValidationService
         if ($len == 0)
         {
             $errMessage = __('validation.required', ['attribute' =>'surname']);
-            $errors->addError('surname', $errMessage);
+            $errors->add('surname', $errMessage);
             return;
         }
         $maxLen = Config::get('users.credentials.max_human_surname_length');
@@ -24,7 +24,7 @@ class HumanSurnameFormatValidationService
         {
             $errMessage = __('validation.max.string', ['attribute' =>'surname', 
                                                        'max' => $maxLen]);
-            $errors->addError('surname', $errMessage);
+            $errors->add('surname', $errMessage);
             return;
         }
     }

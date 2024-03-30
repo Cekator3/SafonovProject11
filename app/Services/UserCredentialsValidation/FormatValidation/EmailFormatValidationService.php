@@ -19,7 +19,7 @@ class EmailFormatValidationService
         if ($len == 0) 
         {
             $errMessage = __('validation.required', ['attribute' => 'email']);
-            $errors->addError('email', $errMessage);
+            $errors->add('email', $errMessage);
             return;
         }
         $maxLen = Config::get('users.credentials.max_email_length');
@@ -27,7 +27,7 @@ class EmailFormatValidationService
         {
             $errMessage = __('validation.max.string', ['attribute' => 'email', 
                                                        'max' => $maxLen]);
-            $errors->addError('email', $errMessage);
+            $errors->add('email', $errMessage);
             return;
         }
     }
@@ -42,7 +42,7 @@ class EmailFormatValidationService
         if (static::isFormatValid($email))
             return;
         $errMessage = __('validation.email', ['attribute' => 'email']);
-        $errors->addError('email', $errMessage);
+        $errors->add('email', $errMessage);
     }
 
     /**

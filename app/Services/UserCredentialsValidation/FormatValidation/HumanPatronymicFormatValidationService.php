@@ -18,7 +18,7 @@ class HumanPatronymicFormatValidationService
         {
             $errMessage = __('validation.max.string', ['attribute' =>'surname', 
                                                        'max' => $maxLen]);
-            $errors->addError('surname', $errMessage);
+            $errors->add('surname', $errMessage);
             return;
         }
     }

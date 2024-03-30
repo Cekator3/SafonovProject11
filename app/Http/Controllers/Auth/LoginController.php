@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use Exception;
 use App\DTOs\UserAuthDTO;
+use Illuminate\Support\Benchmark;
 use Illuminate\View\View;
 use Illuminate\Http\Request;
 use App\Errors\UserInputErrors;
@@ -33,17 +34,17 @@ class LoginController extends Controller
      */
     public function login(Request $request) : RedirectResponse
     {
-        $login = $request->string('login', '');
+        $email = $request->string('email', '');
         $password = $request->string('password','');
         $rememberUser = $request->boolean('remember_user', false);
         $dataForAuth = null;
         $errors = new UserInputErrors();
 
-        LoginService::loginUser($login, $password, $dataForAuth, $errors);
+        LoginService::loginUser($email, $password, $dataForAuth, $errors);
 
         if ($errors->hasAny()) {
             return redirect(route('login'))
-                ->withErrors($errors->getAllErrors())
+                ->withErrors($errors->getAll())
                 ->withInput();
         }
         if ($dataForAuth === null)

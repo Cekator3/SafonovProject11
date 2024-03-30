@@ -16,7 +16,7 @@ class PasswordFormatValidationService
         if ($len == 0)
         {
             $errMessage = __('validation.required', ['attribute' => 'password']);
-            $errors->addError('password', $errMessage);
+            $errors->add('password', $errMessage);
             return;
         }
         $maxLen = Config::get('users.credentials.max_password_length');
@@ -24,7 +24,7 @@ class PasswordFormatValidationService
         {
             $errMessage = __('validation.max.string', ['attribute' => 'password', 
                                                        'max' => $maxLen]);
-            $errors->addError('password', $errMessage);
+            $errors->add('password', $errMessage);
             return;
         }
     }
@@ -36,7 +36,7 @@ class PasswordFormatValidationService
         if ($password === $password_confirmation)
             return;
         $errMessage = __('validation.confirmed', ['attribute' => 'password']);
-        $errors->addError('password', $errMessage);
+        $errors->add('password', $errMessage);
     }
 
     /**

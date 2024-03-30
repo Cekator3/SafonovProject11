@@ -16,14 +16,14 @@ class LoginFormatValidationService
         if ($len === 0) 
         {
             $errMessage = __('validation.required', ['attribute' => 'login']);
-            $errors->addError('login', $errMessage);
+            $errors->add('login', $errMessage);
             return;
         }
         $maxLen = Config::get('users.credentials.max_login_length');
         if ($len > $maxLen)
         {
             $errMessage = __('validation.max.string', ['attribute' => 'login', 'max' => $maxLen]);
-            $errors->addError('login', $errMessage);
+            $errors->add('login', $errMessage);
             return;
         }
     }

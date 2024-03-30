@@ -17,29 +17,14 @@ use Illuminate\Database\UniqueConstraintViolationException;
  */
 class UserRepository
 {
-    private static function isLoginInUse(string $login) : bool
-    {
-        return User::where('login', $login)->exists();
-    }
-
-    private static function isEmailInUse(string $email) : bool
-    {
-        return User::where('email', $email)->exists();
-    }
-
-    private static function isPhoneNumberInUse(string $phoneNumber) : bool
-    {
-        return User::where('phone_number', $phoneNumber)->exists();
-    }
-
     private static function hashPassword(string $password) : string
     {
         return Hash::make($password);
     }
 
-    private static function normalizePhoneNumber(string $phoneNumber) : string
+    private static function isEmailInUse(string $email) : bool
     {
-        return preg_replace('/[^0-9]/', '', $phoneNumber);
+        return User::where('email', $email)->exists();
     }
 
     /**
@@ -68,13 +53,10 @@ class UserRepository
                                        UserAuthDTO|null &$dataForAuth,
                                        UserCredentialsUniquenessErrors $errors) : void
     {
-        $phoneNumber = static::normalizePhoneNumber($customer->phoneNumber);
         $email = static::normalizeEmail($customer->email);
 
         // Ensure customer's credentials are not in use.
-        $errors->setLoginUniqueness(static::isLoginInUse($customer->login));
         $errors->setEmailUniqueness(static::isEmailInUse($email));
-        $errors->setPhoneNumberUniqueness(static::isPhoneNumberInUse($phoneNumber));
         if ($errors->hasAny())
             return;
 
@@ -82,40 +64,35 @@ class UserRepository
         try
         {
             $user = new User();
-            $user->login = $customer->login;
             $user->email = $email;
-            $user->phone_number = $phoneNumber;
             $user->password = static::hashPassword($customer->password);
             $user->role = UserRole::Customer;
-            $user->name = $customer->name;
-            $user->surname = $customer->surname;
-            $user->patronymic = $customer->patronymic;
             $user->save();
 
             $dataForAuth = new UserAuthDTO($user);
         }
         catch (UniqueConstraintViolationException $e)
         {
-            $errors->setLoginUniqueness(static::isLoginInUse($customer->login));
-            $errors->setEmailUniqueness(static::isEmailInUse($email));
-            $errors->setPhoneNumberUniqueness(static::isPhoneNumberInUse($phoneNumber));
+            $errors->setEmailUniqueness(true);
         }
     }
 
     /**
-     * Finds a user by his login and password.
+     * Finds a user by his auth credentials.
      * This function meant to be used only for laravel's login functionality.
      *
-     * @param string $login The user's login.
+     * @param string $email The user's email.
      * @param string $password The user's password.
      * @param UserAuthDTO|null $dataForAuth It will contain data required for 
      * authentication on the interface side (Web, API, etc.) if no errors occur.
      */
-    public static function findUserByLoginAndPassword(string $login, 
-                                                      string $password,
-                                                      UserAuthDTO|null &$dataForAuth) : void
+    public static function findUserByAuthCredentials(string $email, 
+                                                     string $password,
+                                                     UserAuthDTO|null &$dataForAuth) : void
     {
-        $user = User::where('login', $login)->first();
+        $normalizedEmail = static::normalizeEmail($email);
+
+        $user = User::where('email', $normalizedEmail)->first();
         if ($user === null)
             return;
 

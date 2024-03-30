@@ -16,16 +16,11 @@ return new class extends Migration
         {
             $table->integer('id')->generatedAs()->always()->primary();
             $table->rememberToken();
-            $table->text('login')->unique();
+            $table->text('email')->unique();
+            $table->timestamp('email_verified_at')->nullable();
             $table->enum('role', UserRole::GetAllValues());
             $table->text('password');
-            $table->text('phone_number')->nullable()->unique();
-            $table->text('email')->nullable()->unique();
-            $table->timestamp('phone_number_verified_at')->nullable();
             $table->text('profile_picture')->nullable();
-            $table->text('name')->nullable();
-            $table->text('surname')->nullable();
-            $table->text('patronymic')->nullable();
         });
     }
 

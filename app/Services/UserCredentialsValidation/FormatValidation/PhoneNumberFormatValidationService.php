@@ -20,7 +20,7 @@ class PhoneNumberFormatValidationService
         if ($len === 0)
         {
             $errMessage = __('validation.required', ['attribute' => 'phone_number']);
-            $errors->addError('phone_number', $errMessage);
+            $errors->add('phone_number', $errMessage);
             return;
         }
         $maxLen = Config::get('users.credentials.max_phone_number_length');
@@ -28,7 +28,7 @@ class PhoneNumberFormatValidationService
         {
             $errMessage = __('validation.max.string', ['attribute' => 'phone number', 
                                                        'max' => $maxLen]);
-            $errors->addError('phone_number', $errMessage);
+            $errors->add('phone_number', $errMessage);
             return;
         }
     }
@@ -44,7 +44,7 @@ class PhoneNumberFormatValidationService
         if (static::isFormatValid($phoneNumber)) 
             return;
         $errMessage = __('validation.phone_number');
-        $errors->addError('phone_number', $errMessage);
+        $errors->add('phone_number', $errMessage);
     }
 
     /**

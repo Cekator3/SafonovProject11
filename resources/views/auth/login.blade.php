@@ -21,9 +21,9 @@
     @csrf
 
     {{-- Login --}}
-    <x-forms.inputs.text :type=" 'text' "
-                         :name=" 'login' " 
-                         :placeholder=" 'Логин' " 
+    <x-forms.inputs.text :type=" 'email' "
+                         :name=" 'email' " 
+                         :placeholder=" 'Email' " 
                           required="" 
                           autofocus="" 
                           autocomplete="username" 

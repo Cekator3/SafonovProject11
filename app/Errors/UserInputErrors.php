@@ -17,7 +17,7 @@ class UserInputErrors
      * @param string $inputName Identifier of the user input.
      * @param string $errorMessage The error message.
      */
-    public function addError(string $inputName, string $message) : void
+    public function add(string $inputName, string $message) : void
     {
         if (! array_key_exists($inputName, $this->errors)) {
             $this->errors[$inputName] = [$message];
@@ -32,7 +32,7 @@ class UserInputErrors
      * @param string $inputName Identifier of the user input.
      * @return string[] Array of error messages.
      */
-    public function getErrors(string $inputName) : array
+    public function get(string $inputName) : array
     {
         if (! array_key_exists($inputName, $this->errors))
             return [];
@@ -44,7 +44,7 @@ class UserInputErrors
      * 
      * @return string[] Array of error messages.
      */
-    public function getAllErrors() : array
+    public function getAll() : array
     {
         return $this->errors;
     }

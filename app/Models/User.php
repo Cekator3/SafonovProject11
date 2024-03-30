@@ -3,12 +3,13 @@
 namespace App\Models;
 
 use App\Enums\UserRole;
+use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\CanResetPassword;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
-class User extends Authenticatable implements CanResetPassword
+class User extends Authenticatable implements MustVerifyEmail, CanResetPassword
 {
     use HasFactory, Notifiable;
 
@@ -36,26 +37,10 @@ class User extends Authenticatable implements CanResetPassword
     }
 
     /**
-     * Returns true if the user is a print master.
-     */
-    public function isPrintMaster() : bool
-    {
-        return $this->role === UserRole::PrintMaster;
-    }
-
-    /**
      * Returns true if the user is a admin.
      */
     public function isAdmin() : bool
     {
         return $this->role === UserRole::Admin;
-    }
-
-    /**
-     * Returns true if the user is a superuser.
-     */
-    public function isSuperuser() : bool
-    {
-        return $this->role === UserRole::Superuser;
     }
 }

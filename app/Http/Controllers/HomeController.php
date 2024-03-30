@@ -19,10 +19,6 @@ class HomeController extends Controller
         {
             case UserRole::Customer:
                 return view('Customer.customer');
-            case UserRole::Superuser:
-                return view('Superuser.superuser');
-            case UserRole::PrintMaster:
-                return view('PrintMaster.printMaster');
             case UserRole::Admin:
                 return view('Admin.admin');
         }

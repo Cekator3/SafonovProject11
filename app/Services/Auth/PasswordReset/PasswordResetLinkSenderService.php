@@ -9,7 +9,10 @@ use App\Services\UserCredentialsValidation\FormatValidation\EmailFormatValidatio
 class PasswordResetLinkSenderService
 {
     /**
-     * Sends a reset password link to a registered user's email.
+     * Sends a reset password link to user's email.
+     * @param string $email The user's email
+     * @param UserInputErrors $errors
+     * User's inputs errors that prevented successful execution of the action.
      */
     public static function sendResetLinkToEmail(string $email, UserInputErrors $errors) : void
     {
@@ -19,6 +22,6 @@ class PasswordResetLinkSenderService
         $normalizedEmail = UserRepository::normalizeEmail($email);
         $status = Password::sendResetLink(['email' => $normalizedEmail]);
         if ($status !== Password::RESET_LINK_SENT)
-            $errors->addError('status', __($status));
+            $errors->add('status', __($status));
     }
 }

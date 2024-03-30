@@ -1,12 +1,10 @@
 <?php
 
-use App\Http\Controllers\HomeController;
+use App\Http\Middleware\EnsureCustomerCredentialsAreVerified;
 use App\Http\Middleware\EnsureIsAdmin;
+use App\Http\Controllers\HomeController;
 use App\Http\Middleware\EnsureIsCustomer;
-use App\Http\Middleware\EnsureIsPrintMaster;
-use App\Http\Middleware\EnsureIsSuperuser;
 use Illuminate\Auth\Middleware\Authenticate;
-use Illuminate\Auth\Middleware\EnsureEmailIsVerified;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,38 +17,24 @@ use Illuminate\Auth\Middleware\EnsureEmailIsVerified;
 |
 */
 
-Route::get('/', HomeController::class)->name('home');
-
-Route::middleware([Authenticate::class, EnsureIsCustomer::class])
-     ->group(function () 
+// General routes for customers and administrators
+Route::middleware([EnsureCustomerCredentialsAreVerified::class])->group(function () 
 {
-
-    Route::middleware(EnsureEmailIsVerified::class)
-         ->group(function ()
-    {
-
-    });
+    Route::get('/', HomeController::class)->name('home');
 });
 
-Route::middleware([Authenticate::class, EnsureIsPrintMaster::class])
-     ->prefix('print-master')
+
+// Customers only routes
+Route::middleware([Authenticate::class, EnsureIsCustomer::class, EnsureCustomerCredentialsAreVerified::class])
      ->group(function () 
 {
-
+    // ...
 });
 
+// Admins only routes
 Route::middleware([Authenticate::class, EnsureIsAdmin::class])
-     ->prefix('admin')
      ->group(function ()
 {
-
-});
-
-Route::middleware([Authenticate::class, EnsureIsSuperuser::class])
-     ->prefix('superuser')
-     ->group(function ()
-{
-
 });
 
 require __DIR__.'/auth.php';

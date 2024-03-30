@@ -4,9 +4,7 @@ namespace App\Enums;
 enum UserRole : string
 {
     case Customer = 'customer';
-    case PrintMaster = 'print_master';
     case Admin = 'admin';
-    case Superuser ='superuser';
 
     /**
      * Returns values associated with UserRole enum.
@@ -16,9 +14,7 @@ enum UserRole : string
     {
         return [
             static::Customer->value,
-            static::PrintMaster->value,
             static::Admin->value,
-            static::Superuser->value,
         ];
     }
 }

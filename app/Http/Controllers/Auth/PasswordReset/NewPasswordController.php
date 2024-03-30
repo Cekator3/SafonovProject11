@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth\PasswordReset;
 
 use App\Services\Auth\PasswordReset\PasswordResetService;
+use App\ViewModels\CustomerResetPasswordCredentials;
 use Illuminate\View\View;
 use Illuminate\Http\Request;
 use App\Errors\UserInputErrors;
@@ -33,18 +34,17 @@ class NewPasswordController extends Controller
         $email = $request->input('email', '');
         $password = $request->input('password', '');
         $passwordConfirmation = $request->input('password_confirmation', '');
+        $userCredentials = new CustomerResetPasswordCredentials($token, 
+                                                                $email, 
+                                                                $password, 
+                                                                $passwordConfirmation);
         $errors = new UserInputErrors();
 
-        PasswordResetService::resetPasswordByEmail($token, 
-                                                   $email, 
-                                                   $password, 
-                                                   $passwordConfirmation, 
-                                                   $errors
-        );
+        PasswordResetService::resetPasswordByEmail($userCredentials, $errors);
 
         if ($errors->hasAny()) {
             return redirect()->back()
-                             ->withErrors($errors->getAllErrors())
+                             ->withErrors($errors->getAll())
                              ->withInput();
         }
 

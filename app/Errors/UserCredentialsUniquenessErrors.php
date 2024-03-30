@@ -10,25 +10,11 @@ namespace App\Errors;
  */
 class UserCredentialsUniquenessErrors
 {
-    private bool $isLoginInUse;
     private bool $isEmailInUse;
-    private bool $isPhoneNumberInUse;
 
-    public function __construct($isLoginInUse = false, 
-                                $isEmailInUse = false, 
-                                $isPhoneNumberInUse = false)
+    public function __construct($isEmailInUse = false)
     {
-        $this->isLoginInUse = $isLoginInUse;
         $this->isEmailInUse = $isEmailInUse;
-        $this->isPhoneNumberInUse = $isPhoneNumberInUse;
-    }
-
-    /**
-     * Sets whether the login is already in use.
-     */
-    public function setLoginUniqueness(bool $isLoginInUse) : void
-    {
-        $this->isLoginInUse = $isLoginInUse;
     }
 
     /**
@@ -40,22 +26,6 @@ class UserCredentialsUniquenessErrors
     }
 
     /**
-     * Sets whether the phone number is already in use.
-     */
-    public function setPhoneNumberUniqueness(bool $isPhoneNumberInUse) : void
-    {
-        $this->isPhoneNumberInUse = $isPhoneNumberInUse;
-    }
-
-    /**
-     * Returns true if login is already in use.
-     */
-    public function isLoginInUse() : bool
-    {
-        return $this->isLoginInUse;
-    }
-
-    /**
      * Returns true if email is already in use.
      */
     public function isEmailInUse() : bool
@@ -64,18 +34,10 @@ class UserCredentialsUniquenessErrors
     }
 
     /**
-     * Returns true if phone number is already in use.
-     */
-    public function isPhoneNumberInUse() : bool
-    {
-        return $this->isPhoneNumberInUse;
-    }
-
-    /**
      * Returns true if any of the credentials are already in use.
      */
     public function hasAny() : bool
     {
-        return $this->isLoginInUse || $this->isEmailInUse || $this->isPhoneNumberInUse;
+        return $this->isEmailInUse;
     }
 }

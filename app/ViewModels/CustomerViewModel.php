@@ -9,13 +9,7 @@ namespace App\ViewModels;
  */
 class CustomerViewModel
 {
-    public string $login = '';
     public string $email = '';
-    public string $phoneNumber = '';
-    public string $profilePicture = '';
-    public string $name = '';
-    public string $surname = '';
-    public string $patronymic = '';
     public string $password = '';
     public string $passwordConfirmation = '';
     public bool $rememberUser = false;
