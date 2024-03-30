@@ -16,7 +16,7 @@ textarea:-webkit-autofill:focus
 .input-field
 {
     /* Sets gaps between input fields */
-    margin-bottom: 0.6875rem; /* 11px */
+    margin-bottom: 1.25rem; /* 20px */
     
     /* Sets font */
     font-family: ManropeVariable, Manrope, Arial, Helvetica, sans-serif;
@@ -31,7 +31,7 @@ textarea:-webkit-autofill:focus
 /* Last input field */
 .input-field:last-of-type
 {
-    /* Removes uneccecary gap */
+    /* Removes unnecessary gap */
     margin-bottom: 0;
 }
 
@@ -48,6 +48,9 @@ textarea:-webkit-autofill:focus
     /* Justifies errors by placeholder */
     margin-left: var(--form-input-text-first-letter-padding);
     margin-right: var(--form-input-text-first-letter-padding);
+
+    /* Sets margin between errors list and input field */
+    margin-top: 0.375rem;   /* 6 px */
 }
 
 
