@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use Exception;
-use App\DTOs\UserAuthDTO;
+use App\DTOs\Auth\UserAuthDTO;
 use Illuminate\View\View;
 use Illuminate\Http\Request;
 use App\Errors\UserInputErrors;
@@ -61,6 +61,7 @@ class CustomerRegistrationController extends Controller
 
         $this->loginUserViaCookies($dataForAuth, $newUser->rememberUser);
 
-        return redirect()->route('home');
+        // Redirect to email verification route
+        return redirect()->route('verification.email.notice');
     }
 }

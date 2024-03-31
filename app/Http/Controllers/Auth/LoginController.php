@@ -3,8 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use Exception;
-use App\DTOs\UserAuthDTO;
-use Illuminate\Support\Benchmark;
+use App\DTOs\Auth\UserAuthDTO;
 use Illuminate\View\View;
 use Illuminate\Http\Request;
 use App\Errors\UserInputErrors;

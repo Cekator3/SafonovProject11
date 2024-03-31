@@ -33,6 +33,6 @@
     </header>
 
     <main>
-        @yield('content')
+        @yield('main')
     </main>
 </body>

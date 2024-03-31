@@ -8,7 +8,7 @@
 <link href="/assets/css/customer/auth/login.css" rel="stylesheet" type="text/css">
 @endsection
 
-@section('content')
+@section('main')
 <header>
     <ul class="actions">
         <li class="action current">Вход</li>

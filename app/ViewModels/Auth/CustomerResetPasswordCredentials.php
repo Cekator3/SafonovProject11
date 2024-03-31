@@ -1,6 +1,6 @@
 <?php
 
-namespace App\ViewModels;
+namespace App\ViewModels\Auth;
 
 /**
  * A subsystem for transferring customer's credentials needed for resetting his password from interfaces (views) to the application (Services and Repositories).

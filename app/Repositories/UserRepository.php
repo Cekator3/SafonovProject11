@@ -2,7 +2,7 @@
 
 namespace App\Repositories;
 
-use App\DTOs\UserAuthDTO;
+use App\DTOs\Auth\UserAuthDTO;
 use App\Models\User;
 use App\Enums\UserRole;
 use Illuminate\Support\Str;

@@ -4,29 +4,33 @@
 
 @section('styles')
 <link href="/assets/css/customer/auth/common.css" rel="stylesheet" type="text/css">
+<link href="/assets/css/customer/auth/verify-email.css" rel="stylesheet" type="text/css">
 @endsection
 
-@section('content')
+@section('main')
 <header>
-    <h1>Подтверждение электронной почты</h1>
+    <h1>Подтвердите email</h1>
 </header>
 
-<p>Спасибо за регистрацию! Для завершения регистрации необходимо перейти по ссылке, присланной на введённую почту: hamsterdreams@inbox.ru</p>
-
-<form method="POST" action="{{ route('verification.send') }}">
-    @csrf
-
-    <button>Отправить повторно письмо с подтверждением</button>
-</form>
-
-@if (session('status') == 'verification-link-sent')
-    <p>Письмо с подтверждением было отправленно повторно</p>
+@if ($emailVerification->isResent())
+    <p>Ссылка была отправлена повторно на почту {{ $emailVerification->getEmail() }}</p>
+@else
+    <p>Перейдите по ссылке, отправленной на почту {{ $emailVerification->getEmail() }}.</p>
 @endif
 
+<div class="actions">
+    <form method="POST" action="{{ route('verification.email.send') }}">
+        @csrf
 
-<form method="GET" action="{{ route('logout') }}">
-    @csrf
+        <x-forms.submit :placeholder=" 'Повторно отправить ссылку' "/>
+    </form>
 
-    <button type="submit">Отменить регистрацию</button>
-</form>
+    <form method="GET" action="{{ route('cancel.registration') }}">
+        @csrf
+
+        <x-forms.submit :placeholder=" 'Пройти регистрацию заново' "/>
+    </form>
+</div>
+
+
 @endsection

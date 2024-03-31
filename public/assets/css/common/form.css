@@ -147,7 +147,7 @@ textarea:-webkit-autofill:focus
     line-height: 1.36625rem; /* 21.86px */
 
     /* Sets colors */
-    color: var(--form-submit-text-color);
+    color: var(--form-submit-filled-text-color);
     background-image: var(--form-submit-filled-gradient);
     background-size: var(--form-submit-filled-bg-size);
     border: none;

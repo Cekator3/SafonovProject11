@@ -2,7 +2,7 @@
 
 namespace App\Services\Auth;
 
-use App\DTOs\UserAuthDTO;
+use App\DTOs\Auth\UserAuthDTO;
 use App\Errors\UserInputErrors;
 use App\Repositories\UserRepository;
 use App\ViewModels\CustomerViewModel;

@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Auth\PasswordReset;
 
 use App\Services\Auth\PasswordReset\PasswordResetService;
-use App\ViewModels\CustomerResetPasswordCredentials;
+use App\ViewModels\Auth\CustomerResetPasswordCredentials;
 use Illuminate\View\View;
 use Illuminate\Http\Request;
 use App\Errors\UserInputErrors;

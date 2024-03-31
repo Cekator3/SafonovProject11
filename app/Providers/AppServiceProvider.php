@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Database\Eloquent\Model;
@@ -20,12 +21,13 @@ class AppServiceProvider extends ServiceProvider
     /**
      * Bootstrap any application services.
      */
-    public function boot(): void
+    public function boot(Request $request): void
     {
         Model::preventLazyLoading(! $this->app->isProduction());
         Model::preventSilentlyDiscardingAttributes(! $this->app->isProduction());
         Model::preventAccessingMissingAttributes(! $this->app->isProduction());
-        static::logDatabaseQueries();
+        $this->logDatabaseQueries();
+        $this->logHttpQueries($request);
     }
 
     private function logDatabaseQueries() : void
@@ -34,5 +36,10 @@ class AppServiceProvider extends ServiceProvider
             Log::info("SQL QUERY: {$query->sql}");     
             Log::info("SQL QUERY TIME: {$query->time} ms"); 
         });
+    }
+
+    private function logHttpQueries(Request $request): void
+    {
+        Log::info("HTTP QUERY: {$request->getPathInfo()}");     
     }
 }

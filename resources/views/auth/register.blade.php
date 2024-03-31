@@ -7,7 +7,7 @@
 <link href="/assets/css/customer/auth/actions.css" rel="stylesheet" type="text/css">
 @endsection
 
-@section('content')
+@section('main')
 <header>
     <ul class="actions">
         <li class="action another"><a href="{{ route('login') }}">Вход</a></li>

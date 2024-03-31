@@ -1,1 +1,1 @@
-Subsystem for interacting with data retrieved from repositories.
+Subsystem for interacting with data retrieved from repositories (application).

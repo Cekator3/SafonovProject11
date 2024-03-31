@@ -2,13 +2,13 @@
 
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\LogoutController;
+use App\Http\Middleware\RedirectIfEmailDontNeedToBeVerified;
 use Illuminate\Auth\Middleware\RedirectIfAuthenticated;
 use App\Http\Controllers\Auth\CustomerRegistrationController;
 use App\Http\Controllers\Auth\PasswordReset\NewPasswordController;
 use App\Http\Controllers\Auth\PasswordReset\PasswordResetLinkController;
 use App\Http\Controllers\Auth\EmailVerification\EmailVerificationHandlerController;
 use App\Http\Controllers\Auth\EmailVerification\EmailVerificationNotifierController;
-use App\Http\Controllers\Auth\EmailVerification\EmailVerificationResenderController;
 
 Route::middleware(RedirectIfAuthenticated::class)->group(function ()
 {
@@ -54,21 +54,28 @@ Route::middleware('auth')->group(function ()
     ////////////////////////////////////////////////////////////////
     //Email verification routes
     ////////////////////////////////////////////////////////////////
-    Route::get('/email/verify', [EmailVerificationNotifierController::class, 
-                                 'showEmailVerificationNotifier'])
-         ->name('verification.notice');
+    Route::middleware(RedirectIfEmailDontNeedToBeVerified::class)->group(function() 
+    {
+        Route::controller(EmailVerificationNotifierController::class)->group(function ()
+        {
+            Route::get('/email/verify', 'showEmailVerificationNotifier')
+                ->name('verification.email.notice');
 
-    Route::get('/email/verify/{id}/{hash}', [EmailVerificationHandlerController::class,
-                                             'handleEmailVerification'])
-         ->middleware(['signed', 'throttle:6,1'])
-         ->name('verification.verify');
+            Route::post('/email/resend-verification', 'resendEmailVerification')
+                 ->middleware('throttle:6,1')
+                ->name('verification.email.send');
+        });
 
-    Route::post('/email/resend-verification', [EmailVerificationResenderController::class,
-                                               'resendEmailVerification'])
-         ->middleware('throttle:6,1')
-         ->name('verification.send');
+        Route::get('/email/verify/{id}/{hash}', [EmailVerificationHandlerController::class,
+                                                'handleEmailVerification'])
+            ->middleware(['signed', 'throttle:6,1'])
+            ->name('verification.verify');
+    });
     ////////////////////////////////////////////////////////////////
 
-    Route::get('/logout', [LogoutController::class, 'logout'])
-         ->name('logout');
+    Route::controller(LogoutController::class)->group(function ()
+    {
+        Route::get('/logout', 'logout')->name('logout');
+        Route::get('/cancel-registration', 'cancelRegistration')->name('cancel.registration');
+    });
 });

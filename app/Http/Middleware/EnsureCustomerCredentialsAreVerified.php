@@ -32,7 +32,7 @@ class EnsureCustomerCredentialsAreVerified
             return $next($request);
 
         if (! $request->user()->hasVerifiedEmail())
-            return redirect()->route('verification.notice');
+            return redirect()->route('verification.email.notice');
 
         return $next($request);
     }

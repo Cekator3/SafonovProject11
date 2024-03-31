@@ -1,0 +1,56 @@
+/* Verify email form */
+
+main
+{
+    /* Sets content's width */
+    width: 50%;
+    min-width: fit-content;
+}
+
+/* Header and description */
+main > header,
+main > p
+{
+    /* Centers text */
+    text-align: center;
+
+    /* Sets font */
+    font-family: ManropeVariable, Manrope, Arial, Helvetica, sans-serif;
+}
+
+/* Header */
+main > header > h1
+{
+    /* Sets font */
+    font-size: 1.875rem;        /* 30 px */
+    line-height: 2.5625rem;     /* 41px */
+    font-weight: 799;
+
+    /* Removes gaps */
+    margin: 0 0;
+}
+
+/* Description */
+main > p
+{
+    /* Sets font */
+    font-size: 1rem;        /* 16 px */
+    line-height: 1.375rem;  /* 21.86px */
+    font-weight: 400;
+    color: var(--user-credentials-verification-message-text-color);
+}
+
+/* User's actions */
+main > .actions
+{
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-evenly;
+}
+
+main > .actions > *
+{
+    width: 45%;
+    min-width: fit-content;
+    text-wrap: nowrap;
+}
