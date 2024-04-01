@@ -1,10 +1,7 @@
 <?php
 
 use App\Http\Middleware\EnsureCustomerCredentialsAreVerified;
-use App\Http\Middleware\EnsureIsAdmin;
 use App\Http\Controllers\HomeController;
-use App\Http\Middleware\EnsureIsCustomer;
-use Illuminate\Auth\Middleware\Authenticate;
 
 /*
 |--------------------------------------------------------------------------
@@ -25,16 +22,17 @@ Route::middleware([EnsureCustomerCredentialsAreVerified::class])->group(function
 
 
 // Customers only routes
-Route::middleware([Authenticate::class, EnsureIsCustomer::class, EnsureCustomerCredentialsAreVerified::class])
-     ->group(function () 
-{
-    // ...
-});
+// Route::middleware([Authenticate::class, EnsureIsCustomer::class, EnsureCustomerCredentialsAreVerified::class])
+//      ->group(function () 
+// {
+//     // ...
+// });
 
 // Admins only routes
-Route::middleware([Authenticate::class, EnsureIsAdmin::class])
-     ->group(function ()
-{
-});
+// Route::middleware([Authenticate::class, EnsureIsAdmin::class])
+//      ->group(function ()
+// {
+// });
 
 require __DIR__.'/auth/auth.php';
+require __DIR__.'/user-profile.php';
