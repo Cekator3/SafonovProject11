@@ -24,11 +24,7 @@
 
         {{-- Navigation --}}
         <nav>
-            <li>lol</li>
-            <li>lol</li>
-            <li>lol</li>
-            <li>lol</li>
-            <li>lol</li>
+            @yield('navigation')
         </nav>
     </header>
 

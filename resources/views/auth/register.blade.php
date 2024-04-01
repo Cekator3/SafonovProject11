@@ -1,10 +1,13 @@
-@extends('layouts.guest')    
+@extends('layouts.main')    
 
 @section('title', 'Зарегистрироваться')
 
 @section('styles')
 <link href="/assets/css/customer/auth/common.css" rel="stylesheet" type="text/css">
 <link href="/assets/css/customer/auth/actions.css" rel="stylesheet" type="text/css">
+@endsection
+
+@section('navigation')
 @endsection
 
 @section('main')

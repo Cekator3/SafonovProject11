@@ -16,7 +16,7 @@ class PasswordResetLinkController extends Controller
      */
     public function showForgotPasswordForm() : View
     {
-        return view('auth.ResetPassword.forgot-password');
+        return view('auth.reset-password.forgot-password');
     }
 
     /**

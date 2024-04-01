@@ -13,6 +13,7 @@ body
 {
     /* Creates grid layout */
     display: grid;
+    /* grid-template-rows: var(--header-height) calc(100% - 2 * var(--header-height)) var(--header-height); */
     grid-template-rows: minmax(min-content, 11%) minmax(min-content, 78%) minmax(0, 11%);
 }
 

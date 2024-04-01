@@ -37,4 +37,4 @@ Route::middleware([Authenticate::class, EnsureIsAdmin::class])
 {
 });
 
-require __DIR__.'/auth.php';
+require __DIR__.'/auth/auth.php';

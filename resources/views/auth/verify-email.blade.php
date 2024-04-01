@@ -1,10 +1,13 @@
-@extends('layouts.guest')    
+@extends('layouts.main')    
 
 @section('title', 'Подтвердить владение почты')
 
 @section('styles')
 <link href="/assets/css/customer/auth/common.css" rel="stylesheet" type="text/css">
 <link href="/assets/css/customer/auth/verify-email.css" rel="stylesheet" type="text/css">
+@endsection
+
+@section('navigation')
 @endsection
 
 @section('main')

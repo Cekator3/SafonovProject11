@@ -14,13 +14,13 @@ class HomeController extends Controller
     {
         $user = Auth::user();
         if ($user === null)
-            return view('Customer.customer');
+            return view('customer.catalog');
         switch ($user->role)
         {
             case UserRole::Customer:
-                return view('Customer.customer');
+                return view('customer.catalog');
             case UserRole::Admin:
-                return view('Admin.admin');
+                return view('admin.admin');
         }
     }
 }

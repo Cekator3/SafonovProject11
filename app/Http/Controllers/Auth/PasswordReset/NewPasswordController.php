@@ -22,7 +22,7 @@ class NewPasswordController extends Controller
             'token' => $token,
             'email' => $email,
         ];
-        return view('auth.ResetPassword.reset-password', $viewData);
+        return view('auth.reset-password.reset-password', $viewData);
     }
 
     /**
