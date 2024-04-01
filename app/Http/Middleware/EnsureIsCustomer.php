@@ -14,9 +14,12 @@ use Symfony\Component\HttpKernel\Exception\HttpException;
  */
 class EnsureIsCustomer
 {
-    private function isAuthenticated(Request $request) : bool
+    private function isCustomer(Request $request) : bool
     {
-        return $request->user() !== null;
+        $user = $request->user();
+        assert($user !== null, 'User must be authenticated');
+
+        return $user->isCustomer();
     }
 
     /**
@@ -26,9 +29,7 @@ class EnsureIsCustomer
      */
     public function handle(Request $request, Closure $next): Response
     {
-        assert(! $this->isAuthenticated($request), 'User must be authenticated');
-
-        if (! $request->user()->isCustomer())
+        if (! $this->isCustomer($request))
             abort(HttpResponseStatus::NotFound->value);
 
         return $next($request);

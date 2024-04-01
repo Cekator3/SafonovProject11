@@ -15,9 +15,13 @@ use Illuminate\Http\Response;
  */
 class EnsureCustomerCredentialsAreVerified 
 {
-    private function isAuthenticated(Request $request) : bool
+    private function isUserNeedToVerifyEmail(Request $request) : bool
     {
-        return $request->user() !== null;
+        $user = $request->user();
+
+        return $user !== null &&
+               $user->isCustomer() &&
+               (! $user->hasVerifiedEmail());
     }
 
     /**
@@ -25,13 +29,7 @@ class EnsureCustomerCredentialsAreVerified
      */
     public function handle(Request $request, Closure $next) : Response | RedirectResponse
     {
-        if (! $this->isAuthenticated($request))
-            return $next($request);
-
-        if (! $request->user()->isCustomer())
-            return $next($request);
-
-        if (! $request->user()->hasVerifiedEmail())
+        if ($this->isUserNeedToVerifyEmail($request))
             return redirect()->route('verification.email.notice');
 
         return $next($request);

@@ -14,10 +14,13 @@ use Symfony\Component\HttpKernel\Exception\HttpException;
  * if the authenticated user is not an admin.
  */
 class EnsureIsAdmin
-{
-    private function isAuthenticated(Request $request) : bool
+{    
+    private function isAdmin(Request $request) : bool
     {
-        return $request->user() !== null;
+        $user = $request->user();
+        assert($user !== null, 'User must be authenticated');
+
+        return $user->isAdmin();
     }
 
     /**
@@ -27,9 +30,7 @@ class EnsureIsAdmin
      */
     public function handle(Request $request, Closure $next): Response
     {
-        assert(! $this->isAuthenticated($request), 'User must be authenticated');
-
-        if ($request->user()->isAdmin())
+        if ($this->isAdmin($request))
             abort(HttpResponseStatus::NotFound->value);
 
         return $next($request);
