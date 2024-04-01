@@ -1,6 +1,7 @@
 <?php
 
 return [
+    'default_profile_picture' => '/assets/images/default-profile-picture.svg',
     'credentials' => [
         'max_login_length' => 255,
         'max_email_length' => 255,

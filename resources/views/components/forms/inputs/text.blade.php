@@ -1,12 +1,12 @@
 {{-- Text input field --}}
 
-@props(['type' => 'text', 'name', 'placeholder'])
+@props(['type' => 'text', 'name', 'placeholder', 'value' => null])
 
 <div class="input-field text @error($name) has-errors @enderror">
-    <input type="{{ $type }}" 
-           id="{{ $name }}" 
-           name="{{ $name }}" 
-           value="{{ old($name) }}" 
+    <input type="{{ $type }}"
+           id="{{ $name }}"
+           name="{{ $name }}"
+           value="{{ $value ?? old($name) }}"
            placeholder=""
            {{ $attributes }}
     >
