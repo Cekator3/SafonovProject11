@@ -13,8 +13,16 @@ body
 {
     /* Creates grid layout */
     display: grid;
-    /* grid-template-rows: var(--header-height) calc(100% - 2 * var(--header-height)) var(--header-height); */
-    grid-template-rows: minmax(min-content, 11%) minmax(min-content, 78%) minmax(0, 11%);
+    grid-template-rows: var(--header-height) minmax(min-content, calc(100% - var(--header-height))) var(--header-height);
+
+}
+
+
+/* Logo and navigation */
+body > header
+{
+    /* Sets height relative to grid cell */
+    height: 100%;
 }
 
 
@@ -46,7 +54,7 @@ main > *
 
 @media (max-width: 375px)
 {
-    main 
+    main
     {
         min-width: 100%;
     }

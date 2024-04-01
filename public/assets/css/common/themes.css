@@ -6,7 +6,7 @@
     --main-bg-image: url('/assets/images/main-background.svg');
     --main-text-color: white;
     --secondary-text-color: #828282;
-    --header-height: minmax(min-content, 11%);
+    --header-height: 11%;
 
     /* logo */
     --logo-image: url('/assets/images/logo.svg');
@@ -44,8 +44,8 @@
     --user-credentials-verification-message-text-color: hsla(0, 0%, 100%, 0.7);
 }
 
-/* 
+/*
 .light
 {
-} 
+}
 */

@@ -10,6 +10,8 @@ body > header
 
     /* Places logo and nav on the same text line */
     align-items: baseline;
+
+    height: var(--header-height);
 }
 
 /* Logo */
