@@ -17,11 +17,9 @@ class UserProfileController extends Controller
         assert($user !== null, 'User must be authenticated');
 
         // Create view data
-        $email = $user->email;
         $profilePicture = $user->profile_picture ?? Config::get('users.default_profile_picture');
-        $userProfile = new UserProfileDTO($email, $profilePicture);
 
-        return view('customer.user-profile', ['user' => $userProfile]);
+        return view('customer.user-profile', ['profilePicture' => $profilePicture]);
     }
 
     public function updateUserInfo(Request $request) : RedirectResponse
