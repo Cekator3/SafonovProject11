@@ -7,7 +7,6 @@
            id="{{ $name }}"
            name="{{ $name }}"
     >
-    <label for="{{ $name }}">{{ $placeholder }}</label>
     <ul class="errors">
         @foreach ($errors->get($name) as $message)
             <li>{{ $message }}</li>

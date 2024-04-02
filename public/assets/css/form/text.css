@@ -79,3 +79,11 @@
 {
     border-color: var(--form-input-error-text-color);
 }
+
+/* Validation errors of text input field */
+.input-field.text .errors
+{
+    /* Justifies errors by placeholder */
+    margin-left: var(--form-input-text-first-letter-padding);
+    margin-right: var(--form-input-text-first-letter-padding);
+}

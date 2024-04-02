@@ -6,6 +6,7 @@
 {{-- Form --}}
 <link href="/assets/css/form/common.css" rel="stylesheet" type="text/css">
 <link href="/assets/css/form/text.css" rel="stylesheet" type="text/css">
+<link href="/assets/css/form/file.css" rel="stylesheet" type="text/css">
 <link href="/assets/css/form/submit.css" rel="stylesheet" type="text/css">
 
 {{-- Specific --}}
@@ -28,7 +29,6 @@
         <x-forms.inputs.text :type=" 'password' "
                              :name=" 'old_password' "
                              :placeholder=" 'Текущий пароль' "
-                             required=""
                              autocomplete="current-password"
         />
 
@@ -36,14 +36,12 @@
         <x-forms.inputs.text :type=" 'password' "
                              :name=" 'new_password' "
                              :placeholder=" 'Новый пароль' "
-                             required=""
         />
 
         {{-- New password --}}
         <x-forms.inputs.text :type=" 'password' "
                              :name=" 'new_password_confirm' "
                              :placeholder=" 'Повторение нового пароля' "
-                             required=""
         />
     </fieldset>
 

@@ -19,9 +19,9 @@
 
     /* form input colors */
     --form-input-placeholder-color: hsla(0, 0%, 100%, 0.61);
-    --form-input-text-color: white;
-    --form-input-text-border-color: white;
-    --form-input-text-bg-color: #0C061F;
+    --form-input-text-color: var(--main-text-color);
+    --form-input-text-border-color: var(--main-text-color);
+    --form-input-text-bg-color: var(--main-bg-color);
     --form-input-error-text-color: rgb(250, 119, 124);
 
     /* Form input margins */
@@ -35,8 +35,8 @@
     --form-submit-filled-gradient: linear-gradient(to right, #FFA9AB 0%, #DB3FCE 16.7%, #FF59AD 33.36%, #655FFF 50%, #FF59AD 66.66%, #DB3FCE 83.3333%, #FFA9AB 100%);
     --form-submit-filled-bg-size: 200% auto;
     --form-submit-hollow-gradient: linear-gradient(to right, #FFA9AB 0%, #DB3FCE 16.7%, #FF59AD 33.36%, #655FFF 50%, #FF59AD 66.66%, #DB3FCE 83.3333%, #FFA9AB 100%);
-    --form-submit-filled-text-color: #0C061F;
-    --form-submit-hollow-text-color: white;
+    --form-submit-filled-text-color: var(--main-bg-color);
+    --form-submit-hollow-text-color: var(--main-text-color);
     --form-submit-box-shadow: inset -2px -2px 3px rgba(255, 255, 255, 0.6),
                               inset 2px 2px 3px rgba(0, 0, 0, 0.6);
 

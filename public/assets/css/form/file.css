@@ -1,1 +1,41 @@
 /* File input field */
+
+/* Constants */
+.input-field.file
+{
+    --bg-color: var(--main-bg-color);
+    --bg-color-on-hover: #1d0e4a;
+    --bg-color-active: #25125f;
+}
+
+.input-field.file input::file-selector-button
+{
+    /* Sets background */
+    background-color: var(--main-bg-color);
+    /* Sets border */
+    border-color: var(--main-text-color);
+    /* Sets content size */
+    padding: 0 16px;
+    height: 40px;
+    /* Sets gap between button and files list */
+    margin-right: 16px;
+    color: var(--form-input-text-color);
+    /* Sets animation */
+    transition: background-color 200ms;
+}
+
+.input-field.file input::file-selector-button:hover
+{
+    background-color: var(--bg-color-on-hover);
+}
+
+.input-field.file input::file-selector-button:active
+{
+    background-color: var(--bg-color-active);
+}
+
+/* File input field with errors */
+.input-field.file.has-errors input::file-selector-button
+{
+    border-color: var(--form-input-error-text-color);
+}
