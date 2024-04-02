@@ -26,6 +26,7 @@ class UserProfileController extends Controller
     {
         // ***
 
-        return redirect()->route('user-profile');
+        return redirect()->route('user-profile')
+                         ->withErrors(['profile_picture' => 'Тестовое сообщение об ошибке']);
     }
 }
