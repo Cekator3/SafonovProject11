@@ -9,7 +9,7 @@ use Illuminate\Http\Request;
 use App\Errors\UserInputErrors;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
-use App\ViewModels\CustomerViewModel;
+use App\ViewModels\Auth\CustomerRegistrationViewModel;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Auth\Events\Registered;
 use App\Services\Auth\CustomerRegistrationService;
@@ -24,9 +24,9 @@ class CustomerRegistrationController extends Controller
         return view('auth.register');
     }
 
-    private function retrieveDataFromRegistrationForm(Request $request) : CustomerViewModel
+    private function retrieveDataFromRegistrationForm(Request $request) : CustomerRegistrationViewModel
     {
-        $user = new CustomerViewModel();
+        $user = new CustomerRegistrationViewModel();
         $user->email        = $request->string('email', '');
         $user->password     = $request->string('password', '');
         $user->passwordConfirmation = $request->string('password_confirmation', '');

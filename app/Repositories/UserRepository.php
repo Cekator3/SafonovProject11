@@ -7,12 +7,12 @@ use App\Models\User;
 use App\Enums\UserRole;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Hash;
-use App\ViewModels\CustomerViewModel;
+use App\ViewModels\Auth\CustomerRegistrationViewModel;
 use App\Errors\UserCredentialsUniquenessErrors;
 use Illuminate\Database\UniqueConstraintViolationException;
 
 /**
- * Subsystem for interacting with users data 
+ * Subsystem for interacting with users data
  * that is stored in the repository (data storage).
  */
 class UserRepository
@@ -29,8 +29,8 @@ class UserRepository
 
     /**
      * Translates the email into the form in which it is stored in the repository.
-     * 
-     * TODO This code is not clean: 
+     *
+     * TODO This code is not clean:
      * External code shouldn't bother in what form the data is stored in the repository.
      * This function meant to be used only for laravel's reset password functionality.
      */
@@ -41,15 +41,15 @@ class UserRepository
 
     /**
      * Adds new customer's data to the repository (data storage).
-     * 
-     * @param CustomerViewModel $customer New customer's data.
-     * @param UserAuthDTO|null $dataForAuth 
-     * It will contain data required for authentication 
+     *
+     * @param CustomerRegistrationViewModel $customer New customer's data.
+     * @param UserAuthDTO|null $dataForAuth
+     * It will contain data required for authentication
      * on the interface side (Web, API, etc.) if no errors occur.
-     * @param UserCredentialsUniquenessErrors $errors 
+     * @param UserCredentialsUniquenessErrors $errors
      * An object for storing user's credentials uniqueness errors.
      */
-    public static function addCustomer(CustomerViewModel $customer, 
+    public static function addCustomer(CustomerRegistrationViewModel $customer,
                                        UserAuthDTO|null &$dataForAuth,
                                        UserCredentialsUniquenessErrors $errors) : void
     {
@@ -83,10 +83,10 @@ class UserRepository
      *
      * @param string $email The user's email.
      * @param string $password The user's password.
-     * @param UserAuthDTO|null $dataForAuth It will contain data required for 
+     * @param UserAuthDTO|null $dataForAuth It will contain data required for
      * authentication on the interface side (Web, API, etc.) if no errors occur.
      */
-    public static function findUserByAuthCredentials(string $email, 
+    public static function findUserByAuthCredentials(string $email,
                                                      string $password,
                                                      UserAuthDTO|null &$dataForAuth) : void
     {
@@ -108,9 +108,9 @@ class UserRepository
     }
 
     /**
-     * Changes user's password. 
+     * Changes user's password.
      * This function meant to be used only for laravel's reset password functionality.
-     * 
+     *
      * @param User $user Eloquent model of the user whose password is to be changed.
      * @param string $newPassword New user's password.
      */

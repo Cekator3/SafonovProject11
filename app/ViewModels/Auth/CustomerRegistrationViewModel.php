@@ -1,13 +1,13 @@
 <?php
 
-namespace App\ViewModels;
+namespace App\ViewModels\Auth;
 
 /**
- * Class for transferring customer's data 
- * from interfaces (views) 
+ * Class for transferring customer's registration data
+ * from interfaces (views)
  * to the application (Services and Repositories).
  */
-class CustomerViewModel
+class CustomerRegistrationViewModel
 {
     public string $email = '';
     public string $password = '';

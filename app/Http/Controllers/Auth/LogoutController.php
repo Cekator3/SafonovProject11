@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Auth;
 
 use App\DTOs\Auth\CustomerRegistrationDTO;
-use App\ViewModels\CustomerViewModel;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -16,7 +15,7 @@ class LogoutController extends Controller
         Auth::logout();
 
         $request->session()->invalidate();
-    
+
         $request->session()->regenerateToken();
     }
 
@@ -26,7 +25,7 @@ class LogoutController extends Controller
     public function logout(Request $request) : RedirectResponse
     {
         $this->logoutUser($request);
-     
+
         return redirect()->route('home');
     }
 
@@ -36,13 +35,13 @@ class LogoutController extends Controller
     public function cancelRegistration(Request $request) : RedirectResponse
     {
         $user = $request->user();
-        $dto = new CustomerRegistrationDTO($user);
+        $registrationData = new CustomerRegistrationDTO($user);
 
         $this->logoutUser($request);
 
         $user->forceDelete();
 
         return redirect()->route('register')
-                         ->withInput($dto->getAll());
+                         ->withInput($registrationData->getAll());
     }
 }
