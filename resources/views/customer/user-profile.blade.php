@@ -3,6 +3,12 @@
 @section('title', 'Личный кабинет')
 
 @section('styles')
+{{-- Form --}}
+<link href="/assets/css/form/common.css" rel="stylesheet" type="text/css">
+<link href="/assets/css/form/text.css" rel="stylesheet" type="text/css">
+<link href="/assets/css/form/submit.css" rel="stylesheet" type="text/css">
+
+{{-- Specific --}}
 @endsection
 
 @section('navigation')

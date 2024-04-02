@@ -12,7 +12,8 @@
     <link href="/assets/css/common/themes.css" rel="stylesheet" type="text/css">
     <link href="/assets/css/common/app.css" rel="stylesheet" type="text/css">
     <link href="/assets/css/common/header.css" rel="stylesheet" type="text/css">
-    <link href="/assets/css/common/form.css" rel="stylesheet" type="text/css">
+
+    <link href="/assets/css/fonts/manropeFont.css" rel="stylesheet" type="text/css">
     {{-- Other styles --}}
     @yield('styles')
 </head>

@@ -1,0 +1,40 @@
+/* Submit button */
+.input-field.submit button
+{
+    width: 100%;
+    height: 2.5rem;     /* 40px */
+
+    /* Sets rounded corners */
+    border-radius: 20px;
+
+    /* Sets font */
+    font-size: 1rem;         /* 16px */
+    line-height: 1.36625rem; /* 21.86px */
+
+    /* Sets colors */
+    color: var(--form-submit-filled-text-color);
+    background-image: var(--form-submit-filled-gradient);
+    background-size: var(--form-submit-filled-bg-size);
+    border: none;
+
+    /* Sets animation speed */
+    transition: 0.5s;
+}
+
+
+.input-field.submit button:hover
+{
+    /* Sets animation direction */
+    background-position: right center;
+
+    /* Sets cursor type */
+    cursor: pointer;
+}
+
+
+/* Pressed submit button */
+.input-field.submit button:active
+{
+    transition: 0.2s;
+    box-shadow: var(--form-submit-box-shadow);
+}
