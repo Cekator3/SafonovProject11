@@ -10,6 +10,7 @@
 <link href="/assets/css/form/submit.css" rel="stylesheet" type="text/css">
 
 {{-- Specific --}}
+<link href="/assets/css/customer/user-profile.css" rel="stylesheet" type="text/css">
 @endsection
 
 @section('navigation')
@@ -22,37 +23,42 @@
     @csrf
     @method('PUT')
 
-    <fieldset>
-        <legend>Обновить пароль</legend>
+    <div>
+        <fieldset>
+            <legend>Обновить пароль</legend>
 
-        {{-- Old password --}}
-        <x-forms.inputs.text :type=" 'password' "
-                             :name=" 'old_password' "
-                             :placeholder=" 'Текущий пароль' "
-                             autocomplete="current-password"
-        />
+            {{-- Old password --}}
+            <x-forms.inputs.text :type=" 'password' "
+                                :name=" 'old_password' "
+                                :placeholder=" 'Текущий пароль' "
+                                autocomplete="current-password"
+            />
 
-        {{-- New password --}}
-        <x-forms.inputs.text :type=" 'password' "
-                             :name=" 'new_password' "
-                             :placeholder=" 'Новый пароль' "
-        />
+            {{-- New password --}}
+            <x-forms.inputs.text :type=" 'password' "
+                                :name=" 'new_password' "
+                                :placeholder=" 'Новый пароль' "
+            />
 
-        {{-- New password --}}
-        <x-forms.inputs.text :type=" 'password' "
-                             :name=" 'new_password_confirm' "
-                             :placeholder=" 'Повторение нового пароля' "
-        />
-    </fieldset>
+            {{-- New password --}}
+            <x-forms.inputs.text :type=" 'password' "
+                                :name=" 'new_password_confirm' "
+                                :placeholder=" 'Повторение нового пароля' "
+            />
+        </fieldset>
+    </div>
 
-    <fieldset class="profile-picture">
-        <legend>Аватарка</legend>
-        <img src="{{ $profilePicture }}" alt="">
-        <x-forms.inputs.file :name=" 'profile_picture' "
-                             :placeholder=" 'Загрузите аватарку' "
-        />
-    </fieldset>
+    <div>
+        <fieldset class="profile-picture">
+            <legend>Аватарка</legend>
+            {{-- <img src="{{ $profilePicture }}"> --}}
+            <x-forms.inputs.file :name=" 'profile_picture' "
+                                :placeholder=" 'Загрузите аватарку' "
+                                accept="image/*"
+            />
+        </fieldset>
 
-    <x-forms.submit :placeholder=" 'Сохранить' " />
+        <x-forms.submit :placeholder=" 'Сохранить' "/>
+    </div>
 </form>
 @endsection

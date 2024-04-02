@@ -1,0 +1,23 @@
+main
+{
+    margin-top: 7.25rem;   /* 116px */
+}
+
+main form
+{
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+}
+
+/* User data */
+main form > div:first-of-type
+{
+    width: 65%;
+}
+
+/* User picture and save button */
+main form > div:last-of-type
+{
+    width: 25%;
+}

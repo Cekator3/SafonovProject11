@@ -70,7 +70,7 @@ body > header > nav li
     text-wrap: nowrap;
 }
 
-body > header > nav:last-child
+body > header > nav li:last-child
 {
     /* Removes uneccecary gap */
     padding-right: 0;

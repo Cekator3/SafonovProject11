@@ -6,6 +6,7 @@
     <input type="file"
            id="{{ $name }}"
            name="{{ $name }}"
+           {{ $attributes }}
     >
     <ul class="errors">
         @foreach ($errors->get($name) as $message)

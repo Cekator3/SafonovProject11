@@ -6,6 +6,9 @@
     --bg-color: var(--main-bg-color);
     --bg-color-on-hover: #1d0e4a;
     --bg-color-active: #25125f;
+
+    /* Prevents overflow that can cause file input */
+    overflow: hidden;
 }
 
 .input-field.file input::file-selector-button
@@ -15,10 +18,11 @@
     /* Sets border */
     border-color: var(--main-text-color);
     /* Sets content size */
-    padding: 0 16px;
-    height: 40px;
+    padding: 0 1rem;
+    height: 2.5rem;      /* 40px */
+    width: max-content;
     /* Sets gap between button and files list */
-    margin-right: 16px;
+    margin-right: 1rem;  /* 16px */
     color: var(--form-input-text-color);
     /* Sets animation */
     transition: background-color 200ms;
