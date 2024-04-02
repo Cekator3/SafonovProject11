@@ -1,0 +1,24 @@
+/* Fieldset html element */
+
+fieldset
+{
+    border: none;
+}
+
+/* Adds margin between fieldsets */
+fieldset + fieldset
+{
+    margin-top: 36px;
+}
+
+fieldset > legend
+{
+    /* Sets font */
+    font-family: ManropeVariable, Manrope, Arial, Helvetica, sans-serif;
+    font-weight: 600;
+    font-size: 1.75rem;        /* 28 px */
+    line-height: 2.375rem;  /* 38px */
+
+    /* Adds gap between legend and fieldset content */
+    margin-bottom: 1rem;   /* 16 px */
+}
