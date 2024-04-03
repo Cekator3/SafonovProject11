@@ -35,6 +35,8 @@ class PasswordResetLinkController extends Controller
                              ->withInput();
         }
 
-        return redirect()->back()->with('status', __('passwords.sent'));
+        return redirect()->back()
+                         ->with('status', __('passwords.sent'))
+                         ->withInput();
     }
 }

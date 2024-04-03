@@ -1,30 +1,44 @@
-<div class="mb-4 text-sm text-gray-600">
-    'Forgot your password? No problem. Just let us know your email address and we will email you a password reset link that will allow you to choose a new one.
-</div>        
+@extends('layouts.main')
 
-@if ($errors->any())
-    <div class="alert alert-danger">
-        <ul>
-            @foreach ($errors->all() as $error)
-                <li>{{ $error }}</li>
-            @endforeach
-        </ul>
-    </div>
-@endif
+@section('title', 'Восстановить аккаунт')
+
+@section('styles')
+{{-- Form --}}
+<link href="/assets/css/form/common.css" rel="stylesheet" type="text/css">
+<link href="/assets/css/form/text.css" rel="stylesheet" type="text/css">
+<link href="/assets/css/form/submit.css" rel="stylesheet" type="text/css">
+
+{{-- Specific --}}
+<link href="/assets/css/customer/auth/common.css" rel="stylesheet" type="text/css">
+<link href="/assets/css/customer/auth/forgot-password.css" rel="stylesheet" type="text/css">
+@endsection
+
+@section('navigation')
+<x-navigation.guest />
+@endsection
+
+@section('main')
+<header>
+    <h1>Восстановление аккаунта</h1>
+</header>
+
+@session('status')
+    <p>{{ session('status') }}</p>
+@endsession
 
 <!-- Session Status -->
-<div>{{ session('status') }}</div>
-
 <form method="POST" action="{{ route('password.email') }}">
     @csrf
 
     <!-- Email Address -->
-    <div>
-        <label for="email" value="Email" />
-        <input id="email" class="block mt-1 w-full" type="email" name="email" value="{{ old('email') }}" required autofocus />
-    </div>
+    <x-forms.inputs.text :type=" 'email' "
+                         :name=" 'email' "
+                         :placeholder=" 'Email' "
+                          required=""
+                          autofocus=""
+                          autocomplete="username"
+    />
 
-    <div class="flex items-center justify-end mt-4">
-        <button>Email Password Reset Link</button>
-    </div>
+    <x-forms.submit :placeholder=" 'Продолжить' " />
 </form>
+@endsection

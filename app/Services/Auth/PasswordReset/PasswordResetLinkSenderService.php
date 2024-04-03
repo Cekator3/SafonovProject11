@@ -30,6 +30,6 @@ class PasswordResetLinkSenderService
 
         $status = Password::sendResetLink(['email' => $normalizedEmail]);
         if ($status !== Password::RESET_LINK_SENT)
-            $errors->add('status', __($status));
+            $errors->add('email', __($status));
     }
 }
