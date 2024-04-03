@@ -1,12 +1,25 @@
-@if ($errors->any())
-    <div class="alert alert-danger">
-        <ul>
-            @foreach ($errors->all() as $error)
-                <li>{{ $error }}</li>
-            @endforeach
-        </ul>
-    </div>
-@endif
+@extends('layouts.main')
+
+@section('title', 'Сбросить пароль')
+
+@section('styles')
+{{-- Form --}}
+<link href="/assets/css/form/common.css" rel="stylesheet" type="text/css">
+<link href="/assets/css/form/text.css" rel="stylesheet" type="text/css">
+<link href="/assets/css/form/submit.css" rel="stylesheet" type="text/css">
+
+{{-- Specific --}}
+<link href="/assets/css/customer/auth/common.css" rel="stylesheet" type="text/css">
+<link href="/assets/css/customer/auth/forgot-password.css" rel="stylesheet" type="text/css">
+@endsection
+
+@section('navigation')
+@endsection
+
+@section('main')
+<header>
+    <h1>Введите новый пароль</h1>
+</header>
 
 <form method="POST" action="{{ route('password.store') }}">
     @csrf
@@ -15,24 +28,25 @@
     <input type="hidden" name="token" value="{{ $token }}">
 
     <!-- Email Address -->
-    <input id="email" hidden class="block mt-1 w-full" type="email" name="email" value="{{ old('email', $email) }}" required autofocus autocomplete="username" />
+    <input hidden name="email" value="{{ old('email', $email) }}" />
 
-    <!-- Password -->
-    <div class="mt-4">
-        <label for="password" value="Password" />
-        <input id="password" class="block mt-1 w-full" type="password" name="password" required autocomplete="new-password" />
-    </div>
+    {{-- Password --}}
+    <x-forms.inputs.text :type=" 'password' "
+                         :name=" 'password' "
+                         :placeholder=" 'Пароль' "
+                          required=""
+                          autocomplete="current-password"
+    />
 
-    <!-- Confirm Password -->
-    <div class="mt-4">
-        <label for="password_confirmation" value="Confirm Password" />
+    {{-- Password confirmation --}}
+    <x-forms.inputs.text :type=" 'password' "
+                         :name=" 'password_confirmation' "
+                         :placeholder=" 'Подтверждение пароля' "
+                          required=""
+                          autocomplete="current-password"
+    />
 
-        <input id="password_confirmation" class="block mt-1 w-full"
-                            type="password"
-                            name="password_confirmation" required autocomplete="new-password" />
-    </div>
-
-    <div class="flex items-center justify-end mt-4">
-        <button>Reset Password</button>
-    </div>
+    {{-- Submit --}}
+    <x-forms.submit :placeholder=" 'Сбросить пароль' " />
 </form>
+@endsection
