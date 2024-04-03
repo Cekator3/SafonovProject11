@@ -2,13 +2,16 @@
 
 namespace App\Repositories;
 
-use App\DTOs\Auth\UserAuthDTO;
 use App\Models\User;
 use App\Enums\UserRole;
 use Illuminate\Support\Str;
+use App\DTOs\Auth\UserAuthDTO;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use App\ViewModels\Auth\CustomerRegistrationViewModel;
 use App\Errors\UserCredentialsUniquenessErrors;
+use App\Errors\Customer\UserProfileUpdateErrors;
+use App\ViewModels\Customer\UserProfileViewModel;
+use App\ViewModels\Auth\CustomerRegistrationViewModel;
 use Illuminate\Database\UniqueConstraintViolationException;
 
 /**
@@ -119,5 +122,15 @@ class UserRepository
         $user->password = static::hashPassword($newPassword);
         $user->remember_token = static::generateRememberMeToken();
         $user->save();
+    }
+
+
+    /**
+     * Updates user's profile information.
+     */
+    public static function updateUserProfile(UserProfileViewModel $userProfile,
+                                             UserProfileUpdateErrors &$errors) : void
+    {
+        return;
     }
 }

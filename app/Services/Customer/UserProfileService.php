@@ -10,12 +10,20 @@ use App\ViewModels\Customer\UserProfileViewModel;
  */
 class UserProfileService
 {
+    private static function isUserWantsUpdatePassword(UserProfileViewModel $userProfile) : bool
+    {
+        return $userProfile->newPassword !== '';
+    }
+
     /**
      * Updates the user's profile information.
      */
     public static function update(UserProfileViewModel $userProfile,
                                   UserInputErrors $errors) : void
     {
+        if (static::isUserWantsUpdatePassword($userProfile))
+
+
         return;
     }
 }
