@@ -2,8 +2,8 @@
 
 namespace App\Services\Auth\PasswordReset;
 use App\Errors\UserInputErrors;
-use App\Repositories\UserRepository;
 use Illuminate\Support\Facades\Password;
+use App\Repositories\Users\UserRepository;
 use App\Services\UserCredentialsValidation\FormatValidation\EmailFormatValidationService;
 
 class PasswordResetLinkSenderService

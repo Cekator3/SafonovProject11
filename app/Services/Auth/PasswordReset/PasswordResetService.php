@@ -3,7 +3,7 @@
 namespace App\Services\Auth\PasswordReset;
 use App\Models\User;
 use App\Errors\UserInputErrors;
-use App\Repositories\UserRepository;
+use App\Repositories\Users\CustomerRepository;
 use App\ViewModels\Auth\CustomerResetPasswordCredentials;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Auth\Events\PasswordReset;
@@ -41,11 +41,11 @@ class PasswordResetService
     private static function resetPassword(CustomerResetPasswordCredentials $userCredentials,
                                           UserInputErrors $errors) : void
     {
-        $status = Password::Reset($userCredentials->getAll(), function (User $user, string $password)
+        $status = Password::Reset($userCredentials->getAll(), function (User $customer, string $password)
         {
-            $users = new UserRepository();
-            $users->changePassword($user, $password);
-            event(new PasswordReset($user));
+            $customers = new CustomerRepository();
+            $customers->changePassword($customer, $password);
+            event(new PasswordReset($customer));
         });
 
         if ($status !== Password::PASSWORD_RESET)

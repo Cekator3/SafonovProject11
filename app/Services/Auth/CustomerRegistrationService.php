@@ -4,7 +4,7 @@ namespace App\Services\Auth;
 
 use App\DTOs\Auth\UserAuthDTO;
 use App\Errors\UserInputErrors;
-use App\Repositories\UserRepository;
+use App\Repositories\Users\CustomerRepository;
 use App\ViewModels\Auth\CustomerRegistrationViewModel;
 use App\Errors\UserCredentialsUniquenessErrors;
 use App\Services\UserCredentialsValidation\FormatValidation\EmailFormatValidationService;
@@ -31,8 +31,8 @@ class CustomerRegistrationService
     {
         $userUniquenessErrors = new UserCredentialsUniquenessErrors();
 
-        $users = new UserRepository();
-        $users->add($customer, $dataForAuth, $userUniquenessErrors);
+        $customers = new CustomerRepository();
+        $customers->add($customer, $dataForAuth, $userUniquenessErrors);
 
         if ($userUniquenessErrors->isEmailInUse())
         {

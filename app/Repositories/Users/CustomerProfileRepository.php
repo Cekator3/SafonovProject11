@@ -2,40 +2,54 @@
 
 namespace App\Repositories\Users;
 use App\Models\User;
-use Illuminate\Auth\Authenticatable;
 use Illuminate\Support\Facades\Auth;
 use App\Errors\Customer\UserProfileUpdateErrors;
-use App\ViewModels\Customer\UserProfileViewModel;
 
 class CustomerProfileRepository extends UserRepository
 {
-    private function updatePassword(Authenticatable $user,
+    private function updatePassword(User $user,
                                     string $oldPassword,
                                     string $newPassword,
                                     UserProfileUpdateErrors $errors) : void
     {
-        // ...
+        if (! $this->isPasswordMatches($oldPassword, $user->password))
+        {
+            $errors->setOldPasswordCorrectness(false);
+            return;
+        }
+
+        $hash = $this->hashPassword($newPassword);
+        $user->password = $hash;
     }
 
-    private function updateProfilePicture(Authenticatable $user,
-                                          string $profilePicture,
-                                          UserProfileUpdateErrors $errors) : void
+    private function updateProfilePicture(User $user,
+                                          string $profilePicture) : void
     {
-        // ...
+        $user->profile_picture = $profilePicture;
     }
 
     /**
      * Updates user's profile
+     * @param string $oldPassword old user's password
+     * @param string $newPassword new user's password
+     * @param string $oldProfilePicture old user's profile picture
+     * @param string $newProfilePicture new user's profile picture
+     * @param UserProfileUpdateErrors $errros errors that were occured during update
      */
     public function update(string $oldPassword,
                            string $newPassword,
-                           string $profilePicture,
+                           string &$oldProfilePicture,
+                           string $newProfilePicture,
                            UserProfileUpdateErrors $errors) : void
     {
         $user = Auth::user();
+        $oldProfilePicture = $user->profile_picture;
+
         if ($newPassword !== '')
             $this->updatePassword($user, $oldPassword, $newPassword, $errors);
-        if ($profilePicture !== '')
-            $this->updateProfilePicture($user, $profilePicture, $errors);
+        if ($newProfilePicture !== '')
+            $this->updateProfilePicture($user, $newProfilePicture);
+
+        $user->save();
     }
 }

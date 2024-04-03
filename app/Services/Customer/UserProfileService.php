@@ -5,9 +5,9 @@ namespace App\Services\Customer;
 use App\Errors\Customer\UserProfileUpdateErrors;
 use App\Errors\UserInputErrors;
 use App\Repositories\ProfilePictureRepository;
-use App\Repositories\UserRepository;
+use App\Repositories\Users\CustomerProfileRepository;
 use App\Services\UserCredentialsValidation\FormatValidation\PasswordFormatValidationService;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\UploadedFile;
 use App\ViewModels\Customer\UserProfileViewModel;
 
 /**
@@ -15,35 +15,65 @@ use App\ViewModels\Customer\UserProfileViewModel;
  */
 class UserProfileService
 {
-    private function isUserWantsUpdatePassword(UserProfileViewModel $userProfile) : bool
+    private function isImage(UploadedFile|array $file)
     {
-        return $userProfile->newPassword !== '';
-    }
-
-    private function isUserWantsUpdateProfilePicture(UserProfileViewModel $userProfile) : bool
-    {
-        return $userProfile->profilePicture !== null;
+        return substr($file->getMimeType(), 0, 5) === 'image';
     }
 
     private function validateImageInput(UserProfileViewModel|null $userProfile,
                                         UserInputErrors $errors) : void
     {
-        if ($userProfile->profilePicture === null)
-            return;
-        if(substr($userProfile->profilePicture->getMimeType(), 0, 5) == 'image')
+        if($this->isImage($userProfile->profilePicture))
             return;
 
-        $errMessage = __('validation.image');
+        $errMessage = __('validation.image', ['attribute' => 'image']);
         $errors->add('profile_picture', $errMessage);
     }
 
     private function validateInput(UserProfileViewModel $userProfile,
                                    UserInputErrors $errors) : void
     {
-        if ($this->isUserWantsUpdatePassword($userProfile))
+        if ($userProfile->newPassword !== '')
             PasswordFormatValidationService::validatePassword($userProfile->newPassword, $errors, $userProfile->newPasswordConfirmation, true);
 
-        $this->validateImageInput($userProfile, $errors);
+        if ($userProfile->profilePicture !== null)
+            $this->validateImageInput($userProfile, $errors);
+    }
+
+    private function storeNewProfilePicture(UploadedFile|array $picture,
+                                              string|null &$filename) : void
+    {
+        $profilePictures = new ProfilePictureRepository();
+        $profilePictures->add($picture, $filename);
+    }
+
+    private function deleteOldProfilePicture(string $oldProfilePictureFilename) : void
+    {
+        $profilePictures = new ProfilePictureRepository();
+        $profilePictures->remove($oldProfilePictureFilename);
+    }
+
+    private function updateUserInfo(string $oldPassword,
+                                    string $newPassword,
+                                    string &$oldProfilePictureFilename,
+                                    string $newProfilePictureFilename,
+                                    UserInputErrors $errors) : void
+    {
+        $customersProfiles = new CustomerProfileRepository();
+        $updateErrors = new UserProfileUpdateErrors();
+
+        $customersProfiles->update($oldPassword,
+                                   $newPassword,
+                                   $oldProfilePictureFilename,
+                                   $newProfilePictureFilename,
+                                   $updateErrors
+        );
+
+        if ($updateErrors->isOldPasswordIncorrect())
+        {
+            $errMessage = __('validation.current_password');
+            $errors->add('old_password', $errMessage);
+        }
     }
 
     /**
@@ -54,31 +84,19 @@ class UserProfileService
     {
         $this->validateInput($userProfile, $errors);
 
-        if ($errors->hasAny())
-            return;
+        $newProfilePictureFilename = '';
+        $oldProfilePictureFilename = '';
+        if (($userProfile->profilePicture !== null) && (! $errors->hasAnyForInput('profile_picture')))
+            $this->storeNewProfilePicture($userProfile->profilePicture, $newProfilePictureFilename);
 
-        $users = new UserRepository();
-        $updateErrors = new UserProfileUpdateErrors();
-        $users->updateProfile($userProfile, $updateErrors);
+        $this->updateUserInfo($userProfile->oldPassword,
+                              $userProfile->newPassword,
+                              $oldProfilePictureFilename,
+                              $newProfilePictureFilename,
+                              $errors
+        );
 
-        if ($updateErrors->isOldPasswordWrong)
-        {
-            $errMessage = __('validation.password');
-            $errors->add('old_password', $errMessage);
-        }
-
-        if ($userProfile->profilePicture !== null)
-        {
-            $user = Auth::user();
-            $profilePictures = new ProfilePictureRepository();
-            if ($user->profile_picture === '')
-            {
-                $profilePictures->add($userProfile->profilePicture, $pfp);
-                $user->profile_picture = $pfp;
-            }
-            else
-                $profilePictures->replace($userProfile->profilePicture, $user->profile_picture);
-        }
-        return;
+        if (($userProfile->profilePicture !== null) && (! $errors->hasAnyForInput('profile_picture')))
+            $this->deleteOldProfilePicture($oldProfilePictureFilename);
     }
 }

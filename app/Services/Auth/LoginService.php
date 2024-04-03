@@ -3,7 +3,7 @@
 namespace App\Services\Auth;
 use App\DTOs\Auth\UserAuthDTO;
 use App\Errors\UserInputErrors;
-use App\Repositories\UserRepository;
+use App\Repositories\Users\CustomerRepository;
 use App\Services\UserCredentialsValidation\FormatValidation\EmailFormatValidationService;
 use App\Services\UserCredentialsValidation\FormatValidation\PasswordFormatValidationService;
 
@@ -41,7 +41,8 @@ class LoginService
             return;
 
         $dataForAuth = null;
-        UserRepository::findByAuthCredentials($email, $password, $dataForAuth);
+        $customers = new CustomerRepository();
+        $customers->findByAuthCredentials($email, $password, $dataForAuth);
         if ($dataForAuth === null)
         {
             $errMessage = __('auth.failed');
