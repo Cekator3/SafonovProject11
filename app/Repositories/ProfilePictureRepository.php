@@ -11,6 +11,8 @@ class ProfilePictureRepository
 {
     /**
      * Returns the URL of the profile picture
+     *
+     * @return string The URL of the profile picture. If picture not found, returns empty string
      */
     public function get(string $filename) : string
     {
@@ -18,9 +20,20 @@ class ProfilePictureRepository
     }
 
     /**
-     * Stores a profile picture
+     * Returns the URL of the default profile picture
      */
-    public function store(UploadedFile $profilePicture, string &$filename) : void
+    public function getDefault() : string
+    {
+        //...
+    }
+
+    /**
+     * Stores a profile picture
+     *
+     * @param UploadedFile|array $profilePicture
+     * @param string $filename Filename of stored profile picture
+     */
+    public function store(UploadedFile|array $profilePicture, string &$filename) : void
     {
         //...
     }
