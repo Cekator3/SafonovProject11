@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Storage;
 
 /**
- * A subsystem for interaction with users profile pictures.
+ * A subsystem for interacting with users profile pictures.
  */
 class ProfilePictureRepository
 {
