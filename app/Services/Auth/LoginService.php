@@ -12,8 +12,8 @@ use App\Services\UserCredentialsValidation\FormatValidation\PasswordFormatValida
  */
 class LoginService
 {
-    private static function validateUserCredentials(string $email, 
-                                                    string $password, 
+    private static function validateUserCredentials(string $email,
+                                                    string $password,
                                                     UserInputErrors $errors) : void
     {
         EmailFormatValidationService::validateEmail($email, $errors);
@@ -22,26 +22,26 @@ class LoginService
 
     /**
      * Logs the user in.
-     * 
+     *
      * @param string $email The user's email.
      * @param string $password The user's password.
-     * @param UserAuthDTO|null $dataForAuth It will contain data required for 
+     * @param UserAuthDTO|null $dataForAuth It will contain data required for
      * authentication on the interface side (Web, API, etc.) if no errors occur.
      * @param UserInputErrors $errors
      * User's inputs errors that prevented successful execution of the action.
      */
-    public static function loginUser(string $email, 
-                                     string $password, 
-                                     UserAuthDTO|null &$dataForAuth, 
+    public static function loginUser(string $email,
+                                     string $password,
+                                     UserAuthDTO|null &$dataForAuth,
                                      UserInputErrors $errors) : void
     {
         static::validateUserCredentials($email, $password, $errors);
-        
+
         if ($errors->hasAny())
             return;
 
         $dataForAuth = null;
-        UserRepository::findUserByAuthCredentials($email, $password, $dataForAuth);
+        UserRepository::findByAuthCredentials($email, $password, $dataForAuth);
         if ($dataForAuth === null)
         {
             $errMessage = __('auth.failed');

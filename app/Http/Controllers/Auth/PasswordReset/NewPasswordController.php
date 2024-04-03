@@ -34,13 +34,13 @@ class NewPasswordController extends Controller
         $email = $request->input('email', '');
         $password = $request->input('password', '');
         $passwordConfirmation = $request->input('password_confirmation', '');
-        $userCredentials = new CustomerResetPasswordCredentials($token, 
-                                                                $email, 
-                                                                $password, 
+        $userCredentials = new CustomerResetPasswordCredentials($token,
+                                                                $email,
+                                                                $password,
                                                                 $passwordConfirmation);
         $errors = new UserInputErrors();
 
-        PasswordResetService::resetPasswordByEmail($userCredentials, $errors);
+        PasswordResetService::resetByEmail($userCredentials, $errors);
 
         if ($errors->hasAny()) {
             return redirect()->back()

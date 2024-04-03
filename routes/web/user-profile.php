@@ -10,7 +10,7 @@ Route::middleware([Authenticate::class, EnsureIsCustomer::class, EnsureCustomerC
      ->controller(UserProfileController::class)
      ->group(function ()
 {
-    Route::get('/profile', 'showUserProfile')
-         ->name('user-profile');
-    Route::put('/profile', 'updateUserInfo');
+    Route::get('/profile', 'showCustomerProfile')
+         ->name('customer-profile');
+    Route::put('/profile', 'updateCustomerProfile');
 });

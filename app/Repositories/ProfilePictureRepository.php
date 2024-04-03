@@ -11,11 +11,14 @@ use Illuminate\Support\Facades\Storage;
  */
 class ProfilePictureRepository
 {
-    private const DIRECTORY = Config::get('users.profile_pictures.directory');
-
     private function getFilepath(string $filename) : string
     {
-        return static::DIRECTORY.$filename;
+        return $this->getDirectory().$filename;
+    }
+
+    private function getDirectory() : string
+    {
+        return 'public/'.Config::get('users.profile_pictures.directory');
     }
 
     /**
@@ -43,9 +46,9 @@ class ProfilePictureRepository
      * @param UploadedFile|string|array $profilePicture
      * @param string $filename Variable in which the name of the saved file will be stored
      */
-    public function store(UploadedFile|string|array $profilePicture, string &$filename) : void
+    public function add(UploadedFile|string|array $profilePicture, string|null &$filename) : void
     {
-        $filepath = Storage::putFile(static::DIRECTORY, $profilePicture);
+        $filepath = Storage::putFile($this->getDirectory(), $profilePicture);
         $filename = basename($filepath);
     }
 
@@ -54,7 +57,7 @@ class ProfilePictureRepository
      */
     public function replace(UploadedFile|string|array $profilePicture, string $filename) : void
     {
-        Storage::putFileAs(static::DIRECTORY, $profilePicture, $filename);
+        Storage::putFileAs($this->getDirectory(), $profilePicture, $filename);
     }
 
     /**

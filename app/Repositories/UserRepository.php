@@ -20,12 +20,12 @@ use Illuminate\Database\UniqueConstraintViolationException;
  */
 class UserRepository
 {
-    private static function hashPassword(string $password) : string
+    private function hashPassword(string $password) : string
     {
         return Hash::make($password);
     }
 
-    private static function isEmailInUse(string $email) : bool
+    private function isEmailInUse(string $email) : bool
     {
         return User::where('email', $email)->exists();
     }
@@ -37,7 +37,7 @@ class UserRepository
      * External code shouldn't bother in what form the data is stored in the repository.
      * This function meant to be used only for laravel's reset password functionality.
      */
-    public static function normalizeEmail(string $email) : string
+    public function normalizeEmail(string $email) : string
     {
         return strtolower($email);
     }
@@ -52,14 +52,14 @@ class UserRepository
      * @param UserCredentialsUniquenessErrors $errors
      * An object for storing user's credentials uniqueness errors.
      */
-    public static function addCustomer(CustomerRegistrationViewModel $customer,
-                                       UserAuthDTO|null &$dataForAuth,
-                                       UserCredentialsUniquenessErrors $errors) : void
+    public function add(CustomerRegistrationViewModel $customer,
+                        UserAuthDTO|null &$dataForAuth,
+                        UserCredentialsUniquenessErrors $errors) : void
     {
-        $email = static::normalizeEmail($customer->email);
+        $email = $this->normalizeEmail($customer->email);
 
         // Ensure customer's credentials are not in use.
-        $errors->setEmailUniqueness(static::isEmailInUse($email));
+        $errors->setEmailUniqueness($this->isEmailInUse($email));
         if ($errors->hasAny())
             return;
 
@@ -68,7 +68,7 @@ class UserRepository
         {
             $user = new User();
             $user->email = $email;
-            $user->password = static::hashPassword($customer->password);
+            $user->password = $this->hashPassword($customer->password);
             $user->role = UserRole::Customer;
             $user->save();
 
@@ -89,11 +89,11 @@ class UserRepository
      * @param UserAuthDTO|null $dataForAuth It will contain data required for
      * authentication on the interface side (Web, API, etc.) if no errors occur.
      */
-    public static function findUserByAuthCredentials(string $email,
-                                                     string $password,
-                                                     UserAuthDTO|null &$dataForAuth) : void
+    public function findByAuthCredentials(string $email,
+                                          string $password,
+                                          UserAuthDTO|null &$dataForAuth) : void
     {
-        $normalizedEmail = static::normalizeEmail($email);
+        $normalizedEmail = $this->normalizeEmail($email);
 
         $user = User::where('email', $normalizedEmail)->first();
         if ($user === null)
@@ -105,7 +105,7 @@ class UserRepository
         $dataForAuth = new UserAuthDTO($user);
     }
 
-    private static function generateRememberMeToken() : string
+    private function generateRememberMeToken() : string
     {
         return Str::random(60);
     }
@@ -117,20 +117,32 @@ class UserRepository
      * @param User $user Eloquent model of the user whose password is to be changed.
      * @param string $newPassword New user's password.
      */
-    public static function changeUserPassword(User $user, string $newPassword) : void
+    public function changePassword(User $user, string $newPassword) : void
     {
-        $user->password = static::hashPassword($newPassword);
-        $user->remember_token = static::generateRememberMeToken();
+        $user->password = $this->hashPassword($newPassword);
+        $user->remember_token = $this->generateRememberMeToken();
         $user->save();
     }
 
-
     /**
-     * Updates user's profile information.
+     * Updates user's profile
      */
-    public static function updateUserProfile(UserProfileViewModel $userProfile,
-                                             UserProfileUpdateErrors &$errors) : void
+    public function updateProfile(UserProfileViewModel $userProfile,
+                                  UserProfileUpdateErrors $errors) : void
     {
-        return;
+        $user = Auth::user();
+        if ($userProfile->newPassword !== '')
+        {
+            $errors->isOldPasswordWrong = Hash::check($userProfile->oldPassword, $user->password);
+            if (! $errors->isOldPasswordWrong)
+                $user->password = $userProfile->newPassword;
+        }
+
+        if ($userProfile->profilePicture !== '')
+        {
+            $user->profile_picture = $userProfile->profilePicture;
+        }
+
+        $user->save();
     }
 }

@@ -27,7 +27,7 @@ class PasswordResetLinkController extends Controller
         $email = $request->input('email', '');
         $errors = new UserInputErrors();
 
-        PasswordResetLinkSenderService::sendResetLinkToEmail($email, $errors);
+        PasswordResetLinkSenderService::send($email, $errors);
 
         if ($errors->hasAny()) {
             return redirect()->back()

@@ -2,27 +2,44 @@
 
 namespace App\Http\Controllers\Customer;
 
-use App\Services\Customer\UserProfileService;
-use App\ViewModels\Customer\UserProfileViewModel;
+use App\Models\User;
 use Illuminate\View\View;
 use Illuminate\Http\Request;
 use App\Errors\UserInputErrors;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Support\Facades\Config;
+use App\Services\Customer\UserProfileService;
+use App\Repositories\ProfilePictureRepository;
+use App\ViewModels\Customer\UserProfileViewModel;
 
 class UserProfileController extends Controller
 {
+    private function getUserProfilePicture(User $user) : string
+    {
+        $profilePictures = new ProfilePictureRepository();
+
+        // Check if user have profile picture
+        if ($user->profile_picture === null)
+            return $profilePictures->getDefault();
+
+        // Get profile picture
+        $profilePicture = $profilePictures->get($user->profile_picture);
+        assert($profilePicture !== '', "User's profile picture not exists but should have been");
+        if ($profilePicture === '')
+            return $profilePictures->getDefault();
+
+        return $profilePicture;
+    }
+
     /**
      * Displays the user's profile
      */
-    public function showUserProfile(Request $request) : View
+    public function showCustomerProfile(Request $request) : View
     {
         $user = $request->user();
         assert($user !== null, 'User must be authenticated');
 
-        // Create view data
-        $profilePicture = $user->profile_picture ?? Config::get('users.default_profile_picture');
+        $profilePicture = $this->getUserProfilePicture($user);
 
         return view('customer.user-profile', ['profilePicture' => $profilePicture]);
     }
@@ -31,10 +48,10 @@ class UserProfileController extends Controller
     {
         $userProfile = new UserProfileViewModel();
 
-        $userProfile->oldPassword = $request->string('oldPassword', '');
-        $userProfile->newPassword = $request->string('newPassword', '');
-        $userProfile->newPasswordConfirmation = $request->string('newPasswordConfirmation', '');
-        $userProfile->profilePicture = $request->file('profilePicture');
+        $userProfile->oldPassword = $request->string('old_password', '');
+        $userProfile->newPassword = $request->string('new_password', '');
+        $userProfile->newPasswordConfirmation = $request->string('new_password_confirm', '');
+        $userProfile->profilePicture = $request->file('profile_picture');
 
         return $userProfile;
     }
@@ -48,7 +65,8 @@ class UserProfileController extends Controller
         $errors = new UserInputErrors();
 
         // Update user's account information
-        UserProfileService::update($userProfile, $errors);
+        $userProfiles = new UserProfileService();
+        $userProfiles->update($userProfile, $errors);
 
         if ($errors->hasAny()) {
             return redirect()->back()

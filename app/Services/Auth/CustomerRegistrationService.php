@@ -15,8 +15,8 @@ use App\Services\UserCredentialsValidation\FormatValidation\PasswordFormatValida
  */
 class CustomerRegistrationService
 {
-    private static function validateCustomerCredentials(CustomerRegistrationViewModel $user,
-                                                        UserInputErrors $errors) : void
+    private static function validateCredentials(CustomerRegistrationViewModel $user,
+                                                UserInputErrors $errors) : void
     {
         EmailFormatValidationService::validateEmail($user->email, $errors);
         PasswordFormatValidationService::validatePassword($user->password,
@@ -25,13 +25,14 @@ class CustomerRegistrationService
                                                           true);
     }
 
-    private static function saveNewCustomerDataInRepository(CustomerRegistrationViewModel $customer,
-                                                            UserAuthDTO|null &$dataForAuth,
-                                                            UserInputErrors $errors) : void
+    private static function saveNewCustomer(CustomerRegistrationViewModel $customer,
+                                           UserAuthDTO|null &$dataForAuth,
+                                           UserInputErrors $errors) : void
     {
         $userUniquenessErrors = new UserCredentialsUniquenessErrors();
 
-        UserRepository::addCustomer($customer, $dataForAuth, $userUniquenessErrors);
+        $users = new UserRepository();
+        $users->add($customer, $dataForAuth, $userUniquenessErrors);
 
         if ($userUniquenessErrors->isEmailInUse())
         {
@@ -54,11 +55,11 @@ class CustomerRegistrationService
                                             UserAuthDTO|null &$dataForAuth,
                                             UserInputErrors $errors) : void
     {
-        static::validateCustomerCredentials($customer, $errors);
+        static::validateCredentials($customer, $errors);
         if ($errors->hasAny())
             return;
 
         $dataForAuth = null;
-        static::saveNewCustomerDataInRepository($customer, $dataForAuth, $errors);
+        static::saveNewCustomer($customer, $dataForAuth, $errors);
     }
 }

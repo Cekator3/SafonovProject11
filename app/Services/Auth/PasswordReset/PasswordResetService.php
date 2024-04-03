@@ -31,19 +31,20 @@ class PasswordResetService
 
         static::validateToken($token, $errors);
         EmailFormatValidationService::validateEmail($email, $errors);
-        PasswordFormatValidationService::validatePassword($password, 
-                                                          $errors, 
-                                                          $passwordConfirmation, 
+        PasswordFormatValidationService::validatePassword($password,
+                                                          $errors,
+                                                          $passwordConfirmation,
                                                           true
         );
     }
 
-    private static function resetPassword(CustomerResetPasswordCredentials $userCredentials, 
+    private static function resetPassword(CustomerResetPasswordCredentials $userCredentials,
                                           UserInputErrors $errors) : void
     {
-        $status = Password::Reset($userCredentials->getAll(), function (User $user, string $password) 
+        $status = Password::Reset($userCredentials->getAll(), function (User $user, string $password)
         {
-            UserRepository::changeUserPassword($user, $password);
+            $users = new UserRepository();
+            $users->changePassword($user, $password);
             event(new PasswordReset($user));
         });
 
@@ -53,12 +54,12 @@ class PasswordResetService
 
     /**
      * Resets user's password.
-     * 
+     *
      * @param CustomerResetPasswordCredentials $userCredentials Customer's data for resetting password
-     * @param UserInputErrors $errors 
+     * @param UserInputErrors $errors
      * User's inputs errors that prevented successful execution of the action.
      */
-    public static function resetPasswordByEmail(CustomerResetPasswordCredentials $userCredentials,
+    public static function resetByEmail(CustomerResetPasswordCredentials $userCredentials,
                                                 UserInputErrors $errors) : void
     {
         static::validateUserInput($userCredentials, $errors);

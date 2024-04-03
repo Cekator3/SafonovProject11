@@ -8,20 +8,7 @@ namespace App\Errors\Customer;
  */
 class UserProfileUpdateErrors
 {
-    private bool $isOldPasswordWrong;
-
-    public function __construct(bool $isOldPasswordWrong = false)
-    {
-        $this->isOldPasswordWrong = $isOldPasswordWrong;
-    }
-
-    /**
-     * Checks if update failed because of incorrect old password.
-     */
-    public function isOldPasswordWrong() : bool
-    {
-        return $this->isOldPasswordWrong;
-    }
+    public bool $isOldPasswordWrong = false;
 
     /**
      * Checks if any errors were encountered.
