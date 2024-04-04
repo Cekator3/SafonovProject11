@@ -12,5 +12,5 @@ Route::middleware([Authenticate::class, EnsureIsCustomer::class, EnsureCustomerC
 {
     Route::get('/profile', 'showCustomerProfile')
          ->name('customer-profile');
-    Route::put('/profile', 'updateCustomerProfile');
+    Route::patch('/profile', 'updateCustomerProfile');
 });

@@ -22,7 +22,7 @@
 
 <form action="" method="post" enctype="multipart/form-data">
     @csrf
-    @method('PUT')
+    @method('PATCH')
 
     {{-- Personal information --}}
     <div>
