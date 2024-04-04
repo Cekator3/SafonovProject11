@@ -7,18 +7,28 @@ namespace App\DTOs\Admin;
  */
 class AdditionalServiceDTO
 {
+    private int $id;
     private string $name = '';
     private string $description = '';
     private string $previewImageFilename = '';
     private string $previewImageUrl = '';
 
-    public function __construct(string $name,
+    public function __construct(int $id,
+                                string $name,
                                 string $description,
                                 string $previewImageFilename)
     {
         $this->name = $name;
         $this->description = $description;
         $this->previewImageFilename = $previewImageFilename;
+    }
+
+    /**
+     * Returns the id of the additional service
+     */
+    public function getId() : int
+    {
+        return $this->id;
     }
 
     /**
