@@ -1,14 +1,5 @@
 /* Main styles that are used for all auth pages */
 
-@font-face {
-    font-family: OpenSans;
-    src: url(/assets/fonts/OpenSans-ExtraBold.woff2) format('woff2'),
-         url(/assets/fonts/OpenSans-ExtraBold.woff) format('woff');
-    font-weight: 800;
-    font-style: normal;
-}
-
-
 body
 {
     /* Creates grid layout */

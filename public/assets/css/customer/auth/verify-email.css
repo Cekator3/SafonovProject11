@@ -13,9 +13,6 @@ main > p
 {
     /* Centers text */
     text-align: center;
-
-    /* Sets font */
-    font-family: ManropeVariable, Manrope, Arial, Helvetica, sans-serif;
 }
 
 /* Header */

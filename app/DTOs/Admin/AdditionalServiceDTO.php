@@ -18,6 +18,7 @@ class AdditionalServiceDTO
                                 string $description,
                                 string $previewImageFilename)
     {
+        $this->id = $id;
         $this->name = $name;
         $this->description = $description;
         $this->previewImageFilename = $previewImageFilename;

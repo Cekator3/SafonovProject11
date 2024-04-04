@@ -3,6 +3,10 @@
 @section('title', 'Дополнительные услуги')
 
 @section('styles')
+{{-- Form --}}
+<link href="/assets/css/form/common.css" rel="stylesheet" type="text/css">
+<link href="/assets/css/form/text.css" rel="stylesheet" type="text/css">
+<link href="/assets/css/form/submit.css" rel="stylesheet" type="text/css">
 @endsection
 
 @section('navigation')
@@ -10,10 +14,47 @@
 @endsection
 
 @section('main')
-<ul>
-    @foreach ($additionalServices as $additionalService)
-        <li>{{ $additionalService->getName() }}</li>
-        <img src="{{ $additionalService->getPreviewImageUrl() }}" alt="">
-    @endforeach
+<header>
+    <h1>Дополнительные услуги</h1>
+</header>
+
+<div class="actions">
+    <x-search :placeholder=" 'Поиск' "
+            :name=" 'search' "
+            :url=" route('additional-services') "
+    />
+
+    <a href="{{ route('additional-services.create') }}">Создать</a>
+</div>
+
+
+<ul class="additional-services">
+@foreach ($additionalServices as $additionalService)
+<li>
+    <article class="additional-service">
+        {{-- Preview image, title and description --}}
+        <a href="{{ route('additional-services.update', ['id' => $additionalService->getId()]) }}">
+            <img src="{{ $additionalService->getPreviewImageUrl() }}"</p>
+            <header>
+                <h3>{{ $additionalService->getName() }}</h3>
+                <p>{{ $additionalService->getDescription() }}</p>
+            </header>
+        </a>
+
+        {{-- Update and delete buttons --}}
+        <div class="actions">
+            <form method="GET" action="{{ route('additional-services.update', ['id' => $additionalService->getId()]) }}">
+                <button type="submit">Изменить</button>
+            </form>
+
+            <form method="POST" action="{{ route('additional-services.delete', ['id' => $additionalService->getId()]) }}">
+                @csrf
+                @method('DELETE')
+                <button type="submit">Удалить</button>
+            </form>
+        </div>
+    </article>
+</li>
+@endforeach
 </ul>
 @endsection
