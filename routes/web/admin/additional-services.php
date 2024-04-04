@@ -22,9 +22,7 @@ Route::middleware([Authenticate::class, EnsureIsAdmin::class])
     Route::controller(CreateAdditionalServicesController::class)
          ->group(function ()
     {
-        Route::get('/create', 'showCreationForm')
-            ->name('additional-services.create');
-
+        Route::get('/create', 'showCreationForm');
         Route::post('/create', 'createAdditionalService');
     });
     /////
@@ -34,9 +32,7 @@ Route::middleware([Authenticate::class, EnsureIsAdmin::class])
     Route::controller(UpdateAdditionalServicesController::class)
          ->group(function ()
     {
-        Route::get('/update/{id}', 'showUpdatingForm')
-            ->name('additional-services.update');
-
+        Route::get('/update/{id}', 'showUpdatingForm');
         Route::patch('/update/{id}', 'updateAdditionalService');
     });
     /////
