@@ -1,1 +1,1 @@
-Subsystem for interacting with data retrieved from repositories (application).
+Subsystem for passing data from application to views (interfaces).
