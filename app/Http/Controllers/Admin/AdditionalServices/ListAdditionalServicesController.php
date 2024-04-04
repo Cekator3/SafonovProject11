@@ -13,7 +13,7 @@ class ListAdditionalServicesController
 
         for ($i=0; $i < 15; $i++)
         {
-            $service = new AdditionalServiceDTO("test{$i}", '', '');
+            $service = new AdditionalServiceDTO($i, "test{$i}", '', '');
             $service->setPreviewImageUrl('/assets/images/test.gif');
             $arr []= $service;
         }
