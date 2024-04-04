@@ -48,7 +48,7 @@ abstract class ImagesRepository
     /**
      * Stores a picture
      *
-     * @param UploadedFile|string|array $picture
+     * @param UploadedFile|string|array $picture file
      * @param string $filename Variable in which the filename of the saved picture will be stored
      */
     public final function add(UploadedFile|string|array $picture, string|null &$filename) : void
@@ -59,6 +59,9 @@ abstract class ImagesRepository
 
     /**
      * Replaces picture
+     *
+     * @param UploadedFile|string|array $picture file
+     * @param string $filename Filename of picture to replace
      */
     public final function replace(UploadedFile|string|array $picture, string $filename) : void
     {
@@ -67,6 +70,8 @@ abstract class ImagesRepository
 
     /**
      * Removes a picture
+     *
+     * @param string $filename Filename of picture to delete
      */
     public final function remove(string $filename) : void
     {
