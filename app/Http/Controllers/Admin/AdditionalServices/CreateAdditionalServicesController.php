@@ -10,6 +10,7 @@ class CreateAdditionalServicesController
     public function showCreationForm() : View
     {
         // ...
+        return view('admin.additional-services.create');
     }
 
     public function createAdditionalService() : RedirectResponse

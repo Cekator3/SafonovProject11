@@ -9,5 +9,6 @@ class ListAdditionalServicesController
     public function showAdditionalServices() : View
     {
         // ...
+        return view('admin.additional-services.list');
     }
 }
