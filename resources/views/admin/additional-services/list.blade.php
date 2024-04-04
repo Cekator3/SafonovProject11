@@ -10,5 +10,10 @@
 @endsection
 
 @section('main')
-test
+<ul>
+    @foreach ($additionalServices as $additionalService)
+        <li>{{ $additionalService->getName() }}</li>
+        <img src="{{ $additionalService->getPreviewImageUrl() }}" alt="">
+    @endforeach
+</ul>
 @endsection

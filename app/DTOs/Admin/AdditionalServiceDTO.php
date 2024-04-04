@@ -1,6 +1,6 @@
 <?php
 
-namespace App\DTOs\Admin\AdditionalServices;
+namespace App\DTOs\Admin;
 
 /**
  * A subsystem for reading application data about additional services
