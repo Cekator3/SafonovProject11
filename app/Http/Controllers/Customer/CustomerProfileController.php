@@ -12,9 +12,9 @@ use App\Services\Customer\UserProfileService;
 use App\Repositories\ProfilePictureRepository;
 use App\ViewModels\Customer\UserProfileViewModel;
 
-class UserProfileController extends Controller
+class CustomerProfileController extends Controller
 {
-    private function getUserProfilePicture(User $user) : string
+    private function getProfilePicture(User $user) : string
     {
         $profilePictures = new ProfilePictureRepository();
 
@@ -39,7 +39,7 @@ class UserProfileController extends Controller
         $user = $request->user();
         assert($user !== null, 'User must be authenticated');
 
-        $profilePicture = $this->getUserProfilePicture($user);
+        $profilePicture = $this->getProfilePicture($user);
 
         return view('customer.user-profile', ['profilePicture' => $profilePicture]);
     }

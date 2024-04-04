@@ -15,7 +15,7 @@ use App\Http\Controllers\HomeController;
 */
 
 // General routes for customers and administrators
-Route::middleware([EnsureCustomerCredentialsAreVerified::class])->group(function () 
+Route::middleware([EnsureCustomerCredentialsAreVerified::class])->group(function ()
 {
     Route::get('/', HomeController::class)->name('home');
 });
@@ -23,7 +23,7 @@ Route::middleware([EnsureCustomerCredentialsAreVerified::class])->group(function
 
 // Customers only routes
 // Route::middleware([Authenticate::class, EnsureIsCustomer::class, EnsureCustomerCredentialsAreVerified::class])
-//      ->group(function () 
+//      ->group(function ()
 // {
 //     // ...
 // });
@@ -35,4 +35,5 @@ Route::middleware([EnsureCustomerCredentialsAreVerified::class])->group(function
 // });
 
 require __DIR__.'/auth/auth.php';
-require __DIR__.'/user-profile.php';
+require __DIR__.'/customer-profile.php';
+require __DIR__.'/admin/additional-services.php';
