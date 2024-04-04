@@ -8,8 +8,8 @@ use Illuminate\Http\Request;
 use App\Errors\UserInputErrors;
 use Illuminate\Http\RedirectResponse;
 use App\Services\Customer\UserProfileService;
-use App\Repositories\ProfilePictureRepository;
 use App\ViewModels\Customer\UserProfileViewModel;
+use App\Repositories\Images\ProfilePictureRepository;
 
 class CustomerProfileController
 {

@@ -2,13 +2,13 @@
 
 namespace App\Services\Customer;
 
-use App\Errors\Customer\UserProfileUpdateErrors;
 use App\Errors\UserInputErrors;
-use App\Repositories\ProfilePictureRepository;
+use Illuminate\Http\UploadedFile;
+use App\Errors\Customer\UserProfileUpdateErrors;
+use App\ViewModels\Customer\UserProfileViewModel;
+use App\Repositories\Images\ProfilePictureRepository;
 use App\Repositories\Users\CustomerProfileRepository;
 use App\Services\UserCredentialsValidation\FormatValidation\PasswordFormatValidationService;
-use Illuminate\Http\UploadedFile;
-use App\ViewModels\Customer\UserProfileViewModel;
 
 /**
  * Subsystem for updating user's profile information.
