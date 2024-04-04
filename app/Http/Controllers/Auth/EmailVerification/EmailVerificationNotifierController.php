@@ -5,10 +5,9 @@ namespace App\Http\Controllers\Auth\EmailVerification;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
 use App\DTOs\Auth\CredentialsVerification\EmailVerificationDTO;
 
-class EmailVerificationNotifierController extends Controller
+class EmailVerificationNotifierController
 {
     private function setVerificationResendingStatus(Request $request, bool $isResent) : void
     {

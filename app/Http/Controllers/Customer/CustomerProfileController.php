@@ -6,13 +6,12 @@ use App\Models\User;
 use Illuminate\View\View;
 use Illuminate\Http\Request;
 use App\Errors\UserInputErrors;
-use App\Http\Controllers\Controller;
 use Illuminate\Http\RedirectResponse;
 use App\Services\Customer\UserProfileService;
 use App\Repositories\ProfilePictureRepository;
 use App\ViewModels\Customer\UserProfileViewModel;
 
-class CustomerProfileController extends Controller
+class CustomerProfileController
 {
     private function getProfilePicture(User $user) : string
     {

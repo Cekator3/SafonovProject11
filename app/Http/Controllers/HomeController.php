@@ -5,9 +5,8 @@ namespace App\Http\Controllers;
 use App\Enums\UserRole;
 use Illuminate\View\View;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 
-class HomeController extends Controller
+class HomeController
 {
     /**
      * Shows the home page.

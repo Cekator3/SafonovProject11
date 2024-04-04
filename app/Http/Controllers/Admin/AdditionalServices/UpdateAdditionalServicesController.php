@@ -3,10 +3,9 @@
 namespace App\Http\Controllers\Admin\AdditionalServices;
 
 use Illuminate\View\View;
-use App\Http\Controllers\Controller;
 use Illuminate\Http\RedirectResponse;
 
-class UpdateAdditionalServicesController extends Controller
+class UpdateAdditionalServicesController
 {
     public function showUpdatingForm(int $id) : View
     {

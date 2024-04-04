@@ -7,10 +7,9 @@ use App\ViewModels\Auth\CustomerResetPasswordCredentials;
 use Illuminate\View\View;
 use Illuminate\Http\Request;
 use App\Errors\UserInputErrors;
-use App\Http\Controllers\Controller;
 use Illuminate\Http\RedirectResponse;
 
-class NewPasswordController extends Controller
+class NewPasswordController
 {
     /**
      * Displays a password reset form.

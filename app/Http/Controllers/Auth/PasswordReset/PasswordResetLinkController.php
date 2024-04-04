@@ -6,10 +6,9 @@ use App\Services\Auth\PasswordReset\PasswordResetLinkSenderService;
 use Illuminate\View\View;
 use Illuminate\Http\Request;
 use App\Errors\UserInputErrors;
-use App\Http\Controllers\Controller;
 use Illuminate\Http\RedirectResponse;
 
-class PasswordResetLinkController extends Controller
+class PasswordResetLinkController
 {
     /**
      * Displays a form to retrieve the user's credentials (email) for password reset.

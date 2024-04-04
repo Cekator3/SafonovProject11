@@ -5,10 +5,9 @@ namespace App\Http\Controllers\Auth;
 use App\DTOs\Auth\CustomerRegistrationDTO;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 
-class LogoutController extends Controller
+class LogoutController
 {
     private function logoutUser(Request $request) : void
     {

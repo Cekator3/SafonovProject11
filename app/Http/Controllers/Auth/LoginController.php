@@ -8,11 +8,10 @@ use Illuminate\View\View;
 use Illuminate\Http\Request;
 use App\Errors\UserInputErrors;
 use App\Services\Auth\LoginService;
-use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\RedirectResponse;
 
-class LoginController extends Controller
+class LoginController
 {
     /**
      * Shows login form

@@ -7,14 +7,13 @@ use App\DTOs\Auth\UserAuthDTO;
 use Illuminate\View\View;
 use Illuminate\Http\Request;
 use App\Errors\UserInputErrors;
-use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use App\ViewModels\Auth\CustomerRegistrationViewModel;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Auth\Events\Registered;
 use App\Services\Auth\CustomerRegistrationService;
 
-class CustomerRegistrationController extends Controller
+class CustomerRegistrationController
 {
     /**
      * Shows user registration form
