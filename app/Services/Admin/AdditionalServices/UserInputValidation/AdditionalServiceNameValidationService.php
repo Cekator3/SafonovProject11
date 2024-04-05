@@ -11,7 +11,11 @@ class AdditionalServiceNameValidationService
 {
     private function validateLength(string $name, UserInputErrors $errors)
     {
-        // ...
+        if (strlen($name) === 0)
+        {
+            $errMessage = __('validation.required', ['attribute' => 'name']);
+            $errors->add('name', $errMessage);
+        }
     }
 
     /**
