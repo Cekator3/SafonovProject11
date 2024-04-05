@@ -1,15 +1,17 @@
 /* Search element */
-section[role="search"] form
+section[role="search"]
 {
     /* Constants */
     --height: 2.5rem;   /* 40px */
     --width: 15.1875rem;      /* 243 px */
     --border-gradient: linear-gradient(106.39deg, #546FFF 17.33%, #E946C1 29.74%, #A429FD 52.45%, #FFA7AB 73.06%);
-    /* --border-width: 0.125rem; */
-    --border-width: 3px;
+    --border-width: 0.1875rem;
     --bg-color: white;
     --text-color: black;
+}
 
+section[role="search"] form
+{
     /* Aligns items on the same line */
     display: flex;
     flex-flow: row nowrap;
