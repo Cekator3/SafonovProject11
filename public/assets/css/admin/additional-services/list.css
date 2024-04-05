@@ -3,7 +3,7 @@ main
     /* Constants */
     --list-card-padding: 0.9375rem;   /* 15 px */
     --list-card-gap-between-gap-and-description: 10px;
-    --list-card-max-paragraph-lines: 4;
+    --list-card-max-paragraph-lines: 5;
 
     /* Sets gap between site header and main */
     margin-top: 25px;

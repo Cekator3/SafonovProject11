@@ -1,0 +1,12 @@
+/* Applying layout as in additional service list page */
+
+main
+{
+    margin-top: 25px;
+}
+
+main > header
+{
+    text-align: center;
+    display: flex;
+}

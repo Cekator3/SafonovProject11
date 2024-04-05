@@ -55,7 +55,6 @@
         <div class="profile-picture">
             <label for="profile_picture"><img src="{{ $profilePicture }}"></label>
             <x-forms.inputs.file :name=" 'profile_picture' "
-                                 :placeholder=" 'Загрузите аватарку' "
                                  accept="image/*"
             />
         </div>

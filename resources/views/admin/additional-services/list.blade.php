@@ -10,7 +10,7 @@
 <link href="/assets/css/search.css" rel="stylesheet" type="text/css">
 
 {{-- Specific --}}
-<link href="/assets/css/admin/additional-services-list.css" rel="stylesheet" type="text/css">
+<link href="/assets/css/admin/additional-services/list.css" rel="stylesheet" type="text/css">
 @endsection
 
 @section('navigation')
