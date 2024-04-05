@@ -3,6 +3,7 @@ main
     /* Constants */
     --list-card-padding: 0.9375rem;   /* 15 px */
     --list-card-gap-between-gap-and-description: 10px;
+    --list-card-max-paragraph-lines: 4;
 
     /* Sets gap between site header and main */
     margin-top: 25px;
@@ -70,6 +71,12 @@ main > header > .actions > form
 .additional-service
 {
     text-align: center;
+
+    /* Moves control buttons to the end of the card */
+    height: 100%;
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: space-between;
 }
 
 /* Title of additional service */
@@ -87,6 +94,13 @@ main > header > .actions > form
 /* Description */
 .additional-service p
 {
+    /* Sets size in lines of text */
+    display: -webkit-box;
+    -webkit-line-clamp: var(--list-card-max-paragraph-lines);
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+
     /* Sets font */
     color: var(--description-text-color);
     font-size: 1rem;
