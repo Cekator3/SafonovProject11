@@ -20,6 +20,8 @@ class AdditionalServicesCreationService
     public function add(AdditionalServiceCreationViewModel $additionalService,
                         UserInputErrors $errors) : void
     {
-        // ...
+        // 1. validate user's input
+        // 2. save thumbnail picture
+        // 3. store additional service information
     }
 }
