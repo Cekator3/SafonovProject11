@@ -5,6 +5,8 @@ section[role="search"] form
     --height: 2.5rem;   /* 40px */
     --width: 15.1875rem;      /* 243 px */
     --border-gradient: linear-gradient(106.39deg, #546FFF 17.33%, #E946C1 29.74%, #A429FD 52.45%, #FFA7AB 73.06%);
+    /* --border-width: 0.125rem; */
+    --border-width: 3px;
     --bg-color: white;
     --text-color: black;
 
@@ -27,12 +29,9 @@ section[role="search"] input
     /* Creates space before text */
     padding-left: var(--form-input-text-first-letter-padding);
 
-    /* Creates borders */
-    border: 2px solid blue;
-    border-radius: var(--border-radius);
-
     /* Sets colors */
-    background-color: var(--bg-color);
+    background: var(--bg-color);
+    background-clip: padding-box;
     color: var(--text-color);
 
     /* Sets font */
@@ -40,6 +39,22 @@ section[role="search"] input
 
     /* Removes outline that is appearing on focus */
     outline: none;
+
+    /* Creates borders */
+    border: var(--border-width) solid transparent;
+    border-radius: var(--border-radius);
+}
+
+/* Creates gradient border */
+section[role="search"] form::before
+{
+    content: '';
+    height: var(--height);
+    width: var(--width);
+    position: absolute;
+    z-index: -1;
+    border-radius: var(--border-radius);
+    background: var(--border-gradient);
 }
 
 /* Submit button */
