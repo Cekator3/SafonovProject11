@@ -1,17 +1,26 @@
 main
 {
+    /* Constants */
+    --list-card-padding: 0.9375rem;   /* 15 px */
+    --list-card-gap-between-gap-and-description: 10px;
+
     /* Sets gap between site header and main */
     margin-top: 25px;
 }
 
 main > header
 {
+    /* Aligns header's content on the same line */
     display: flex;
     flex-flow: row nowrap;
     justify-content: space-between;
     align-items: baseline;
-    /* Sets gap between header and content */
-    /* margin-bottom: 32px; */
+}
+
+/* Header's content */
+main > header > *
+{
+    width: 50%;
 }
 
 /* Search and create additional service actions */
@@ -19,7 +28,14 @@ main > header > .actions
 {
     display: flex;
     flex-flow: row nowrap;
-    gap: 0 24px;
+    justify-content: space-between;
+}
+
+/* Create button */
+main > header > .actions > form
+{
+    width: 15vw;
+    margin-right: var(--list-card-padding);
 }
 
 
@@ -47,13 +63,12 @@ main > header > .actions
     width: 30%;
 
     /* Sets background */
-    padding: 0.9375rem 0.9375rem;   /* 15 px*/
+    padding: var(--list-card-padding);
     background-color: var(--item-window-bg-color);
 }
 
 .additional-service
 {
-    --gap-between-title-and-description: 10px;
     text-align: center;
 }
 
@@ -66,7 +81,7 @@ main > header > .actions
     line-height: 1.366rem;
 
     /* Sets gap between title and description */
-    margin-bottom: var(--gap-between-title-and-description);
+    margin-bottom: var(--list-card-gap-between-gap-and-description);
 }
 
 /* Description */
@@ -77,7 +92,7 @@ main > header > .actions
     font-size: 1rem;
     line-height: 1.75rem;   /* 28px */
     /* Sets gap between title and description */
-    margin-top: var(--gap-between-title-and-description);
+    margin-top: var(--list-card-gap-between-gap-and-description);
 }
 
 /* Preview image */
