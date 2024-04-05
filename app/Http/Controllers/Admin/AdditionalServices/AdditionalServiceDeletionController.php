@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Admin\AdditionalServices;
 
 use Symfony\Component\HttpFoundation\RedirectResponse;
 
-class DeleteAdditionalServiceController
+class AdditionalServiceDeletionController
 {
     public function deleteAdditionalService(int $additionalServiceId) : RedirectResponse
     {

@@ -2,14 +2,14 @@
 
 namespace App\Http\Controllers\Admin\AdditionalServices;
 
-use App\Repositories\AdditionalServiceRepository;
+use App\Services\Admin\AdditionalServices\AdditionalServicesGetterService;
 use Illuminate\View\View;
 
-class ListAdditionalServicesController
+class AdditionalServicesListingController
 {
     public function showAdditionalServices() : View
     {
-        $additionalServices = new AdditionalServiceRepository();
+        $additionalServices = new AdditionalServicesGetterService();
 
         return view('admin.additional-services.list',
                     ['additionalServices' => $additionalServices->getAll()]);

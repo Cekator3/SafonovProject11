@@ -2,10 +2,10 @@
 
 use App\Http\Middleware\EnsureIsAdmin;
 use Illuminate\Auth\Middleware\Authenticate;
-use App\Http\Controllers\Admin\AdditionalServices\ListAdditionalServicesController;
-use App\Http\Controllers\Admin\AdditionalServices\DeleteAdditionalServiceController;
-use App\Http\Controllers\Admin\AdditionalServices\CreateAdditionalServicesController;
-use App\Http\Controllers\Admin\AdditionalServices\UpdateAdditionalServicesController;
+use App\Http\Controllers\Admin\AdditionalServices\AdditionalServicesListingController;
+use App\Http\Controllers\Admin\AdditionalServices\AdditionalServiceDeletionController;
+use App\Http\Controllers\Admin\AdditionalServices\AdditionalServicesCreationController;
+use App\Http\Controllers\Admin\AdditionalServices\AdditionalServicesUpdateController;
 
 // Admin only
 Route::middleware([Authenticate::class, EnsureIsAdmin::class])
@@ -13,13 +13,13 @@ Route::middleware([Authenticate::class, EnsureIsAdmin::class])
      ->group(function ()
 {
     // Show the list of additional services
-    Route::get('/', [ListAdditionalServicesController::class, 'showAdditionalServices'])
+    Route::get('/', [AdditionalServicesListingController::class, 'showAdditionalServices'])
          ->name('additional-services');
     /////
 
 
     // Create additional service
-    Route::controller(CreateAdditionalServicesController::class)
+    Route::controller(AdditionalServicesCreationController::class)
          ->group(function ()
     {
         Route::get('/create', 'showCreationForm')
@@ -30,7 +30,7 @@ Route::middleware([Authenticate::class, EnsureIsAdmin::class])
 
 
     // Update additional service
-    Route::controller(UpdateAdditionalServicesController::class)
+    Route::controller(AdditionalServicesUpdateController::class)
          ->group(function ()
     {
         Route::get('/update/{id}', 'showUpdatingForm')
@@ -41,7 +41,7 @@ Route::middleware([Authenticate::class, EnsureIsAdmin::class])
 
 
     // Delete additional service
-    Route::delete('/delete/{id}', [DeleteAdditionalServiceController::class, 'deleteAdditionalService'])
+    Route::delete('/delete/{id}', [AdditionalServiceDeletionController::class, 'deleteAdditionalService'])
          ->name('additional-services.delete');
     /////
 });

@@ -6,7 +6,7 @@ use App\DTOs\Admin\AdditionalServiceDTO;
 use Illuminate\View\View;
 use Illuminate\Http\RedirectResponse;
 
-class UpdateAdditionalServicesController
+class AdditionalServicesUpdateController
 {
     public function showUpdatingForm(int $additionalServiceId) : View
     {

@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Admin\AdditionalServices;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
 
-class CreateAdditionalServicesController
+class AdditionalServicesCreationController
 {
     public function showCreationForm() : View
     {
@@ -14,7 +14,6 @@ class CreateAdditionalServicesController
 
     public function createAdditionalService() : RedirectResponse
     {
-        // ...
         return redirect()->route('additional-services');
     }
 }

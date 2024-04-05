@@ -11,7 +11,6 @@
 <link href="/assets/css/form/submit.css" rel="stylesheet" type="text/css">
 
 {{-- Specific --}}
-{{-- For moving form to the center of the screen --}}
 <link href="/assets/css/admin/additional-services/create.css" rel="stylesheet" type="text/css">
 @endsection
 
