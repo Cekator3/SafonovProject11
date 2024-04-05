@@ -25,7 +25,7 @@ class UserProfileService
         if ($userProfile->profilePicture !== null)
         {
             $imageValidator = new ImageFormatValidationService();
-            $imageValidator->validate($userProfile->profilePicture, $errors);
+            $imageValidator->validate($userProfile->profilePicture, $errors, 'profile_picture');
         }
     }
 

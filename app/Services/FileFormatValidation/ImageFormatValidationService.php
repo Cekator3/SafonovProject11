@@ -21,13 +21,16 @@ class ImageFormatValidationService
      * @param array|UploadedFile $file File input
      * @param UserInputErrors $errors
      * Data structure, where discovered errors will be stored.
+     * @param string $userInputName Name of the input field
      */
-    public function validate(array|UploadedFile $file, UserInputErrors $errors) : void
+    public function validate(array|UploadedFile $file,
+                             UserInputErrors $errors,
+                             string $userInputName) : void
     {
         if (! $this->isImage($file))
         {
             $errMessage = __('validation.image', ['attribute' => 'image']);
-            $errors->add('profile_picture', $errMessage);
+            $errors->add($userInputName, $errMessage);
         }
     }
 }
