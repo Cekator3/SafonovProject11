@@ -4,8 +4,7 @@ body
 {
     /* Creates grid layout */
     display: grid;
-    grid-template-rows: var(--header-height) minmax(min-content, calc(100% - var(--header-height))) var(--header-height);
-
+    grid-template-rows: var(--header-height) 1fr var(--header-height);
 }
 
 
