@@ -10,7 +10,7 @@ use App\ViewModels\Auth\CustomerRegistrationViewModel;
 use Illuminate\Database\UniqueConstraintViolationException;
 
 /**
- * Subsystem for interacting with customers information
+ * Subsystem for interacting with stored information on customers
  */
 class CustomerRepository extends UserRepository
 {

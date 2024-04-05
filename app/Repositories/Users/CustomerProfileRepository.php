@@ -5,6 +5,9 @@ use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use App\Errors\Customer\UserProfileUpdateErrors;
 
+/**
+ * Subsystem for interaction with stored information on customers profiles
+ */
 class CustomerProfileRepository extends UserRepository
 {
     private function updatePassword(User $user,
