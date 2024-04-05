@@ -3,6 +3,7 @@
 namespace App\Services\Customer;
 
 use App\Errors\UserInputErrors;
+use App\Services\FileFormatValidation\ImageFormatValidationService;
 use Illuminate\Http\UploadedFile;
 use App\Errors\Customer\UserProfileUpdateErrors;
 use App\ViewModels\Customer\UserProfileViewModel;
@@ -15,21 +16,6 @@ use App\Services\UserCredentialsValidation\FormatValidation\PasswordFormatValida
  */
 class UserProfileService
 {
-    private function isImage(UploadedFile|array $file)
-    {
-        return substr($file->getMimeType(), 0, 5) === 'image';
-    }
-
-    private function validateImageInput(UserProfileViewModel|null $userProfile,
-                                        UserInputErrors $errors) : void
-    {
-        if($this->isImage($userProfile->profilePicture))
-            return;
-
-        $errMessage = __('validation.image', ['attribute' => 'image']);
-        $errors->add('profile_picture', $errMessage);
-    }
-
     private function validateInput(UserProfileViewModel $userProfile,
                                    UserInputErrors $errors) : void
     {
@@ -37,7 +23,10 @@ class UserProfileService
             PasswordFormatValidationService::validatePassword($userProfile->newPassword, $errors, $userProfile->newPasswordConfirmation, true);
 
         if ($userProfile->profilePicture !== null)
-            $this->validateImageInput($userProfile, $errors);
+        {
+            $imageValidator = new ImageFormatValidationService();
+            $imageValidator->validate($userProfile->profilePicture, $errors);
+        }
     }
 
     private function storeNewProfilePicture(UploadedFile|array $picture,
