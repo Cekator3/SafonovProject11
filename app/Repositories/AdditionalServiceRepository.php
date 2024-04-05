@@ -30,6 +30,15 @@ class AdditionalServiceRepository
     }
 
     /**
+     * Finds all the relevant additional services
+     * @return AdditionalServiceDTO[]
+     */
+    public function find(string $name) : array
+    {
+        // ...
+    }
+
+    /**
      * Adds additional service.
      *
      * @param AdditionalServiceCreationViewModel $additionalService
