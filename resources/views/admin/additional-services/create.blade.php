@@ -1,6 +1,6 @@
 @extends('layouts.main')
 
-@section('title', 'Создание дополнительной услуги')
+@section('title', 'Создание доп услуги')
 
 @section('styles')
 {{-- Form --}}
@@ -29,12 +29,12 @@
 
     <fieldset>
         <legend>Общая информация</legend>
-        <x-forms.inputs.text :name=" 'name' " :placeholder=" 'Название' " autocomplete="off" />
-        <x-forms.inputs.text :name=" 'description' " :placeholder=" 'Описание' "  autocomplete="off"/>
+        <x-forms.inputs.text :name=" 'name' " :placeholder=" 'Название' " autocomplete="off" required />
+        <x-forms.inputs.text :name=" 'description' " :placeholder=" 'Описание' "  autocomplete="off" required/>
     </fieldset>
     <fieldset>
         <legend>Изображение предпросмотра</legend>
-        <x-forms.inputs.file :name=" 'previewImage' " accept="image/*" />
+        <x-forms.inputs.file :name=" 'previewImage' " accept="image/*" required />
     </fieldset>
     <x-forms.submit :placeholder=" 'Сохранить' " />
 </form>
