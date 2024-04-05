@@ -12,7 +12,7 @@ use App\Repositories\Users\CustomerProfileRepository;
 use App\Services\UserCredentialsValidation\FormatValidation\PasswordFormatValidationService;
 
 /**
- * Subsystem for updating user's profile information.
+ * Subsystem for updating stored information on user's profile.
  */
 class UserProfileService
 {
