@@ -9,13 +9,8 @@ use Illuminate\Support\Facades\Storage;
 /**
  * A subsystem for interacting with stored images files.
  */
-abstract class ImagesRepository
+abstract class ImageRepository
 {
-    /**
-     * Returns the filepath of picture
-     */
-    abstract protected function getFilepath(string $filename) : string;
-
     /**
      * Returns the path of directory where pictures are stored
      */
@@ -25,6 +20,15 @@ abstract class ImagesRepository
      * Returns filename of default picture
      */
     abstract protected function getDefaultPictureFilename() : string;
+
+    /**
+     * Returns the filepath of picture
+     */
+    private function getFilepath(string $filename) : string
+    {
+        return $this->getDirectory().$filename;
+    }
+
 
     /**
      * Returns the URL of the picture

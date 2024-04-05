@@ -96,7 +96,7 @@ class UserProfileService
                               $errors
         );
 
-        if (($userProfile->profilePicture !== null) && (! $errors->hasAnyForInput('profile_picture')))
+        if (($userProfile->profilePicture !== null) && (! $errors->hasAnyForInput('profile_picture')) && ($oldProfilePictureFilename !== null))
             $this->deleteOldProfilePicture($oldProfilePictureFilename);
     }
 }

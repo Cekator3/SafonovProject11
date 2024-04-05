@@ -5,7 +5,6 @@ return [
         'directory' => 'profile_pictures/',
         'default' => 'default-profile-picture.svg'
     ],
-    'profile_pictures_directory' => 'profile_pictures/',
     'credentials' => [
         'max_login_length' => 255,
         'max_email_length' => 255,

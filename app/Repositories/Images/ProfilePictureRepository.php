@@ -7,16 +7,8 @@ use Illuminate\Support\Facades\Config;
 /**
  * A subsystem for interacting with users stored profile pictures files.
  */
-class ProfilePictureRepository extends ImagesRepository
+class ProfilePictureRepository extends ImageRepository
 {
-    /**
-     * Returns the filepath of profile picture
-     */
-    protected function getFilepath(string $filename) : string
-    {
-        return $this->getDirectory().$filename;
-    }
-
     /**
      * Returns the path of directory where profile pictures are stored
      */
