@@ -3,6 +3,8 @@
 namespace App\Repositories;
 
 use App\DTOs\Admin\AdditionalServiceDTO;
+use App\ViewModels\Admin\AdditionalService\AdditionalServiceUpdateViewModel;
+use App\ViewModels\Admin\AdditionalService\AdditionalServiceCreationViewModel;
 
 /**
  * Subsystem for interaction with stored information on additional services
@@ -44,7 +46,7 @@ class AdditionalServiceRepository
      * Updates additional service.
      *
      * @param AdditionalServiceUpdateViewModel $additionalService New additional service's data.
-     * @param AdditionalServiceCreationErrors $errors
+     * @param AdditionalServiceUpdateErrors $errors
      * An object for storing operation errors.
      */
     public function update(AdditionalServiceUpdateViewModel $additionalService,

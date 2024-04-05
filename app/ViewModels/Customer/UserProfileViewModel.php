@@ -4,10 +4,10 @@ namespace App\ViewModels\Customer;
 use Illuminate\Http\UploadedFile;
 
 /**
- * Class for transferring input
+ * class for transferring input
  * that was entered in user's profile
  * from interfaces (views)
- * to the application (Services and Repositories).
+ * to the application (services and repositories).
  */
 class UserProfileViewModel
 {
