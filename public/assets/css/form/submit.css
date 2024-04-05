@@ -5,7 +5,7 @@
     height: 2.5rem;     /* 40px */
 
     /* Sets rounded corners */
-    border-radius: var(--button-border-radius);
+    border-radius: var(--border-radius);
 
     /* Sets font */
     font-size: 1rem;         /* 16px */

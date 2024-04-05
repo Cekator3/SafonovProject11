@@ -1,13 +1,8 @@
-@props(['name', 'placeholder', 'url'])
+@props(['name', 'url'])
 
 <section role="search">
-    <form action="{{ $url }}" method="GET">
-        <x-forms.inputs.text :type=" 'search' "
-                             :$name
-                             :$placeholder
-                             required=""
-                             {{ $attributes }}
-        />
-        <x-forms.submit :placeholder=" 'Поиск' " />
-    </form>
+<form action="{{ $url }}" method="GET">
+    <input type="search" name="{{ $name }}" id="{{ $name }}" required autocomplete="off" {{ $attributes }}>
+    <button type="submit"><img src="/assets/images/search.svg" alt=""></button>
+</form>
 </section>

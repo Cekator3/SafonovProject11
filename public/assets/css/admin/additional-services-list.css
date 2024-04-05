@@ -1,0 +1,105 @@
+main
+{
+    /* Sets gap between site header and main */
+    margin-top: 25px;
+}
+
+main > header
+{
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+    align-items: baseline;
+    /* Sets gap between header and content */
+    /* margin-bottom: 32px; */
+}
+
+/* Search and create additional service actions */
+main > header > .actions
+{
+    display: flex;
+    flex-flow: row nowrap;
+    gap: 0 24px;
+}
+
+
+/* Additional services list */
+.additional-services
+{
+    /* Removes default styles */
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+
+    /* Sets additional services layout */
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-between;
+
+    /* Sets vertical gap between additional services */
+    gap: 70px 0;
+}
+
+/* Card of additional services list */
+.additional-services > li
+{
+    /* Sets width */
+    width: 30%;
+
+    /* Sets background */
+    padding: 0.9375rem 0.9375rem;   /* 15 px*/
+    background-color: var(--item-window-bg-color);
+}
+
+.additional-service
+{
+    --gap-between-title-and-description: 10px;
+    text-align: center;
+}
+
+/* Title of additional service */
+.additional-service h3
+{
+    /* Sets font */
+    font-weight: 500;
+    font-size: 1.3125rem;       /* 21px */
+    line-height: 1.366rem;
+
+    /* Sets gap between title and description */
+    margin-bottom: var(--gap-between-title-and-description);
+}
+
+/* Description */
+.additional-service p
+{
+    /* Sets font */
+    color: var(--description-text-color);
+    font-size: 1rem;
+    line-height: 1.75rem;   /* 28px */
+    /* Sets gap between title and description */
+    margin-top: var(--gap-between-title-and-description);
+}
+
+/* Preview image */
+.additional-service img
+{
+    /* Limits size of image */
+    width: 100%;
+    /* Sets rounded borders */
+    border-radius: var(--border-radius);
+}
+
+/* Action buttons */
+.additional-service .actions
+{
+    /* Sets gap between buttons */
+    display: flex;
+    flex-flow: column nowrap;
+    gap: 15px 0;
+}
+
+.additional-service .actions button
+{
+    /* Sets height */
+    min-height: min(3.125rem, 50px);
+}

@@ -1,0 +1,73 @@
+/* Search element */
+section[role="search"] form
+{
+    /* Constants */
+    --height: 2.5rem;   /* 40px */
+    --width: 15.1875rem;      /* 243 px */
+    --border-gradient: linear-gradient(106.39deg, #546FFF 17.33%, #E946C1 29.74%, #A429FD 52.45%, #FFA7AB 73.06%);
+    --bg-color: white;
+    --text-color: black;
+
+    /* Aligns items on the same line */
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
+
+    /* To position search button in the end of text input field */
+    position: relative;
+}
+
+/* Text input */
+section[role="search"] input
+{
+    /* Sets size */
+    width: var(--width);      /* 243 px */
+    height: var(--height);
+
+    /* Creates space before text */
+    padding-left: var(--form-input-text-first-letter-padding);
+
+    /* Creates borders */
+    border: 2px solid blue;
+    border-radius: var(--border-radius);
+
+    /* Sets colors */
+    background-color: var(--bg-color);
+    color: var(--text-color);
+
+    /* Sets font */
+    font-weight: 400;
+
+    /* Removes outline that is appearing on focus */
+    outline: none;
+}
+
+/* Submit button */
+section[role="search"] button
+{
+    /* Sets  */
+    height: var(--height);
+
+    position: absolute;
+    right: 0.5rem;      /* 8px */
+
+    /* Removes button's standard styles */
+    background: transparent;
+    border: 0;
+}
+
+/* Submit button image */
+section[role="search"] button img
+{
+    /* Sets size */
+    width: 1.0625rem;    /* 17px */
+    height: 1.125rem;    /* 18px */
+}
+
+/* Removes standard clear button appearing on typing */
+section[role="search"] input[type="search"]::-webkit-search-decoration,
+section[role="search"] input[type="search"]::-webkit-search-cancel-button,
+section[role="search"] input[type="search"]::-webkit-search-results-button,
+section[role="search"] input[type="search"]::-webkit-search-results-decoration {
+  -webkit-appearance:none;
+}

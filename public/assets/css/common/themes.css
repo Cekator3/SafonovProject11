@@ -6,13 +6,16 @@
     --main-bg-image: url('/assets/images/main-background.svg');
     --main-text-color: white;
     --secondary-text-color: #828282;
+    --description-text-color: #BBBBBB;
     --header-height: 11%;
+    --border-radius: 20px;
+
+    /* Витрина предметов */
+    --item-window-bg-color: #191919;
+
 
     /* logo */
     --logo-image: url('/assets/images/logo.svg');
-
-    /* Buttons */
-    --button-border-radius: 20px;
 
     /* Auth form */
     --auth-action-link-gradient: linear-gradient(91.99deg, rgba(254, 79, 174, 0.6) 1.95%, rgba(84, 111, 255, 0.6) 46.14%, rgba(255, 169, 171, 0.6) 76.72%);

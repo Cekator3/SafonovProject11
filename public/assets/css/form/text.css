@@ -9,7 +9,7 @@
 
     /* Creates borders */
     border: 0.5px solid var(--form-input-text-border-color);
-    border-radius: 20px;
+    border-radius: var(--border-radius);
 
     /* Sets colors */
     background-color: var(--form-input-text-bg-color);
