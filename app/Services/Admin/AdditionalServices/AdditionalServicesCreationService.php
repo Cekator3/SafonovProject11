@@ -17,8 +17,8 @@ class AdditionalServicesCreationService
      * @param UserInputErrors $errors
      * User's inputs errors that prevented successful execution of the action.
      */
-    public function create(AdditionalServiceCreationViewModel $additionalService,
-                           UserInputErrors $errors) : void
+    public function add(AdditionalServiceCreationViewModel $additionalService,
+                        UserInputErrors $errors) : void
     {
         // ...
     }

@@ -1,6 +1,7 @@
 <?php
 
 namespace App\ViewModels\Admin\AdditionalService;
+use GuzzleHttp\Psr7\UploadedFile;
 
 /**
  * class for transferring input
@@ -10,5 +11,8 @@ namespace App\ViewModels\Admin\AdditionalService;
  */
 class AdditionalServiceCreationViewModel
 {
-
+    public string $name;
+    public string $description;
+    public UploadedFile|null $thumbnailFile;
+    public string $thumbnailFilename;
 }

@@ -2,8 +2,12 @@
 
 namespace App\Http\Controllers\Admin\AdditionalServices;
 
-use Illuminate\Http\RedirectResponse;
+use App\Errors\UserInputErrors;
+use App\Services\Admin\AdditionalServices\AdditionalServicesCreationService;
 use Illuminate\View\View;
+use Illuminate\Http\Request;
+use Illuminate\Http\RedirectResponse;
+use App\ViewModels\Admin\AdditionalService\AdditionalServiceCreationViewModel;
 
 class AdditionalServicesCreationController
 {
@@ -12,8 +16,29 @@ class AdditionalServicesCreationController
         return view('admin.additional-services.create');
     }
 
-    public function createAdditionalService() : RedirectResponse
+    private function getUserInput(Request $request) : AdditionalServiceCreationViewModel
     {
+        $userInput = new AdditionalServiceCreationViewModel();
+        $userInput->name = $request->string('name', '');
+        $userInput->description = $request->string('description', '');
+        $userInput->thumbnailFile = $request->file('previewImage');
+        return $userInput;
+    }
+
+    public function createAdditionalService(Request $request) : RedirectResponse
+    {
+        $additionalService = $this->getUserInput($request);
+        $additionalServices = new AdditionalServicesCreationService();
+        $errors = new UserInputErrors();
+
+        $additionalServices->add($additionalService, $errors);
+
+        if ($errors->hasAny()) {
+            return redirect()->back()
+                             ->withErrors($errors->getAll())
+                             ->withInput();
+        }
+
         return redirect()->route('additional-services');
     }
 }
