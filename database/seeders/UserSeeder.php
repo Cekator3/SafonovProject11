@@ -11,7 +11,7 @@ class UserSeeder extends Seeder
 {
     private function insertUser(int $amount, UserRole $role)
     {
-        for ($i = 0; $i < $amount; $i++) 
+        for ($i = 0; $i < $amount; $i++)
         {
             try
             {
@@ -32,5 +32,11 @@ class UserSeeder extends Seeder
     {
         static::insertUser(1, UserRole::Admin);
         static::insertUser(1000, UserRole::Customer);
+
+        DB::table('users')->insert([
+            'email' => 'admin@a.a',
+            'role' => UserRole::Admin,
+            'password' => Hash::make('1'),
+        ]);
     }
 }
