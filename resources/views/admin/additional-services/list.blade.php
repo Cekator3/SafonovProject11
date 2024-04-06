@@ -41,7 +41,7 @@
     <section class="additional-service">
         {{-- Preview image, title and description --}}
         <a href="{{ route('additional-services.update', ['id' => $additionalService->getId()]) }}">
-            <img src="{{ $additionalService->getPreviewImageUrl() }}">
+            <img loading="lazy" src="{{ $additionalService->getPreviewImageUrl() }}">
             <header>
                 <h3>{{ $additionalService->getName() }}</h3>
             </header>
