@@ -1,0 +1,122 @@
+main
+{
+    /* Constants */
+    --list-card-padding: 0.9375rem;   /* 15 px */
+    --list-card-gap-between-gap-and-description: 10px;
+    --list-card-max-paragraph-lines: 5;
+
+    /* Sets gap between site header and main */
+    margin-top: 25px;
+}
+
+main > header
+{
+    /* Aligns header's content on the same line */
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+    align-items: baseline;
+}
+
+/* Header's content */
+main > header > *
+{
+    width: 50%;
+}
+
+/* Search and create additional service actions */
+main > header > .actions
+{
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+}
+
+/* Create button */
+main > header > .actions > form
+{
+    width: 15vw;
+    margin-right: var(--list-card-padding);
+}
+
+
+/* Printing technologies list */
+.printing-technologies
+{
+    /* Removes default styles */
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+
+    /* Sets additional services layout */
+    display: grid;
+    grid-template-columns: repeat(auto-fill, 30%);
+    justify-content: space-between;
+
+    /* Sets vertical gap between printing technologies */
+    grid-gap: 70px 0;
+}
+
+/* Card of printing technologies list */
+.printing-technologies > li
+{
+    /* Sets background */
+    padding: var(--list-card-padding);
+    background-color: var(--item-window-bg-color);
+}
+
+.printing-technology
+{
+    text-align: center;
+
+    /* Moves control buttons to the end of the card */
+    height: 100%;
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: space-between;
+}
+
+/* Title of printing technology */
+.printing-technology h3
+{
+    /* Sets font */
+    font-weight: 500;
+    font-size: 1.3125rem;       /* 21px */
+    line-height: 1.366rem;
+
+    /* Sets gap between title and description */
+    margin-bottom: var(--list-card-gap-between-gap-and-description);
+}
+
+/* Description */
+.printing-technology p
+{
+    /* Sets size in lines of text */
+    display: -webkit-box;
+    -webkit-line-clamp: var(--list-card-max-paragraph-lines);
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+
+    /* Sets font */
+    color: var(--description-text-color);
+    font-size: 1rem;
+    line-height: 1.75rem;   /* 28px */
+    /* Sets gap between title and description */
+    margin-top: var(--list-card-gap-between-gap-and-description);
+}
+
+/* Action buttons */
+.printing-technology .actions
+{
+    /* Sets gap between buttons */
+    display: flex;
+    flex-flow: column nowrap;
+    gap: 15px 0;
+}
+
+.printing-technology .actions button
+{
+    /* Sets height */
+    min-height: min(3.125rem, 50px);
+}
