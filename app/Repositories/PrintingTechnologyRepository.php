@@ -4,7 +4,7 @@ namespace App\Repositories;
 
 use stdClass;
 use Illuminate\Support\Facades\DB;
-use App\DTOs\Admin\PrintingTechnologyDTO;
+use App\DTOs\Admin\PrintingTechnologies\PrintingTechnologyDTO;
 use Illuminate\Database\UniqueConstraintViolationException;
 use App\Errors\Admin\PrintingTechnology\PrintingTechnologyUpdateErrors;
 use App\Errors\Admin\PrintingTechnology\PrintingTechnologyCreationErrors;

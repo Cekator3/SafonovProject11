@@ -6,7 +6,6 @@ use Illuminate\View\View;
 use Illuminate\Http\Request;
 use App\Errors\UserInputErrors;
 use Illuminate\Http\RedirectResponse;
-use App\DTOs\Admin\PrintingTechnologyDTO;
 use App\Services\Admin\PrintingTechnologies\PrintingTechnologiesGetterService;
 use App\Services\Admin\PrintingTechnologies\PrintingTechnologiesUpdateService;
 use App\ViewModels\Admin\PrintingTechnology\PrintingTechnologyUpdateViewModel;

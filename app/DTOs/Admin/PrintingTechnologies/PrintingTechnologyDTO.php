@@ -1,15 +1,15 @@
 <?php
 
-namespace App\DTOs\Admin;
+namespace App\DTOs\Admin\PrintingTechnologies;
 
 /**
  * A subsystem for reading application data about printing technologies
  */
 class PrintingTechnologyDTO
 {
-    private int $id = -1;
-    private string $name = '';
-    private string $description = '';
+    private int $id;
+    private string $name;
+    private string $description;
 
     public function __construct(int $id, string $name, string $description)
     {
@@ -23,7 +23,6 @@ class PrintingTechnologyDTO
      */
     public function getId() : int
     {
-        assert($this->id !== -1, 'accessing not initialized property: $id');
         return $this->id;
     }
 

@@ -2,7 +2,7 @@
 
 namespace App\Services\Admin\PrintingTechnologies;
 
-use App\DTOs\Admin\PrintingTechnologyDTO;
+use App\DTOs\Admin\PrintingTechnologies\PrintingTechnologyDTO;
 use App\Repositories\PrintingTechnologyRepository;
 
 /**
