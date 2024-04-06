@@ -1,6 +1,6 @@
 @extends('layouts.main')
 
-@section('title', 'Обновление технологии 3д-печати')
+@section('title', 'Изменение технологии 3д-печати')
 
 @section('styles')
 {{-- Form --}}
