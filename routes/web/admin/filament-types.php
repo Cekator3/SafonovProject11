@@ -2,6 +2,9 @@
 
 use App\Http\Middleware\EnsureIsAdmin;
 use Illuminate\Auth\Middleware\Authenticate;
+use App\Http\Controllers\Admin\FilamentTypes\FilamentTypeDeletionController;
+use App\Http\Controllers\Admin\FilamentTypes\FilamentTypesListingController;
+use App\Http\Controllers\Admin\FilamentTypes\FilamentTypesCreationController;
 
 // Admin only
 Route::middleware([Authenticate::class, EnsureIsAdmin::class])
@@ -26,7 +29,7 @@ Route::middleware([Authenticate::class, EnsureIsAdmin::class])
 
 
     // Update filament type
-    Route::controller(FilamentTypesUpdateController::class)
+    Route::controller(FilamentTypeUpdateController::class)
          ->group(function ()
     {
         Route::get('/update/{id}', 'showUpdatingForm')
