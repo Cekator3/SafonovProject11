@@ -3,6 +3,7 @@
 namespace App\Repositories;
 
 use App\DTOs\Admin\AdditionalServiceDTO;
+use App\Errors\Admin\AdditionalService\AdditionalServiceUpdateErrors;
 use App\Errors\Admin\AdditionalService\AdditionalServiceCreationErrors;
 use App\ViewModels\Admin\AdditionalService\AdditionalServiceUpdateViewModel;
 use App\ViewModels\Admin\AdditionalService\AdditionalServiceCreationViewModel;
@@ -57,7 +58,7 @@ class AdditionalServiceRepository
     public function add(AdditionalServiceCreationViewModel $additionalService,
                         AdditionalServiceCreationErrors $errors) : void
     {
-
+        
     }
 
     /**
