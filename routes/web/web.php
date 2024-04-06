@@ -38,3 +38,4 @@ require __DIR__.'/auth/auth.php';
 require __DIR__.'/customer-profile.php';
 require __DIR__.'/admin/additional-services.php';
 require __DIR__.'/admin/printing-technologies.php';
+require __DIR__.'/admin/filament-types.php';
