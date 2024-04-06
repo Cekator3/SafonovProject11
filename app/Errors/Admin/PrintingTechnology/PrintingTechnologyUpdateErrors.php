@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Errors\Admin\AdditionalService;
+namespace App\Errors\Admin\PrintingTechnology;
 
 /**
  * A subsystem for storing errors that occurred during
- * an attempt to update a additional service.
+ * an attempt to update a printing technology.
  */
-final class AdditionalServiceUpdateErrors
+final class PrintingTechnologyUpdateErrors
 {
-    public const ERROR_ADDITIONAL_SERVICE_ALREADY_EXIST = 1;
+    public const ERROR_PRINTING_TECHNOLOGY_ALREADY_EXIST = 1;
     private int $errors = 0;
 
     /**
@@ -22,12 +22,12 @@ final class AdditionalServiceUpdateErrors
     }
 
     /**
-     * Returns true if occurred an error because additional service
+     * Returns true if occurred an error because printing technology
      * already exists
      */
     public function isAlreadyExist() : bool
     {
-        return ($this->errors & static::ERROR_ADDITIONAL_SERVICE_ALREADY_EXIST) !== 0;
+        return ($this->errors & static::ERROR_PRINTING_TECHNOLOGY_ALREADY_EXIST) !== 0;
     }
 
     /**
@@ -37,5 +37,4 @@ final class AdditionalServiceUpdateErrors
     {
         return $this->errors !== 0;
     }
-
 }
