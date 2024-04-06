@@ -39,6 +39,14 @@ class AdditionalServiceRepository
     }
 
     /**
+     * Returns true if additional service exists.
+     */
+    public function isExist(string $name) : bool
+    {
+        // ...
+    }
+
+    /**
      * Adds additional service.
      *
      * @param AdditionalServiceCreationViewModel $additionalService

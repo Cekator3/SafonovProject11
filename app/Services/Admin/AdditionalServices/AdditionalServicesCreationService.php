@@ -1,12 +1,15 @@
 <?php
 
 namespace App\Services\Admin\AdditionalServices;
+use App\Errors\Admin\AdditionalService\AdditionalServiceCreationErrors;
 use App\Errors\UserInputErrors;
-use App\Services\Admin\AdditionalServices\UserInputValidation\AdditionalServiceDescriptionValidationService;
-use App\Services\Admin\AdditionalServices\UserInputValidation\AdditionalServiceNameValidationService;
+use Illuminate\Http\UploadedFile;
+use App\Repositories\AdditionalServiceRepository;
+use App\Repositories\Images\AdditionalServiceThumbnailRepository;
 use App\Services\FileFormatValidation\ImageFormatValidationService;
 use App\ViewModels\Admin\AdditionalService\AdditionalServiceCreationViewModel;
-use GuzzleHttp\Psr7\UploadedFile;
+use App\Services\Admin\AdditionalServices\UserInputValidation\AdditionalServiceNameValidationService;
+use App\Services\Admin\AdditionalServices\UserInputValidation\AdditionalServiceDescriptionValidationService;
 
 /**
  * Subsystem for storing information about new additional service.
@@ -34,26 +37,40 @@ class AdditionalServicesCreationService
         }
     }
 
-    private function checkIfExists(AdditionalServiceCreationViewModel $additionalService,
-                                   bool &$result) : void
+    private function isExists(AdditionalServiceCreationViewModel $additionalService) : bool
     {
-
+        $additionalServices = new AdditionalServiceRepository();
+        return $additionalServices->isExist($additionalService->name);
     }
 
     private function storeInformation(AdditionalServiceCreationViewModel $additionalService,
                                       UserInputErrors $errors) : void
     {
+        $creationErrors = new AdditionalServiceCreationErrors();
+        $additionalServices = new AdditionalServiceRepository();
 
+        $additionalServices->add($additionalService, $creationErrors);
+
+        if ($creationErrors->hasAny())
+        {
+            if ($creationErrors->isAlreadyExist())
+            {
+                $errMessage = __('validation.unique', ['attribute' => 'name']);
+                $errors->add('name', $errMessage);
+            }
+        }
     }
 
     private function storeThumbnailPicture(UploadedFile $thumbnailFile, string &$filename) : void
     {
-
+        $thumbnails = new AdditionalServiceThumbnailRepository();
+        $thumbnails->add($thumbnailFile, $filename);
     }
 
     private function deleteThumbnailPicture(string $filename) : void
     {
-
+        $thumbnails = new AdditionalServiceThumbnailRepository();
+        $thumbnails->remove($filename);
     }
 
     /**
@@ -74,9 +91,7 @@ class AdditionalServicesCreationService
             return;
 
         // 2. check if additional service already exists
-        $isExists = false;
-        $this->checkIfExists($additionalService, $isExists);
-        if ($isExists)
+        if ($this->isExists($additionalService))
         {
             $errMessage = __('validation.exists');
             $errors->add('previewImage', $errMessage);
@@ -94,6 +109,5 @@ class AdditionalServicesCreationService
             $this->deleteThumbnailPicture($additionalService->thumbnailFilename);
             return;
         }
-
     }
 }

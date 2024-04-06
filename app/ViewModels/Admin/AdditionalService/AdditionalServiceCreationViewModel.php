@@ -1,7 +1,8 @@
 <?php
 
 namespace App\ViewModels\Admin\AdditionalService;
-use GuzzleHttp\Psr7\UploadedFile;
+
+use Illuminate\Http\UploadedFile;
 
 /**
  * class for transferring input
