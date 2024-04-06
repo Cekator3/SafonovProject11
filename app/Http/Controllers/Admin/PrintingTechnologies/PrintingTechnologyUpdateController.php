@@ -2,22 +2,32 @@
 
 namespace App\Http\Controllers\Admin\PrintingTechnologies;
 
-use App\DTOs\Admin\PrintingTechnologyDTO;
 use Illuminate\View\View;
 use Illuminate\Http\Request;
+use App\Errors\UserInputErrors;
 use Illuminate\Http\RedirectResponse;
+use App\DTOs\Admin\PrintingTechnologyDTO;
+use App\Services\Admin\PrintingTechnologies\PrintingTechnologiesGetterService;
+use App\Services\Admin\PrintingTechnologies\PrintingTechnologiesUpdateService;
+use App\ViewModels\Admin\PrintingTechnology\PrintingTechnologyUpdateViewModel;
 
 class PrintingTechnologyUpdateController
 {
-    private function getTestData() : PrintingTechnologyDTO
+    public function showUpdatingForm(int $printingTechnologyId) : View
     {
-        return new PrintingTechnologyDTO(1, "test", 'Практический опыт показывает, что дальнейшее развитие различных форм деятельности способствует подготовке и реализации новых предложений');
+        $printingTechnologies = new PrintingTechnologiesGetterService();
+        $printingTechnology = $printingTechnologies->get($printingTechnologyId);
+
+        return view('admin.printing-technologies.update', ['printingTechnology' => $printingTechnology]);
     }
 
-    public function showUpdatingForm(int $additionalServiceId) : View
+    private function getUserInput(Request $request, int $printingTechnologyId) : PrintingTechnologyUpdateViewModel
     {
-        // ...
-        return view('admin.printing-technologies.update', ['printingTechnology' => $this->getTestData()]);
+        $userInput = new PrintingTechnologyUpdateViewModel();
+        $userInput->id = $printingTechnologyId;
+        $userInput->name = $request->string('name', '');
+        $userInput->description = $request->string('description', '');
+        return $userInput;
     }
 
     /**
@@ -25,6 +35,17 @@ class PrintingTechnologyUpdateController
      */
     public function updatePrintingTechnology(Request $request, int $printingTechnologyId) : RedirectResponse
     {
-        // ...
+        $printingTechnology = $this->getUserInput($request, $printingTechnologyId);
+        $printingTechnologies = new PrintingTechnologiesUpdateService();
+        $errors = new UserInputErrors();
+
+        $printingTechnologies->update($printingTechnology, $errors);
+
+        if ($errors->hasAny()) {
+            return redirect()->back()
+                             ->withErrors($errors->getAll());
+        }
+
+        return redirect()->route('printing-technologies');
     }
 }
