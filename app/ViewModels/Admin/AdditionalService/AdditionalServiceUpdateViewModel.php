@@ -2,6 +2,8 @@
 
 namespace App\ViewModels\Admin\AdditionalService;
 
+use Illuminate\Http\UploadedFile;
+
 /**
  * class for transferring input
  * that was entered in an additional service update form
@@ -15,4 +17,9 @@ class AdditionalServiceUpdateViewModel
     public string $description;
     public UploadedFile|null $thumbnailFile;
     public string $thumbnailFilename;
+
+    public function isNeedToUpdateThumbnail() : bool
+    {
+        return $this->thumbnailFile !== null;
+    }
 }

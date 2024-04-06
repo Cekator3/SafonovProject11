@@ -57,6 +57,16 @@ class AdditionalServiceRepository
     }
 
     /**
+     * Returns the thumbnail's filename of additional service.
+     */
+    public function getThumbnail(int $id) : string
+    {
+        $entry = DB::table(static::TABLE_NAME)->select('preview_image')->find($id);
+
+        return $entry->preview_image;
+    }
+
+    /**
      * Finds all the relevant additional services
      * @return AdditionalServiceDTO[]
      */
@@ -120,13 +130,15 @@ class AdditionalServiceRepository
     {
         try
         {
-            DB::table(static::TABLE_NAME)->where('id', '=', $additionalService->id)
-                                         ->update(
-            [
+            $newData = [
                 'name' => $additionalService->name,
                 'description' => $additionalService->description,
-                'preview_image' => $additionalService->thumbnailFilename
-            ]);
+            ];
+            if ($additionalService->isNeedToUpdateThumbnail())
+                $newData['preview_image'] = $additionalService->thumbnailFilename;
+
+            DB::table(static::TABLE_NAME)->where('id', '=', $additionalService->id)
+                                         ->update($newData);
         }
         catch (UniqueConstraintViolationException $e)
         {
@@ -138,14 +150,9 @@ class AdditionalServiceRepository
      * Deletes additional service.
      *
      * @param int $id Identifier of the additional service
-     * @param bool &$isSuccess Will be set to true if operation was successful
      */
-    public function remove(int $id, bool &$isSuccess) : void
+    public function remove(int $id) : void
     {
-        $entryId = DB::table(static::TABLE_NAME)->delete($id);
-
-        dump($entryId);
-
-        $isSuccess = $entryId !== 0;
+        DB::table(static::TABLE_NAME)->delete($id);
     }
 }
