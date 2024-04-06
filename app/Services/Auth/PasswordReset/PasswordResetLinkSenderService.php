@@ -22,6 +22,7 @@ class PasswordResetLinkSenderService
      */
     public static function send(string $email, UserInputErrors $errors) : void
     {
+        // TODO only customers should be able to reset their password
         EmailFormatValidationService::validateEmail($email, $errors);
         if ($errors->hasAny())
             return;

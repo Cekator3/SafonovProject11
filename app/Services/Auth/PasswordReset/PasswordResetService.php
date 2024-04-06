@@ -62,6 +62,7 @@ class PasswordResetService
     public static function resetByEmail(CustomerResetPasswordCredentials $userCredentials,
                                                 UserInputErrors $errors) : void
     {
+        // TODO only customers should be able to reset their password
         static::validateUserInput($userCredentials, $errors);
         if ($errors->hasAny())
             return;
