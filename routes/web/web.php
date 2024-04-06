@@ -37,3 +37,4 @@ Route::middleware([EnsureCustomerCredentialsAreVerified::class])->group(function
 require __DIR__.'/auth/auth.php';
 require __DIR__.'/customer-profile.php';
 require __DIR__.'/admin/additional-services.php';
+require __DIR__.'/admin/printing-technologies.php';
