@@ -17,13 +17,29 @@ class AdditionalServiceRepository
 {
     private const TABLE_NAME = 'additional_services';
 
+    private function convert(array $entry) : AdditionalServiceDTO
+    {
+        $id = $entry['id'];
+        $name = $entry['name'];
+        $description = $entry['description'];
+        $previewImageFilename = $entry['preview_image'];
+
+        return new AdditionalServiceDTO($id, $name, $description, $previewImageFilename);
+    }
+
     /**
      * Returns all additional services.
      * @return AdditionalServiceDTO[]
      */
     public function getAll() : array
     {
-        // ...
+        $entries = DB::table(static::TABLE_NAME)->get();
+
+        $additionalServices = [];
+        foreach ($entries as $entry)
+            $additionalServices[] = $this->convert($entry);
+
+        return $additionalServices;
     }
 
     /**
@@ -31,7 +47,12 @@ class AdditionalServiceRepository
      */
     public function get(int $id) : AdditionalServiceDTO|null
     {
-        // ...
+        $entry = DB::table(static::TABLE_NAME)->find($id);
+
+        if ($entry === [])
+            return null;
+
+        return $this->convert($entry);
     }
 
     /**
@@ -40,7 +61,15 @@ class AdditionalServiceRepository
      */
     public function find(string $name) : array
     {
-        // ...
+        $entries = DB::table(static::TABLE_NAME)
+                     ->whereFullText('name', $name)
+                     ->get();
+
+        $additionalServices = [];
+        foreach ($entries as $entry)
+            $additionalServices[] = $this->convert($entry);
+
+        return $additionalServices;
     }
 
     /**
@@ -48,7 +77,11 @@ class AdditionalServiceRepository
      */
     public function isExist(string $name) : bool
     {
-        // ...
+        $entries = DB::table(static::TABLE_NAME)
+                     ->whereFullText('name', $name)
+                     ->first();
+
+        return $entries !== [];
     }
 
     /**
@@ -86,7 +119,20 @@ class AdditionalServiceRepository
     public function update(AdditionalServiceUpdateViewModel $additionalService,
                            AdditionalServiceUpdateErrors $errors) : void
     {
-        // ...
+        try
+        {
+            DB::table(static::TABLE_NAME)->where('id', '=', $additionalService->id)
+                                         ->update(
+            [
+                'name' => $additionalService->name,
+                'description' => $additionalService->description,
+                'preview_image' => $additionalService->thumbnailFilename
+            ]);
+        }
+        catch (UniqueConstraintViolationException $e)
+        {
+            $errors->add(AdditionalServiceUpdateErrors::ERROR_ADDITIONAL_SERVICE_ALREADY_EXIST);
+        }
     }
 
     /**
@@ -97,6 +143,10 @@ class AdditionalServiceRepository
      */
     public function remove(int $id, bool &$isSuccess) : void
     {
-        // ...
+        $entryId = DB::table(static::TABLE_NAME)->delete($id);
+
+        dump($entryId);
+
+        $isSuccess = $entryId !== 0;
     }
 }

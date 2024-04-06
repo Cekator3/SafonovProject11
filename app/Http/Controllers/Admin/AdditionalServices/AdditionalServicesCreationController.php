@@ -25,6 +25,11 @@ class AdditionalServicesCreationController
         return $userInput;
     }
 
+    /**
+     * Tries to create a new additional service
+     *
+     * @param Request $request User's input
+     */
     public function createAdditionalService(Request $request) : RedirectResponse
     {
         $additionalService = $this->getUserInput($request);

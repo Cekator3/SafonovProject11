@@ -10,5 +10,9 @@ namespace App\ViewModels\Admin\AdditionalService;
  */
 class AdditionalServiceUpdateViewModel
 {
-
+    public int $id;
+    public string $name;
+    public string $description;
+    public UploadedFile|null $thumbnailFile;
+    public string $thumbnailFilename;
 }
