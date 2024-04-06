@@ -9,5 +9,6 @@ class PrintingTechnologiesListingController
     public function showPrintingTechnologies() : View
     {
         // ...
+        return view('admin.printing-technologies.list');
     }
 }

@@ -11,6 +11,7 @@ class PrintingTechnologyCreationController
     public function showCreationForm() : View
     {
         // ...
+        return view('admin.printing-technologies.create');
     }
 
     /**

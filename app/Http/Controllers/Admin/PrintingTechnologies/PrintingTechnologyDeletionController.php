@@ -12,5 +12,6 @@ class PrintingTechnologyDeletionController
     public function deletePrintingTechnology(int $printingTechnologyId) : RedirectResponse
     {
         // ...
+        return redirect()->route('printing-technologies');
     }
 }
