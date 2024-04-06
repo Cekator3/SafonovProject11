@@ -2,7 +2,7 @@
 
 namespace App\Services\FileFormatValidation;
 use App\Errors\UserInputErrors;
-use GuzzleHttp\Psr7\UploadedFile;
+use Illuminate\Http\UploadedFile;
 
 /**
  * Subsystem, for checking whether the file input meets the image criteria,
