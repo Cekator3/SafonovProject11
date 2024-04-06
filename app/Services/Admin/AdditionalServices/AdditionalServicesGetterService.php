@@ -26,12 +26,12 @@ class AdditionalServicesGetterService
     public function getAll() : array
     {
         $additionalServices = new AdditionalServiceRepository();
-        $additionalService = $additionalServices->getAll();
+        $result = $additionalServices->getAll();
 
-        foreach ($additionalServices as $additionalService)
+        foreach ($result as $additionalService)
             $this->setThumbnailUrl($additionalService);
 
-        return $additionalService;
+        return $result;
     }
 
     /**
@@ -40,14 +40,12 @@ class AdditionalServicesGetterService
     public function get(int $additionalServiceId) : AdditionalServiceDTO|null
     {
         $additionalServices = new AdditionalServiceRepository();
-        $additionalService = $additionalServices->get($additionalServiceId);
+        $result = $additionalServices->get($additionalServiceId);
 
-        if ($additionalService === null)
-            return null;
+        if ($result !== null)
+            $this->setThumbnailUrl($result);
 
-        $this->setThumbnailUrl($additionalService);
-
-        return $additionalService;
+        return $result;
     }
 
     /**
@@ -57,11 +55,11 @@ class AdditionalServicesGetterService
     public function find(string $name) : array
     {
         $additionalServices = new AdditionalServiceRepository();
-        $additionalService = $additionalServices->find($name);
+        $result = $additionalServices->find($name);
 
-        foreach ($additionalServices as $additionalService)
+        foreach ($result as $additionalService)
             $this->setThumbnailUrl($additionalService);
 
-        return $additionalService;
+        return $result;
     }
 }

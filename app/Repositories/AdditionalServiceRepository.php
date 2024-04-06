@@ -9,6 +9,7 @@ use App\Errors\Admin\AdditionalService\AdditionalServiceUpdateErrors;
 use App\Errors\Admin\AdditionalService\AdditionalServiceCreationErrors;
 use App\ViewModels\Admin\AdditionalService\AdditionalServiceUpdateViewModel;
 use App\ViewModels\Admin\AdditionalService\AdditionalServiceCreationViewModel;
+use stdClass;
 
 /**
  * Subsystem for interaction with stored information on additional services
@@ -17,12 +18,12 @@ class AdditionalServiceRepository
 {
     private const TABLE_NAME = 'additional_services';
 
-    private function convert(array $entry) : AdditionalServiceDTO
+    private function convert(stdClass $entry) : AdditionalServiceDTO
     {
-        $id = $entry['id'];
-        $name = $entry['name'];
-        $description = $entry['description'];
-        $previewImageFilename = $entry['preview_image'];
+        $id = $entry->id;
+        $name = $entry->name;
+        $description = $entry->description;
+        $previewImageFilename = $entry->preview_image;
 
         return new AdditionalServiceDTO($id, $name, $description, $previewImageFilename);
     }
@@ -77,11 +78,9 @@ class AdditionalServiceRepository
      */
     public function isExist(string $name) : bool
     {
-        $entries = DB::table(static::TABLE_NAME)
-                     ->whereFullText('name', $name)
-                     ->first();
-
-        return $entries !== [];
+        return DB::table(static::TABLE_NAME)
+                     ->where('name', '=', $name)
+                     ->exists();
     }
 
     /**

@@ -15,5 +15,5 @@ class AdditionalServiceCreationViewModel
     public string $name;
     public string $description;
     public UploadedFile|null $thumbnailFile;
-    public string $thumbnailFilename;
+    public string $thumbnailFilename = '';
 }

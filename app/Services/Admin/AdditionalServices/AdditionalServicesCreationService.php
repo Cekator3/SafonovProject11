@@ -93,13 +93,14 @@ class AdditionalServicesCreationService
         // 2. check if additional service already exists
         if ($this->isExists($additionalService))
         {
-            $errMessage = __('validation.exists');
-            $errors->add('previewImage', $errMessage);
+            $errMessage = __('validation.unique', ['attribute' => 'name']);
+            $errors->add('name', $errMessage);
             return;
         }
 
         // 3. store thumbnail picture
         $this->storeThumbnailPicture($additionalService->thumbnailFile, $additionalService->thumbnailFilename);
+        assert($additionalService->thumbnailFilename !== '', 'Picture supposed to be stored but it has not.');
 
         // 4. store additional service information
         $this->storeInformation($additionalService, $errors);
