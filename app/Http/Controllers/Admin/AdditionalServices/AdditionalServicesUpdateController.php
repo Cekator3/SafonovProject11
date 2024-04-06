@@ -6,7 +6,6 @@ use Illuminate\View\View;
 use Illuminate\Http\Request;
 use App\Errors\UserInputErrors;
 use Illuminate\Http\RedirectResponse;
-use App\DTOs\Admin\AdditionalServiceDTO;
 use App\Services\Admin\AdditionalServices\AdditionalServicesGetterService;
 use App\Services\Admin\AdditionalServices\AdditionalServicesUpdateService;
 use App\ViewModels\Admin\AdditionalService\AdditionalServiceUpdateViewModel;
@@ -40,8 +39,7 @@ class AdditionalServicesUpdateController
 
         if ($errors->hasAny()) {
             return redirect()->back()
-                             ->withErrors($errors->getAll())
-                             ->withInput();
+                             ->withErrors($errors->getAll());
         }
 
         return redirect()->route('additional-services');
