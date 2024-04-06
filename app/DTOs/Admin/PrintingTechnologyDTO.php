@@ -5,7 +5,7 @@ namespace App\DTOs\Admin;
 /**
  * A subsystem for reading application data about printing technologies
  */
-class AdditionalServiceDTO
+class PrintingTechnologyDTO
 {
     private int $id = -1;
     private string $name = '';
