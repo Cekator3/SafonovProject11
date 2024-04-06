@@ -2,6 +2,8 @@
 
 namespace App\Repositories;
 
+use Illuminate\Database\UniqueConstraintViolationException;
+use Illuminate\Support\Facades\DB;
 use App\DTOs\Admin\AdditionalServiceDTO;
 use App\Errors\Admin\AdditionalService\AdditionalServiceUpdateErrors;
 use App\Errors\Admin\AdditionalService\AdditionalServiceCreationErrors;
@@ -13,6 +15,8 @@ use App\ViewModels\Admin\AdditionalService\AdditionalServiceCreationViewModel;
  */
 class AdditionalServiceRepository
 {
+    private const TABLE_NAME = 'additional_services';
+
     /**
      * Returns all additional services.
      * @return AdditionalServiceDTO[]
@@ -58,7 +62,18 @@ class AdditionalServiceRepository
     public function add(AdditionalServiceCreationViewModel $additionalService,
                         AdditionalServiceCreationErrors $errors) : void
     {
-        
+        try
+        {
+            DB::table(static::TABLE_NAME)->insert([
+                'name' => $additionalService->name,
+                'description' => $additionalService->description,
+                'preview_image' => $additionalService->thumbnailFilename
+            ]);
+        }
+        catch (UniqueConstraintViolationException $e)
+        {
+            $errors->add(AdditionalServiceCreationErrors::ERROR_ADDITIONAL_SERVICE_ALREADY_EXIST);
+        }
     }
 
     /**
