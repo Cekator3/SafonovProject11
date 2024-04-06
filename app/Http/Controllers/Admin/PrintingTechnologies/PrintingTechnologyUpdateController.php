@@ -17,7 +17,7 @@ class PrintingTechnologyUpdateController
     public function showUpdatingForm(int $additionalServiceId) : View
     {
         // ...
-        return view('admin.printing-technologies.update');
+        return view('admin.printing-technologies.update', ['printingTechnology' => $this->getTestData()]);
     }
 
     /**
