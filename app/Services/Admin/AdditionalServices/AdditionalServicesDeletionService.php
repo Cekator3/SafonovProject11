@@ -2,7 +2,7 @@
 
 namespace App\Services\Admin\AdditionalServices;
 
-use App\Errors\UserInputErrors;
+use App\Repositories\AdditionalServiceRepository;
 
 /**
  * Subsystem for deleting stored information on additional service.
@@ -10,14 +10,11 @@ use App\Errors\UserInputErrors;
 class AdditionalServicesDeletionService
 {
     /**
-     * Tries to delete the additional service.
-     *
-     * @param int $additionalServiceId
-     * @param UserInputErrors $errors
-     * User's inputs errors that prevented successful execution of the action.
+     * Deletes the additional service.
      */
-    public function remove(int $additionalServiceId, UserInputErrors $errors) : void
+    public function remove(int $additionalServiceId) : void
     {
-        // ...
+        $additionalServices = new AdditionalServiceRepository();
+        $additionalServices->remove($additionalServiceId);
     }
 }
