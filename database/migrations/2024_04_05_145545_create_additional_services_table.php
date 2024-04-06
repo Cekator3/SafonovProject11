@@ -17,6 +17,8 @@ return new class extends Migration
             $table->text('name')->unique();
             $table->text('description');
             $table->text('preview_image');
+
+            $table->fullText('name')->language('russian');
         });
     }
 

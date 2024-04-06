@@ -2,24 +2,48 @@
 
 namespace App\Http\Controllers\Admin\AdditionalServices;
 
-use App\DTOs\Admin\AdditionalServiceDTO;
 use Illuminate\View\View;
+use Illuminate\Http\Request;
+use App\Errors\UserInputErrors;
 use Illuminate\Http\RedirectResponse;
+use App\DTOs\Admin\AdditionalServiceDTO;
+use App\Services\Admin\AdditionalServices\AdditionalServicesGetterService;
+use App\Services\Admin\AdditionalServices\AdditionalServicesUpdateService;
+use App\ViewModels\Admin\AdditionalService\AdditionalServiceUpdateViewModel;
 
 class AdditionalServicesUpdateController
 {
     public function showUpdatingForm(int $additionalServiceId) : View
     {
-        // ...
-        $testData = new AdditionalServiceDTO(1, 'name2', 'description2', '');
-        $testData->setPreviewImageUrl('/assets/images/test.gif');
-        return view('admin.additional-services.update', ['additionalService' => $testData]);
+        $additionalServices = new AdditionalServicesGetterService();
+        $additionalService = $additionalServices->get($additionalServiceId);
+        return view('admin.additional-services.update', ['additionalService' => $additionalService]);
     }
 
-    public function updateAdditionalService(int $additionalServiceId) : RedirectResponse
+    private function getUserInput(Request $request, int $additionalServiceId) : AdditionalServiceUpdateViewModel
     {
-        // ...
-        return redirect()->back()
-                         ->withInput();
+        $userInput = new AdditionalServiceUpdateViewModel();
+        $userInput->id = $additionalServiceId;
+        $userInput->name = $request->string('name', '');
+        $userInput->description = $request->string('description', '');
+        $userInput->thumbnailFile = $request->file('previewImage');
+        return $userInput;
+    }
+
+    public function updateAdditionalService(Request $request, int $additionalServiceId) : RedirectResponse
+    {
+        $additionalService = $this->getUserInput($request, $additionalServiceId);
+        $additionalServices = new AdditionalServicesUpdateService();
+        $errors = new UserInputErrors();
+
+        $additionalServices->update($additionalService, $errors);
+
+        if ($errors->hasAny()) {
+            return redirect()->back()
+                             ->withErrors($errors->getAll())
+                             ->withInput();
+        }
+
+        return redirect()->route('additional-services');
     }
 }
