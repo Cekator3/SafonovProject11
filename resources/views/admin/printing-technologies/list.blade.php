@@ -46,7 +46,7 @@
         </a>
 
         {{-- Update and delete buttons --}}
-        <div class="actions">
+        <footer class="actions">
             <form method="GET" action="{{ route('printing-technologies.update', ['id' => $printingTechnology->getId()]) }}">
                 <x-forms.submit :placeholder=" 'Изменить' " />
             </form>
@@ -56,7 +56,7 @@
                 @method('DELETE')
                 <x-forms.submit :placeholder=" 'Удалить' " />
             </form>
-        </div>
+        </footer>
     </section>
 </li>
 @endforeach

@@ -49,7 +49,7 @@
         </a>
 
         {{-- Update and delete buttons --}}
-        <div class="actions">
+        <footer class="actions">
             <form method="GET" action="{{ route('additional-services.update', ['id' => $additionalService->getId()]) }}">
                 <x-forms.submit :placeholder=" 'Изменить' " />
             </form>
@@ -59,7 +59,7 @@
                 @method('DELETE')
                 <x-forms.submit :placeholder=" 'Удалить' " />
             </form>
-        </div>
+        </footer>
     </section>
 </li>
 @endforeach

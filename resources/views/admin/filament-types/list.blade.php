@@ -4,8 +4,13 @@
 
 @section('styles')
 {{-- Form --}}
+<link href="/assets/css/form/common.css" rel="stylesheet" type="text/css">
+<link href="/assets/css/form/text.css" rel="stylesheet" type="text/css">
+<link href="/assets/css/form/submit.css" rel="stylesheet" type="text/css">
+<link href="/assets/css/search.css" rel="stylesheet" type="text/css">
 
 {{-- Specific --}}
+<link href="/assets/css/admin/printing-technologies/list.css" rel="stylesheet" type="text/css">
 @endsection
 
 @section('navigation')
@@ -13,4 +18,48 @@
 @endsection
 
 @section('main')
+<header>
+    <h1>Типы филаментов</h1>
+
+    <div class="actions">
+        <x-search :placeholder=" 'Поиск' "
+                :name=" 'search' "
+                :url=" route('filament-types') "
+        />
+
+        <form method="GET" action="{{ route('filament-types.create') }}">
+            <x-forms.submit :placeholder=" 'Создать' " />
+        </form>
+    </div>
+</header>
+
+<ul class="printing-technologies">
+@foreach ($filamentTypes as $filamentType)
+<li>
+    <section class="printing-technology">
+        {{-- Title and description --}}
+        <a href="{{ route('filament-types.update', ['id' => $filamentType->getId()]) }}">
+            <header>
+                <h3>{{ $filamentType->getName() }}</h3>
+            </header>
+            <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Nemo laboriosam asperiores, totam veritatis impedit autem iste possimus hic molestias excepturi id tempora assumenda sunt quam iure non quasi. Totam, suscipit.</p>
+        </a>
+
+        {{-- Update and delete buttons --}}
+        <footer class="actions">
+            <form method="GET" action="{{ route('filament-types.update', ['id' => $filamentType->getId()]) }}">
+                <x-forms.submit :placeholder=" 'Изменить' " />
+            </form>
+
+            <form method="POST" action="{{ route('filament-types.delete', ['id' => $filamentType->getId()]) }}">
+                @csrf
+                @method('DELETE')
+                <x-forms.submit :placeholder=" 'Удалить' " />
+            </form>
+        </footer>
+    </section>
+</li>
+@endforeach
+</ul>
+
 @endsection
