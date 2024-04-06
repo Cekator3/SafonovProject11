@@ -11,6 +11,7 @@ class FilamentTypesCreationController
     public function showCreationForm() : View
     {
         // ...
+        return view('admin.filament-types.create');
     }
 
     /**
@@ -21,5 +22,6 @@ class FilamentTypesCreationController
     public function createPrintingTechnology(Request $request) : RedirectResponse
     {
         // ...
+        return redirect()->route('filament-types');
     }
 }

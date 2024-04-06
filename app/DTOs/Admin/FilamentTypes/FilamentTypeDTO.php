@@ -18,6 +18,9 @@ class FilamentTypeDTO
      */
     private array $printingTechnologies;
 
+    /**
+     * @param PrintingTechnologyDTO[] $printingTechnologies
+     */
     public function __construct(int $id,
                                 string $name,
                                 string $description,

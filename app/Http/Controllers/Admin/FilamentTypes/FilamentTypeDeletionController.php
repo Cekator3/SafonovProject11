@@ -12,5 +12,6 @@ class FilamentTypeDeletionController
     public function deleteFilamentType(int $filamentTypeId) : RedirectResponse
     {
         // ...
+        return redirect()->route('filament-types');
     }
 }
