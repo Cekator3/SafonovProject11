@@ -15,7 +15,7 @@ class FilamentTypesListingController
         {
             $printingTechnologies = [];
             for ($j = 0; $j < $techAmount; $j++)
-                $printingTechnologies []= new PrintingTechnologyDTO($i, fake()->text(), '');
+                $printingTechnologies []= new PrintingTechnologyDTO($i, fake()->name(), '');
 
             $result []= new FilamentTypeItemListDTO($i, "test{$i}", $printingTechnologies);
         }
@@ -26,6 +26,6 @@ class FilamentTypesListingController
     public function showFilamentTypes(Request $request) : View
     {
         // ...
-        return view('admin.filament-types.list', ['filamentTypes' => $this->getTestData(15, 5)]);
+        return view('admin.filament-types.list', ['filamentTypes' => $this->getTestData(15, 15)]);
     }
 }

@@ -42,7 +42,11 @@
             <header>
                 <h3>{{ $filamentType->getName() }}</h3>
             </header>
-            <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Nemo laboriosam asperiores, totam veritatis impedit autem iste possimus hic molestias excepturi id tempora assumenda sunt quam iure non quasi. Totam, suscipit.</p>
+            @foreach ($filamentType->getPrintingTechnologies() as $printingTechnology)
+                <ul>
+                    <li>{{ $printingTechnology->getName() }}</li>
+                </ul>
+            @endforeach
         </a>
 
         {{-- Update and delete buttons --}}
