@@ -49,20 +49,17 @@ main > header > .actions > form
     padding: 0;
 
     /* Sets additional services layout */
-    display: flex;
-    flex-flow: row wrap;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, 30%);
     justify-content: space-between;
 
     /* Sets vertical gap between additional services */
-    gap: 70px 0;
+    grid-gap: 70px 0;
 }
 
 /* Card of additional services list */
 .additional-services > li
 {
-    /* Sets width */
-    width: 30%;
-
     /* Sets background */
     padding: var(--list-card-padding);
     background-color: var(--item-window-bg-color);
