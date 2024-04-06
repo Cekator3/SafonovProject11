@@ -6,7 +6,6 @@
 {{-- Form --}}
 <link href="/assets/css/form/common.css" rel="stylesheet" type="text/css">
 <link href="/assets/css/form/text.css" rel="stylesheet" type="text/css">
-<link href="/assets/css/form/file.css" rel="stylesheet" type="text/css">
 <link href="/assets/css/form/fieldset.css" rel="stylesheet" type="text/css">
 <link href="/assets/css/form/submit.css" rel="stylesheet" type="text/css">
 
@@ -23,7 +22,7 @@
     <h1>Добавление технологии 3д-печати</h1>
 </header>
 
-<form method="POST" action="{{ route('printing-technologies.create') }}" enctype="multipart/form-data">
+<form method="POST" action="{{ route('printing-technologies.create') }}">
     @csrf
     <fieldset>
         <legend>Общая информация</legend>
