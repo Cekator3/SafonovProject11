@@ -2,32 +2,28 @@
 
 namespace App\Http\Controllers\Admin\FilamentTypes;
 
-use App\ViewModels\Admin\FilamentType\FilamentTypeUpdateViewModel;
 use Illuminate\View\View;
 use Illuminate\Http\Request;
+use App\Errors\UserInputErrors;
+use App\Enums\HttpResponseStatus;
 use Illuminate\Http\RedirectResponse;
-use App\DTOs\Admin\FilamentTypes\FilamentTypeDTO;
-use App\DTOs\Admin\FilamentTypes\FilamentTypeCharacteristics;
-use App\DTOs\Admin\PrintingTechnologies\PrintingTechnologyNameOnlyDTO;
+use App\Services\Admin\FilamentTypes\FilamentTypesGetterService;
+use App\Services\Admin\FilamentTypes\FilamentTypesUpdateService;
+use App\ViewModels\Admin\FilamentType\FilamentTypeUpdateViewModel;
+use App\Services\Admin\PrintingTechnologies\PrintingTechnologiesGetterService;
 
 class FilamentTypeUpdateController
 {
-    private function getTestData(int $techAmount) : FilamentTypeDTO
-    {
-        $stats = new FilamentTypeCharacteristics(1, 2, 3, 4, -10, 15, true);
-
-        $res = [];
-        for ($i = 0; $i < $techAmount; $i++)
-            $res []= new PrintingTechnologyNameOnlyDTO($i, fake()->text());
-
-        return new FilamentTypeDTO(1, 'test', 'test', $stats, $res);
-    }
-
     public function showUpdatingForm(int $filamentTypeId) : View
     {
-        // ...
-        $data = $this->getTestData(6);
-        return view('admin.filament-types.update', ['filamentType' => $data, 'printingTechnologies' => $data->getPrintingTechnologies()]);
+        $printingTechnologies = new PrintingTechnologiesGetterService();
+        $filamentTypes = new FilamentTypesGetterService();
+        $filamentType = $filamentTypes->get($filamentTypeId);
+
+        if ($filamentType === null)
+            abort(HttpResponseStatus::NotFound->value);
+
+        return view('admin.filament-types.update', ['filamentType' => $filamentType, 'printingTechnologies' => $printingTechnologies->getAll()]);
     }
 
     private function convertToIntArray(array $stringArr) : array
@@ -59,8 +55,17 @@ class FilamentTypeUpdateController
      */
     public function updateFilamentType(Request $request, int $filamentTypeId) : RedirectResponse
     {
-        dd($this->getUserInput($request, $filamentTypeId));
-        // ...
+        $filamentType = $this->getUserInput($request, $filamentTypeId);
+        $filamentTypes = new FilamentTypesUpdateService();
+        $errors = new UserInputErrors();
+
+        $filamentTypes->update($filamentType, $errors);
+
+        if ($errors->hasAny()) {
+            return redirect()->back()
+                             ->withErrors($errors->getAll());
+        }
+
         return redirect()->route('filament-types');
     }
 }

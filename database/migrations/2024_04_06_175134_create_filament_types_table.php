@@ -22,6 +22,8 @@ return new class extends Migration
             $table->smallInteger('min_work_temperature');
             $table->smallInteger('max_work_temperature');
             $table->boolean('food_contact_allowed');
+
+            $table->fullText('name')->language('english');
         });
 
         Schema::create('printing_technologies_of_filament_type', function (Blueprint $table)
