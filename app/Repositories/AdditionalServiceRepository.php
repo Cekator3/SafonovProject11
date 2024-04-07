@@ -50,7 +50,7 @@ class AdditionalServiceRepository
     {
         $entry = DB::table(static::TABLE_NAME)->find($id);
 
-        if ($entry === [])
+        if ($entry === null)
             return null;
 
         return $this->convert($entry);

@@ -42,12 +42,15 @@
             <header>
                 <h3>{{ $filamentType->getName() }}</h3>
             </header>
-            @foreach ($filamentType->getPrintingTechnologies() as $printingTechnology)
-                <ul>
-                    <li>{{ $printingTechnology->getName() }}</li>
-                </ul>
-            @endforeach
         </a>
+
+        @foreach ($filamentType->getPrintingTechnologies() as $printingTechnology)
+            <ul>
+                <a href="{{ route('printing-technologies.update', ['id' => $printingTechnology->getId()]) }}">
+                <li>{{ $printingTechnology->getName() }}</li>
+                </a>
+            </ul>
+        @endforeach
 
         {{-- Update and delete buttons --}}
         <footer class="actions">

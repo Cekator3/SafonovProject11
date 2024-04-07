@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin\AdditionalServices;
 
+use App\Enums\HttpResponseStatus;
 use Illuminate\View\View;
 use Illuminate\Http\Request;
 use App\Errors\UserInputErrors;
@@ -16,6 +17,10 @@ class AdditionalServicesUpdateController
     {
         $additionalServices = new AdditionalServicesGetterService();
         $additionalService = $additionalServices->get($additionalServiceId);
+
+        if ($additionalService === null)
+            abort(HttpResponseStatus::NotFound->value);
+
         return view('admin.additional-services.update', ['additionalService' => $additionalService]);
     }
 

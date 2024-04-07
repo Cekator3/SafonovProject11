@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin\PrintingTechnologies;
 
+use App\Enums\HttpResponseStatus;
 use Illuminate\View\View;
 use Illuminate\Http\Request;
 use App\Errors\UserInputErrors;
@@ -16,6 +17,9 @@ class PrintingTechnologyUpdateController
     {
         $printingTechnologies = new PrintingTechnologiesGetterService();
         $printingTechnology = $printingTechnologies->get($printingTechnologyId);
+
+        if ($printingTechnology === null)
+            abort(HttpResponseStatus::NotFound->value);
 
         return view('admin.printing-technologies.update', ['printingTechnology' => $printingTechnology]);
     }
