@@ -4,28 +4,22 @@ namespace App\Http\Controllers\Admin\FilamentTypes;
 
 use Illuminate\View\View;
 use Illuminate\Http\Request;
-use App\DTOs\Admin\FilamentTypes\FilamentTypeItemListDTO;
-use App\DTOs\Admin\PrintingTechnologies\PrintingTechnologyNameOnlyDTO;
+use App\Services\Admin\FilamentTypes\FilamentTypesGetterService;
 
 class FilamentTypesListingController
 {
-    private function getTestData(int $amount, int $techAmount) : array
-    {
-        for ($i = 0; $i < $amount; $i++)
-        {
-            $printingTechnologies = [];
-            for ($j = 0; $j < $techAmount; $j++)
-                $printingTechnologies []= new PrintingTechnologyNameOnlyDTO($i, fake()->name());
-
-            $result []= new FilamentTypeItemListDTO($i, "test{$i}", $printingTechnologies);
-        }
-
-        return $result;
-    }
-
     public function showFilamentTypes(Request $request) : View
     {
-        // ...
-        return view('admin.filament-types.list', ['filamentTypes' => $this->getTestData(15, 15)]);
+        $searchQuery = $request->query('search', '');
+        $filamentTypes = new FilamentTypesGetterService();
+
+        // Apply the search query if exists
+        $result = [];
+        if ($searchQuery === '')
+            $result = $filamentTypes->getAll();
+        else
+            $result = $filamentTypes->find($searchQuery);
+
+        return view('admin.filament-types.list', ['filamentTypes' => $result]);
     }
 }

@@ -38,12 +38,13 @@ class FilamentTypeRepository
     {
         // 1. Get identifiers of all filament types and associated
         //    with them printing technologies (only identifiers)
-        $entries = DB::table('filament_types', 'ft')
+        $entries = DB::table('filament_types as ft')
                      ->join('printing_technologies_of_filament_type AS ptft', 'ptft.filament_type_id', '=', 'ft.id')
                      ->join('printing_technologies AS pt', 'ptft.printing_technology_id', '=', 'pt.id')
                      ->select(['ft.id AS filament_type_id', 'pt.id AS printing_technology_id'])
                      ->get();
-        dump($entries);
+
+        dd($entries);
         // 2. ???
         // 3. Get filament types names
         $entries = DB::table('filament_types', 'ft')
@@ -97,7 +98,7 @@ class FilamentTypeRepository
     {
         try
         {
-            DB::table('filament_types')->insert([
+            $filamentTypeId = DB::table('filament_types')->insertGetId([
                 'name' => $filamentType->name,
                 'description' => $filamentType->description,
                 'strength' => $filamentType->strength,
@@ -108,6 +109,17 @@ class FilamentTypeRepository
                 'max_work_temperature' => $filamentType->maxWorkTemperature,
                 'food_contact_allowed' => $filamentType->food_contact_allowed
             ]);
+
+            $result = [];
+            foreach ($filamentType->printingTechnologiesIds as $printingTechnologyId)
+            {
+                $result []= [
+                    'filament_type_id' => $filamentTypeId,
+                    'printing_technology_id' => $printingTechnologyId
+                ];
+            }
+
+            DB::table('printing_technologies_of_filament_type')->insert($result);
         }
         catch (UniqueConstraintViolationException $e)
         {
