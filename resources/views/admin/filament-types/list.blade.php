@@ -10,7 +10,7 @@
 <link href="/assets/css/search.css" rel="stylesheet" type="text/css">
 
 {{-- Specific --}}
-<link href="/assets/css/admin/printing-technologies/list.css" rel="stylesheet" type="text/css">
+<link href="/assets/css/admin/filament-types/list.css" rel="stylesheet" type="text/css">
 @endsection
 
 @section('navigation')
@@ -33,10 +33,10 @@
     </div>
 </header>
 
-<ul class="printing-technologies">
+<ul class="filament-types">
 @foreach ($filamentTypes as $filamentType)
 <li>
-    <section class="printing-technology">
+    <section class="filament-type">
         {{-- Title and description --}}
         <a href="{{ route('filament-types.update', ['id' => $filamentType->getId()]) }}">
             <header>
@@ -44,13 +44,16 @@
             </header>
         </a>
 
-        @foreach ($filamentType->getPrintingTechnologies() as $printingTechnology)
+        <section class="printing-technologies">
+            <header><h4>Технологии печати, в которых он может использоваться</h4></header>
             <ul>
+            @foreach ($filamentType->getPrintingTechnologies() as $printingTechnology)
                 <a href="{{ route('printing-technologies.update', ['id' => $printingTechnology->getId()]) }}">
                 <li>{{ $printingTechnology->getName() }}</li>
                 </a>
+            @endforeach
             </ul>
-        @endforeach
+        </section>
 
         {{-- Update and delete buttons --}}
         <footer class="actions">

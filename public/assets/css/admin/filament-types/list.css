@@ -1,0 +1,140 @@
+main
+{
+    /* Constants */
+    --list-card-padding: 0.9375rem;   /* 15 px */
+    --list-card-gap-between-gap-and-description: 1.25rem;   /* 20 px */
+    --list-card-max-paragraph-lines: 5;
+
+    /* Sets gap between site header and main */
+    margin-top: 25px;
+}
+
+main > header
+{
+    /* Aligns header's content on the same line */
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+    align-items: baseline;
+}
+
+/* Header's content */
+main > header > *
+{
+    width: 50%;
+}
+
+/* Search and create additional service actions */
+main > header > .actions
+{
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+}
+
+/* Create button */
+main > header > .actions > form
+{
+    width: 15vw;
+    margin-right: var(--list-card-padding);
+}
+
+
+/* Printing technologies list */
+.filament-types
+{
+    /* Removes default styles */
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+
+    /* Sets additional services layout */
+    display: grid;
+    grid-template-columns: repeat(auto-fill, 30%);
+    justify-content: space-between;
+
+    /* Sets vertical gap between printing technologies */
+    grid-gap: 70px 0;
+}
+
+/* Card of printing technologies list */
+.filament-types > li
+{
+    /* Sets background */
+    padding: var(--list-card-padding);
+    background-color: var(--item-window-bg-color);
+}
+
+.filament-type
+{
+    /* Aligns all text in center */
+    text-align: center;
+
+    /* Moves control buttons to the end of the card */
+    height: 100%;
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: space-between;
+}
+
+/* Title of printing technology */
+.filament-type header h3
+{
+    /* Sets font */
+    font-weight: 500;
+    font-size: 1.3125rem;       /* 21px */
+    line-height: 1.366rem;
+
+    /* Sets gap between title and description */
+    margin-bottom: var(--list-card-gap-between-gap-and-description);
+}
+
+/* The printing technologies in which filament type can be used. */
+.filament-type .printing-technologies > header h4
+{
+    /* Sets font */
+    font-weight: 400;
+
+    /* Removes uneccecary gap */
+    margin-top: 0;
+    /* Sets gap between header and it's content */
+    margin-bottom: calc(var(--list-card-gap-between-gap-and-description) / 2);
+}
+
+.filament-type .printing-technologies ul
+{
+    /* Removes standard ul styling */
+    list-style: none;
+    padding: 0;
+
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-between;
+    align-content: space-between;
+}
+
+.filament-type .printing-technologies ul > *
+{
+    flex-basis: 50%;
+}
+
+/* Action buttons */
+.filament-type footer
+{
+    /* Sets gap between content and footer of the card */
+    margin-top: var(--list-card-gap-between-gap-and-description);
+}
+
+.filament-type footer.actions
+{
+    /* Sets gap between buttons */
+    display: flex;
+    flex-flow: column nowrap;
+    gap: 15px 0;
+}
+
+.filament-type footer.actions button
+{
+    /* Sets height */
+    min-height: min(3.125rem, 50px);
+}

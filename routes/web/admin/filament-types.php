@@ -2,6 +2,7 @@
 
 use App\Http\Middleware\EnsureIsAdmin;
 use Illuminate\Auth\Middleware\Authenticate;
+use App\Http\Controllers\Admin\FilamentTypes\FilamentTypeUpdateController;
 use App\Http\Controllers\Admin\FilamentTypes\FilamentTypeDeletionController;
 use App\Http\Controllers\Admin\FilamentTypes\FilamentTypesListingController;
 use App\Http\Controllers\Admin\FilamentTypes\FilamentTypesCreationController;
