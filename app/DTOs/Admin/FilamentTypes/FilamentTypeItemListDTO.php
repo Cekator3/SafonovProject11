@@ -27,7 +27,7 @@ class FilamentTypeItemListDTO
     {
         $this->id = $id;
         $this->name = $name;
-        assert($printingTechnologies[0] instanceof PrintingTechnologyNameOnlyDTO, new \InvalidArgumentException("PrintingTechnologyDTO array expected"));
+        assert($printingTechnologies[0] instanceof PrintingTechnologyNameOnlyDTO, new \InvalidArgumentException("PrintingTechnologyNameOnlyDTO array expected"));
         $this->printingTechnologies = $printingTechnologies;
     }
 

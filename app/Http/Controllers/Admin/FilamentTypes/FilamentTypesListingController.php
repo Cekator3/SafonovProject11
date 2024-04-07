@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Admin\FilamentTypes;
 use Illuminate\View\View;
 use Illuminate\Http\Request;
 use App\DTOs\Admin\FilamentTypes\FilamentTypeItemListDTO;
-use App\DTOs\Admin\PrintingTechnologies\PrintingTechnologyDTO;
+use App\DTOs\Admin\PrintingTechnologies\PrintingTechnologyNameOnlyDTO;
 
 class FilamentTypesListingController
 {
@@ -15,7 +15,7 @@ class FilamentTypesListingController
         {
             $printingTechnologies = [];
             for ($j = 0; $j < $techAmount; $j++)
-                $printingTechnologies []= new PrintingTechnologyDTO($i, fake()->name(), '');
+                $printingTechnologies []= new PrintingTechnologyNameOnlyDTO($i, fake()->name());
 
             $result []= new FilamentTypeItemListDTO($i, "test{$i}", $printingTechnologies);
         }

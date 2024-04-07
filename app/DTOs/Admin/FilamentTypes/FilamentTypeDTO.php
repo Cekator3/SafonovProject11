@@ -2,7 +2,7 @@
 
 namespace App\DTOs\Admin\FilamentTypes;
 
-use App\DTOs\Admin\PrintingTechnologies\PrintingTechnologyDTO;
+use App\DTOs\Admin\PrintingTechnologies\PrintingTechnologyNameOnlyDTO;
 
 /**
  * A subsystem for reading application data about the filament type
@@ -14,12 +14,12 @@ class FilamentTypeDTO
     private string $description = '';
     private FilamentTypeCharacteristics $characteristics;
     /**
-     * @var PrintingTechnologyDTO[]
+     * @var PrintingTechnologyNameOnlyDTO[]
      */
     private array $printingTechnologies;
 
     /**
-     * @param PrintingTechnologyDTO[] $printingTechnologies
+     * @param PrintingTechnologyNameOnlyDTO[] $printingTechnologies
      */
     public function __construct(int $id,
                                 string $name,
@@ -63,7 +63,7 @@ class FilamentTypeDTO
     /**
      * Returns the printing technologies in which that filament type is used
      *
-     * @return PrintingTechnologyDTO[]
+     * @return PrintingTechnologyNameOnlyDTO[]
      */
     public function getPrintingTechnologies() : array
     {

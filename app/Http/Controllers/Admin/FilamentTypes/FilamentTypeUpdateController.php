@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
 use App\DTOs\Admin\FilamentTypes\FilamentTypeDTO;
 use App\DTOs\Admin\FilamentTypes\FilamentTypeCharacteristics;
-use App\DTOs\Admin\PrintingTechnologies\PrintingTechnologyDTO;
+use App\DTOs\Admin\PrintingTechnologies\PrintingTechnologyNameOnlyDTO;
 
 class FilamentTypeUpdateController
 {
@@ -17,7 +17,7 @@ class FilamentTypeUpdateController
 
         $res = [];
         for ($i = 0; $i < $techAmount; $i++)
-            $res []= new PrintingTechnologyDTO($i, fake()->text(), fake()->text());
+            $res []= new PrintingTechnologyNameOnlyDTO($i, fake()->text());
 
         return new FilamentTypeDTO(1, 'test', 'test', $stats, $res);
     }
