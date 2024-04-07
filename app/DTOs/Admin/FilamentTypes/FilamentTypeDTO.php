@@ -14,24 +14,24 @@ class FilamentTypeDTO
     private string $description = '';
     private FilamentTypeCharacteristics $characteristics;
     /**
-     * @var int[]
+     * @var PrintingTechnologyNameOnlyDTO[]
      */
-    private array $printingTechnologiesIds;
+    private array $printingTechnologies;
 
     /**
-     * @param int[] $printingTechnologies
+     * @param PrintingTechnologyNameOnlyDTO[] $printingTechnologies
      */
     public function __construct(int $id,
                                 string $name,
                                 string $description,
                                 FilamentTypeCharacteristics $characteristics,
-                                array $printingTechnologiesIds)
+                                array $printingTechnologies)
     {
         $this->id = $id;
         $this->name = $name;
         $this->description = $description;
         $this->characteristics = $characteristics;
-        $this->printingTechnologiesIds = $printingTechnologiesIds;
+        $this->printingTechnologies = $printingTechnologies;
     }
 
     /**
@@ -61,13 +61,28 @@ class FilamentTypeDTO
     }
 
     /**
+     * Returns the printing technologies in which that filament type is used
+     *
+     * @return PrintingTechnologyNameOnlyDTO[]
+     */
+    public function getPrintingTechnologies() : array
+    {
+        return $this->printingTechnologies;
+    }
+
+    /**
      * Checks if filament type is used in printing technology
      *
      * @return bool
      */
     public function isUsedInPrintingTechnology(int $printingTechnologyId) : bool
     {
-        return in_array($printingTechnologyId, $this->printingTechnologiesIds, true);
+        foreach ($this->printingTechnologies as $printingTechnology)
+        {
+            if ($printingTechnology->getId() === $printingTechnologyId)
+                return true;
+        }
+        return false;
     }
 
     /**

@@ -13,7 +13,7 @@ class FilamentTypeUpdateController
 {
     private function getTestData(int $techAmount) : FilamentTypeDTO
     {
-        $stats = new FilamentTypeCharacteristics(1, 2, 3, 4, 0, 15, true);
+        $stats = new FilamentTypeCharacteristics(1, 2, 3, 4, -10, 15, true);
 
         $res = [];
         for ($i = 0; $i < $techAmount; $i++)
@@ -25,7 +25,8 @@ class FilamentTypeUpdateController
     public function showUpdatingForm(int $filamentTypeId) : View
     {
         // ...
-        return view('admin.filament-types.update', ['filamentType' => $this->getTestData(5)]);
+        $data = $this->getTestData(6);
+        return view('admin.filament-types.update', ['filamentType' => $data, 'printingTechnologies' => $data->getPrintingTechnologies()]);
     }
 
     /**

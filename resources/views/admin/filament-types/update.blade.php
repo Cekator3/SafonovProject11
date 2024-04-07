@@ -57,37 +57,55 @@
         <ul>
             <li class="filament-characteristic">
                 <span class="name">Прочность</span>
-                <x-forms.inputs.star-rate :name=" 'strength' " />
+                <x-forms.inputs.star-rate :name=" 'strength' "
+                                          :value=" $filamentType->getStrength() "
+                />
             </li>
+
             <li class="filament-characteristic">
                 <span class="name">Жёсткость</span>
-                <x-forms.inputs.star-rate :name=" 'hardness' " />
+                <x-forms.inputs.star-rate :name=" 'hardness' "
+                                          :value=" $filamentType->getHardness() "
+                />
             </li>
+
             <li class="filament-characteristic">
                 <span class="name">Ударостойкость</span>
-                <x-forms.inputs.star-rate :name=" 'impact_resistance' " />
+                <x-forms.inputs.star-rate :name=" 'impact_resistance' "
+                                          :value=" $filamentType->getImpactResistance() "
+                />
             </li>
+
             <li class="filament-characteristic">
                 <span class="name">Износостойкость</span>
-                <x-forms.inputs.star-rate :name=" 'durability' " />
+                <x-forms.inputs.star-rate :name=" 'durability' "
+                                          :value=" $filamentType->getDurability() "
+                />
             </li>
+
             <li class="filament-characteristic">
                 <span class="name">Минимальная темпратура эксплуатации (в градусах)</span>
                 <x-forms.inputs.text :name=" 'min_work_temperature' "
                                      :type=" 'number' "
                                      :placeholder=" '' "
+                                     :value=" $filamentType->getMinWorkTemperature() "
                  />
             </li>
+
             <li class="filament-characteristic">
                 <span class="name">Максимальная темпратура эксплуатации (в градусах)</span>
                 <x-forms.inputs.text :name=" 'max_work_temperature' "
                                      :type=" 'number' "
                                      :placeholder=" '' "
+                                     :value=" $filamentType->getMaxWorkTemperature() "
                  />
             </li>
+
             <li class="filament-characteristic">
                 <x-forms.inputs.checkbox-radio :name=" 'food_contact_allowed' "
-                                               :placeholder=" 'Возможность контакта с пищей' "/>
+                                               :placeholder=" 'Возможность контакта с пищей' "
+                                               :checked=" $filamentType->isFoodContactAllowed() "
+                />
             </li>
         </ul>
     </fieldset>
