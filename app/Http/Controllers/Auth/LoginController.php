@@ -34,7 +34,7 @@ class LoginController
     {
         $email = $request->string('email', '');
         $password = $request->string('password','');
-        $rememberUser = $request->boolean('remember_user', false);
+        $rememberUser = $request->boolean('remember_me', false);
         $dataForAuth = null;
         $errors = new UserInputErrors();
 

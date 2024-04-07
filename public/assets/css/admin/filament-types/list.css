@@ -115,7 +115,13 @@ main > header > .actions > form
 
 .filament-type .printing-technologies ul > *
 {
+    /* Sets printing technology's width */
     flex-basis: 50%;
+}
+
+.filament-type .printing-technologies ul li
+{
+    text-align: start;
 }
 
 /* Action buttons */

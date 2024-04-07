@@ -1,0 +1,63 @@
+/* ------------------------*/
+/* Star rating input field */
+/* ------------------------*/
+.star-rate
+{
+    /* Constants */
+    --star-color-selected: rgba(255, 214, 0, 1);
+    --star-color-on-hover: rgba(255, 214, 0, 1);
+    --star-color-on-lowering: rgba(255, 214, 0, 0.8);
+    --star-color: inherit;
+}
+
+.input-field.star-rate
+{
+    /* Reverses the order of stars */
+    display: flex;
+    flex-flow: row-reverse;
+    justify-content: flex-end;
+}
+
+/* Radio button */
+.input-field.star-rate input
+{
+    /* Removes from screen */
+    position: fixed;
+    opacity: 0;
+    pointer-events: none;
+}
+
+/* Star */
+.input-field.star-rate label
+{
+    cursor: pointer;
+    color: var(--star-color);
+    transition: color 0.1s ease-in-out;
+}
+
+.input-field.star-rate label:before
+{
+    content: "★";
+    display: inline-block;
+    font-size: 2rem;
+}
+
+.input-field.star-rate input:checked ~ label
+{
+    color: var(--star-color-selected);
+}
+
+.input-field.star-rate input:hover,
+.input-field.star-rate input:hover ~ label
+{
+    color: var(--star-color-on-hover);
+}
+
+.input-field.star-rate input:checked + label:hover,
+.input-field.star-rate input:checked + label:hover ~ label,
+.input-field.star-rate input:checked ~ label:hover,
+.input-field.star-rate input:checked ~ label:hover ~ label,
+.input-field.star-rate input:hover ~ .input-field.star-rate:checked ~ label
+{
+    color: var(--star-color-on-lowering);
+}
