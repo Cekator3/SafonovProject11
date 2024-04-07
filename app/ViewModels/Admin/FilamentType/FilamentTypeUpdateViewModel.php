@@ -4,7 +4,7 @@ namespace App\ViewModels\Admin\FilamentType;
 
 /**
  * class for transferring input
- * that was entered in an additional service update form
+ * that was entered in an filament type update form
  * from interfaces (views)
  * to the application (services and repositories).
  */
