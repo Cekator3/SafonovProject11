@@ -7,6 +7,7 @@ use App\DTOs\Admin\FilamentTypes\FilamentTypeDTO;
 use App\DTOs\Admin\FilamentTypes\FilamentTypeItemListDTO;
 use App\Errors\Admin\FilamentType\FilamentTypeUpdateErrors;
 use Illuminate\Database\UniqueConstraintViolationException;
+use App\DTOs\Admin\FilamentTypes\FilamentTypeCharacteristics;
 use App\Errors\Admin\FilamentType\FilamentTypeCreationErrors;
 use App\ViewModels\Admin\FilamentType\FilamentTypeUpdateViewModel;
 use App\ViewModels\Admin\FilamentType\FilamentTypeCreationViewModel;
@@ -125,19 +126,39 @@ class FilamentTypeRepository
      */
     public function get(int $id) : FilamentTypeDTO|null
     {
-        $filamentType = DB::table('filament_types as ft')->find($id);
-        if ($filamentType === null)
+        $filamentTypeEntry = DB::table('filament_types as ft')->find($id);
+        if ($filamentTypeEntry === null)
             return null;
 
         // Gets printing technology list of filament type
-        $printintTechnologies = DB::table('filament_types as ft')
+        $printingTechnologiesEntries = DB::table('filament_types as ft')
                      ->join('printing_technologies_of_filament_type AS ptft', 'ptft.filament_type_id', '=', 'ft.id')
+                     ->where('ptft.filament_type_id', '=', $id)
                      ->join('printing_technologies AS pt', 'ptft.printing_technology_id', '=', 'pt.id')
                      ->select(['pt.id AS printing_technology_id', 'pt.name AS printing_technology_name'])
                      ->get();
 
+        $printingTechnologies = [];
+        foreach ($printingTechnologiesEntries as $entry)
+        {
+            $id = $entry->printing_technology_id;
+            $name = $entry->printing_technology_name;
+            $printingTechnologies []= new PrintingTechnologyNameOnlyDTO($id, $name);
+        }
 
-        dd($printintTechnologies, $filamentType);
+        $filamentTypeCharacteristics =
+            new FilamentTypeCharacteristics($filamentTypeEntry->strength,
+                                            $filamentTypeEntry->hardness,
+                                            $filamentTypeEntry->impact_resistance,
+                                            $filamentTypeEntry->durability,
+                                            $filamentTypeEntry->min_work_temperature,
+                                            $filamentTypeEntry->max_work_temperature,
+                                            $filamentTypeEntry->food_contact_allowed);
+        return new FilamentTypeDTO($filamentTypeEntry->id,
+                                   $filamentTypeEntry->name,
+                                   $filamentTypeEntry->description,
+                                   $filamentTypeCharacteristics,
+                                   $printingTechnologies);
     }
 
     /**
@@ -204,9 +225,8 @@ class FilamentTypeRepository
     {
         try
         {
-            $filamentTypeId = DB::table('filament_types')
-                                ->where('id', $filamentType->id)
-                                ->update([
+            DB::table('filament_types')->where('id', $filamentType->id)
+                                       ->update([
                 'name' => $filamentType->name,
                 'description' => $filamentType->description,
                 'strength' => $filamentType->strength,
@@ -222,7 +242,7 @@ class FilamentTypeRepository
             foreach ($filamentType->printingTechnologiesIds as $printingTechnologyId)
             {
                 $result []= [
-                    'filament_type_id' => $filamentTypeId,
+                    'filament_type_id' => $filamentType->id,
                     'printing_technology_id' => $printingTechnologyId
                 ];
             }
@@ -230,7 +250,7 @@ class FilamentTypeRepository
             DB::transaction(function () use ($result, $filamentType)
             {
                 DB::table('printing_technologies_of_filament_type')
-                ->whereIn('printing_technology_id', $filamentType->printingTechnologiesIds)
+                ->where('filament_type_id', '=', $filamentType->id)
                 ->delete();
                 DB::table('printing_technologies_of_filament_type')->insert($result);
             });

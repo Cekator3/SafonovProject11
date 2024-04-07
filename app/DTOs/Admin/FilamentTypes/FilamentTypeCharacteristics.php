@@ -27,12 +27,6 @@ class FilamentTypeCharacteristics
         $this->minWorkTemperature = $minWorkTemperature;
         $this->maxWorkTemperature = $maxWorkTemperature;
         $this->food_contact_allowed = $food_contact_allowed;
-        assert(($strength > 0) && ($strength <= 5), "Filament type characteristic is out of range: strength = {$strength}");
-        assert(($hardness > 0) && ($hardness <= 5), "Filament type characteristic is out of range: hardness = {$hardness}");
-        assert(($impactResistance > 0) && ($impactResistance <= 5), "Filament type characteristic is out of range: impact_resistance = {$impactResistance}");
-        assert(($durability > 0) && ($durability <= 5), "Filament type characteristic is out of range: durability = {$durability}");
-        assert($minWorkTemperature < $maxWorkTemperature, "Filament type characteristic: minWorkTemperature($minWorkTemperature) > maxWorkTemperature($maxWorkTemperature)");
-        assert(($durability > 0) && ($durability <= 5), "Filament type characteristic is out of range: durability = {$durability}");
     }
 
     public function getStrength() : int
