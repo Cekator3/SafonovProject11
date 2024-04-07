@@ -46,6 +46,7 @@
         <x-forms.inputs.checkbox-radio :name=" 'printing_technologies[]' "
                                        :placeholder=" $printingTechnology->getName() "
                                        :id=" $printingTechnology->getId() "
+                                       :checked=" $filamentType->isUsedInPrintingTechnology($printingTechnology->getId()) "
                                        value="{{ $printingTechnology->getId() }}"
         />
         @endforeach
