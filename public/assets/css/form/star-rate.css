@@ -15,7 +15,7 @@
     /* Reverses the order of stars */
     display: flex;
     flex-flow: row-reverse;
-    justify-content: flex-end;
+    justify-content: space-between;
 }
 
 /* Radio button */

@@ -3,18 +3,18 @@
 @props(['name'])
 
 <div class="input-field star-rate">
-    <input type="radio" id="star5" name="{{ $name }}" value="5" />
-    <label for="star5"></label>
+    <input type="radio" id="{{ $name }}_5" name="{{ $name }}" value="5" />
+    <label for="{{ $name }}_5"></label>
 
-    <input type="radio" id="star4" name="{{ $name }}" value="4" />
-    <label for="star4"></label>
+    <input type="radio" id="{{ $name }}_4" name="{{ $name }}" value="4" />
+    <label for="{{ $name }}_4"></label>
 
-    <input type="radio" id="star3" name="{{ $name }}" value="3" />
-    <label for="star3"></label>
+    <input type="radio" id="{{ $name }}_3" name="{{ $name }}" value="3" />
+    <label for="{{ $name }}_3"></label>
 
-    <input type="radio" id="star2" name="{{ $name }}" value="2" />
-    <label for="star2"></label>
+    <input type="radio" id="{{ $name }}_2" name="{{ $name }}" value="2" />
+    <label for="{{ $name }}_2"></label>
 
-    <input type="radio" id="star1" name="{{ $name }}" value="1" />
-    <label for="star1"></label>
+    <input type="radio" id="{{ $name }}_1" name="{{ $name }}" value="1" />
+    <label for="{{ $name }}_1"></label>
 </div>
