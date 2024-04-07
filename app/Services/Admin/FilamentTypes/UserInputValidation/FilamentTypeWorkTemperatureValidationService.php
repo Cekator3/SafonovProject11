@@ -24,8 +24,20 @@ class FilamentTypeWorkTemperatureValidationService
     {
         if ($minWorkTemperature > $maxWorkTemperature)
         {
-            $errMessage = __('admin.filament_type_validation.work_temperature_range');
+            $errMessage = __('admin/filament_type_validation.work_temperature_range');
             $errors->add('min_work_temperature', $errMessage);
+        }
+        if (($minWorkTemperature < -32768) || ($minWorkTemperature > 32768))
+        {
+            $errMessage = __('admin/filament_type_validation.min_work_temperature',
+                            ['left' => -32768, 'right' => 32768]);
+            $errors->add('min_work_temperature', $errMessage);
+        }
+        if (($maxWorkTemperature > 32768) || ($maxWorkTemperature < -32768))
+        {
+            $errMessage = __('admin/filament_type_validation.max_work_temperature',
+                            ['left' => -32768, 'right' => 32768]);
+            $errors->add('max_work_temperature', $errMessage);
         }
     }
 }

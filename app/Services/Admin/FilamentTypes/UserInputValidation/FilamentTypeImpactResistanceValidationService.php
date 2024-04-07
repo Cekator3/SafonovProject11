@@ -11,7 +11,7 @@ use App\Errors\UserInputErrors;
 class FilamentTypeImpactResistanceValidationService
 {
     private const int MIN_RATE = 0;
-    private const int MAX_RATE = 0;
+    private const int MAX_RATE = 5;
 
     /**
      * Checks if the impact resistance rate of filament type meets the necessary criteria
@@ -25,7 +25,7 @@ class FilamentTypeImpactResistanceValidationService
     {
         if (($impactResistance < static::MIN_RATE) || ($impactResistance > static::MAX_RATE))
         {
-            $errMessage = __('admin.filament_type_validation.impact_resistance',
+            $errMessage = __('admin/filament_type_validation.impact_resistance',
                              ['left' => static::MIN_RATE, 'right' => static::MAX_RATE]);
             $errors->add('impact_resistance', $errMessage);
         }

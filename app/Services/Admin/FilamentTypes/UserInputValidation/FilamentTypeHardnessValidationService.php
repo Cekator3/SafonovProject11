@@ -11,7 +11,7 @@ use App\Errors\UserInputErrors;
 class FilamentTypeHardnessValidationService
 {
     private const int MIN_RATE = 0;
-    private const int MAX_RATE = 0;
+    private const int MAX_RATE = 5;
 
     /**
      * Checks if the hardness rate of filament type meets the necessary criteria
@@ -25,7 +25,7 @@ class FilamentTypeHardnessValidationService
     {
         if (($hardness < static::MIN_RATE) || ($hardness > static::MAX_RATE))
         {
-            $errMessage = __('admin.filament_type_validation.hardness',
+            $errMessage = __('admin/filament_type_validation.hardness',
                              ['left' => static::MIN_RATE, 'right' => static::MAX_RATE]);
             $errors->add('hardness', $errMessage);
         }

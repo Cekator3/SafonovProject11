@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers\Admin\FilamentTypes;
 
+use App\Errors\UserInputErrors;
+use App\Repositories\Admin\PrintingTechnologyRepository;
+use App\Services\Admin\FilamentTypes\FilamentTypesCreationService;
 use App\ViewModels\Admin\FilamentType\FilamentTypeCreationViewModel;
 use Illuminate\View\View;
 use Illuminate\Http\Request;
@@ -12,10 +15,9 @@ class FilamentTypesCreationController
 {
     public function showCreationForm() : View
     {
-        $res = [];
-        for ($i = 0; $i < 15; $i++)
-            $res []= new PrintingTechnologyNameOnlyDTO($i, fake()->text());
-        return view('admin.filament-types.create', ['printingTechnologies' => $res]);
+        $printingTechnologies = new PrintingTechnologyRepository();
+        return view('admin.filament-types.create',
+                    ['printingTechnologies' => $printingTechnologies->getAllNamesAndIdentifiers()]);
     }
 
     private function convertToIntArray(array $stringArr) : array
@@ -49,7 +51,17 @@ class FilamentTypesCreationController
     public function createFilamentType(Request $request) : RedirectResponse
     {
         $filamentType = $this->getUserInput($request);
-        // ...
+        $filamentTypes = new FilamentTypesCreationService();
+        $errors = new UserInputErrors();
+
+        $filamentTypes->add($filamentType, $errors);
+
+        if ($errors->hasAny()) {
+            return redirect()->back()
+                             ->withErrors($errors->getAll())
+                             ->withInput();
+        }
+
         return redirect()->route('filament-types');
     }
 }

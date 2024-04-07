@@ -4,7 +4,7 @@ namespace App\Services\Admin\AdditionalServices\UserInputValidation;
 use App\Errors\UserInputErrors;
 
 /**
- * Subsystem, for checking whether the name of additional service meets the criteria,
+ * Subsystem, for checking whether the description of additional service meets the criteria,
  * according to the application requirements.
  */
 class AdditionalServiceDescriptionValidationService
@@ -13,8 +13,8 @@ class AdditionalServiceDescriptionValidationService
     {
         if (strlen($description) === 0)
         {
-            $errMessage = __('validation.required', ['attribute' => 'name']);
-            $errors->add('name', $errMessage);
+            $errMessage = __('validation.required', ['attribute' => 'description']);
+            $errors->add('description', $errMessage);
         }
     }
 

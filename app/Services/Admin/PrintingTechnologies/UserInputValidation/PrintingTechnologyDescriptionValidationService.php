@@ -1,10 +1,11 @@
 <?php
 
 namespace App\Services\Admin\PrintingTechnologies\UserInputValidation;
+
 use App\Errors\UserInputErrors;
 
 /**
- * Subsystem, for checking whether the name of printing technology meets the criteria,
+ * Subsystem, for checking whether the description of printing technology meets the criteria,
  * according to the application requirements.
  */
 class PrintingTechnologyDescriptionValidationService
@@ -13,8 +14,8 @@ class PrintingTechnologyDescriptionValidationService
     {
         if (strlen($description) === 0)
         {
-            $errMessage = __('validation.required', ['attribute' => 'name']);
-            $errors->add('name', $errMessage);
+            $errMessage = __('validation.required', ['attribute' => 'description']);
+            $errors->add('description', $errMessage);
         }
     }
 

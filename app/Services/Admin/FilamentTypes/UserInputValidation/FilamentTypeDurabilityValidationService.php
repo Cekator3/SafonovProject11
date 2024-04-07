@@ -11,7 +11,7 @@ use App\Errors\UserInputErrors;
 class FilamentTypeDurabilityValidationService
 {
     private const int MIN_RATE = 0;
-    private const int MAX_RATE = 0;
+    private const int MAX_RATE = 5;
 
     /**
      * Checks if the durability rate of filament type meets the necessary criteria
@@ -25,7 +25,7 @@ class FilamentTypeDurabilityValidationService
     {
         if (($durability < static::MIN_RATE) || ($durability > static::MAX_RATE))
         {
-            $errMessage = __('admin.filament_type_validation.durability',
+            $errMessage = __('admin/filament_type_validation.durability',
                              ['left' => static::MIN_RATE, 'right' => static::MAX_RATE]);
             $errors->add('durability', $errMessage);
         }

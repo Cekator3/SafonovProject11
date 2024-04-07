@@ -4,8 +4,9 @@ namespace App\Repositories\Admin;
 
 use stdClass;
 use Illuminate\Support\Facades\DB;
-use App\DTOs\Admin\PrintingTechnologies\PrintingTechnologyDTO;
 use Illuminate\Database\UniqueConstraintViolationException;
+use App\DTOs\Admin\PrintingTechnologies\PrintingTechnologyDTO;
+use App\DTOs\Admin\PrintingTechnologies\PrintingTechnologyNameOnlyDTO;
 use App\Errors\Admin\PrintingTechnology\PrintingTechnologyUpdateErrors;
 use App\Errors\Admin\PrintingTechnology\PrintingTechnologyCreationErrors;
 use App\ViewModels\Admin\PrintingTechnology\PrintingTechnologyUpdateViewModel;
@@ -38,6 +39,25 @@ class PrintingTechnologyRepository
         $printingTechnologies = [];
         foreach ($entries as $entry)
             $printingTechnologies[] = $this->convert($entry);
+
+        return $printingTechnologies;
+    }
+
+    /**
+     * Returns names and identifiers of all printing technologies.
+     * @return PrintingTechnologyNameOnlyDTO[]
+     */
+    public function getAllNamesAndIdentifiers() : array
+    {
+        $entries = DB::table(static::TABLE_NAME)->get(['id', 'name']);
+
+        $printingTechnologies = [];
+        foreach ($entries as $entry)
+        {
+            $id = $entry->id;
+            $name = $entry->name;
+            $printingTechnologies[] = new PrintingTechnologyNameOnlyDTO($id, $name);
+        }
 
         return $printingTechnologies;
     }
