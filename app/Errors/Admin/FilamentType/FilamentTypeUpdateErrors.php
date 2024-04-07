@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Errors\Admin\AdditionalService;
+namespace App\Errors\Admin\FilamentType;
 
 /**
  * A subsystem for storing errors that occurred during
- * an attempt to update a additional service.
+ * an attempt to update a filament type.
  */
-final class AdditionalServiceUpdateErrors
+final class FilamentTypeUpdateErrors
 {
-    public const ERROR_ADDITIONAL_SERVICE_ALREADY_EXIST = 1;
+    public const ERROR_FILAMENT_TYPE_ALREADY_EXIST = 1;
     private int $errors = 0;
 
     /**
@@ -27,7 +27,7 @@ final class AdditionalServiceUpdateErrors
      */
     public function isAlreadyExist() : bool
     {
-        return ($this->errors & static::ERROR_ADDITIONAL_SERVICE_ALREADY_EXIST) !== 0;
+        return ($this->errors & static::ERROR_FILAMENT_TYPE_ALREADY_EXIST) !== 0;
     }
 
     /**

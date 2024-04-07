@@ -23,7 +23,7 @@ final class PrintingTechnologyUpdateErrors
 
     /**
      * Returns true if occurred an error because printing technology
-     * already exists
+     * already exists (not unique)
      */
     public function isAlreadyExist() : bool
     {
