@@ -16,17 +16,17 @@ class FilamentTypesGetterService
      */
     public function getAll() : array
     {
-        $printingTechnologies = new FilamentTypeRepository();
-        return $printingTechnologies->getAll();
+        $filamentTypes = new FilamentTypeRepository();
+        return $filamentTypes->getAll();
     }
 
     /**
      * Returns filament type.
      */
-    public function get(int $printingTechnologyId) : FilamentTypeDTO|null
+    public function get(int $filamentTypeId) : FilamentTypeDTO|null
     {
-        $printingTechnologies = new FilamentTypeRepository();
-        return $printingTechnologies->get($printingTechnologyId);
+        $filamentTypes = new FilamentTypeRepository();
+        return $filamentTypes->get($filamentTypeId);
     }
 
     /**
