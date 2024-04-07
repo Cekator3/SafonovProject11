@@ -43,6 +43,7 @@ class FilamentTypeRepository
                      ->join('printing_technologies AS pt', 'ptft.printing_technology_id', '=', 'pt.id')
                      ->select(['ft.id AS filament_type_id', 'pt.id AS printing_technology_id'])
                      ->get();
+        dump($entries);
         // 2. ???
         // 3. Get filament types names
         $entries = DB::table('filament_types', 'ft')

@@ -1,41 +1,41 @@
 <?php
 
-namespace App\Services\Admin\PrintingTechnologies;
-
-use App\DTOs\Admin\PrintingTechnologies\PrintingTechnologyDTO;
-use App\Repositories\Admin\PrintingTechnologyRepository;
+namespace App\Services\Admin\FilamentTypes;
+use App\DTOs\Admin\FilamentTypes\FilamentTypeDTO;
+use App\Repositories\Admin\FilamentTypeRepository;
+use App\DTOs\Admin\FilamentTypes\FilamentTypeItemListDTO;
 
 /**
- * Subsystem for getting stored information on printing technology.
+ * Subsystem for getting stored information on filament type.
  */
-class PrintingTechnologiesGetterService
+class FilamentTypesGetterService
 {
     /**
-     * Returns all printing technologies.
-     * @return PrintingTechnologyDTO[]
+     * Returns all filament types.
+     * @return FilamentTypeItemListDTO[]
      */
     public function getAll() : array
     {
-        $printingTechnologies = new PrintingTechnologyRepository();
+        $printingTechnologies = new FilamentTypeRepository();
         return $printingTechnologies->getAll();
     }
 
     /**
-     * Returns printing technology.
+     * Returns filament type.
      */
-    public function get(int $printingTechnologyId) : PrintingTechnologyDTO|null
+    public function get(int $printingTechnologyId) : FilamentTypeDTO|null
     {
-        $printingTechnologies = new PrintingTechnologyRepository();
+        $printingTechnologies = new FilamentTypeRepository();
         return $printingTechnologies->get($printingTechnologyId);
     }
 
     /**
-     * Finds all the relevant printing technologies
-     * @return PrintingTechnologyDTO[]
+     * Finds all the relevant filament types
+     * @return FilamentTypeItemListDTO[]
      */
     public function find(string $name) : array
     {
-        $printingTechnologies = new PrintingTechnologyRepository();
+        $printingTechnologies = new FilamentTypeRepository();
         return $printingTechnologies->find($name);
     }
 }
