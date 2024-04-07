@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Repositories;
+namespace App\Repositories\Admin;
 
 use stdClass;
 use Illuminate\Support\Facades\DB;
@@ -16,7 +16,7 @@ use App\ViewModels\Admin\PrintingTechnology\PrintingTechnologyCreationViewModel;
  */
 class PrintingTechnologyRepository
 {
-    private const TABLE_NAME = 'printing_technologies';
+    private const string TABLE_NAME = 'printing_technologies';
 
     private function convert(stdClass $entry) : PrintingTechnologyDTO
     {

@@ -4,7 +4,7 @@ namespace App\Services\Admin\AdditionalServices;
 use App\Errors\Admin\AdditionalService\AdditionalServiceCreationErrors;
 use App\Errors\UserInputErrors;
 use Illuminate\Http\UploadedFile;
-use App\Repositories\AdditionalServiceRepository;
+use App\Repositories\Admin\AdditionalServiceRepository;
 use App\Repositories\Images\AdditionalServiceThumbnailRepository;
 use App\Services\FileFormatValidation\ImageFormatValidationService;
 use App\ViewModels\Admin\AdditionalService\AdditionalServiceCreationViewModel;

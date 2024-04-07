@@ -2,7 +2,7 @@
 
 namespace App\Services\Admin\PrintingTechnologies;
 
-use App\Repositories\PrintingTechnologyRepository;
+use App\Repositories\Admin\PrintingTechnologyRepository;
 
 /**
  * Subsystem for deleting stored information on printing technology.

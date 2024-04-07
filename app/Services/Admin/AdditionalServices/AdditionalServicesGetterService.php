@@ -2,7 +2,7 @@
 
 namespace App\Services\Admin\AdditionalServices;
 use App\DTOs\Admin\AdditionalServiceDTO;
-use App\Repositories\AdditionalServiceRepository;
+use App\Repositories\Admin\AdditionalServiceRepository;
 use App\Repositories\Images\AdditionalServiceThumbnailRepository;
 
 /**

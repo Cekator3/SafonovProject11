@@ -3,7 +3,7 @@
 namespace App\Services\Admin\PrintingTechnologies;
 
 use App\Errors\UserInputErrors;
-use App\Repositories\PrintingTechnologyRepository;
+use App\Repositories\Admin\PrintingTechnologyRepository;
 use App\Errors\Admin\PrintingTechnology\PrintingTechnologyCreationErrors;
 use App\ViewModels\Admin\PrintingTechnology\PrintingTechnologyCreationViewModel;
 use App\Services\Admin\PrintingTechnologies\UserInputValidation\PrintingTechnologyNameValidationService;

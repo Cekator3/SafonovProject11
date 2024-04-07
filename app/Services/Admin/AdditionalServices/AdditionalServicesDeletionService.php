@@ -2,7 +2,7 @@
 
 namespace App\Services\Admin\AdditionalServices;
 
-use App\Repositories\AdditionalServiceRepository;
+use App\Repositories\Admin\AdditionalServiceRepository;
 
 /**
  * Subsystem for deleting stored information on additional service.

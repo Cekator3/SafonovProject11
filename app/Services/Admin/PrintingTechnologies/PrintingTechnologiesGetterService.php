@@ -3,7 +3,7 @@
 namespace App\Services\Admin\PrintingTechnologies;
 
 use App\DTOs\Admin\PrintingTechnologies\PrintingTechnologyDTO;
-use App\Repositories\PrintingTechnologyRepository;
+use App\Repositories\Admin\PrintingTechnologyRepository;
 
 /**
  * Subsystem for getting stored information on printing technology.

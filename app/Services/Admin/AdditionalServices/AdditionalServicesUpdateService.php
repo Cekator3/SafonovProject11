@@ -2,7 +2,7 @@
 
 namespace App\Services\Admin\AdditionalServices;
 use App\Errors\UserInputErrors;
-use App\Repositories\AdditionalServiceRepository;
+use App\Repositories\Admin\AdditionalServiceRepository;
 use App\Repositories\Images\AdditionalServiceThumbnailRepository;
 use App\Services\FileFormatValidation\ImageFormatValidationService;
 use App\Errors\Admin\AdditionalService\AdditionalServiceUpdateErrors;

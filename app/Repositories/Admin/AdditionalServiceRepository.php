@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Repositories;
+namespace App\Repositories\Admin;
 
 use Illuminate\Database\UniqueConstraintViolationException;
 use Illuminate\Support\Facades\DB;
@@ -16,7 +16,7 @@ use stdClass;
  */
 class AdditionalServiceRepository
 {
-    private const TABLE_NAME = 'additional_services';
+    private const string TABLE_NAME = 'additional_services';
 
     private function convert(stdClass $entry) : AdditionalServiceDTO
     {
