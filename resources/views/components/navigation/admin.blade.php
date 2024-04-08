@@ -1,4 +1,4 @@
-<li>Модельки</li>
+<li><a href="{{ route('base-models') }}">Модельки</a></li>
 <li>Подтверждение оплаты заказа</li>
 <li>Отправка заказа заказчику</li>
 <li><a href="{{ route('printing-technologies') }}">Технологии 3д-печати</a></li>
