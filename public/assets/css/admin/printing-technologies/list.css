@@ -63,6 +63,9 @@ main > header > .actions > form
     /* Sets background */
     padding: var(--list-card-padding);
     background-color: var(--item-window-bg-color);
+
+    /* Sets rounded borders */
+    border-radius: var(--border-radius);
 }
 
 .printing-technology
