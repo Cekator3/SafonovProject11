@@ -50,7 +50,7 @@ class FilamentTypeRepository
     {
         // 1. Get identifiers of all filament types and associated
         //    with them printing technologies (only identifiers)
-        $entries = DB::table('filament_types as ft')
+        $entries = DB::table('filament_types AS ft')
                      ->join('printing_technologies_of_filament_type AS ptft', 'ptft.filament_type_id', '=', 'ft.id', 'left')
                      ->join('printing_technologies AS pt', 'ptft.printing_technology_id', '=', 'pt.id', 'left')
                      ->select(['ft.id AS filament_type_id', 'pt.id AS printing_technology_id'])
@@ -95,7 +95,7 @@ class FilamentTypeRepository
     {
         // 1. Get identifiers of all filament types and associated
         //    with them printing technologies (only identifiers)
-        $entries = DB::table('filament_types as ft')
+        $entries = DB::table('filament_types AS ft')
                      ->whereFullText('ft.name', $name)
                      ->join('printing_technologies_of_filament_type AS ptft', 'ptft.filament_type_id', '=', 'ft.id', 'left')
                      ->join('printing_technologies AS pt', 'ptft.printing_technology_id', '=', 'pt.id', 'left')
@@ -143,9 +143,8 @@ class FilamentTypeRepository
             return null;
 
         // Gets printing technology list of filament type
-        $printingTechnologiesEntries = DB::table('filament_types as ft')
-                     ->join('printing_technologies_of_filament_type AS ptft', 'ptft.filament_type_id', '=', 'ft.id')
-                     ->where('ptft.filament_type_id', '=', $id)
+        $printingTechnologiesEntries = DB::table('printing_technologies_of_filament_type AS ptft')
+                     ->where('filament_type_id', '=', $id)
                      ->join('printing_technologies AS pt', 'ptft.printing_technology_id', '=', 'pt.id')
                      ->select(['pt.id AS printing_technology_id', 'pt.name AS printing_technology_name'])
                      ->get();
