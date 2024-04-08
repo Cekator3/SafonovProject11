@@ -35,6 +35,7 @@
         {{-- Name --}}
         <x-forms.inputs.text :name=" 'name' "
                              :placeholder=" 'Название' "
+                             autofocus
                              autocomplete="off"
                              required
         />

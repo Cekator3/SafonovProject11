@@ -35,7 +35,7 @@
 
     <fieldset>
         <legend>Общая информация</legend>
-        <x-forms.inputs.text :name=" 'name' " :placeholder=" 'Название' " autocomplete="off" required value="{{ $additionalService->getName() }}" />
+        <x-forms.inputs.text :name=" 'name' " :placeholder=" 'Название' " autofocus autocomplete="off" required value="{{ $additionalService->getName() }}" />
         <x-forms.inputs.text :name=" 'description' " :placeholder=" 'Описание' "  autocomplete="off" required value="{{ $additionalService->getDescription() }}" />
     </fieldset>
 

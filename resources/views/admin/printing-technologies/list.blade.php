@@ -25,6 +25,7 @@
         <x-search :placeholder=" 'Поиск' "
                 :name=" 'search' "
                 :url=" route('printing-technologies') "
+                autofocus
         />
 
         <form method="GET" action="{{ route('printing-technologies.create') }}">

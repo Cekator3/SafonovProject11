@@ -39,6 +39,7 @@
         <x-forms.inputs.text :name=" 'name' "
                              :placeholder=" 'Название' "
                              value="{{ $filamentType->getName() }}"
+                             autofocus
                              autocomplete="off"
                              required
         />

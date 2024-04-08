@@ -28,7 +28,7 @@
 
     <fieldset>
         <legend>Общая информация</legend>
-        <x-forms.inputs.text :name=" 'name' " :placeholder=" 'Название' " autocomplete="off" required />
+        <x-forms.inputs.text :name=" 'name' " :placeholder=" 'Название' " autofocus autocomplete="off" required />
         <x-forms.inputs.text :name=" 'description' " :placeholder=" 'Описание' "  autocomplete="off" required/>
     </fieldset>
     <fieldset>

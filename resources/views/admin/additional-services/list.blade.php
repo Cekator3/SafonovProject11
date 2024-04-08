@@ -25,6 +25,7 @@
         <x-search :placeholder=" 'Поиск' "
                 :name=" 'search' "
                 :url=" route('additional-services') "
+                autofocus
         />
 
         <form method="GET" action="{{ route('additional-services.create') }}">

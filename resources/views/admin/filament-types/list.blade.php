@@ -25,6 +25,7 @@
         <x-search :placeholder=" 'Поиск' "
                 :name=" 'search' "
                 :url=" route('filament-types') "
+                autofocus
         />
 
         <form method="GET" action="{{ route('filament-types.create') }}">
