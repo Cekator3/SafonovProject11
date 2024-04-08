@@ -127,6 +127,12 @@ main > header > .actions > form
     text-align: start;
 }
 
+/* Changes color on hover */
+.filament-type .printing-technologies ul li:hover
+{
+    color: var(--secondary-text-color);
+}
+
 /* Action buttons */
 .filament-type footer
 {
