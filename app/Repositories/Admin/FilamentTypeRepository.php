@@ -26,18 +26,18 @@ class FilamentTypeRepository
 
     private function getFilamentTypesNames(array $ids) : Collection
     {
-        return DB::table('filament_types', 'ft')
-                 ->whereIn('ft.id', $ids)
-                 ->select('ft.id as filament_type_id', 'ft.name AS filament_type_name')
+        return DB::table('filament_types')
+                 ->whereIn('id', $ids)
+                 ->select('id as filament_type_id', 'name AS filament_type_name')
                  ->get()
                  ->keyBy('filament_type_id');
     }
 
     private function getPrintingTechnologiesNames(array $ids) : Collection
     {
-        return DB::table('printing_technologies', 'pt')
-                 ->whereIn('pt.id', $ids)
-                 ->select('pt.id as printing_technology_id', 'pt.name AS printing_technology_name')
+        return DB::table('printing_technologies')
+                 ->whereIn('id', $ids)
+                 ->select('id as printing_technology_id', 'name AS printing_technology_name')
                  ->get()
                  ->keyBy('printing_technology_id');
     }
