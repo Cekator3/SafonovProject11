@@ -97,8 +97,8 @@ class FilamentTypeRepository
         //    with them printing technologies (only identifiers)
         $entries = DB::table('filament_types as ft')
                      ->whereFullText('ft.name', $name)
-                     ->join('printing_technologies_of_filament_type AS ptft', 'ptft.filament_type_id', '=', 'ft.id')
-                     ->join('printing_technologies AS pt', 'ptft.printing_technology_id', '=', 'pt.id')
+                     ->join('printing_technologies_of_filament_type AS ptft', 'ptft.filament_type_id', '=', 'ft.id', 'left')
+                     ->join('printing_technologies AS pt', 'ptft.printing_technology_id', '=', 'pt.id', 'left')
                      ->select(['ft.id AS filament_type_id', 'pt.id AS printing_technology_id'])
                      ->get();
 
@@ -120,6 +120,9 @@ class FilamentTypeRepository
             foreach ($group as $printingTechnology)
             {
                 $id = $printingTechnology->printing_technology_id;
+                // Breaks if group empty
+                if ($id === null)
+                    break;
                 $name = $printingTechnologiesNames[$id]->printing_technology_name;
                 $printingTechnologies []= new PrintingTechnologyNameOnlyDTO($id, $name);
             }
@@ -259,8 +262,8 @@ class FilamentTypeRepository
             DB::transaction(function () use ($result, $filamentType)
             {
                 DB::table('printing_technologies_of_filament_type')
-                ->where('filament_type_id', '=', $filamentType->id)
-                ->delete();
+                  ->where('filament_type_id', '=', $filamentType->id)
+                  ->delete();
                 DB::table('printing_technologies_of_filament_type')->insert($result);
             });
         }
