@@ -2,6 +2,10 @@
 
 use App\Http\Middleware\EnsureIsAdmin;
 use Illuminate\Auth\Middleware\Authenticate;
+use App\Http\Controllers\Admin\BaseModels\BaseModelsUpdateController;
+use App\Http\Controllers\Admin\BaseModels\BaseModelsListingController;
+use App\Http\Controllers\Admin\BaseModels\BaseModelsCreationController;
+use App\Http\Controllers\Admin\BaseModels\BaseModelsDeletionController;
 
 // Admin only
 Route::middleware([Authenticate::class, EnsureIsAdmin::class])
@@ -37,7 +41,7 @@ Route::middleware([Authenticate::class, EnsureIsAdmin::class])
 
 
     // Delete base model
-    Route::delete('/delete/{id}', [BaseModelDeletionController::class, 'deleteBaseModel'])
+    Route::delete('/delete/{id}', [BaseModelsDeletionController::class, 'deleteBaseModel'])
          ->name('base-models.delete');
     /////
 });
