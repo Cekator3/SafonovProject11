@@ -2,6 +2,7 @@
 
 namespace App\Repositories\Admin;
 
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use App\DTOs\Admin\FilamentTypes\FilamentTypeDTO;
 use App\DTOs\Admin\FilamentTypes\FilamentTypeItemListDTO;
@@ -18,6 +19,29 @@ use App\DTOs\Admin\PrintingTechnologies\PrintingTechnologyNameOnlyDTO;
  */
 class FilamentTypeRepository
 {
+    private function getUniqueEntries(Collection $collectedEntries, string $key) : array
+    {
+        return $collectedEntries->pluck($key)->unique()->values()->filter()->all();
+    }
+
+    private function getFilamentTypesNames(array $ids) : Collection
+    {
+        return DB::table('filament_types', 'ft')
+                 ->whereIn('ft.id', $ids)
+                 ->select('ft.id as filament_type_id', 'ft.name AS filament_type_name')
+                 ->get()
+                 ->keyBy('filament_type_id');
+    }
+
+    private function getPrintingTechnologiesNames(array $ids) : Collection
+    {
+        return DB::table('printing_technologies', 'pt')
+                 ->whereIn('pt.id', $ids)
+                 ->select('pt.id as printing_technology_id', 'pt.name AS printing_technology_name')
+                 ->get()
+                 ->keyBy('printing_technology_id');
+    }
+
     /**
      * Returns all filament types
      * @return FilamentTypeItemListDTO[]
@@ -27,46 +51,40 @@ class FilamentTypeRepository
         // 1. Get identifiers of all filament types and associated
         //    with them printing technologies (only identifiers)
         $entries = DB::table('filament_types as ft')
-                     ->join('printing_technologies_of_filament_type AS ptft', 'ptft.filament_type_id', '=', 'ft.id')
-                     ->join('printing_technologies AS pt', 'ptft.printing_technology_id', '=', 'pt.id')
+                     ->join('printing_technologies_of_filament_type AS ptft', 'ptft.filament_type_id', '=', 'ft.id', 'left')
+                     ->join('printing_technologies AS pt', 'ptft.printing_technology_id', '=', 'pt.id', 'left')
                      ->select(['ft.id AS filament_type_id', 'pt.id AS printing_technology_id'])
                      ->get();
 
         // 2. Get unique id values
         $collectedEntries = collect($entries);
-        $filamentTypesIds = $collectedEntries->pluck('filament_type_id')->unique()->values()->all();
-        $printingTechnologiesIds = $collectedEntries->pluck('printing_technology_id')->unique()->values()->all();
+        $filamentTypesIds = $this->getUniqueEntries($collectedEntries, 'filament_type_id');
+        $printingTechnologiesIds = $this->getUniqueEntries($collectedEntries, 'printing_technology_id');
 
-        // 3. Get filament types names
-        $filamentTypes = DB::table('filament_types', 'ft')
-                     ->whereIn('ft.id', $filamentTypesIds)
-                     ->select('ft.id as filament_type_id', 'ft.name AS filament_type_name')
-                     ->get()
-                     ->keyBy('filament_type_id');
+        // 3. Get names
+        $filamentTypesNames = $this->getFilamentTypesNames($filamentTypesIds);
+        $printingTechnologiesNames = $this->getPrintingTechnologiesNames($printingTechnologiesIds);
 
-        // 4. Get printing technologies names
-        $printingTechnologies = DB::table('printing_technologies', 'pt')
-                     ->whereIn('pt.id', $printingTechnologiesIds)
-                     ->select('pt.id as printing_technology_id', 'pt.name AS printing_technology_name')
-                     ->get()
-                     ->keyBy('printing_technology_id');
-
-        // 5. Union names and identifiers
-        $result = [];
-        foreach ($entries->groupBy('filament_type_id') as $groups)
+        // 4. Union names and identifiers
+        $filamentTypes = [];
+        $groups = $entries->groupBy('filament_type_id');
+        foreach ($groups as $group)
         {
-            $printingTechnologiesOfFilamentType = [];
-            foreach ($groups as $entry)
+            $printingTechnologies = [];
+            foreach ($group as $printingTechnology)
             {
-                $id = $entry->printing_technology_id;
-                $name = $printingTechnologies[$id]->printing_technology_name;
-                $printingTechnologiesOfFilamentType []= new PrintingTechnologyNameOnlyDTO($id, $name);
+                $id = $printingTechnology->printing_technology_id;
+                // Breaks if group empty
+                if ($id === null)
+                    break;
+                $name = $printingTechnologiesNames[$id]->printing_technology_name;
+                $printingTechnologies []= new PrintingTechnologyNameOnlyDTO($id, $name);
             }
-            $id = $groups[0]->filament_type_id;
-            $name = $filamentTypes[$groups[0]->filament_type_id]->filament_type_name;
-            $result []= new FilamentTypeItemListDTO($id, $name, $printingTechnologiesOfFilamentType);
+            $id = $group[0]->filament_type_id;
+            $name = $filamentTypesNames[$id]->filament_type_name;
+            $filamentTypes []= new FilamentTypeItemListDTO($id, $name, $printingTechnologies);
         }
-        return $result;
+        return $filamentTypes;
     }
 
     /**
@@ -86,39 +104,30 @@ class FilamentTypeRepository
 
         // 2. Get unique id values
         $collectedEntries = collect($entries);
-        $filamentTypesIds = $collectedEntries->pluck('filament_type_id')->unique()->values()->all();
-        $printingTechnologiesIds = $collectedEntries->pluck('printing_technology_id')->unique()->values()->all();
+        $filamentTypesIds = $this->getUniqueEntries($collectedEntries, 'filament_type_id');
+        $printingTechnologiesIds = $this->getUniqueEntries($collectedEntries, 'printing_technology_id');
 
-        // 3. Get filament types names
-        $filamentTypes = DB::table('filament_types', 'ft')
-                     ->whereIn('ft.id', $filamentTypesIds)
-                     ->select('ft.id as filament_type_id', 'ft.name AS filament_type_name')
-                     ->get()
-                     ->keyBy('filament_type_id');
+        // 3. Get names
+        $filamentTypesNames = $this->getFilamentTypesNames($filamentTypesIds);
+        $printingTechnologiesNames = $this->getPrintingTechnologiesNames($printingTechnologiesIds);
 
-        // 4. Get printing technologies names
-        $printingTechnologies = DB::table('printing_technologies', 'pt')
-                     ->whereIn('pt.id', $printingTechnologiesIds)
-                     ->select('pt.id as printing_technology_id', 'pt.name AS printing_technology_name')
-                     ->get()
-                     ->keyBy('printing_technology_id');
-
-        // 5. Union names and identifiers
-        $result = [];
-        foreach ($entries->groupBy('filament_type_id') as $groups)
+        // 4. Union names and identifiers
+        $filamentTypes = [];
+        $groups = $entries->groupBy('filament_type_id');
+        foreach ($groups as $group)
         {
-            $printingTechnologiesOfFilamentType = [];
-            foreach ($groups as $entry)
+            $printingTechnologies = [];
+            foreach ($group as $printingTechnology)
             {
-                $id = $entry->printing_technology_id;
-                $name = $printingTechnologies[$id]->printing_technology_name;
-                $printingTechnologiesOfFilamentType []= new PrintingTechnologyNameOnlyDTO($id, $name);
+                $id = $printingTechnology->printing_technology_id;
+                $name = $printingTechnologiesNames[$id]->printing_technology_name;
+                $printingTechnologies []= new PrintingTechnologyNameOnlyDTO($id, $name);
             }
-            $id = $groups[0]->filament_type_id;
-            $name = $filamentTypes[$groups[0]->filament_type_id]->filament_type_name;
-            $result []= new FilamentTypeItemListDTO($id, $name, $printingTechnologiesOfFilamentType);
+            $id = $group[0]->filament_type_id;
+            $name = $filamentTypesNames[$id]->filament_type_name;
+            $filamentTypes []= new FilamentTypeItemListDTO($id, $name, $printingTechnologies);
         }
-        return $result;
+        return $filamentTypes;
     }
 
     /**
