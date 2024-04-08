@@ -138,7 +138,7 @@ class FilamentTypeRepository
      */
     public function get(int $id) : FilamentTypeDTO|null
     {
-        $filamentTypeEntry = DB::table('filament_types as ft')->find($id);
+        $filamentTypeEntry = DB::table('filament_types')->find($id);
         if ($filamentTypeEntry === null)
             return null;
 
