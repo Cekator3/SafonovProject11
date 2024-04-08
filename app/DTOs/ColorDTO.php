@@ -1,6 +1,6 @@
 <?php
 
-namespace App\DTOs\Models;
+namespace App\DTOs;
 
 /**
  * A subsystem for reading application data about colors
