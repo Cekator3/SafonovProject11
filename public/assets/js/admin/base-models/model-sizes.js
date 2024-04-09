@@ -28,9 +28,8 @@ function IsLastRemaining(modelSize)
 function GetLastUsedIdAttribute(modelSize)
 {
     let id = modelSize.querySelector('input[name="model-sizes[][height]"]').id;
-    if (id === '')
-        return 0;
-    return +id.substring(ID_PREFIX.length, id.length);
+    let result = +id.substring(ID_PREFIX.length, id.length);
+    return isNaN(result) ? 0 : result;
 }
 
 /**
@@ -48,9 +47,6 @@ function SetIdAttributes(inputs, labels, id)
         inputs[i].id = ID_PREFIX + id;
         labels[i].setAttribute('for', ID_PREFIX + id);
         id++;
-
-        // Side effect. Sets empty value to input
-        inputs[i].value = '';
     }
 }
 
