@@ -1,0 +1,116 @@
+main
+{
+    /* Constants */
+    --list-card-padding: 0.9375rem;   /* 15 px */
+    --list-card-gap-between-gap-and-description: 10px;
+    --list-card-max-paragraph-lines: 5;
+
+    /* Sets gap between site header and main */
+    margin-top: 25px;
+}
+
+main > header
+{
+    /* Aligns header's content on the same line */
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+    align-items: baseline;
+}
+
+/* Header's content */
+main > header > *
+{
+    width: 50%;
+}
+
+/* Search and create additional service actions */
+main > header > .actions
+{
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+}
+
+/* Create button */
+main > header > .actions > form
+{
+    width: 15vw;
+    margin-right: var(--list-card-padding);
+}
+
+
+/* Additional services list */
+.base-models
+{
+    /* Removes default styles */
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+
+    /* Sets additional services layout */
+    display: grid;
+    grid-template-columns: repeat(auto-fill, 30%);
+    justify-content: space-between;
+
+    /* Sets vertical gap between additional services */
+    grid-gap: 70px 0;
+}
+
+/* Card of additional services list */
+.base-models > li
+{
+    /* Sets background */
+    padding: var(--list-card-padding);
+    background-color: var(--item-window-bg-color);
+
+    /* Sets rounded borders */
+    border-radius: var(--border-radius);
+}
+
+.base-model
+{
+    text-align: center;
+
+    /* Moves control buttons to the end of the card */
+    height: 100%;
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: space-between;
+}
+
+/* Title of additional service */
+.base-model h3
+{
+    /* Sets font */
+    font-weight: 500;
+    font-size: 1.3125rem;       /* 21px */
+    line-height: 1.366rem;
+
+    /* Sets gap between title and description */
+    margin-bottom: var(--list-card-gap-between-gap-and-description);
+}
+
+/* Preview image */
+.base-model img
+{
+    /* Limits size of image */
+    width: 100%;
+    /* Sets rounded borders */
+    border-radius: var(--border-radius);
+}
+
+/* Action buttons */
+.base-model .actions
+{
+    /* Sets gap between buttons */
+    display: flex;
+    flex-flow: column nowrap;
+    gap: 15px 0;
+}
+
+.base-model .actions button
+{
+    /* Sets height */
+    min-height: min(3.125rem, 50px);
+}
