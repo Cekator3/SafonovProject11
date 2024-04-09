@@ -42,7 +42,7 @@
             {{-- Preview image and title --}}
             <img loading="lazy" src="{{ $baseModel->getPreviewImageUrl() }}">
             <header>
-                <h3>{{ $baseModel->getName() }}</h3>
+                <h3>{{ $baseModel->getName()." (# {$baseModel->getId()})" }}</h3>
             </header>
         </a>
 
