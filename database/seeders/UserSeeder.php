@@ -11,14 +11,15 @@ class UserSeeder extends Seeder
 {
     private function insertUser(int $amount, UserRole $role)
     {
+        $password = Hash::make('1');
         for ($i = 0; $i < $amount; $i++)
         {
             try
             {
                 DB::table('users')->insert([
-                    'email' => fake()->email(),
+                    'email' => "test{$i}{$role->value}@mail.ru",
                     'role' => $role->value,
-                    'password' => Hash::make('1'),
+                    'password' => $password,
                 ]);
             }
             catch (\Throwable $e) {}
@@ -30,13 +31,11 @@ class UserSeeder extends Seeder
      */
     public function run(): void
     {
-        static::insertUser(1, UserRole::Admin);
-        static::insertUser(1000, UserRole::Customer);
-
         DB::table('users')->insert([
             'email' => 'admin@a.a',
             'role' => UserRole::Admin,
             'password' => Hash::make('1'),
         ]);
+        static::insertUser(1000, UserRole::Customer);
     }
 }
