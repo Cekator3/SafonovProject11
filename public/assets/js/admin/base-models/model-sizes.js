@@ -97,8 +97,10 @@ export function ModelSizesAdd()
 {
     let modelSizes = document.querySelector('.model-sizes');
     let modelSize = modelSizes.lastElementChild.previousElementSibling.cloneNode(true);
-    let deleteButton = modelSizes.lastElementChild;
     ModelSizesInit(modelSize);
+
+    // Adds element before delete button
+    let deleteButton = modelSizes.lastElementChild;
     deleteButton.before(modelSize);
 }
 
