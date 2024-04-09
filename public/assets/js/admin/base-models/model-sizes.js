@@ -1,5 +1,5 @@
 /**
- * @file Subsystem for interacting with model's sizes
+ * @file Subsystem for interacting with model's sizes input fields.
  */
 
 /**
