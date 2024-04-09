@@ -16,6 +16,9 @@
     <link href="/assets/css/fonts/manropeFont.css" rel="stylesheet" type="text/css">
     {{-- Other styles --}}
     @yield('styles')
+
+    {{-- Javascripts --}}
+    @yield('scripts')
 </head>
 
 <body>
