@@ -59,7 +59,6 @@
                     <x-forms.inputs.text :name=" 'model-sizes[][Multiplier]' "
                                          :type=" 'number' "
                                          :placeholder=" 'Множитель размера' "
-                                         :id=" 'model_size_0' "
                                          step='0.01'
                                          autocomplete="off"
                     />
@@ -68,19 +67,16 @@
                     <x-forms.inputs.text :name=" 'model-sizes[][length]' "
                                          :type=" 'number' "
                                          :placeholder=" 'Длина' "
-                                         :id=" 'model_size_1' "
                                          autocomplete="off"
                     />
                     <x-forms.inputs.text :name=" 'model-sizes[][width]' "
                                          :type=" 'number' "
                                          :placeholder=" 'Ширина' "
-                                         :id=" 'model_size_2' "
                                          autocomplete="off"
                     />
                     <x-forms.inputs.text :name=" 'model-sizes[][height]' "
                                          :type=" 'number' "
                                          :placeholder=" 'Высота' "
-                                         :id=" 'model_size_3' "
                                          autocomplete="off"
                     />
                 </div>
