@@ -1,6 +1,6 @@
 <?php
 
-namespace App\DTOs\Admin\Models;
+namespace App\DTOs\Admin\BaseModels;
 
 /**
  * A subsystem for reading application data about model's

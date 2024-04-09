@@ -1,6 +1,6 @@
 <?php
 
-namespace App\DTOs\Admin\Models\Prices;
+namespace App\DTOs\Admin\BaseModels\Prices;
 
 /**
  * A subsystem for reading application's data about models print prices.

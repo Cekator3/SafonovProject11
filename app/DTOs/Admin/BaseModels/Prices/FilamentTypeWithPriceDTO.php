@@ -1,6 +1,6 @@
 <?php
 
-namespace App\DTOs\Admin\Models\Prices;
+namespace App\DTOs\Admin\BaseModels\Prices;
 
 use App\DTOs\Admin\FilamentTypes\FilamentTypeCharacteristics;
 
