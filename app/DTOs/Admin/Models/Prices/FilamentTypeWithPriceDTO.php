@@ -1,37 +1,32 @@
 <?php
 
-namespace App\DTOs\Admin\FilamentTypes;
+namespace App\DTOs\Admin\Models\Prices;
 
-use App\DTOs\Admin\PrintingTechnologies\PrintingTechnologyNameOnlyDTO;
+use App\DTOs\Admin\FilamentTypes\FilamentTypeCharacteristics;
 
 /**
- * A subsystem for reading application data about the filament type
+ * A subsystem for reading application data about filament types
+ * and their prices for using them when printing the particular model.
  */
-class FilamentTypeDTO
+class FilamentTypeWithPriceDTO
 {
     protected int $id;
     protected string $name = '';
     protected string $description = '';
     protected FilamentTypeCharacteristics $characteristics;
-    /**
-     * @var PrintingTechnologyNameOnlyDTO[]
-     */
-    protected array $printingTechnologies;
+    private float $price;
 
-    /**
-     * @param PrintingTechnologyNameOnlyDTO[] $printingTechnologies
-     */
     public function __construct(int $id,
                                 string $name,
                                 string $description,
                                 FilamentTypeCharacteristics $characteristics,
-                                array $printingTechnologies)
+                                float $price)
     {
         $this->id = $id;
         $this->name = $name;
         $this->description = $description;
         $this->characteristics = $characteristics;
-        $this->printingTechnologies = $printingTechnologies;
+        $this->price = $price;
     }
 
     /**
@@ -47,7 +42,6 @@ class FilamentTypeDTO
      */
     public function getName() : string
     {
-        assert($this->name !== '', 'accessing not initialized property: $name');
         return $this->name;
     }
 
@@ -56,33 +50,7 @@ class FilamentTypeDTO
      */
     public function getDescription() : string
     {
-        assert($this->description !== '', 'accessing not initialized property: $description');
         return $this->description;
-    }
-
-    /**
-     * Returns the printing technologies in which that filament type is used
-     *
-     * @return PrintingTechnologyNameOnlyDTO[]
-     */
-    public function getPrintingTechnologies() : array
-    {
-        return $this->printingTechnologies;
-    }
-
-    /**
-     * Checks if filament type is used in printing technology
-     *
-     * @return bool
-     */
-    public function isUsedInPrintingTechnology(int $printingTechnologyId) : bool
-    {
-        foreach ($this->printingTechnologies as $printingTechnology)
-        {
-            if ($printingTechnology->getId() === $printingTechnologyId)
-                return true;
-        }
-        return false;
     }
 
     /**
@@ -139,5 +107,14 @@ class FilamentTypeDTO
     public function isFoodContactAllowed() : bool
     {
         return $this->characteristics->isFoodContactAllowed();
+    }
+
+    /**
+     * Returns the price for using this filament type
+     * when printing particular model
+     */
+    public function getPrice() : float
+    {
+        return $this->price;
     }
 }

@@ -1,27 +1,31 @@
 <?php
 
-namespace App\DTOs\Admin;
+namespace App\DTOs\Admin\Models\Prices;
 
 /**
  * A subsystem for reading application data about additional services
+ * and their prices for using them when printing the particular model.
  */
-class AdditionalServiceDTO
+class AdditionalServiceWithPriceDTO
 {
     protected int $id;
     protected string $name = '';
     protected string $description = '';
     protected string $previewImageFilename = '';
     protected string $previewImageUrl = '';
+    private float $price;
 
     public function __construct(int $id,
                                 string $name,
                                 string $description,
-                                string $previewImageFilename)
+                                string $previewImageFilename,
+                                float $price)
     {
         $this->id = $id;
         $this->name = $name;
         $this->description = $description;
         $this->previewImageFilename = $previewImageFilename;
+        $this->price = $price;
     }
 
     /**
@@ -37,7 +41,6 @@ class AdditionalServiceDTO
      */
     public function getName() : string
     {
-        assert($this->name !== '', 'accessing not initialized property: $name');
         return $this->name;
     }
 
@@ -46,17 +49,7 @@ class AdditionalServiceDTO
      */
     public function getDescription() : string
     {
-        assert($this->description !== '', 'accessing not initialized property: $description');
         return $this->description;
-    }
-
-    /**
-     * Returns the preview image filename of the additional service
-     */
-    public function getPreviewImageFilename() : string
-    {
-        assert($this->previewImageFilename !== '', 'accessing not initialized property: $previewImageFilename');
-        return $this->previewImageFilename;
     }
 
     /**
@@ -64,8 +57,24 @@ class AdditionalServiceDTO
      */
     public function getPreviewImageUrl() : string
     {
-        assert($this->previewImageUrl !== '', 'accessing not initialized property: $previewImageUrl');
         return $this->previewImageUrl;
+    }
+
+    /**
+     * Returns the price for using this additional service
+     * when printing particular model
+     */
+    public function getPrice() : float
+    {
+        return $this->price;
+    }
+
+    /**
+     * Returns the preview image filename of the additional service
+     */
+    public function getPreviewImageFilename() : string
+    {
+        return $this->previewImageFilename;
     }
 
     /**
@@ -73,7 +82,6 @@ class AdditionalServiceDTO
      */
     public function setPreviewImageUrl(string $previewImageUrl) : void
     {
-        assert($this->previewImageUrl === '', 'Trying to replace the URL: $previewImageUrl');
         $this->previewImageUrl = $previewImageUrl;
     }
 }

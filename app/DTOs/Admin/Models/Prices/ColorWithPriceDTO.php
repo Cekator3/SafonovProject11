@@ -1,19 +1,22 @@
 <?php
 
-namespace App\DTOs;
+namespace App\DTOs\Admin\Models\Prices;
 
 /**
  * A subsystem for reading application data about colors
+ * and their prices for using them when printing the particular model.
  */
-class ColorDTO
+class ColorWithPriceDTO
 {
     protected int $id;
     protected string $code = '';
+    private float $price;
 
-    public function __construct(int $id, string $code)
+    public function __construct(int $id, string $code, float $price)
     {
         $this->id = $id;
         $this->code = $code;
+        $this->price = $price;
     }
 
     /**
@@ -29,7 +32,15 @@ class ColorDTO
      */
     public function getRgb() : string
     {
-        assert($this->code !== '', 'accessing not initialized property: $code');
         return $this->code;
+    }
+
+    /**
+     * Returns the price for using this color
+     * when printing particular model
+     */
+    public function getPrice() : float
+    {
+        return $this->price;
     }
 }
