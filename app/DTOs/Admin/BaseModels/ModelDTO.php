@@ -21,6 +21,24 @@ class ModelDTO
      */
     private array $sizes;
 
+    /**
+     * @param ModelGalleryImageDTO[] $galleryImages
+     * @param ModelSizeDTO[] $sizes
+     */
+    public function __construct(int $id,
+                                string $name,
+                                string $description,
+                                string $previewImageFilename,
+                                array $galleryImages,
+                                array $sizes)
+    {
+        $this->id = $id;
+        $this->name = $name;
+        $this->description = $description;
+        $this->previewImageFilename = $previewImageFilename;
+        $this->galleryImages = $galleryImages;
+        $this->sizes = $sizes;
+    }
 
     /**
      * Returns the id of the model
@@ -72,5 +90,24 @@ class ModelDTO
     public function getSizes() : array
     {
         return $this->sizes;
+    }
+
+
+
+    /**
+     * Returns the preview image filename of the model
+     */
+    public function getPreviewImageFilename() : string
+    {
+        return $this->previewImageFilename;
+    }
+
+    /**
+     * Sets the URL of the preview image for the model.
+     */
+    public function setPreviewImageUrl(string $previewImageUrl) : void
+    {
+        assert(! isset($this->previewImageUrl), 'Trying to replace the URL: $previewImageUrl = ' . $previewImageUrl);
+        $this->previewImageUrl = $previewImageUrl;
     }
 }

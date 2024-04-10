@@ -49,7 +49,7 @@ class ModelGalleryImageDTO
      */
     public function setUrl(string $url) : void
     {
-        assert($this->url === '', 'Trying to replace the URL: $url');
+        assert(! isset($this->url), 'Trying to replace the URL: $url = ' . $url);
         $this->url = $url;
     }
 }
