@@ -11,7 +11,8 @@
 <link href="/assets/css/form/submit.css" rel="stylesheet" type="text/css">
 
 {{-- Specific --}}
-<link href="/assets/css/admin/base-models/create.css" rel="stylesheet" type="text/css">
+<link href="/assets/css/admin/base-models/model-size-list.css" rel="stylesheet" type="text/css">
+<link href="/assets/css/admin/base-models/update.css" rel="stylesheet" type="text/css">
 @endsection
 
 @section('scripts')
@@ -54,10 +55,10 @@
         />
     </fieldset>
 
-    <fieldset>
+    <fieldset class="preview-image">
         <legend>Изображение предпросмотра</legend>
-        <img src="{{ $model->getPreviewImageUrl() }}" alt="" >
-        <x-forms.inputs.file :name=" 'previewImage' " accept="image/*" loading="lazy"/>
+        <img src="{{ $model->getPreviewImageUrl() }}" alt="" loading="lazy">
+        <x-forms.inputs.file :name=" 'previewImage' " accept="image/*"/>
     </fieldset>
 
     <fieldset>
@@ -112,6 +113,8 @@
             @foreach ($model->getGalleryImages() as $galleryImage)
                 <li>
                     <img src="{{ $galleryImage->getUrl() }}" alt="" loading="lazy">
+
+                    <x-forms.submit :placeholder=" 'Удалить' " />
                 </li>
             @endforeach
         </ul>

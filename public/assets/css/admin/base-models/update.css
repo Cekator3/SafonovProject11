@@ -1,5 +1,75 @@
-
-main form img
+main
 {
+    /* Constants */
+    --gallery-images-padding: 0.9375rem;   /* 15 px */
+
+    /* Sets gap between site header and main */
+    margin-top: 25px;
+}
+
+main > header
+{
+    text-align: center;
+    display: flex;
+}
+
+.preview-image img
+{
+    /* Sets background */
+    background-color: var(--item-window-bg-color);
+    padding: var(--gallery-images-padding);
+
+    /* Sets rounded borders */
+    border-radius: var(--border-radius);
+
+    /* Sets gap between image and upload button */
+    margin-bottom: 20px;
     width: 50%;
+}
+
+/* Gallery images */
+.gallery-images
+{
+    /* Removes default styles */
+    padding: 0;
+    list-style: none;
+
+    /* Sets gallery layout */
+    display: grid;
+    grid-template-columns: repeat(auto-fill, 48%);
+    justify-content: space-between;
+
+    /* Sets vertical gap between gallery images */
+    grid-gap: 70px 0;
+}
+
+/* Gallery image */
+.gallery-images > li
+{
+    /* Sets background */
+    background-color: var(--item-window-bg-color);
+    padding: var(--gallery-images-padding);
+
+    /* Sets rounded borders */
+    border-radius: var(--border-radius);
+}
+
+/* Gallery image */
+.gallery-images > li img
+{
+    /* Limits size of image */
+    width: 100%;
+
+    /* Sets rounded borders */
+    border-radius: var(--border-radius);
+
+    /* Sets gap between image and delete button */
+    margin-bottom: 20px;
+}
+
+/* Delete gallery image button */
+.gallery-images > li button
+{
+    /* Sets height */
+    min-height: min(3.125rem, 50px);
 }
