@@ -6,17 +6,15 @@
  * For example, model-sizes[][height], ... -> model-sizes[0][height],
  * model-sizes[1][height]...
  *
- * @param {HTMLElement[]} parents
+ * @param {HTMLInputElement[]} inputs - inputs to numerate
  * @param {string} prefix - Prefix of the name attribute
  * @param {string} postfix - Postfix of the name attribute
  * @returns {void}
  */
-export function FormsNumerateNameAttributes(parents, prefix, postfix)
+export function FormsNumerateNameAttributes(inputs, prefix, postfix)
 {
-    for (let i = 0; i < parents.length; i++)
+    for (let i = 0; i < inputs.length; i++)
     {
-        let inputs = parents[i].getElementsByTagName('input');
-        for (let input of inputs)
-            input.name = prefix + i + postfix;
+        inputs[i].name = prefix + i + postfix;
     }
 }

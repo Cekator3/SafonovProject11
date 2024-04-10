@@ -33,24 +33,34 @@ function InitializeAddModelSizeButton(addModelSizeButton)
 /**
  * Initializes the form of the page
  *
- * @param {HTMLButtonElement} submitFormButton
+ * @param {HTMLFormElement} form
  * @returns {void}
  */
-function InitializeSubmitFormButton(submitFormButton)
+function InitializeForm(form)
 {
-    submitFormButton.addEventListener('submit', function ()
+    form.addEventListener('submit', function (event)
     {
-        let modelSizes = document.querySelectorAll('.model-sizes li');
-        FormsNumerateNameAttributes(modelSizes, 'model-sizes[', '][Multiplier]');
+        event.preventDefault();
+
+        let modelSizes = document.querySelector('.model-sizes');
+        let multipliers = modelSizes.querySelectorAll('input[name$="[multiplier]"]');
+        let lengths = modelSizes.querySelectorAll('input[name$="[length]"]');
+        let widths = modelSizes.querySelectorAll('input[name$="[width]"]');
+        let heights = modelSizes.querySelectorAll('input[name$="[height]"]');
+        FormsNumerateNameAttributes(multipliers, 'model-sizes[', '][multiplier]');
+        FormsNumerateNameAttributes(lengths, 'model-sizes[', '][length]');
+        FormsNumerateNameAttributes(widths, 'model-sizes[', '][width]');
+        FormsNumerateNameAttributes(heights, 'model-sizes[', '][height]');
+
+        this.submit();
     });
 }
 
-let form = document.querySelector('form');
+let form = document.getElementById('create-base-model');
 
-let submitButton = form.querySelector('button[type="submit"]');
 let modelSizes = Array.from(form.querySelectorAll('.model-sizes li'));
 let addModelSizeButton = modelSizes.pop();
 
+InitializeForm(form);
 InitializeModelSizes(modelSizes);
-InitializeSubmitFormButton(submitButton);
 InitializeAddModelSizeButton(addModelSizeButton);
