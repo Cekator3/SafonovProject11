@@ -29,7 +29,7 @@ function IsLastRemaining(modelSize)
  */
 function GetLastUsedIdAttribute(modelSize)
 {
-    let id = modelSize.querySelector('input[name="model-sizes[][height]"]').id;
+    let id = modelSize.querySelector('input[name$="[height]"]').id;
     let result = +id.substring(ID_PREFIX.length, id.length);
     return isNaN(result) ? 0 : result;
 }
@@ -101,9 +101,9 @@ export function ModelSizesAdd()
     let modelSize = modelSizes.lastElementChild.previousElementSibling.cloneNode(true);
     ModelSizesInit(modelSize);
 
-    // Adds element before delete button
-    let deleteButton = modelSizes.lastElementChild;
-    deleteButton.before(modelSize);
+    // Adds element before 'add model size' button
+    let addButton = modelSizes.lastElementChild;
+    addButton.before(modelSize);
 }
 
 /**

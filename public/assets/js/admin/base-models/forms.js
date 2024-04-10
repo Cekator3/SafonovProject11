@@ -14,7 +14,5 @@
 export function FormsNumerateNameAttributes(inputs, prefix, postfix)
 {
     for (let i = 0; i < inputs.length; i++)
-    {
         inputs[i].name = prefix + i + postfix;
-    }
 }
