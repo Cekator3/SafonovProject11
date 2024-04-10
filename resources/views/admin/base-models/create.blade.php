@@ -16,7 +16,8 @@
 
 @section('scripts')
 <script src="/assets/js/admin/base-models/model-sizes.js" type="module" defer></script>
-<script src="/assets/js/admin/base-models/init-model-sizes-list.js" type="module" defer></script>
+<script src="/assets/js/admin/base-models/forms.js" type="module" defer></script>
+<script src="/assets/js/admin/base-models/init-form.js" type="module" defer></script>
 @endsection
 
 @section('navigation')

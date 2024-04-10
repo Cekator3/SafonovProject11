@@ -21,6 +21,7 @@ class BaseModelsCreationController
      */
     public function createBaseModel(Request $request) : RedirectResponse
     {
+        dd($request->input());
         // ...
         return redirect()->route('base-models');
     }

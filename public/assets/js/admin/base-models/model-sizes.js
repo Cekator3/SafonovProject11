@@ -2,15 +2,17 @@
  * @file Subsystem for interacting with model's sizes input fields.
  */
 
+'use strict';
+
 /**
  * Prefix of the id attribute that is used in inputs and labels
  */
-const ID_PREFIX = 'model_size_';
+const ID_PREFIX = 'model_size_li_';
 
 /**
  * Checks if model's size is last remaining in the list
  *
- * @param {li} modelSize
+ * @param {HTMLLIElement} modelSize
  * @returns {boolean}
  */
 function IsLastRemaining(modelSize)
@@ -22,7 +24,7 @@ function IsLastRemaining(modelSize)
 /**
  * Returns the last id attribute value used in old model size.
  *
- * @param {li} modelSize
+ * @param {HTMLLIElement} modelSize
  * @returns {number}
  */
 function GetLastUsedIdAttribute(modelSize)
@@ -35,8 +37,8 @@ function GetLastUsedIdAttribute(modelSize)
 /**
  * Sets id attribute for inputs and appropriate labels for new model size
  *
- * @param {input[]} inputs
- * @param {label[]} labels
+ * @param {HTMLInputElement[]} inputs
+ * @param {HTMLLabelElement[]} labels
  * @param {number} id
  * @returns {void}
  */
@@ -52,7 +54,7 @@ function SetIdAttributes(inputs, labels, id)
 
 /**
  * Clears value attribute for inputs
- * @param {input[]} inputs
+ * @param {HTMLInputElement[]} inputs
  * @returns {void}
  */
 function ClearInputsValues(inputs)
@@ -64,7 +66,7 @@ function ClearInputsValues(inputs)
 /**
  * Initializes the element of the list (so he will work as expected)
  *
- * @param {li} modelSize
+ * @param {HTMLLIElement} modelSize
  * @returns {void}
  */
 export function ModelSizesInit(modelSize)
@@ -106,7 +108,8 @@ export function ModelSizesAdd()
 
 /**
  * Removes model's size from list
- * @param {li} modelSize
+ *
+ * @param {HTMLLIElement} modelSize
  * @returns {void}
  */
 export function ModelSizesRemove(modelSize)
