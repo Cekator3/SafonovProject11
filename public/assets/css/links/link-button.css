@@ -1,0 +1,51 @@
+/* Link with button style */
+
+.link.button
+{
+    /* Constants */
+    --height: 2.5rem;     /* 40px */
+}
+
+.link.button
+{
+    /* Sets size */
+    display: block;
+    width: 100%;
+    height: var(--height);
+
+    /* Sets text to the center */
+    line-height: var(--height);
+    text-align: center;
+
+    /* Sets rounded corners */
+    border-radius: var(--border-radius);
+
+    /* Sets font */
+    font-size: 1rem;         /* 16px */
+
+    /* Sets colors */
+    color: var(--form-submit-filled-text-color);
+    background-image: var(--form-submit-filled-gradient);
+    background-size: var(--form-submit-filled-bg-size);
+
+    /* Sets animation speed */
+    transition: 0.5s;
+}
+
+
+.link.button:hover
+{
+    /* Sets animation direction */
+    background-position: right center;
+
+    /* Sets cursor type */
+    cursor: pointer;
+}
+
+
+/* Pressed submit button */
+.link.button:active
+{
+    transition: 0.2s;
+    box-shadow: var(--form-submit-box-shadow);
+}

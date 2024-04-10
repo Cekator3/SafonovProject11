@@ -10,6 +10,8 @@
 <link href="/assets/css/form/fieldset.css" rel="stylesheet" type="text/css">
 <link href="/assets/css/form/submit.css" rel="stylesheet" type="text/css">
 
+<link href="/assets/css/links/link-button.css" rel="stylesheet" type="text/css">
+
 {{-- Specific --}}
 <link href="/assets/css/admin/base-models/model-size-list.css" rel="stylesheet" type="text/css">
 <link href="/assets/css/admin/base-models/update.css" rel="stylesheet" type="text/css">
@@ -64,11 +66,19 @@
         />
     </fieldset>
 
-    <fieldset class="preview-image">
-        <legend>Изображение предпросмотра</legend>
-        <img src="{{ $model->getPreviewImageUrl() }}" alt="" loading="lazy">
-        <x-forms.inputs.file :name=" 'previewImage' " accept="image/*"/>
-    </fieldset>
+    <div class="preview-and-price-change">
+        <fieldset class="preview-image">
+            <legend>Изображение предпросмотра</legend>
+            <img src="{{ $model->getPreviewImageUrl() }}" alt="" loading="lazy">
+            <x-forms.inputs.file :name=" 'previewImage' " accept="image/*"/>
+        </fieldset>
+
+        <fieldset class="price-change">
+            <legend>Стоимость печати</legend>
+            <a class="link button" href="{{ route('base-models.update-prices', ['id' => $model->getId()]) }}">Изменить</a>
+        </fieldset>
+
+    </div>
 
     <fieldset>
         <legend>Множители размеров</legend>

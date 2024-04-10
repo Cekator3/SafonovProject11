@@ -13,6 +13,20 @@ main > header
     display: flex;
 }
 
+.preview-and-price-change
+{
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    justify-content: space-between;
+    /* Sets vertical gap between gallery images */
+    grid-gap: 0 60px;
+}
+
+.preview-and-price-change > fieldset
+{
+    margin-top: 0;
+}
+
 .preview-image img
 {
     /* Sets background */
@@ -24,7 +38,7 @@ main > header
 
     /* Sets gap between image and upload button */
     margin-bottom: 20px;
-    width: 50%;
+    width: 100%;
 }
 
 /* Gallery images */

@@ -23,6 +23,6 @@ class BaseModelsCreationController
     {
         dd($request->input());
         // ...
-        return redirect()->route('base-models');
+        return redirect()->route('base-models.update-prices');
     }
 }

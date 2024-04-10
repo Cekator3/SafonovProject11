@@ -6,6 +6,7 @@ use App\Http\Controllers\Admin\BaseModels\BaseModelsUpdateController;
 use App\Http\Controllers\Admin\BaseModels\BaseModelsListingController;
 use App\Http\Controllers\Admin\BaseModels\BaseModelsCreationController;
 use App\Http\Controllers\Admin\BaseModels\BaseModelsDeletionController;
+use App\Http\Controllers\Admin\BaseModels\BaseModelsPricesUpdateController;
 
 // Admin only
 Route::middleware([Authenticate::class, EnsureIsAdmin::class])
@@ -36,6 +37,14 @@ Route::middleware([Authenticate::class, EnsureIsAdmin::class])
         Route::get('/update/{id}', 'showUpdatingForm')
              ->name('base-models.update');
         Route::patch('/update/{id}', 'updateBaseModel');
+    });
+
+    Route::controller(BaseModelsPricesUpdateController::class)
+         ->group(function ()
+    {
+        Route::get('/update-prices/{id}', 'showUpdatingForm')
+             ->name('base-models.update-prices');
+        Route::patch('/update-prices/{id}', 'updateBaseModel');
     });
     /////
 
