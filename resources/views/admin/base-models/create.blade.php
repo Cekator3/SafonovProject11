@@ -16,9 +16,13 @@
 @endsection
 
 @section('scripts')
-<script src="/assets/js/admin/base-models/model-sizes.js" type="module" defer></script>
-<script src="/assets/js/admin/base-models/forms.js" type="module" defer></script>
-<script src="/assets/js/admin/base-models/init-form.js" type="module" defer></script>
+{{-- Model sizes --}}
+<script defer src="/assets/js/admin/base-models/model-sizes/model-sizes.js" type="module"></script>
+<script defer src="/assets/js/admin/base-models/model-sizes/init-model-sizes.js" type="module"></script>
+
+{{-- Specific --}}
+<script defer src="/assets/js/admin/base-models/forms.js" type="module"></script>
+<script defer src="/assets/js/admin/base-models/base-model-create.js" type="module"></script>
 @endsection
 
 @section('navigation')

@@ -8,7 +8,7 @@
  */
 export function GalleryImageDelete(image)
 {
-
+    // ...
 }
 
 /**
@@ -18,6 +18,17 @@ export function GalleryImageDelete(image)
  * @returns {void}
  */
 export function GalleryImageRestore(image)
+{
+    // ...
+}
+
+/**
+ * Checks if the gallery image has been deleted.
+ *
+ * @param {HTMLLIElement} image
+ * @returns {boolean}
+ */
+export function GalleryImageIsDeleted(image)
 {
 
 }
@@ -29,5 +40,5 @@ export function GalleryImageRestore(image)
  */
 export function GalleryImageGetDeleted()
 {
-    
+    // ...
 }

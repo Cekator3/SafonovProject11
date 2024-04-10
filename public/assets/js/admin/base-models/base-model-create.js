@@ -1,34 +1,4 @@
-'use strict';
-
 import { FormsNumerateNameAttributes } from "./forms.js";
-import { ModelSizesInit, ModelSizesAdd } from "./model-sizes.js";
-
-/**
- * Initializes the model's sizes list elements
- *
- * @param {HTMLLIElement[]} modelSizes
- * @returns{void}
- */
-function InitializeModelSizes(modelSizes)
-{
-    for (let modelSize of modelSizes)
-        ModelSizesInit(modelSize);
-}
-
-/**
- * Initializes add model's size button.
- *
- * @param {HTMLButtonElement} addModelSizeButton
- * @returns {void}
- */
-function InitializeAddModelSizeButton(addModelSizeButton)
-{
-    addModelSizeButton.addEventListener('click', function (event)
-    {
-        event.preventDefault();
-        ModelSizesAdd();
-    });
-}
 
 /**
  * Initializes the form of the page
@@ -57,10 +27,4 @@ function InitializeForm(form)
 }
 
 let form = document.getElementById('model-form');
-
-let modelSizes = Array.from(form.querySelectorAll('.model-sizes li'));
-let addModelSizeButton = modelSizes.pop();
-
 InitializeForm(form);
-InitializeModelSizes(modelSizes);
-InitializeAddModelSizeButton(addModelSizeButton);
