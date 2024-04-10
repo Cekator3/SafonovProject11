@@ -1,4 +1,24 @@
+/**
+ * @file Subsystem for interacting with model's gallery images.
+ */
+
 'use strict';
+
+/**
+ * Prefix of the id attribute that is used to identify the gallery images
+ */
+const ID_PREFIX = 'gallery_image_';
+
+/**
+ * Returns id of the image. Returns NaN if can't do this.
+ *
+ * @param {HTMLLIElement} image
+ * @returns {number}
+ */
+function GetImageId(image)
+{
+    return +image.id.substring(ID_PREFIX.length, image.id.length);
+}
 
 /**
  * Marks a gallery image for deletion.
@@ -8,7 +28,7 @@
  */
 export function GalleryImageDelete(image)
 {
-    // ...
+    image.classList.add('deletion-mark');
 }
 
 /**
@@ -19,7 +39,7 @@ export function GalleryImageDelete(image)
  */
 export function GalleryImageRestore(image)
 {
-    // ...
+    image.classList.remove('deletion-mark');
 }
 
 /**
@@ -30,7 +50,7 @@ export function GalleryImageRestore(image)
  */
 export function GalleryImageIsDeleted(image)
 {
-
+    return image.classList.contains('deletion-mark');
 }
 
 /**
@@ -40,5 +60,17 @@ export function GalleryImageIsDeleted(image)
  */
 export function GalleryImageGetDeleted()
 {
-    // ...
+    let result = [];
+
+    let imagesToDelete = document.querySelectorAll('.gallery-images li[class~=deletion-mark]');
+    for (let image of imagesToDelete)
+    {
+        let id = GetImageId(image);
+
+        if (isNaN(id))
+            continue;
+        result.push(id);
+    }
+
+    return result;
 }

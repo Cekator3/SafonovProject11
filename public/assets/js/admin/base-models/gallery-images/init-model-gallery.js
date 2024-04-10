@@ -1,14 +1,14 @@
 'use strict';
 
-import { GalleryImageDelete, GalleryImageIsDeleted, GalleryImageRestore } from "./gallery-image";
+import { GalleryImageDelete, GalleryImageIsDeleted, GalleryImageRestore } from "./gallery-image.js";
 
 /**
  * Initializes delete buttons of gallery images
  *
- * @param {HTMLButtonElement} button
+ * @param {HTMLButtonElement[]} buttons
  * @returns {void}
  */
-function InitializeDeleteGalleryImageButton(buttons)
+function InitializeDeleteImageButtons(buttons)
 {
     for (let button of buttons)
     {
@@ -16,6 +16,7 @@ function InitializeDeleteGalleryImageButton(buttons)
         {
             event.preventDefault();
             let image = event.target.closest('li');
+
             if (GalleryImageIsDeleted(image))
                 GalleryImageRestore(image);
             else
@@ -25,6 +26,6 @@ function InitializeDeleteGalleryImageButton(buttons)
 }
 
 
-let buttons = document.querySelectorAll('.delete-gallery button');
+let buttons = document.querySelectorAll('.gallery-images > li button');
 
-InitializeDeleteGalleryImageButton(buttons);
+InitializeDeleteImageButtons(buttons);

@@ -74,16 +74,17 @@ function ClearInputsValues(inputs)
  * Initializes the element of the list (so he will work as expected)
  *
  * @param {HTMLLIElement} modelSize
- * @param {bool} clearValues Indicates whether the values from inputs should be cleared
+ * @param {bool} shouldClearValues Indicates whether the values from inputs should be cleared
  * @returns {void}
  */
-export function ModelSizesInit(modelSize, clearValues = false)
+export function ModelSizesInit(modelSize, shouldClearValues = false)
 {
     // Adds event listener to delete button
     let deleteButton = modelSize.querySelector('button.delete');
     deleteButton.addEventListener('click', function (event)
     {
         event.preventDefault();
+
         // Removes model's size if he is not the last remaining
         let modelSize = event.target.closest('li');
         if (! IsLastRemaining(modelSize))
@@ -95,7 +96,8 @@ export function ModelSizesInit(modelSize, clearValues = false)
     let inputs = modelSize.getElementsByTagName('input');
     let labels = modelSize.getElementsByTagName('label');
     SetIdAttributes(inputs, labels, id);
-    if (clearValues)
+
+    if (shouldClearValues)
         ClearInputsValues(inputs);
 }
 

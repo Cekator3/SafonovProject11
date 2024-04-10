@@ -54,7 +54,7 @@ main > header
     border-radius: var(--border-radius);
 }
 
-.gallery-images > li.to-be-deleted button
+.gallery-images > li.deletion-mark button
 {
     background: rgb(66, 66, 66);
     color: white;
