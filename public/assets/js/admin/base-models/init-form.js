@@ -56,7 +56,7 @@ function InitializeForm(form)
     });
 }
 
-let form = document.getElementById('create-base-model');
+let form = document.getElementById('model-form');
 
 let modelSizes = Array.from(form.querySelectorAll('.model-sizes li'));
 let addModelSizeButton = modelSizes.pop();

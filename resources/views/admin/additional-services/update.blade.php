@@ -26,8 +26,8 @@
     <h1>Изменение дополнительной услуги</h1>
 </header>
 
-<form method="POST"
-      enctype="multipart/form-data"
+<form enctype="multipart/form-data"
+      method="POST"
       action="{{ route('additional-services.update', ['id' => $additionalService->getId()]) }}"
 >
     @csrf

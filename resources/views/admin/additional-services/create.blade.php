@@ -23,7 +23,7 @@
     <h1>Создание дополнительной услуги</h1>
 </header>
 
-<form method="POST" action="{{ route('additional-services.create') }}" enctype="multipart/form-data">
+<form enctype="multipart/form-data" method="POST" action="{{ route('additional-services.create') }}">
     @csrf
 
     <fieldset>

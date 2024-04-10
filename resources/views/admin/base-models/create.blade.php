@@ -29,7 +29,11 @@
     <h1>Создание модельки</h1>
 </header>
 
-<form id='create-base-model' method="POST" action="{{ route('base-models.create') }}" >
+<form enctype="multipart/form-data"
+      method="POST"
+      action="{{ route('base-models.create') }}"
+      id="model-form"
+>
     @csrf
 
     <fieldset>
@@ -60,7 +64,6 @@
                     <x-forms.inputs.text :name=" 'model-sizes[][multiplier]' "
                                          :type=" 'number' "
                                          :placeholder=" 'Множитель размера' "
-                                         step='0.01'
                                          autocomplete="off"
                     />
                 </div>
