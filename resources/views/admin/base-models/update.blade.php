@@ -21,11 +21,12 @@
 <script defer src="/assets/js/admin/base-models/model-sizes/init-model-sizes.js" type="module"></script>
 
 {{-- Model's gallery images --}}
-<script defer src="/assets/js/admin/base-models/gallery-images/gallery-image.js" type="module"></script>
+<script defer src="/assets/js/admin/base-models/gallery-images/gallery-images.js" type="module"></script>
+<script defer src="/assets/js/forms/form-inputs.js" type="module"></script>
 <script defer src="/assets/js/admin/base-models/gallery-images/init-model-gallery.js" type="module"></script>
 
 {{-- Specific --}}
-<script defer src="/assets/js/admin/base-models/forms.js" type="module"></script>
+<script defer src="/assets/js/forms/form-inputs-names.js" type="module"></script>
 <script defer src="/assets/js/admin/base-models/base-model-update.js" type="module"></script>
 @endsection
 

@@ -26,7 +26,7 @@ function GetImageId(image)
  * @param {HTMLLIElement} image
  * @returns {void}
  */
-export function GalleryImageDelete(image)
+export function GalleryImagesDelete(image)
 {
     image.classList.add('deletion-mark');
 }
@@ -37,7 +37,7 @@ export function GalleryImageDelete(image)
  * @param {HTMLLIElement} image
  * @returns {void}
  */
-export function GalleryImageRestore(image)
+export function GalleryImagesRestore(image)
 {
     image.classList.remove('deletion-mark');
 }
@@ -48,7 +48,7 @@ export function GalleryImageRestore(image)
  * @param {HTMLLIElement} image
  * @returns {boolean}
  */
-export function GalleryImageIsDeleted(image)
+export function GalleryImagesIsDeleted(image)
 {
     return image.classList.contains('deletion-mark');
 }
@@ -58,7 +58,7 @@ export function GalleryImageIsDeleted(image)
  *
  * @returns {number[]}
  */
-export function GalleryImageGetDeleted()
+export function GalleryImagesGetRemoved()
 {
     let result = [];
 

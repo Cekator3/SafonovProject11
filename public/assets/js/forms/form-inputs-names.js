@@ -1,3 +1,8 @@
+/**
+ * @file Subsystem to numerate array names of inputs.
+ *
+ * For example, image[], image[] => image[1], image[2]
+ */
 'use strict';
 
 /**
@@ -11,7 +16,7 @@
  * @param {string} postfix - Postfix of the name attribute
  * @returns {void}
  */
-export function FormsNumerateNameAttributes(inputs, prefix, postfix)
+export function FormInputsNamesNumerate(inputs, prefix, postfix)
 {
     for (let i = 0; i < inputs.length; i++)
         inputs[i].name = prefix + i + postfix;

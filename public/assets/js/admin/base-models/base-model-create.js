@@ -1,4 +1,4 @@
-import { FormsNumerateNameAttributes } from "./forms.js";
+import { FormInputsNamesNumerate } from "../../forms/form-inputs-names";
 
 /**
  * Initializes the form of the page
@@ -17,10 +17,10 @@ function InitializeForm(form)
         let lengths = modelSizes.querySelectorAll('input[name$="[length]"]');
         let widths = modelSizes.querySelectorAll('input[name$="[width]"]');
         let heights = modelSizes.querySelectorAll('input[name$="[height]"]');
-        FormsNumerateNameAttributes(multipliers, 'model-sizes[', '][multiplier]');
-        FormsNumerateNameAttributes(lengths, 'model-sizes[', '][length]');
-        FormsNumerateNameAttributes(widths, 'model-sizes[', '][width]');
-        FormsNumerateNameAttributes(heights, 'model-sizes[', '][height]');
+        FormInputsNamesNumerate(multipliers, 'model-sizes[', '][multiplier]');
+        FormInputsNamesNumerate(lengths, 'model-sizes[', '][length]');
+        FormInputsNamesNumerate(widths, 'model-sizes[', '][width]');
+        FormInputsNamesNumerate(heights, 'model-sizes[', '][height]');
 
         this.submit();
     });

@@ -1,6 +1,6 @@
 'use strict';
 
-import { GalleryImageDelete, GalleryImageIsDeleted, GalleryImageRestore } from "./gallery-image.js";
+import { GalleryImagesDelete, GalleryImagesIsDeleted, GalleryImagesRestore } from "./gallery-images.js";
 
 /**
  * Initializes delete buttons of gallery images
@@ -17,10 +17,10 @@ function InitializeDeleteImageButtons(buttons)
             event.preventDefault();
             let image = event.target.closest('li');
 
-            if (GalleryImageIsDeleted(image))
-                GalleryImageRestore(image);
+            if (GalleryImagesIsDeleted(image))
+                GalleryImagesRestore(image);
             else
-                GalleryImageDelete(image);
+                GalleryImagesDelete(image);
         });
     }
 }

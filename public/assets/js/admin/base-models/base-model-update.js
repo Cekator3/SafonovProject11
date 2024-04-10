@@ -1,4 +1,9 @@
-import { FormsNumerateNameAttributes } from "./forms.js";
+'use strict';
+
+import { FormInputsRemove } from "../../forms/form-inputs.js";
+import { GalleryImagesGetRemoved } from "./gallery-images/gallery-images.js";
+import { FormInputsNamesNumerate } from '/assets/js/forms/form-inputs-names.js';
+import { FormInputsAddHidden } from '/assets/js/forms/form-inputs.js';
 
 /**
  * Initializes the form of the page
@@ -18,10 +23,16 @@ function InitializeForm(form)
         let lengths = modelSizes.querySelectorAll('input[name$="[length]"]');
         let widths = modelSizes.querySelectorAll('input[name$="[width]"]');
         let heights = modelSizes.querySelectorAll('input[name$="[height]"]');
-        FormsNumerateNameAttributes(multipliers, 'model-sizes[', '][multiplier]');
-        FormsNumerateNameAttributes(lengths, 'model-sizes[', '][length]');
-        FormsNumerateNameAttributes(widths, 'model-sizes[', '][width]');
-        FormsNumerateNameAttributes(heights, 'model-sizes[', '][height]');
+        FormInputsNamesNumerate(multipliers, 'model-sizes[', '][multiplier]');
+        FormInputsNamesNumerate(lengths, 'model-sizes[', '][length]');
+        FormInputsNamesNumerate(widths, 'model-sizes[', '][width]');
+        FormInputsNamesNumerate(heights, 'model-sizes[', '][height]');
+
+        // Add deleted gallery images as an input
+        FormInputsRemove(this, 'removed-gallery-images[]');
+        let removedImagesIds = GalleryImagesGetRemoved();
+        for (let imageId of removedImagesIds)
+            FormInputsAddHidden(this, 'removed-gallery-images[]', imageId);
 
         this.submit();
     });
