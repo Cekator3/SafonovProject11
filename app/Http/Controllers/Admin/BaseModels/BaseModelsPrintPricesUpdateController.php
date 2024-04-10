@@ -6,7 +6,7 @@ use Illuminate\View\View;
 use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
 
-class BaseModelsPricesUpdateController
+class BaseModelsPrintPricesUpdateController
 {
     public function showUpdatingForm(int $baseModelId) : View
     {
@@ -14,9 +14,9 @@ class BaseModelsPricesUpdateController
     }
 
     /**
-     * Tries to update a base model
+     * Tries to update a base model's print price
      */
-    public function updateBaseModel(Request $request, int $baseModelId) : RedirectResponse
+    public function updatePrintPrice(Request $request, int $baseModelId) : RedirectResponse
     {
         dd($request->input());
         // ...
