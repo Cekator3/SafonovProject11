@@ -111,7 +111,7 @@
         <x-forms.inputs.file :name=" 'previewImage' " accept="image/*" multiple/>
         <ul class="gallery-images">
             @foreach ($model->getGalleryImages() as $galleryImage)
-                <li>
+                <li id="gallery_image_{{ $galleryImage->getId() }}">
                     <img src="{{ $galleryImage->getUrl() }}" alt="" loading="lazy">
 
                     <x-forms.submit :placeholder=" 'Удалить' " />
