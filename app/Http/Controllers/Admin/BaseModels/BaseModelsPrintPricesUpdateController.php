@@ -16,7 +16,7 @@ class BaseModelsPrintPricesUpdateController
     /**
      * Tries to update a base model's print price
      */
-    public function updatePrintPrice(Request $request, int $baseModelId) : RedirectResponse
+    public function updateBaseModelPrintPrice(Request $request, int $baseModelId) : RedirectResponse
     {
         dd($request->input());
         // ...

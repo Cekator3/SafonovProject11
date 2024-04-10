@@ -44,7 +44,7 @@ Route::middleware([Authenticate::class, EnsureIsAdmin::class])
     {
         Route::get('/update-prices/{id}', 'showUpdatingForm')
              ->name('base-models.update-prices');
-        Route::patch('/update-prices/{id}', 'updatePrintPrice');
+        Route::patch('/update-prices/{id}', 'updateBaseModelPrintPrice');
     });
     /////
 
