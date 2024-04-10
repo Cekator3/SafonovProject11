@@ -1,5 +1,4 @@
 /* Applying layout as in additional service list page */
-
 main
 {
     margin-top: 25px;
@@ -9,83 +8,4 @@ main > header
 {
     text-align: center;
     display: flex;
-}
-
-.model-sizes
-{
-    padding: 0;
-    list-style: unset;
-}
-
-/* Model size */
-.model-sizes > li
-{
-    display: flex;
-    flex-flow: row nowrap;
-    align-items: flex-start;
-    height: fit-content;
-}
-
-/* Size multiplier and actual size values */
-.model-sizes > li > *
-{
-    flex-basis: 50%;
-}
-
-/* Add button */
-.model-sizes > .add
-{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.model-sizes > .add button
-{
-    flex-basis: fit-content;
-    background-color: transparent;
-    border: none;
-    color: red;
-    font-weight: 900;
-    font-size: 2rem;
-}
-
-.model-sizes > .add button:hover
-{
-    cursor: pointer;
-}
-
-/* Delete button */
-.model-sizes > li > button.delete
-{
-    flex-basis:auto;
-    align-self: center;
-    background-color: transparent;
-    border: none;
-    color: red;
-    font-weight: 900;
-    font-size: 1.5rem;
-}
-
-.model-sizes > li > button.delete:hover
-{
-    cursor: pointer;
-}
-
-/* Actual size values */
-.model-sizes > li .actual-values
-{
-    display: flex;
-    flex-flow: row nowrap;
-    justify-content: space-evenly;
-}
-
-.model-sizes > li .actual-values .input-field
-{
-    margin-bottom: 0;
-}
-
-.model-sizes > li .actual-values > *
-{
-    flex-basis: 32%;
 }

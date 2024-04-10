@@ -11,6 +11,7 @@
 <link href="/assets/css/form/submit.css" rel="stylesheet" type="text/css">
 
 {{-- Specific --}}
+<link href="/assets/css/admin/base-models/model-size-list.css" rel="stylesheet" type="text/css">
 <link href="/assets/css/admin/base-models/create.css" rel="stylesheet" type="text/css">
 @endsection
 
