@@ -11,8 +11,8 @@ import { ModelSizesInit, ModelSizesAdd } from "./model-sizes.js";
  */
 function InitializeModelSizes(modelSizes)
 {
-    for (let i = 0; i < modelSizes.length; i++)
-        ModelSizesInit(modelSizes[i]);
+    for (let modelSize of modelSizes)
+        ModelSizesInit(modelSize);
 }
 
 /**

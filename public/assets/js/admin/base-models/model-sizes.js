@@ -31,7 +31,14 @@ function GetLastUsedIdAttribute(modelSize)
 {
     let id = modelSize.querySelector('input[name$="[height]"]').id;
     let result = +id.substring(ID_PREFIX.length, id.length);
-    return isNaN(result) ? 0 : result;
+
+    if (! isNaN(result))
+        return result;
+
+    // Get last used id attribute from previous model sizes (if they are exists)
+    if (modelSize.previousElementSibling === null)
+        return 0;
+    return GetLastUsedIdAttribute(modelSize.previousElementSibling);
 }
 
 /**
@@ -67,9 +74,10 @@ function ClearInputsValues(inputs)
  * Initializes the element of the list (so he will work as expected)
  *
  * @param {HTMLLIElement} modelSize
+ * @param {bool} clearValues Indicates whether the values from inputs should be cleared
  * @returns {void}
  */
-export function ModelSizesInit(modelSize)
+export function ModelSizesInit(modelSize, clearValues = false)
 {
     // Adds event listener to delete button
     let deleteButton = modelSize.querySelector('button.delete');
@@ -87,7 +95,8 @@ export function ModelSizesInit(modelSize)
     let inputs = modelSize.getElementsByTagName('input');
     let labels = modelSize.getElementsByTagName('label');
     SetIdAttributes(inputs, labels, id);
-    ClearInputsValues(inputs);
+    if (clearValues)
+        ClearInputsValues(inputs);
 }
 
 /**
@@ -99,7 +108,7 @@ export function ModelSizesAdd()
 {
     let modelSizes = document.querySelector('.model-sizes');
     let modelSize = modelSizes.lastElementChild.previousElementSibling.cloneNode(true);
-    ModelSizesInit(modelSize);
+    ModelSizesInit(modelSize, true);
 
     // Adds element before 'add model size' button
     let addButton = modelSizes.lastElementChild;

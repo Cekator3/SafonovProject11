@@ -4,8 +4,14 @@
 
 @section('styles')
 {{-- Form --}}
+<link href="/assets/css/form/common.css" rel="stylesheet" type="text/css">
+<link href="/assets/css/form/text.css" rel="stylesheet" type="text/css">
+<link href="/assets/css/form/file.css" rel="stylesheet" type="text/css">
+<link href="/assets/css/form/fieldset.css" rel="stylesheet" type="text/css">
+<link href="/assets/css/form/submit.css" rel="stylesheet" type="text/css">
 
 {{-- Specific --}}
+<link href="/assets/css/admin/base-models/create.css" rel="stylesheet" type="text/css">
 @endsection
 
 @section('scripts')
@@ -25,7 +31,7 @@
 
 <form enctype="multipart/form-data"
       method="POST"
-      action="{{ route('base-models.update', ['id' => $baseModel->getId()]) }}"
+      action="{{ route('base-models.update', ['id' => $model->getId()]) }}"
       id='model-form'
 >
     @csrf
@@ -35,53 +41,66 @@
         <legend>Общая информация</legend>
         <x-forms.inputs.text :name=" 'name' "
                              :placeholder=" 'Название' "
+                             :value=" $model->getName() "
                              autofocus
                              autocomplete="off"
-                             {{-- required --}}
+                             required
         />
         <x-forms.inputs.text :name=" 'description' "
                              :placeholder=" 'Описание' "
+                             :value=" $model->getDescription() "
                              autocomplete="off"
-                             {{-- required --}}
+                             required
         />
     </fieldset>
 
     <fieldset>
         <legend>Изображение предпросмотра</legend>
-        <x-forms.inputs.file :name=" 'previewImage' " accept="image/*" />
+        <img src="{{ $model->getPreviewImageUrl() }}" alt="" >
+        <x-forms.inputs.file :name=" 'previewImage' " accept="image/*" loading="lazy"/>
     </fieldset>
 
     <fieldset>
         <legend>Множители размеров</legend>
         <ul class="model-sizes">
+            @foreach ($model->getSizes() as $size)
             <li>
                 <div class="multiplier">
                     <x-forms.inputs.text :name=" 'model-sizes[][multiplier]' "
                                          :type=" 'number' "
                                          :placeholder=" 'Множитель размера' "
+                                         :value=" $size->getMultiplier() "
                                          step='0.01'
                                          autocomplete="off"
+                                         required
                     />
                 </div>
                 <div class="actual-values">
                     <x-forms.inputs.text :name=" 'model-sizes[][length]' "
                                          :type=" 'number' "
                                          :placeholder=" 'Длина' "
+                                         :value=" $size->getLength() "
                                          autocomplete="off"
+                                         required
                     />
                     <x-forms.inputs.text :name=" 'model-sizes[][width]' "
                                          :type=" 'number' "
                                          :placeholder=" 'Ширина' "
+                                         :value=" $size->getWidth() "
                                          autocomplete="off"
+                                         required
                     />
                     <x-forms.inputs.text :name=" 'model-sizes[][height]' "
                                          :type=" 'number' "
                                          :placeholder=" 'Высота' "
+                                         :value=" $size->getHeight() "
                                          autocomplete="off"
+                                         required
                     />
                 </div>
                 <button class="delete">X</button>
             </li>
+            @endforeach
             <li class="add"><button>+</button></li>
         </ul>
     </fieldset>
@@ -89,6 +108,13 @@
     <fieldset>
         <legend>Галерея товара</legend>
         <x-forms.inputs.file :name=" 'previewImage' " accept="image/*" multiple/>
+        <ul class="gallery-images">
+            @foreach ($model->getGalleryImages() as $galleryImage)
+                <li>
+                    <img src="{{ $galleryImage->getUrl() }}" alt="" loading="lazy">
+                </li>
+            @endforeach
+        </ul>
     </fieldset>
 
     <x-forms.submit :placeholder=" 'Сохранить изменения' " />

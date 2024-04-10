@@ -42,18 +42,18 @@
                              :placeholder=" 'Название' "
                              autofocus
                              autocomplete="off"
-                             {{-- required --}}
+                             required
         />
         <x-forms.inputs.text :name=" 'description' "
                              :placeholder=" 'Описание' "
                              autocomplete="off"
-                             {{-- required --}}
+                             required
         />
     </fieldset>
 
     <fieldset>
         <legend>Изображение предпросмотра</legend>
-        <x-forms.inputs.file :name=" 'previewImage' " accept="image/*" />
+        <x-forms.inputs.file :name=" 'previewImage' " accept="image/*" required />
     </fieldset>
 
     <fieldset>
@@ -65,6 +65,7 @@
                                          :type=" 'number' "
                                          :placeholder=" 'Множитель размера' "
                                          autocomplete="off"
+                                         required
                     />
                 </div>
                 <div class="actual-values">
@@ -72,16 +73,19 @@
                                          :type=" 'number' "
                                          :placeholder=" 'Длина' "
                                          autocomplete="off"
+                                         required
                     />
                     <x-forms.inputs.text :name=" 'model-sizes[][width]' "
                                          :type=" 'number' "
                                          :placeholder=" 'Ширина' "
                                          autocomplete="off"
+                                         required
                     />
                     <x-forms.inputs.text :name=" 'model-sizes[][height]' "
                                          :type=" 'number' "
                                          :placeholder=" 'Высота' "
                                          autocomplete="off"
+                                         required
                     />
                 </div>
                 <button class="delete">X</button>
@@ -92,7 +96,7 @@
 
     <fieldset>
         <legend>Галерея товара</legend>
-        <x-forms.inputs.file :name=" 'previewImage' " accept="image/*" multiple/>
+        <x-forms.inputs.file :name=" 'previewImage' " accept="image/*" multiple required/>
     </fieldset>
 
     <x-forms.submit :placeholder=" 'Сохранить' " />

@@ -37,7 +37,7 @@ class BaseModelsUpdateController
         $result = [];
 
         for ($i = 0; $i < $amount; $i++)
-            $result []= new ModelSizeDTO($i, fake()->randomNumber(3), fake()->randomNumber(3), fake()->randomNumber(3), fake()->randomNumber(3));
+            $result []= new ModelSizeDTO($i, fake()->randomNumber(3, true), fake()->randomNumber(3, true), fake()->randomNumber(3, true), fake()->randomNumber(3, true));
 
         return $result;
     }
@@ -55,7 +55,7 @@ class BaseModelsUpdateController
     public function showUpdatingForm(int $baseModelId) : View
     {
         $model = $this->getTestData();
-        return view('admin.base-models.update', ['baseModel' => $model]);
+        return view('admin.base-models.update', ['model' => $model]);
     }
 
     /**
