@@ -18,6 +18,11 @@ class BaseModelPricesUpdateViewModel
     public int $id;
 
     /**
+     * @var AdditionalServicePrice[]
+     */
+    public array $additionalServicesPrices;
+
+    /**
      * @var PrintingTechnologyPrice[]
      */
     public array $printingTechnologiesPrices;
