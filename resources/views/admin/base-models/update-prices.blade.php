@@ -27,6 +27,7 @@
 
 <form method="POST"
       action="{{ route('base-models.update-prices', ['id' => $model->getId()]) }}"
+      id="model-form"
 >
     @csrf
     @method('PATCH')
@@ -34,19 +35,26 @@
     <fieldset class="prices printing-technologies">
         <legend>Стоимость технологий печати</legend>
         <ul>
+        @php
+            $counter = 0;
+        @endphp
         @foreach ($model->getPrintingTechnologies() as $printingTechnology)
             <li>
                 <h3>{{ $printingTechnology->getName() }}</h3>
                 <p>{{ $printingTechnology->getDescription() }}</p>
+                <input type="hidden" name="prices[printing-technologies][{{ $counter }}][id]" value="{{ $printingTechnology->getId() }}">
                 <x-forms.inputs.text :type=" 'number' "
-                                    :name=" 'prices[printing-technologies]['.$printingTechnology->getId().']' "
+                                    :name=" 'prices[printing-technologies]['. $counter . '][price]' "
                                     :placeholder=" 'Цена' "
-                                    :value=" $printingTechnology->getPrice()"
+                                    :value=" $printingTechnology->getPrice() "
                                     step="0.01"
                                     required
                                     autocomplete="off"
                 />
             </li>
+            @php
+                $counter++;
+            @endphp
         @endforeach
         </ul>
     </fieldset>
@@ -54,12 +62,16 @@
     <fieldset>
         <legend>Типы филаментов</legend>
         <ul>
+        @php
+            $counter = 0;
+        @endphp
         @foreach ($model->getFilamentTypes() as $filamentType)
             <li>
                 <h3>{{ $filamentType->getName() }}</h3>
                 <p>{{ $filamentType->getDescription() }}</p>
+                <input type="hidden" name="prices[filament-types][{{ $counter }}][id]" value="{{ $filamentType->getId() }}">
                 <x-forms.inputs.text :type=" 'number' "
-                                    :name=" 'prices[filament-types]['.$filamentType->getId().']' "
+                                    :name=" 'prices[filament-types]['. $counter . '][price]' "
                                     :placeholder=" 'Цена' "
                                     :value=" $filamentType->getPrice()"
                                     step="0.01"
@@ -67,6 +79,9 @@
                                     autocomplete="off"
                 />
             </li>
+        @php
+            $counter++;
+        @endphp
         @endforeach
         </ul>
     </fieldset>
@@ -75,17 +90,24 @@
         <legend>Цвета</legend>
         <p>Цвета, у которых не высставлена цена не будут использоваться</p>
         <ul>
+        @php
+            $counter = 0;
+        @endphp
         @foreach ($model->getColors() as $color)
             <li>
                 <span style="background: {{ $color->getRgbCss() }}"></span>
+                <input type="hidden" name="prices[colors][{{ $counter }}][id]" value="{{ $color->getId() }}">
                 <x-forms.inputs.text :type=" 'number' "
-                                    :name=" 'prices[colors]['.$color->getId().']' "
+                                    :name=" 'prices[colors]['. $counter . '][price]' "
                                     :placeholder=" 'Цена' "
                                     :value=" $color->getPrice()"
                                     step="0.01"
                                     autocomplete="off"
                 />
             </li>
+        @php
+            $counter++;
+        @endphp
         @endforeach
         </ul>
     </fieldset>
@@ -93,6 +115,9 @@
     <fieldset>
         <legend>Размеры модельки</legend>
         <ul>
+        @php
+            $counter = 0;
+        @endphp
         @foreach ($model->getSizes() as $size)
             <li>
                 <h3>
@@ -105,14 +130,18 @@
                     <span>{{ $size->getHeight() }}mm</span>
                     <span>)</span>
                 </h3>
+                <input type="hidden" name="prices[model-sizes][{{ $counter }}][id]" value="{{ $size->getId() }}">
                 <x-forms.inputs.text :type=" 'number' "
-                                    :name=" 'prices[model-sizes]['.$size->getId().']' "
+                                    :name=" 'prices[model-sizes]['. $counter . '][price]' "
                                     :placeholder=" 'Цена' "
                                     :value=" $size->getPrice()"
                                     step="0.01"
                                     autocomplete="off"
                 />
             </li>
+        @php
+            $counter++;
+        @endphp
         @endforeach
         </ul>
     </fieldset>
