@@ -11,19 +11,22 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('models_sizes', function (Blueprint $table)
+        Schema::create('additional_services_prices', function (Blueprint $table)
         {
             $table->integer('id')->generatedAs()->always()->primary();
             $table->integer('model_id');
-            $table->double('size_multiplier');
-            $table->integer('length');
-            $table->integer('width');
-            $table->integer('height');
+            $table->smallInteger('additional_service_id');
             $table->decimal('price', 10, 2);
 
-            $table->unique(['model_id', 'size_multiplier']);
+            // Indexes
+            $table->unique(['model_id', 'additional_service_id']);
+
+            // Foreign Keys
             $table->foreign('model_id')
                   ->references('id')->on('models')
+                  ->cascadeOnDelete();
+            $table->foreign('additional_service_id')
+                  ->references('id')->on('additional_services')
                   ->cascadeOnDelete();
         });
     }
@@ -33,6 +36,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('models_sizes');
+        Schema::dropIfExists('additional_services_prices');
     }
 };
