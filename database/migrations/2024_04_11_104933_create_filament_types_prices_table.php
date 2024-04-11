@@ -16,6 +16,7 @@ return new class extends Migration
             $table->integer('id')->generatedAs()->always()->primary();
             $table->integer('model_id');
             $table->smallInteger('filament_type_id');
+            $table->decimal('price', 10, 2);
 
             // Indexes
             $table->unique(['model_id', 'filament_type_id']);
