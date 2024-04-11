@@ -102,8 +102,19 @@ class BaseModelRepository
      * Returns the image's filenames of base model's gallery.
      *
      * @param int[] $ids Array of gallery images identifiers
+     * @return string[] Filenames of base mode's gallery images
      */
     public function getGalleryImages(array $ids) : array
+    {
+        // ...
+    }
+
+    /**
+     * Returns all image's filenames of base model's gallery.
+     *
+     * @return string[] Filenames of base mode's gallery images
+     */
+    public function getAllGalleryImages() : array
     {
         // ...
     }
