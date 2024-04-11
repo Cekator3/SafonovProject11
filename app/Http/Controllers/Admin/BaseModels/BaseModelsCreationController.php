@@ -4,8 +4,10 @@ namespace App\Http\Controllers\Admin\BaseModels;
 
 use Illuminate\View\View;
 use Illuminate\Http\Request;
+use App\Errors\UserInputErrors;
 use Illuminate\Http\RedirectResponse;
 use App\ViewModels\Admin\BaseModel\BaseModelSize;
+use App\Services\Admin\BaseModels\BaseModelsCreationService;
 use App\ViewModels\Admin\BaseModel\BaseModelCreationViewModel;
 
 class BaseModelsCreationController
@@ -59,8 +61,19 @@ class BaseModelsCreationController
      */
     public function createBaseModel(Request $request) : RedirectResponse
     {
-        dd($request->input(), $this->getUserInput($request));
-        // ...
+        $models = new BaseModelsCreationService();
+        $model = $this->getUserInput($request);
+        $errors = new UserInputErrors();
+
+        $models->add($model, $errors);
+
+
+        if ($errors->hasAny()) {
+            return redirect()->back()
+                             ->withErrors($errors->getAll())
+                             ->withInput();
+        }
+
         return redirect()->route('base-models.update-prices');
     }
 }
