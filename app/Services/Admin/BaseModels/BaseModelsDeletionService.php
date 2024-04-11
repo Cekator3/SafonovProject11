@@ -9,7 +9,7 @@ use App\Repositories\Images\BaseModelThumbnailRepository;
 /**
  * Subsystem for deleting stored information on base model.
  */
-class BaseModelDeletionService
+class BaseModelsDeletionService
 {
     private function removeThumbnail(string $filename) : void
     {
