@@ -18,8 +18,10 @@ class BaseModelCreationViewModel
      */
     public array $modelSizes;
     public UploadedFile $thumbnail;
+    public string $thumbnailFilename;
     /**
      * @var UploadedFile[]
      */
     public array $galleryImages;
+    public string $galleryImagesFilenames;
 }

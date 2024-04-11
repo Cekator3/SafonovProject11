@@ -19,10 +19,12 @@ class BaseModelUpdateViewModel
      */
     public array $modelSizes;
     public UploadedFile $thumbnail;
+    public string $thumbnailFilename;
     /**
      * @var UploadedFile[]
      */
     public array $newGalleryImages;
+    public string $newGalleryImagesFilenames;
     /**
      * Identifiers of removed gallery images
      * @var int[]
