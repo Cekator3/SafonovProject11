@@ -28,9 +28,9 @@ class ColorWithPriceDTO
     }
 
     /**
-     * Returns the color's rgb code
+     * Returns the color's rgb css code
      */
-    public function getRgb() : string
+    public function getRgbCss() : string
     {
         return $this->code;
     }

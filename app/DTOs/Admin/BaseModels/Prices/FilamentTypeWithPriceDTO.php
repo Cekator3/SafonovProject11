@@ -2,8 +2,6 @@
 
 namespace App\DTOs\Admin\BaseModels\Prices;
 
-use App\DTOs\Admin\FilamentTypes\FilamentTypeCharacteristics;
-
 /**
  * A subsystem for reading application data about filament types
  * and their prices for using them when printing the particular model.
@@ -13,7 +11,6 @@ class FilamentTypeWithPriceDTO
     protected int $id;
     protected string $name = '';
     protected string $description = '';
-    protected FilamentTypeCharacteristics $characteristics;
     private float $price;
 
     public function __construct(int $id,

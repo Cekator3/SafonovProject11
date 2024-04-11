@@ -48,7 +48,7 @@ class BaseModelsPrintPricesUpdateController
         $result = [];
 
         for ($i = 0; $i < $amount; $i++)
-            $result []= new ColorWithPriceDTO($i, fake()->rgbColor, fake()->numberBetween(1, 1000));
+            $result []= new ColorWithPriceDTO($i, fake()->rgbCssColor(), fake()->numberBetween(1, 1000));
 
         return $result;
     }

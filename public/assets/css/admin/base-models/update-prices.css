@@ -1,0 +1,65 @@
+main
+{
+    /* Constants */
+    --description-text-color: #BBB;
+
+    /* Sets gap between site header and main */
+    margin-top: 25px;
+}
+
+main > header
+{
+    display: flex;
+    text-align: center;
+
+    /* Adds gap between header and content */
+    margin-bottom: 30px;
+}
+
+/* Groups of price inputs */
+form > fieldset
+{
+    /* Constants */
+    --gap-between-inputs: 30px;
+}
+
+form > fieldset > legend
+{
+    margin-bottom: 8px;
+    margin-top: 0;
+}
+
+form > fieldset > ul
+{
+    /* Removes default styles */
+    padding: 0;
+    list-style: none;
+
+    /* Adds gaps between groups of inputs */
+    display: flex;
+    flex-flow: column nowrap;
+    gap: var(--gap-between-inputs) 0;
+}
+
+form > fieldset h3
+{
+    margin-top: 0;
+}
+
+form > fieldset p
+{
+    color: var(--description-text-color);
+}
+
+/* Color circle */
+.colors span
+{
+    display: inline-block;
+    width: 1.25rem;     /* 20px */
+    height: 1.25rem;    /* 20px */
+    /* Makes it circle */
+    border-radius: 50%;
+    /* Creates gaps */
+    margin-right: 5px;
+    margin-bottom: 10px;
+}
