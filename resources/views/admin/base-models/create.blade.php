@@ -21,7 +21,7 @@
 <script defer src="/assets/js/admin/base-models/model-sizes/init-model-sizes.js" type="module"></script>
 
 {{-- Specific --}}
-<script defer src="/assets/js/admin/base-models/forms.js" type="module"></script>
+<script defer src="/assets/js/forms/form-inputs-names.js" type="module"></script>
 <script defer src="/assets/js/admin/base-models/base-model-create.js" type="module"></script>
 @endsection
 

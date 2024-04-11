@@ -1,4 +1,4 @@
-import { FormInputsNamesNumerate } from "../../forms/form-inputs-names";
+import { FormInputsNamesNumerate } from "/assets/js/forms/form-inputs-names.js";
 
 /**
  * Initializes the form of the page
