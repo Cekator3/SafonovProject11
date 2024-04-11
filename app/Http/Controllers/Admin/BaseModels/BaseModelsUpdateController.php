@@ -102,10 +102,11 @@ class BaseModelsUpdateController
         return $result;
     }
 
-    private function getUserInput(Request $request) : BaseModelUpdateViewModel
+    private function getUserInput(Request $request, int $baseModelId) : BaseModelUpdateViewModel
     {
         $model = new BaseModelUpdateViewModel();
 
+        $model->id = $baseModelId;
         $model->name = $request->string('name', '');
         $model->description = $request->string('description', '');
         $model->modelSizes = $this->getModelSizesFromUserInput($request);
