@@ -1,6 +1,6 @@
 <?php
 
-namespace App\ViewModels\Admin\BaseModel;
+namespace App\ViewModels\Admin\BaseModel\Price;
 
 use App\ViewModels\Admin\BaseModel\Price\ColorPrice;
 use App\ViewModels\Admin\BaseModel\Price\FilamentTypePrice;
