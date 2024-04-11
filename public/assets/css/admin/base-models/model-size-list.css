@@ -1,12 +1,14 @@
 /* The list of model's available sizes */
 .model-sizes
 {
+    /* Removes default ul's styles */
     padding: 0;
     list-style: unset;
 }
 
 .model-sizes > li
 {
+    /* Creates layout of list's items */
     display: flex;
     flex-flow: row nowrap;
     align-items: flex-start;
@@ -16,12 +18,14 @@
 /* Size multiplier and actual size values */
 .model-sizes > li > *
 {
+    /* Sets items width */
     flex-basis: 50%;
 }
 
 /* Add button */
 .model-sizes > .add
 {
+    /* Places button in the center */
     display: flex;
     justify-content: center;
     align-items: center;
@@ -30,8 +34,12 @@
 .model-sizes > .add button
 {
     flex-basis: fit-content;
-    background-color: transparent;
+
+    /* Removes bg and border */
     border: none;
+    background-color: transparent;
+
+    /* Sets font */
     color: red;
     font-weight: 900;
     font-size: 2rem;
@@ -45,10 +53,17 @@
 /* Delete button */
 .model-sizes > li > button.delete
 {
+    /* Sets minimal possible element's size */
     flex-basis:auto;
+
+    /* Vertically centers self */
     align-self: center;
-    background-color: transparent;
+
+    /* Removes bg and border */
     border: none;
+    background-color: transparent;
+
+    /* Sets font */
     color: red;
     font-weight: 900;
     font-size: 1.5rem;
@@ -59,9 +74,10 @@
     cursor: pointer;
 }
 
-/* Actual size values */
+/* Real life model's size values */
 .model-sizes > li .actual-values
 {
+    /* Adds gaps between items */
     display: flex;
     flex-flow: row nowrap;
     justify-content: space-evenly;
@@ -74,5 +90,6 @@
 
 .model-sizes > li .actual-values > *
 {
+    /* Sets */
     flex-basis: 32%;
 }

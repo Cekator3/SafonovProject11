@@ -27,6 +27,7 @@ main > header > *
 /* Search and create additional service actions */
 main > header > .actions
 {
+    /* Moves items on the different sides */
     display: flex;
     flex-flow: row nowrap;
     justify-content: space-between;
@@ -36,11 +37,13 @@ main > header > .actions
 main > header > .actions > form
 {
     width: 15vw;
+    /* Adds gap so that button will be on the same
+    vertical line as model's action buttons */
     margin-right: var(--list-card-padding);
 }
 
 
-/* Additional services list */
+/* Models list */
 .base-models
 {
     /* Removes default styles */
@@ -57,7 +60,7 @@ main > header > .actions > form
     grid-gap: 70px 0;
 }
 
-/* Card of additional services list */
+/* Card of models list */
 .base-models > li
 {
     /* Sets background */
@@ -68,6 +71,7 @@ main > header > .actions > form
     border-radius: var(--border-radius);
 }
 
+/* Model */
 .base-model
 {
     text-align: center;

@@ -9,16 +9,19 @@ main
 
 main > header
 {
-    text-align: center;
     display: flex;
+    text-align: center;
 }
 
+/* Preview image and change prices link-button */
 .preview-and-price-change
 {
+    /* Sets layout */
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     justify-content: space-between;
-    /* Sets vertical gap between gallery images */
+
+    /* Sets gap */
     grid-gap: 0 60px;
 }
 
