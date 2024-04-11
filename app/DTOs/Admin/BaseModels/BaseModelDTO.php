@@ -5,7 +5,7 @@ namespace App\DTOs\Admin\BaseModels;
 /**
  * A subsystem for reading application's data about model.
  */
-class ModelDTO
+class BaseModelDTO
 {
     private int $id;
     private string $name;
