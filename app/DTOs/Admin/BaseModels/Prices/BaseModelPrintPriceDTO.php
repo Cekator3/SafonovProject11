@@ -5,7 +5,7 @@ namespace App\DTOs\Admin\BaseModels\Prices;
 /**
  * A subsystem for reading application's data about models print prices.
  */
-class ModelPrintPriceDTO
+class BaseModelPrintPriceDTO
 {
     private int $id;
     /**

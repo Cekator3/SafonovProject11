@@ -6,7 +6,7 @@ use Illuminate\View\View;
 use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
 use App\DTOs\Admin\BaseModels\Prices\ColorWithPriceDTO;
-use App\DTOs\Admin\BaseModels\Prices\ModelPrintPriceDTO;
+use App\DTOs\Admin\BaseModels\Prices\BaseModelPrintPriceDTO;
 use App\DTOs\Admin\BaseModels\Prices\ModelSizeWithPriceDTO;
 use App\DTOs\Admin\BaseModels\Prices\FilamentTypeWithPriceDTO;
 use App\DTOs\Admin\BaseModels\Prices\AdditionalServiceWithPriceDTO;
@@ -83,14 +83,14 @@ class BaseModelsPrintPricesUpdateController
         return $result;
     }
 
-    private function getTestData() : ModelPrintPriceDTO
+    private function getTestData() : BaseModelPrintPriceDTO
     {
         $printingTechnologies = $this->getPrintingTechnologies(15);
         $filamentTypes = $this->getFilamentTypes(15);
         $colors = $this->getColors(15);
         $sizes = $this->getModelSizes(15);
         $additionalServices = $this->getAdditionalServices(15);
-        return new ModelPrintPriceDTO(0, $printingTechnologies, $filamentTypes, $colors, $sizes, $additionalServices, fake()->numberBetween(100, 1000), fake()->numberBetween(100, 1000), fake()->numberBetween(100, 1000), fake()->numberBetween(100, 1000));
+        return new BaseModelPrintPriceDTO(0, $printingTechnologies, $filamentTypes, $colors, $sizes, $additionalServices, fake()->numberBetween(100, 1000), fake()->numberBetween(100, 1000), fake()->numberBetween(100, 1000), fake()->numberBetween(100, 1000));
     }
 
     public function showUpdatingForm(int $baseModelId) : View
