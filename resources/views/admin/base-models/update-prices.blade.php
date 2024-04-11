@@ -88,7 +88,7 @@
 
     <fieldset class="colors">
         <legend>Цвета</legend>
-        <p>Цвета, у которых не высставлена цена не будут использоваться</p>
+        <p>Цвета, у которых не указана цена не будут использоваться</p>
         <ul>
         @php
             $counter = 0;
@@ -137,11 +137,42 @@
                                     :value=" $size->getPrice()"
                                     step="0.01"
                                     autocomplete="off"
+                                    required
                 />
             </li>
         @php
             $counter++;
         @endphp
+        @endforeach
+        </ul>
+    </fieldset>
+
+    <fieldset class="additional-services">
+        <legend>Дополнительные услуги</legend>
+
+        <ul>
+        @php
+            $counter = 0;
+        @endphp
+        @foreach ($model->getAdditionalServices() as $service)
+            <li>
+                <h3>{{ $service->getName() }}</h3>
+                <p>{{ $service->getDescription() }}</p>
+                <img src="{{ $service->getPreviewImageUrl() }}" alt="">
+
+                <input type="hidden" name="prices[additional-services][{{ $counter }}][id]" value="{{ $service->getId() }}">
+                <x-forms.inputs.text :type=" 'number' "
+                                    :name=" 'prices[additional-services]['. $counter . '][price]' "
+                                    :placeholder=" 'Цена' "
+                                    :value=" $service->getPrice() "
+                                    step="0.01"
+                                    required
+                                    autocomplete="off"
+                />
+            </li>
+            @php
+                $counter++;
+            @endphp
         @endforeach
         </ul>
     </fieldset>
@@ -157,6 +188,7 @@
                                     :value=" $model->getPriceForSolidType()"
                                     step="0.01"
                                     autocomplete="off"
+                                    required
                 />
             </li>
             <li>
@@ -167,6 +199,7 @@
                                     :value=" $model->getPriceForHoledType()"
                                     step="0.01"
                                     autocomplete="off"
+                                    required
                 />
             </li>
         </ul>
@@ -183,6 +216,7 @@
                                     :value=" $model->getPriceForPartedType()"
                                     step="0.01"
                                     autocomplete="off"
+                                    required
                 />
             </li>
             <li>
@@ -193,6 +227,7 @@
                                     :value=" $model->getPriceForNotPartedType()"
                                     step="0.01"
                                     autocomplete="off"
+                                    required
                 />
             </li>
         </ul>

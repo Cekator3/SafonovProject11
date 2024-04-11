@@ -63,3 +63,18 @@ form > fieldset p
     margin-right: 5px;
     margin-bottom: 10px;
 }
+
+/* Additional services preview image */
+form > fieldset.additional-services img
+{
+    /* Sets background */
+    background-color: var(--item-window-bg-color);
+    padding: 0.9375rem;   /* 15 px */
+
+    /* Sets rounded borders */
+    border-radius: var(--border-radius);
+
+    /* Sets gap between image and upload button */
+    margin-bottom: 10px;
+    width: 50%;
+}
