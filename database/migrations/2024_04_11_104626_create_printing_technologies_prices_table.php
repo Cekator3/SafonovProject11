@@ -11,15 +11,22 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('models_gallery_images', function (Blueprint $table)
+        Schema::create('printing_technologies_prices', function (Blueprint $table)
         {
             $table->integer('id')->generatedAs()->always()->primary();
             $table->integer('model_id');
-            $table->text('image');
+            $table->smallInteger('printing_technology_id');
+            $table->decimal('price', 10, 2);
 
-            $table->unique(['model_id', 'image']);
+            // Indexes
+            $table->unique(['model_id', 'printing_technology_id']);
+
+            // Foreign Keys
             $table->foreign('model_id')
                   ->references('id')->on('models')
+                  ->cascadeOnDelete();
+            $table->foreign('printing_technology_id')
+                  ->references('id')->on('printing_technologies')
                   ->cascadeOnDelete();
         });
     }
@@ -29,6 +36,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('models_gallery_images');
+        Schema::dropIfExists('printing_technologies_prices');
     }
 };

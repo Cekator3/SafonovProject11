@@ -24,7 +24,7 @@ return new class extends Migration
             $table->unique(['model_id', 'length', 'width', 'height']);
             $table->foreign('model_id')
                   ->references('id')->on('models')
-                  ->onDelete('cascade');
+                  ->cascadeOnDelete();
         });
     }
 

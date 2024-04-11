@@ -11,15 +11,21 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('models_gallery_images', function (Blueprint $table)
+        Schema::create('colors_prices', function (Blueprint $table)
         {
             $table->integer('id')->generatedAs()->always()->primary();
             $table->integer('model_id');
-            $table->text('image');
+            $table->smallInteger('color_id');
 
-            $table->unique(['model_id', 'image']);
+            // Indexes
+            $table->unique(['model_id', 'color_id']);
+
+            // Foreign Keys
             $table->foreign('model_id')
                   ->references('id')->on('models')
+                  ->cascadeOnDelete();
+            $table->foreign('color_id')
+                  ->references('id')->on('colors')
                   ->cascadeOnDelete();
         });
     }
@@ -29,6 +35,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('models_gallery_images');
+        Schema::dropIfExists('colors_prices');
     }
 };

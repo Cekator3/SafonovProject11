@@ -14,9 +14,20 @@ return new class extends Migration
         Schema::create('models', function (Blueprint $table)
         {
             $table->integer('id')->generatedAs()->always()->primary();
-            $table->text('name')->nullable()->unique();
-            $table->text('preview_image')->nullable();
-            $table->text('description')->nullable();
+            $table->text('name')->unique();
+            $table->text('preview_image');
+            $table->text('description');
+
+            // Holed type printing prices
+            $table->decimal('price_holed', 10, 2)->nullable();
+            $table->decimal('price_not_holed', 10, 2)->nullable();
+
+            // Parted type printing prices
+            $table->decimal('price_parted', 10, 2)->nullable();
+            $table->decimal('price_not_parted', 10, 2)->nullable();
+
+            // Indexes
+            $table->fullText('name')->language('russian');
         });
     }
 
