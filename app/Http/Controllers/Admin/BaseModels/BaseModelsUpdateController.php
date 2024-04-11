@@ -7,7 +7,9 @@ use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
 use App\DTOs\Admin\BaseModels\BaseModelDTO;
 use App\DTOs\Admin\BaseModels\ModelSizeDTO;
+use App\ViewModels\Admin\BaseModel\BaseModelSize;
 use App\DTOs\Admin\BaseModels\ModelGalleryImageDTO;
+use App\ViewModels\Admin\BaseModel\BaseModelUpdateViewModel;
 
 class BaseModelsUpdateController
 {
@@ -59,11 +61,67 @@ class BaseModelsUpdateController
     }
 
     /**
+     * @return BaseModelSize[]
+     */
+    private function getModelSizesFromUserInput(Request $request) : array
+    {
+        $result = [];
+
+        $inputs = $request->input('model-sizes', []);
+        foreach ($inputs as $input)
+        {
+            $size = new BaseModelSize();
+
+            $size->multiplier = $input['multiplier'];
+            $size->length = $input['length'];
+            $size->width = $input['width'];
+            $size->height = $input['height'];
+
+            $result []= $size;
+        }
+
+        return $result;
+    }
+
+    /**
+     * @return int[] Identifiers of removed gallery images
+     */
+    private function getRemovedGalleryImagesFromUserInput(Request $request) : array
+    {
+        $result = [];
+
+        $inputs = $request->input('removed-gallery-images');
+        foreach ($inputs as $input)
+        {
+            $id = intval($input);
+            if ($id === 0)
+                continue;
+            $result []= $id;
+        }
+
+        return $result;
+    }
+
+    private function getUserInput(Request $request) : BaseModelUpdateViewModel
+    {
+        $model = new BaseModelUpdateViewModel();
+
+        $model->name = $request->string('name', '');
+        $model->description = $request->string('description', '');
+        $model->modelSizes = $this->getModelSizesFromUserInput($request);
+        $model->thumbnail = $request->file('previewImage');
+        $model->newGalleryImages = $request->file('galleryImages');
+        $model->removedGalleryImages = $this->getRemovedGalleryImagesFromUserInput($request);
+
+        return $model;
+    }
+
+    /**
      * Tries to update a base model
      */
     public function updateBaseModel(Request $request, int $baseModelId) : RedirectResponse
     {
-        dd($request->input());
+        dd($request->input(), $this->getUserInput($request));
         // ...
         return redirect()->route('base-models');
     }

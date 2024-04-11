@@ -1,6 +1,7 @@
 <?php
 
 namespace App\ViewModels\Admin\BaseModel;
+use Illuminate\Http\UploadedFile;
 
 /**
  * class for transferring input
@@ -16,4 +17,9 @@ class BaseModelCreationViewModel
      * @var BaseModelSize[]
      */
     public array $modelSizes;
+    public UploadedFile $thumbnail;
+    /**
+     * @var UploadedFile[]
+     */
+    public array $galleryImages;
 }

@@ -126,7 +126,7 @@
 
     <fieldset>
         <legend>Галерея товара</legend>
-        <x-forms.inputs.file :name=" 'previewImage' " accept="image/*" multiple/>
+        <x-forms.inputs.file :name=" 'galleryImages[]' " accept="image/*" multiple/>
         <ul class="gallery-images">
             @foreach ($model->getGalleryImages() as $galleryImage)
                 <li id="gallery_image_{{ $galleryImage->getId() }}">

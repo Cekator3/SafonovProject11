@@ -101,7 +101,7 @@
 
     <fieldset>
         <legend>Галерея товара</legend>
-        <x-forms.inputs.file :name=" 'previewImage' " accept="image/*" multiple required/>
+        <x-forms.inputs.file :name=" 'galleryImages[]' " accept="image/*" multiple required/>
     </fieldset>
 
     <x-forms.submit :placeholder=" 'Сохранить' " />
