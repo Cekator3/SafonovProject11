@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Admin\BaseModels;
 use Illuminate\View\View;
 use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
-use App\DTOs\Admin\BaseModels\ModelDTO;
+use App\DTOs\Admin\BaseModels\BaseModelDTO;
 use App\DTOs\Admin\BaseModels\ModelSizeDTO;
 use App\DTOs\Admin\BaseModels\ModelGalleryImageDTO;
 
@@ -42,11 +42,11 @@ class BaseModelsUpdateController
         return $result;
     }
 
-    private function getTestData() : ModelDTO
+    private function getTestData() : BaseModelDTO
     {
         $galleryImages = $this->getTestGalleryImages(15);
         $modelSizes = $this->getTestModelSizes(15);
-        $model = new ModelDTO(0, fake()->userName(), fake()->text(), '', $galleryImages, $modelSizes);
+        $model = new BaseModelDTO(0, fake()->userName(), fake()->text(), '', $galleryImages, $modelSizes);
         $model->setPreviewImageUrl('/assets/images/test.gif');
 
         return $model;
