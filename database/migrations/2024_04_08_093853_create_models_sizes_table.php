@@ -19,6 +19,7 @@ return new class extends Migration
             $table->integer('length');
             $table->integer('width');
             $table->integer('height');
+            $table->decimal('price', 10, 2);
 
             $table->unique(['model_id', 'size_multiplier']);
             $table->unique(['model_id', 'length', 'width', 'height']);
