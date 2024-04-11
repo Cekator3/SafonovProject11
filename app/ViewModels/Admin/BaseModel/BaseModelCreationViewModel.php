@@ -23,5 +23,8 @@ class BaseModelCreationViewModel
      * @var UploadedFile[]
      */
     public array $galleryImages;
-    public string $galleryImagesFilenames;
+    /**
+     * @var string[]
+     */
+    public array $galleryImagesFilenames;
 }
