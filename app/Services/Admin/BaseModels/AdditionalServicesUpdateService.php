@@ -5,20 +5,20 @@ namespace App\Services\Admin\BaseModels;
 use App\Errors\UserInputErrors;
 use Illuminate\Http\UploadedFile;
 use App\ViewModels\Admin\BaseModel\BaseModelSize;
-use App\Errors\Admin\BaseModel\BaseModelCreationErrors;
+use App\Errors\Admin\BaseModel\BaseModelUpdateErrors;
 use App\Repositories\Images\BaseModelThumbnailRepository;
 use App\Repositories\Admin\BaseModels\BaseModelRepository;
+use App\ViewModels\Admin\BaseModel\BaseModelUpdateViewModel;
 use App\Repositories\Images\BaseModelGalleryImagesRepository;
-use App\ViewModels\Admin\BaseModel\BaseModelCreationViewModel;
 use App\Services\FileFormatValidation\ImageFormatValidationService;
 use App\Services\Admin\BaseModels\UserInputValidation\BaseModelNameValidationService;
 use App\Services\Admin\BaseModels\UserInputValidation\BaseModelSizeValidationService;
 use App\Services\Admin\BaseModels\UserInputValidation\BaseModelDescriptionValidationService;
 
 /**
- * Subsystem for storing information about new base models
+ * Subsystem for updating stored information on base model.
  */
-class BaseModelsCreationService
+class BaseModelsUpdateService
 {
     /**
      * @param BaseModelSize[]|null $sizes
@@ -47,11 +47,7 @@ class BaseModelsCreationService
     private function validateGalleryImages(array|null $images, UserInputErrors $errors) : void
     {
         if (empty($images))
-        {
-            $errMessage = __('validation.required', ['attribute' => 'gallery image']);
-            $errors->add('previewImage', $errMessage);
             return;
-        }
 
         $imageValidator = new ImageFormatValidationService();
         foreach ($images as $image)
@@ -65,17 +61,13 @@ class BaseModelsCreationService
     private function validateThumbnail(UploadedFile|null $image, UserInputErrors $errors) : void
     {
         if ($image === null)
-        {
-            $errMessage = __('validation.required', ['attribute' => 'preview image']);
-            $errors->add('previewImage', $errMessage);
             return;
-        }
 
         $imageValidator = new ImageFormatValidationService();
         $imageValidator->validate($image, $errors, 'previewImage');
     }
 
-    private function validateUserInput(BaseModelCreationViewModel $model,
+    private function validateUserInput(BaseModelUpdateViewModel $model,
                                        UserInputErrors $errors)
     {
         $nameValidator = new BaseModelNameValidationService();
@@ -86,27 +78,27 @@ class BaseModelsCreationService
         $this->validateModelSizes($model->modelSizes, $errors);
 
         $this->validateThumbnail($model->thumbnail, $errors);
-        $this->validateGalleryImages($model->galleryImages, $errors);
+        $this->validateGalleryImages($model->newGalleryImages, $errors);
     }
 
-    private function isExists(BaseModelCreationViewModel $model) : bool
+    private function isExists(BaseModelUpdateViewModel $model) : bool
     {
         $models = new BaseModelRepository();
 
         return $models->isExist($model->name);
     }
 
-    private function storeInformation(BaseModelCreationViewModel $model,
+    private function storeInformation(BaseModelUpdateViewModel $model,
                                       UserInputErrors $errors) : void
     {
-        $creationErrors = new BaseModelCreationErrors();
+        $updateErrors = new BaseModelUpdateErrors();
         $models = new BaseModelRepository();
 
-        $models->add($model, $creationErrors);
+        $models->update($model, $updateErrors);
 
-        if ($creationErrors->hasAny())
+        if ($updateErrors->hasAny())
         {
-            if ($creationErrors->isAlreadyExist())
+            if ($updateErrors->isAlreadyExist())
             {
                 $errMessage = __('validation.unique', ['attribute' => 'name']);
                 $errors->add('name', $errMessage);
@@ -114,11 +106,13 @@ class BaseModelsCreationService
         }
     }
 
-    private function storeThumbnailPicture(UploadedFile $thumbnailFile, string &$filename) : void
+    private function replaceThumbnail(BaseModelUpdateViewModel $model) : void
     {
+        $models = new BaseModelRepository();
         $thumbnails = new BaseModelThumbnailRepository();
 
-        $thumbnails->add($thumbnailFile, $filename);
+        $model->thumbnailFilename = $models->getThumbnail($model->id);
+        $thumbnails->replace($model->thumbnail, $model->thumbnailFilename);
     }
 
     private function deleteThumbnailPicture(string $filename) : void
@@ -158,15 +152,25 @@ class BaseModelsCreationService
     }
 
     /**
+     * @param int[] $ids Identifiers of gallery images to delete
+     * @return string[] Array of images filenames
+     */
+    private function getGalleryImages(array $ids) : array
+    {
+        $models = new BaseModelRepository();
+
+        return $models->getGalleryImages($ids);
+    }
+
+    /**
      * Tries to create a new base model from user's input.
      *
-     * @param BaseModelCreationViewModel $model
-     * User's input about new base model
+     * @param BaseModelUpdateViewModel $model User's input
      * @param UserInputErrors $errors
      * User's inputs errors that prevented successful execution of the action.
      */
-    public function add(BaseModelCreationViewModel $model,
-                        UserInputErrors $errors) : void
+    public function update(BaseModelUpdateViewModel $model,
+                           UserInputErrors $errors) : void
     {
         // 1. validate user's input
         $this->validateUserInput($model, $errors);
@@ -174,31 +178,28 @@ class BaseModelsCreationService
         if ($errors->hasAny())
             return;
 
-        // 2. check if base model already exists
-        if ($this->isExists($model))
+        // 2. if needed replace thumbnail picture
+        if (!empty($model->thumbnail))
         {
-            $errMessage = __('validation.unique', ['attribute' => 'name']);
-            $errors->add('name', $errMessage);
-            return;
+            $this->replaceThumbnail($model);
+            assert($model->thumbnailFilename !== '', "Base model's thumbnail supposed to be stored but it has not.");
         }
 
-        // 3. store thumbnail picture
-        $this->storeThumbnailPicture($model->thumbnail, $model->thumbnailFilename);
-        assert($model->thumbnailFilename !== '', 'Picture supposed to be stored but it has not.');
+        // 3. if needed store new gallery images
+        if (!empty($model->newGalleryImages))
+        {
+            $this->storeGalleryImages($model->newGalleryImages, $model->newGalleryImagesFilenames);
+            assert(count($model->newGalleryImages) === count($model->newGalleryImagesFilenames), 'Not all gallery images were saved');
+        }
 
-        // 4. store gallery images
-        $this->storeGalleryImages($model->galleryImages, $model->galleryImagesFilenames);
-        assert(count($model->galleryImages) === count($model->galleryImagesFilenames), 'Not all gallery images were saved');
+        // 4. if needed remove requested gallery images
+        if (!empty($model->removedGalleryImages))
+        {
+            $images = $this->getGalleryImages($model->removedGalleryImages);
+            $this->deleteGalleryImages($images);
+        }
 
-        // 5. save information about new base model
+        // 5. update information about the base model
         $this->storeInformation($model, $errors);
-
-        if ($errors->hasAny())
-        {
-            // Revert all changes
-            $this->deleteThumbnailPicture($model->thumbnailFilename);
-            $this->deleteGalleryImages($model->galleryImagesFilenames);
-            return;
-        }
     }
 }

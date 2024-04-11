@@ -87,4 +87,24 @@ class BaseModelRepository
     {
         // ...
     }
+
+    /**
+     * Returns the thumbnail's filename of base model.
+     *
+     * @param int $id Identifier of the base model
+     */
+    public function getThumbnail(int $id) : string
+    {
+        // ...
+    }
+
+    /**
+     * Returns the image's filenames of base model's gallery.
+     *
+     * @param int[] $ids Array of gallery images identifiers
+     */
+    public function getGalleryImages(array $ids) : array
+    {
+        // ...
+    }
 }

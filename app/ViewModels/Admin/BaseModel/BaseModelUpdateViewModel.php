@@ -12,6 +12,7 @@ use Illuminate\Http\UploadedFile;
  */
 class BaseModelUpdateViewModel
 {
+    public int $id;
     public string $name;
     public string $description;
     /**
@@ -24,7 +25,10 @@ class BaseModelUpdateViewModel
      * @var UploadedFile[]
      */
     public array $newGalleryImages;
-    public string $newGalleryImagesFilenames;
+    /**
+     * @var string[]
+     */
+    public array $newGalleryImagesFilenames;
     /**
      * Identifiers of removed gallery images
      * @var int[]
