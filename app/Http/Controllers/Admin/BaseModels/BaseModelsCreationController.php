@@ -67,7 +67,6 @@ class BaseModelsCreationController
 
         $models->add($model, $errors);
 
-
         if ($errors->hasAny()) {
             return redirect()->back()
                              ->withErrors($errors->getAll())
