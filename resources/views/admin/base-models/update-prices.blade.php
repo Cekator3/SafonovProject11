@@ -35,26 +35,20 @@
     <fieldset class="prices printing-technologies">
         <legend>Стоимость технологий печати</legend>
         <ul>
-        @php
-            $counter = 0;
-        @endphp
         @foreach ($model->getPrintingTechnologies() as $printingTechnology)
             <li>
                 <h3>{{ $printingTechnology->getName() }}</h3>
                 <p>{{ $printingTechnology->getDescription() }}</p>
-                <input type="hidden" name="prices[printing-technologies][{{ $counter }}][id]" value="{{ old('prices.printing-technologies.'.$counter.'.price') ?? $printingTechnology->getId() }}">
+                <input type="hidden" name="prices[printing-technologies][{{ $printingTechnology->getId() }}][id]" value="{{ $printingTechnology->getId() }}">
                 <x-forms.inputs.text :type=" 'number' "
-                                    :name=" 'prices[printing-technologies]['. $counter . '][price]' "
-                                    :placeholder=" 'Цена' "
-                                    :value=" old('prices.printing-technologies.'.$counter.'.price') ?? $printingTechnology->getPrice() "
-                                    step="0.01"
-                                    required
-                                    autocomplete="off"
+                                     :name=" 'prices[printing-technologies]['.$printingTechnology->getId().'][price]' "
+                                     :placeholder=" 'Цена' "
+                                     :value=" old('prices.printing-technologies.'.$printingTechnology->getId().'.price') ?? $printingTechnology->getPrice() "
+                                     step="0.01"
+                                     required
+                                     autocomplete="off"
                 />
             </li>
-            @php
-                $counter++;
-            @endphp
         @endforeach
         </ul>
     </fieldset>
@@ -62,26 +56,20 @@
     <fieldset>
         <legend>Типы филаментов</legend>
         <ul>
-        @php
-            $counter = 0;
-        @endphp
         @foreach ($model->getFilamentTypes() as $filamentType)
             <li>
                 <h3>{{ $filamentType->getName() }}</h3>
                 <p>{{ $filamentType->getDescription() }}</p>
-                <input type="hidden" name="prices[filament-types][{{ $counter }}][id]" value="{{ old('prices.filament-types.'.$counter.'.price') ?? $filamentType->getId() }}">
+                <input type="hidden" name="prices[filament-types][{{ $filamentType->getId() }}][id]" value="{{ $filamentType->getId() }}">
                 <x-forms.inputs.text :type=" 'number' "
-                                    :name=" 'prices[filament-types]['. $counter . '][price]' "
-                                    :placeholder=" 'Цена' "
-                                    :value=" old('prices.filament-types.'.$counter.'.price') ?? $filamentType->getPrice()"
-                                    step="0.01"
-                                    required
-                                    autocomplete="off"
+                                     :name=" 'prices[filament-types]['.$filamentType->getId().'][price]' "
+                                     :placeholder=" 'Цена' "
+                                     :value=" old('prices.filament-types.'.$filamentType->getId().'.price') ?? $filamentType->getPrice()"
+                                     step="0.01"
+                                     required
+                                     autocomplete="off"
                 />
             </li>
-        @php
-            $counter++;
-        @endphp
         @endforeach
         </ul>
     </fieldset>
@@ -90,24 +78,18 @@
         <legend>Цвета</legend>
         <p>Цвета, у которых не указана цена не будут использоваться</p>
         <ul>
-        @php
-            $counter = 0;
-        @endphp
         @foreach ($model->getColors() as $color)
             <li>
                 <span style="background: {{ $color->getRgbCss() }}"></span>
-                <input type="hidden" name="prices[colors][{{ $counter }}][id]" value="{{ old('prices.colors.'.$counter.'.price') ?? $color->getId() }}">
+                <input type="hidden" name="prices[colors][{{ $color->getId() }}][id]" value="{{ $color->getId() }}">
                 <x-forms.inputs.text :type=" 'number' "
-                                    :name=" 'prices[colors]['. $counter . '][price]' "
-                                    :placeholder=" 'Цена' "
-                                    :value=" old('prices.colors.'.$counter.'.price') ?? $color->getPrice()"
-                                    step="0.01"
-                                    autocomplete="off"
+                                     :name=" 'prices[colors]['. $color->getId() . '][price]' "
+                                     :placeholder=" 'Цена' "
+                                     :value=" old('prices.colors.'.$color->getId().'.price') ?? $color->getPrice()"
+                                     step="0.01"
+                                     autocomplete="off"
                 />
             </li>
-        @php
-            $counter++;
-        @endphp
         @endforeach
         </ul>
     </fieldset>
@@ -115,9 +97,6 @@
     <fieldset>
         <legend>Размеры модельки</legend>
         <ul>
-        @php
-            $counter = 0;
-        @endphp
         @foreach ($model->getSizes() as $size)
             <li>
                 <h3>
@@ -130,19 +109,16 @@
                     <span>{{ $size->getHeight() }}mm</span>
                     <span>)</span>
                 </h3>
-                <input type="hidden" name="prices[model-sizes][{{ $counter }}][id]" value="{{ old('prices.model-sizes.'.$counter.'.price') ?? $size->getId() }}">
+                <input type="hidden" name="prices[model-sizes][{{ $size->getId() }}][id]" value="{{ $size->getId() }}">
                 <x-forms.inputs.text :type=" 'number' "
-                                    :name=" 'prices[model-sizes]['. $counter.'][price]' "
+                                    :name=" 'prices[model-sizes]['.$size->getId().'][price]' "
                                     :placeholder=" 'Цена' "
-                                    :value=" old('prices.model-sizes.'.$counter.'.price') ?? $size->getPrice()"
+                                    :value=" old('prices.model-sizes.'.$size->getId().'.price') ?? $size->getPrice()"
                                     step="0.01"
                                     autocomplete="off"
                                     required
                 />
             </li>
-        @php
-            $counter++;
-        @endphp
         @endforeach
         </ul>
     </fieldset>
@@ -151,28 +127,22 @@
         <legend>Дополнительные услуги</legend>
 
         <ul>
-        @php
-            $counter = 0;
-        @endphp
         @foreach ($model->getAdditionalServices() as $service)
             <li>
                 <h3>{{ $service->getName() }}</h3>
                 <p>{{ $service->getDescription() }}</p>
                 <img src="{{ $service->getPreviewImageUrl() }}" alt="">
 
-                <input type="hidden" name="prices[additional-services][{{ $counter }}][id]" value="{{ old('prices.additional-services.'.$counter.'.id') ?? $service->getId() }}">
+                <input type="hidden" name="prices[additional-services][{{ $service->getId() }}][id]" value="{{ $service->getId() }}">
                 <x-forms.inputs.text :type=" 'number' "
-                                     :name=" 'prices[additional-services]['. $counter . '][price]' "
+                                     :name=" 'prices[additional-services]['.$service->getId().'][price]' "
                                      :placeholder=" 'Цена' "
-                                     :value=" old('prices.additional-services.'.$counter.'.price') ?? $service->getPrice() "
+                                     :value=" old('prices.additional-services.'.$service->getId().'.price') ?? $service->getPrice() "
                                      step="0.01"
                                      required
                                      autocomplete="off"
                 />
             </li>
-            @php
-                $counter++;
-            @endphp
         @endforeach
         </ul>
     </fieldset>
