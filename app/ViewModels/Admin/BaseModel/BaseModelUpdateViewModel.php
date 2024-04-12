@@ -34,4 +34,14 @@ class BaseModelUpdateViewModel
      * @var int[]
      */
     public array $removedGalleryImages;
+
+
+    /**
+     * @var string $nameInputName the name of the input.
+     * It will be used to add errors to the input.
+     */
+    public string $nameInputName;
+    public string $descriptionInputName;
+    public string $thumbnailInputName;
+    public string $galleryImagesInputName;
 }

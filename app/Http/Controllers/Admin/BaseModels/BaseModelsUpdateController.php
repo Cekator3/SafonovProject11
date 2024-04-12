@@ -4,11 +4,13 @@ namespace App\Http\Controllers\Admin\BaseModels;
 
 use Illuminate\View\View;
 use Illuminate\Http\Request;
+use App\Errors\UserInputErrors;
 use Illuminate\Http\RedirectResponse;
 use App\DTOs\Admin\BaseModels\BaseModelDTO;
 use App\DTOs\Admin\BaseModels\ModelSizeDTO;
 use App\ViewModels\Admin\BaseModel\BaseModelSize;
 use App\DTOs\Admin\BaseModels\ModelGalleryImageDTO;
+use App\Services\Admin\BaseModels\BaseModelsUpdateService;
 use App\ViewModels\Admin\BaseModel\BaseModelUpdateViewModel;
 
 class BaseModelsUpdateController
@@ -68,14 +70,20 @@ class BaseModelsUpdateController
         $result = [];
 
         $inputs = $request->input('model-sizes', []);
-        foreach ($inputs as $input)
+        for ($i = 0; $i < count($inputs); $i++)
         {
+            $input = $inputs[$i];
             $size = new BaseModelSize();
 
             $size->multiplier = $input['multiplier'];
             $size->length = $input['length'];
             $size->width = $input['width'];
             $size->height = $input['height'];
+
+            $size->multiplierInputName = "model-sizes[$i][multiplier]";
+            $size->lengthInputName = "model-sizes[$i][length]";
+            $size->widthInputName = "model-sizes[$i][width]";
+            $size->heightInputName = "model-sizes[$i][height]";
 
             $result []= $size;
         }
@@ -114,6 +122,11 @@ class BaseModelsUpdateController
         $model->newGalleryImages = $request->file('galleryImages');
         $model->removedGalleryImages = $this->getRemovedGalleryImagesFromUserInput($request);
 
+        $model->nameInputName = 'name';
+        $model->descriptionInputName = 'description';
+        $model->thumbnailInputName = 'previewImage';
+        $model->galleryImagesInputName = 'galleryImages[]';
+
         return $model;
     }
 
@@ -122,8 +135,18 @@ class BaseModelsUpdateController
      */
     public function updateBaseModel(Request $request, int $baseModelId) : RedirectResponse
     {
-        dd($request->input(), $this->getUserInput($request));
-        // ...
+        $models = new BaseModelsUpdateService();
+        $model = $this->getUserInput($request, $baseModelId);
+        $errors = new UserInputErrors();
+
+        $models->update($model, $errors);
+
+        if ($errors->hasAny()) {
+            return redirect()->back()
+                             ->withErrors($errors->getAll())
+                             ->withInput();
+        }
+
         return redirect()->route('base-models');
     }
 }
