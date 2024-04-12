@@ -66,72 +66,17 @@
         <ul class="model-sizes">
             @if (empty(old('model-sizes')))
             <li>
-                <div class="multiplier">
-                    <x-forms.inputs.text :name=" 'model-sizes[][multiplier]' "
-                                         :type=" 'number' "
-                                         :placeholder=" 'Множитель размера' "
-                                         autocomplete="off"
-                                         required
-                    />
-                </div>
-                <div class="actual-values">
-                    <x-forms.inputs.text :name=" 'model-sizes[][length]' "
-                                         :type=" 'number' "
-                                         :placeholder=" 'Длина' "
-                                         autocomplete="off"
-                                         required
-                    />
-                    <x-forms.inputs.text :name=" 'model-sizes[][width]' "
-                                         :type=" 'number' "
-                                         :placeholder=" 'Ширина' "
-                                         autocomplete="off"
-                                         required
-                    />
-                    <x-forms.inputs.text :name=" 'model-sizes[][height]' "
-                                         :type=" 'number' "
-                                         :placeholder=" 'Высота' "
-                                         autocomplete="off"
-                                         required
-                    />
-                </div>
-                <button class="delete">X</button>
+                <x-admin.base-models.size />
             </li>
             @else
             @foreach (old('model-sizes') as $size)
             <li>
-                <div class="multiplier">
-                    <x-forms.inputs.text :name=" 'model-sizes['.$loop->index.'][multiplier]' "
-                                         :type=" 'number' "
-                                         :placeholder=" 'Множитель размера' "
-                                         :value=" $size['multiplier'] "
-                                         autocomplete="off"
-                                         required
-                    />
-                </div>
-                <div class="actual-values">
-                    <x-forms.inputs.text :name=" 'model-sizes['.$loop->index.'][length]' "
-                                         :type=" 'number' "
-                                         :placeholder=" 'Длина' "
-                                         :value=" $size['length'] "
-                                         autocomplete="off"
-                                         required
-                    />
-                    <x-forms.inputs.text :name=" 'model-sizes['.$loop->index.'][width]' "
-                                         :type=" 'number' "
-                                         :placeholder=" 'Ширина' "
-                                         :value=" $size['width'] "
-                                         autocomplete="off"
-                                         required
-                    />
-                    <x-forms.inputs.text :name=" 'model-sizes['.$loop->index.'][height]' "
-                                         :type=" 'number' "
-                                         :placeholder=" 'Высота' "
-                                         :value=" $size['height'] "
-                                         autocomplete="off"
-                                         required
-                    />
-                </div>
-                <button class="delete">X</button>
+                <x-admin.base-models.size :index="$loop->index"
+                                          :multiplier="$size['multiplier']"
+                                          :length="$size['length']"
+                                          :width="$size['width']"
+                                          :height="$size['height']"
+                />
             </li>
             @endforeach
             @endif

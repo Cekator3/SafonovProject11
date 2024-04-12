@@ -52,14 +52,14 @@
         <legend>Общая информация</legend>
         <x-forms.inputs.text :name=" 'name' "
                              :placeholder=" 'Название' "
-                             :value=" $model->getName() "
+                             :value=" old('name') ?? $model->getName() "
                              autofocus
                              autocomplete="off"
                              required
         />
         <x-forms.inputs.text :name=" 'description' "
                              :placeholder=" 'Описание' "
-                             :value=" $model->getDescription() "
+                             :value=" old('description') ?? $model->getDescription() "
                              autocomplete="off"
                              required
         />
@@ -82,44 +82,29 @@
     <fieldset>
         <legend>Множители размеров</legend>
         <ul class="model-sizes">
+            @if (empty(old('model-sizes')))
             @foreach ($model->getSizes() as $size)
             <li>
-                <div class="multiplier">
-                    <x-forms.inputs.text :name=" 'model-sizes[][multiplier]' "
-                                         :type=" 'number' "
-                                         :placeholder=" 'Множитель размера' "
-                                         :value=" $size->getMultiplier() "
-                                         step='0.01'
-                                         autocomplete="off"
-                                         required
-                    />
-                </div>
-                <div class="actual-values">
-                    <x-forms.inputs.text :name=" 'model-sizes[][length]' "
-                                         :type=" 'number' "
-                                         :placeholder=" 'Длина' "
-                                         :value=" $size->getLength() "
-                                         autocomplete="off"
-                                         required
-                    />
-                    <x-forms.inputs.text :name=" 'model-sizes[][width]' "
-                                         :type=" 'number' "
-                                         :placeholder=" 'Ширина' "
-                                         :value=" $size->getWidth() "
-                                         autocomplete="off"
-                                         required
-                    />
-                    <x-forms.inputs.text :name=" 'model-sizes[][height]' "
-                                         :type=" 'number' "
-                                         :placeholder=" 'Высота' "
-                                         :value=" $size->getHeight() "
-                                         autocomplete="off"
-                                         required
-                    />
-                </div>
-                <button class="delete">X</button>
+                <x-admin.base-models.size :index="$loop->index"
+                                          :multiplier="$size->getMultiplier()"
+                                          :length="$size->getLength()"
+                                          :width="$size->getWidth()"
+                                          :height="$size->getHeight()"
+                />
             </li>
             @endforeach
+            @else
+            @foreach (old('model-sizes') as $size)
+            <li>
+                <x-admin.base-models.size :index="$loop->index"
+                                          :multiplier="$size['multiplier']"
+                                          :length="$size['length']"
+                                          :width="$size['width']"
+                                          :height="$size['height']"
+                />
+            </li>
+            @endforeach
+            @endif
             <li class="add"><button>+</button></li>
         </ul>
     </fieldset>

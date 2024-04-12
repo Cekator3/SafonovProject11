@@ -27,7 +27,7 @@ class BaseModelsCreationService
     {
         if (empty($sizes))
         {
-            $errMessage = __('validation.required', ['attribute' => 'model size']);
+            $errMessage = __('admin/base_model_validation.required.size');
             $errors->add('model-sizes[][multiplier]', $errMessage);
             return;
         }
@@ -46,7 +46,7 @@ class BaseModelsCreationService
     {
         if (empty($images))
         {
-            $errMessage = __('validation.required', ['attribute' => 'gallery image']);
+            $errMessage = __('admin/base_model_validation.required.gallery');
             $errors->add($inputName, $errMessage);
             return;
         }
@@ -64,7 +64,7 @@ class BaseModelsCreationService
     {
         if ($image === null)
         {
-            $errMessage = __('validation.required', ['attribute' => 'preview image']);
+            $errMessage = __('admin/base_model_validation.required.thumbnail');
             $errors->add($inputName, $errMessage);
             return;
         }
@@ -106,7 +106,7 @@ class BaseModelsCreationService
         {
             if ($creationErrors->isAlreadyExist())
             {
-                $errMessage = __('validation.unique', ['attribute' => 'name']);
+                $errMessage = __('admin/base_model_validation.unique.name');
                 $errors->add($model->nameInputName, $errMessage);
             }
         }
@@ -175,7 +175,7 @@ class BaseModelsCreationService
         // 2. check if base model already exists
         if ($this->isExists($model))
         {
-            $errMessage = __('validation.unique', ['attribute' => 'name']);
+            $errMessage = __('admin/base_model_validation.unique.name');
             $errors->add($model->nameInputName, $errMessage);
             return;
         }

@@ -27,44 +27,42 @@ class BaseModelsUpdateService
     {
         if (empty($sizes))
         {
-            $errMessage = __('validation.required', ['attribute' => 'model size']);
+            $errMessage = __('admin/base_model_validation.required.size');
             $errors->add('model-sizes[][multiplier]', $errMessage);
             return;
         }
 
         $sizeValidator = new BaseModelSizeValidationService();
         foreach ($sizes as $size)
-        {
             $sizeValidator->validate($size, $errors);
-            if ($errors->hasAny())
-                return;
-        }
     }
 
     /**
      * @param UploadedFile[]|null $images
+     * @param string $inputName
+     * The name of the input to which validation errors will be added.
      */
-    private function validateGalleryImages(array|null $images, UserInputErrors $errors) : void
+    private function validateGalleryImages(array|null $images, string $inputName, UserInputErrors $errors) : void
     {
         if (empty($images))
             return;
 
         $imageValidator = new ImageFormatValidationService();
         foreach ($images as $image)
-        {
-            $imageValidator->validate($image, $errors, 'galleryImages');
-            if ($errors->hasAny())
-                return;
-        }
+            $imageValidator->validate($image, $errors, $inputName);
     }
 
-    private function validateThumbnail(UploadedFile|null $image, UserInputErrors $errors) : void
+    /**
+     * @param string $inputName
+     * The name of the input to which validation errors will be added.
+     */
+    private function validateThumbnail(UploadedFile|null $image, string $inputName, UserInputErrors $errors) : void
     {
         if ($image === null)
             return;
 
         $imageValidator = new ImageFormatValidationService();
-        $imageValidator->validate($image, $errors, 'previewImage');
+        $imageValidator->validate($image, $errors, $inputName);
     }
 
     private function validateUserInput(BaseModelUpdateViewModel $model,
@@ -73,12 +71,12 @@ class BaseModelsUpdateService
         $nameValidator = new BaseModelNameValidationService();
         $descriptionValidator = new BaseModelDescriptionValidationService();
 
-        $nameValidator->validate($model->name, $errors);
-        $descriptionValidator->validate($model->description, $errors);
+        $nameValidator->validate($model->name, $model->nameInputName, $errors);
+        $descriptionValidator->validate($model->description, $model->descriptionInputName, $errors);
         $this->validateModelSizes($model->modelSizes, $errors);
 
-        $this->validateThumbnail($model->thumbnail, $errors);
-        $this->validateGalleryImages($model->newGalleryImages, $errors);
+        $this->validateThumbnail($model->thumbnail, $model->thumbnailInputName, $errors);
+        $this->validateGalleryImages($model->newGalleryImages, $model->galleryImagesInputName, $errors);
     }
 
     private function isExists(BaseModelUpdateViewModel $model) : bool
@@ -100,8 +98,8 @@ class BaseModelsUpdateService
         {
             if ($updateErrors->isAlreadyExist())
             {
-                $errMessage = __('validation.unique', ['attribute' => 'name']);
-                $errors->add('name', $errMessage);
+                $errMessage = __('admin/base_model_validation.unique.name');
+                $errors->add($model->nameInputName, $errMessage);
             }
         }
     }

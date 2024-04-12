@@ -56,9 +56,19 @@ class BaseModelsUpdateController
         return $model;
     }
 
+    private function getInputFromPreviousRequest() : BaseModelDTO|null
+    {
+        // dd(old());
+        return null;
+    }
+
     public function showUpdatingForm(int $baseModelId) : View
     {
-        $model = $this->getTestData();
+        $model = $this->getInputFromPreviousRequest();
+
+        if ($model === null)
+            $model = $this->getTestData();
+
         return view('admin.base-models.update', ['model' => $model]);
     }
 
@@ -98,7 +108,7 @@ class BaseModelsUpdateController
     {
         $result = [];
 
-        $inputs = $request->input('removed-gallery-images');
+        $inputs = $request->input('removed-gallery-images', []);
         foreach ($inputs as $input)
         {
             $id = intval($input);
