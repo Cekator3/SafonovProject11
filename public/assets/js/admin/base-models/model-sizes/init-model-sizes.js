@@ -30,7 +30,7 @@ function InitializeAddModelSizeButton(addModelSizeButton)
 }
 
 
-let modelSizes = Array.from(document.querySelectorAll('.model-sizes li'));
+let modelSizes = Array.from(document.querySelectorAll('.model-sizes > li'));
 let addModelSizeButton = modelSizes.pop();
 
 InitializeModelSizes(modelSizes);

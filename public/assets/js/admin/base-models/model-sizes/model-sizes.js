@@ -71,6 +71,22 @@ function ClearInputsValues(inputs)
 }
 
 /**
+ * Removes all errors from model's size field (validation etc...)
+ * @param {HTMLLIElement} modelSize
+ */
+function RemoveErrors(modelSize)
+{
+    let fields = modelSize.querySelectorAll('.has-errors');
+
+    for (let field of fields)
+    {
+        field.classList.remove('has-errors');
+        let errors = field.querySelector('.errors');
+        field.removeChild(errors);
+    }
+}
+
+/**
  * Initializes the element of the list (so he will work as expected)
  *
  * @param {HTMLLIElement} modelSize
@@ -111,6 +127,7 @@ export function ModelSizesAdd()
     let modelSizes = document.querySelector('.model-sizes');
     let modelSize = modelSizes.lastElementChild.previousElementSibling.cloneNode(true);
     ModelSizesInit(modelSize, true);
+    RemoveErrors(modelSize);
 
     // Adds element before 'add model size' button
     let addButton = modelSizes.lastElementChild;
