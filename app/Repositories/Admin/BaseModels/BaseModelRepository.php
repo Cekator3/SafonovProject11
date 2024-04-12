@@ -2,7 +2,7 @@
 
 namespace App\Repositories\Admin\BaseModels;
 
-use Illuminate\Http\UploadedFile;
+use stdClass;
 use Illuminate\Support\Facades\DB;
 use App\DTOs\Admin\BaseModels\BaseModelDTO;
 use App\DTOs\Admin\BaseModels\ModelItemListDTO;
@@ -18,6 +18,14 @@ use App\ViewModels\Admin\BaseModel\BaseModelCreationViewModel;
  */
 class BaseModelRepository
 {
+    private function convertToListItem(stdClass $entry) : ModelItemListDTO
+    {
+        $id = $entry->id;
+        $name = $entry->name;
+        $previewImage = $entry->preview_image;
+        return new ModelItemListDTO($id, $name, $previewImage);
+    }
+
     /**
      * Returns all base models
      *
@@ -25,15 +33,13 @@ class BaseModelRepository
      */
     public function getAll() : array
     {
-        // ...
-    }
+        $entries = DB::table('models')->select(['id', 'name', 'preview_image'])->get();
 
-    /**
-     * Returns base models.
-     */
-    public function get(int $id) : BaseModelDTO|null
-    {
-        // ...
+        $models = [];
+        foreach ($entries as $entry)
+            $models []= $this->convertToListItem($entry);
+
+        return $models;
     }
 
     /**
@@ -42,6 +48,22 @@ class BaseModelRepository
      * @return ModelItemListDTO[]
      */
     public function find(string $name) : array
+    {
+        $entries = DB::table('models')
+                     ->whereFullText('name', $name)
+                     ->get();
+
+        $models = [];
+        foreach ($entries as $entry)
+            $models[] = $this->convertToListItem($entry);
+
+        return $models;
+    }
+
+    /**
+     * Returns base models.
+     */
+    public function get(int $id) : BaseModelDTO|null
     {
         // ...
     }
@@ -143,7 +165,7 @@ class BaseModelRepository
      */
     public function remove(int $id) : void
     {
-        // ...
+        DB::table('models')->delete($id);
     }
 
     /**
@@ -151,9 +173,12 @@ class BaseModelRepository
      *
      * @param int $id Identifier of the base model
      */
-    public function getThumbnail(int $id) : string
+    public function getThumbnail(int $id) : string|null
     {
-        // ...
+        $entry = DB::table('models')->find($id, ['preview_image']);
+        if ($entry === null)
+            return null;
+        return $entry->preview_image;
     }
 
     /**
@@ -164,7 +189,12 @@ class BaseModelRepository
      */
     public function getGalleryImages(array $ids) : array
     {
-        // ...
+        return DB::table('models_gallery_images')
+                 ->whereIn('id', $ids)
+                 ->select('image')
+                 ->get()
+                 ->pluck('image')
+                 ->all();
     }
 
     /**
@@ -174,6 +204,10 @@ class BaseModelRepository
      */
     public function getAllGalleryImages() : array
     {
-        // ...
+        return DB::table('models_gallery_images')
+                 ->select('image')
+                 ->get()
+                 ->pluck('image')
+                 ->all();
     }
 }

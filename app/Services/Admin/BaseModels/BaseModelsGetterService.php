@@ -23,7 +23,7 @@ class BaseModelsGetterService
         $model->setPreviewImageUrl($url);
     }
 
-    private function setGalleryImagesUrls(BaseModelDTO|ModelItemListDTO $model) : void
+    private function setGalleryImagesUrls(BaseModelDTO $model) : void
     {
         $gallery = new BaseModelGalleryImagesRepository();
         $images = $model->getGalleryImages();
@@ -45,10 +45,7 @@ class BaseModelsGetterService
         $result = $models->getAll();
 
         foreach ($result as $model)
-        {
             $this->setThumbnailUrl($model);
-            $this->setGalleryImagesUrls($model);
-        }
 
         return $result;
     }
@@ -81,10 +78,7 @@ class BaseModelsGetterService
         $result = $models->find($name);
 
         foreach ($result as $model)
-        {
             $this->setThumbnailUrl($model);
-            $this->setGalleryImagesUrls($model);
-        }
 
         return $result;
     }

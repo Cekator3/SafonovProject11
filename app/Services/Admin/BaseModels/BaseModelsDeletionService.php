@@ -38,6 +38,8 @@ class BaseModelsDeletionService
         $models = new BaseModelRepository();
 
         $thumbnail = $models->getThumbnail($id);
+        if ($thumbnail === null)
+            return;
         $galleryImages = $models->getAllGalleryImages();
         $models->remove($id);
 
