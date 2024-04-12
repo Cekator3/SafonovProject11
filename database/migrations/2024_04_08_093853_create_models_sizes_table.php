@@ -15,11 +15,11 @@ return new class extends Migration
         {
             $table->integer('id')->generatedAs()->always()->primary();
             $table->integer('model_id');
-            $table->double('size_multiplier');
+            $table->integer('size_multiplier');
             $table->integer('length');
             $table->integer('width');
             $table->integer('height');
-            $table->decimal('price', 10, 2);
+            $table->decimal('price', 10, 2)->nullable();
 
             $table->unique(['model_id', 'size_multiplier']);
             $table->foreign('model_id')

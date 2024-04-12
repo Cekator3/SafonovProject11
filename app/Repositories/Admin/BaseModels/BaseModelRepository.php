@@ -2,10 +2,14 @@
 
 namespace App\Repositories\Admin\BaseModels;
 
+use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\DB;
 use App\DTOs\Admin\BaseModels\BaseModelDTO;
 use App\DTOs\Admin\BaseModels\ModelItemListDTO;
+use App\ViewModels\Admin\BaseModel\BaseModelSize;
 use App\Errors\Admin\BaseModel\BaseModelUpdateErrors;
 use App\Errors\Admin\BaseModel\BaseModelCreationErrors;
+use Illuminate\Database\UniqueConstraintViolationException;
 use App\ViewModels\Admin\BaseModel\BaseModelUpdateViewModel;
 use App\ViewModels\Admin\BaseModel\BaseModelCreationViewModel;
 
@@ -47,7 +51,46 @@ class BaseModelRepository
      */
     public function isExist(string $name) : bool
     {
-        // ...
+        return DB::table('models')->where('name', $name)->exists();
+    }
+
+    /**
+     * @param BaseModelSize[] $sizes
+     */
+    private function addModelSizes(int $modelId, array $sizes) : void
+    {
+        $data = [];
+
+        foreach ($sizes as $size)
+        {
+            $data []= [
+                'model_id' => $modelId,
+                'size_multiplier' => $size->multiplier,
+                'length' => $size->length,
+                'height' => $size->height,
+                'width' => $size->width,
+            ];
+        }
+
+        DB::table('models_sizes')->insert($data);
+    }
+
+    /**
+     * @param string[] $images filenames of model's gallery images
+     */
+    private function addGalleryImages(int $modelId, array $images) : void
+    {
+        $data = [];
+
+        foreach ($images as $image)
+        {
+            $data [] = [
+                'model_id' => $modelId,
+                'image' => $image
+            ];
+        }
+
+        DB::table('models_gallery_images')->insert($data);
     }
 
     /**
@@ -61,7 +104,22 @@ class BaseModelRepository
     public function add(BaseModelCreationViewModel $model,
                         BaseModelCreationErrors $errors) : void
     {
-        // ...
+        try
+        {
+            $modelId = DB::table('models')->insertGetId([
+                'name' => $model->name,
+                'description' => $model->description,
+                'preview_image' => $model->thumbnailFilename,
+            ]);
+        }
+        catch (UniqueConstraintViolationException $e)
+        {
+            $errors->add(BaseModelCreationErrors::ERROR_BASE_MODEL_ALREADY_EXIST);
+            return;
+        }
+
+        $this->addModelSizes($modelId, $model->modelSizes);
+        $this->addGalleryImages($modelId, $model->galleryImagesFilenames);
     }
 
 

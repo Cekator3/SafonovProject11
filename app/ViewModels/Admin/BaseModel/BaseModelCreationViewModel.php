@@ -20,7 +20,7 @@ class BaseModelCreationViewModel
     public array $modelSizes;
 
     public UploadedFile $thumbnail;
-    public string $thumbnailFilename;
+    public string $thumbnailFilename = '';
 
     /**
      * @var UploadedFile[]
@@ -30,7 +30,7 @@ class BaseModelCreationViewModel
     /**
      * @var string[]
      */
-    public array $galleryImagesFilenames;
+    public array $galleryImagesFilenames = [];
 
 
     /**

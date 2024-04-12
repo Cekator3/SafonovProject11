@@ -9,7 +9,7 @@ namespace App\DTOs\Admin\BaseModels;
 class ModelSizeDTO
 {
     protected int $id;
-    protected float $size_multiplier = 0.0;
+    protected int $size_multiplier = 0;
     protected int $length = 0;
     protected int $width = 0;
     protected int $height = 0;

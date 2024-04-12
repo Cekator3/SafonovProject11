@@ -84,6 +84,6 @@ class BaseModelsCreationController
                              ->withInput();
         }
 
-        return redirect()->route('base-models.update-prices');
+        return redirect()->route('base-models');
     }
 }

@@ -3,7 +3,7 @@
 namespace App\Repositories\Admin\BaseModels;
 
 use App\DTOs\Admin\BaseModels\Prices\BaseModelPrintPriceDTO;
-use App\ViewModels\Admin\BaseModel\BaseModelPricesUpdateViewModel;
+use App\ViewModels\Admin\BaseModel\Price\BaseModelPricesUpdateViewModel;
 
 /**
  * Subsystem for interaction with stored information on base models printing prices

@@ -10,7 +10,7 @@ namespace App\ViewModels\Admin\BaseModel;
  */
 class BaseModelSize
 {
-    public float $multiplier;
+    public int $multiplier;
     public int $length;
     public int $height;
     public int $width;
