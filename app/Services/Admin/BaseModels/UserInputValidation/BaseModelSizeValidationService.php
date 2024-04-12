@@ -11,39 +11,39 @@ use App\ViewModels\Admin\BaseModel\BaseModelSize;
  */
 class BaseModelSizeValidationService
 {
-    private function validateSizeMultiplier(float $multiplier, UserInputErrors $errors) : void
+    private function validateSizeMultiplier(float $multiplier, string $inputName, UserInputErrors $errors) : void
     {
         if ($multiplier <= 0)
         {
-            $errMessage = __('admin/base_model_validation.size');
-            $errors->add('model-sizes[][multiplier]', $errMessage);
+            $errMessage = __('admin/base_model_validation.size.multiplier');
+            $errors->add($inputName, $errMessage);
         }
     }
 
-    private function validateLength(int $length, UserInputErrors $errors) : void
+    private function validateLength(int $length, string $inputName, UserInputErrors $errors) : void
     {
         if ($length <= 0)
         {
-            $errMessage = __('admin/base_model_validation.size');
-            $errors->add('model-sizes[][length]', $errMessage);
+            $errMessage = __('admin/base_model_validation.size.length');
+            $errors->add($inputName, $errMessage);
         }
     }
 
-    private function validateWidth(int $width, UserInputErrors $errors) : void
+    private function validateWidth(int $width, string $inputName, UserInputErrors $errors) : void
     {
         if ($width <= 0)
         {
-            $errMessage = __('admin/base_model_validation.width');
-            $errors->add('model-sizes[][width]', $errMessage);
+            $errMessage = __('admin/base_model_validation.size.width');
+            $errors->add($inputName, $errMessage);
         }
     }
 
-    private function validateHeight(int $height, UserInputErrors $errors) : void
+    private function validateHeight(int $height, string $inputName, UserInputErrors $errors) : void
     {
         if ($height <= 0)
         {
-            $errMessage = __('admin/base_model_validation.height');
-            $errors->add('model-sizes[][height]', $errMessage);
+            $errMessage = __('admin/base_model_validation.size.height');
+            $errors->add($inputName, $errMessage);
         }
     }
 
@@ -56,9 +56,9 @@ class BaseModelSizeValidationService
      */
     public function validate(BaseModelSize $size, UserInputErrors $errors) : void
     {
-        $this->validateSizeMultiplier($size->multiplier, $errors);
-        $this->validateLength($size->length, $errors);
-        $this->validateWidth($size->width, $errors);
-        $this->validateHeight($size->height, $errors);
+        $this->validateSizeMultiplier($size->multiplier, $size->multiplierInputName, $errors);
+        $this->validateLength($size->length, $size->lengthInputName, $errors);
+        $this->validateWidth($size->width, $size->widthInputName, $errors);
+        $this->validateHeight($size->height, $size->heightInputName, $errors);
     }
 }

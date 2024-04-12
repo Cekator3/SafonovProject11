@@ -10,12 +10,12 @@ use App\Errors\UserInputErrors;
  */
 class BaseModelDescriptionValidationService
 {
-    private function validateLength(string $description, UserInputErrors $errors)
+    private function validateLength(string $description, string $inputName, UserInputErrors $errors)
     {
         if (strlen($description) === 0)
         {
             $errMessage = __('validation.required', ['attribute' => 'description']);
-            $errors->add('description', $errMessage);
+            $errors->add($inputName, $errMessage);
         }
     }
 
@@ -23,11 +23,13 @@ class BaseModelDescriptionValidationService
      * Checks if the description of base model meets the necessary criteria
      *
      * @param string $description Base model's description
+     * @param string $inputName
+     * The name of the input to which validation errors will be added.
      * @param UserInputErrors $errors
      * Data structure, where discovered errors will be stored.
      */
-    public function validate(string $description, UserInputErrors $errors) : void
+    public function validate(string $description, string $inputName, UserInputErrors $errors) : void
     {
-        $this->validateLength($description, $errors);
+        $this->validateLength($description, $inputName, $errors);
     }
 }

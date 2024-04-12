@@ -26,14 +26,20 @@ class BaseModelsCreationController
         $result = [];
 
         $inputs = $request->input('model-sizes', []);
-        foreach ($inputs as $input)
+        for ($i = 0; $i < count($inputs); $i++)
         {
+            $input = $inputs[$i];
             $size = new BaseModelSize();
 
             $size->multiplier = $input['multiplier'];
             $size->length = $input['length'];
             $size->width = $input['width'];
             $size->height = $input['height'];
+
+            $size->multiplierInputName = "model-sizes[$i][multiplier]";
+            $size->lengthInputName = "model-sizes[$i][length]";
+            $size->widthInputName = "model-sizes[$i][width]";
+            $size->heightInputName = "model-sizes[$i][height]";
 
             $result []= $size;
         }
@@ -50,6 +56,11 @@ class BaseModelsCreationController
         $model->modelSizes = $this->getModelSizesFromUserInput($request);
         $model->thumbnail = $request->file('previewImage');
         $model->galleryImages = $request->file('galleryImages');
+
+        $model->nameInputName = 'name';
+        $model->descriptionInputName = 'description';
+        $model->thumbnailInputName = 'previewImage';
+        $model->galleryImagesInputName = 'galleryImages[]';
 
         return $model;
     }

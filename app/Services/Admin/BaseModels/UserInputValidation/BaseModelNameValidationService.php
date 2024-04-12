@@ -10,12 +10,12 @@ use App\Errors\UserInputErrors;
  */
 class BaseModelNameValidationService
 {
-    private function validateLength(string $name, UserInputErrors $errors)
+    private function validateLength(string $name, string $inputName, UserInputErrors $errors)
     {
         if (strlen($name) === 0)
         {
             $errMessage = __('validation.required', ['attribute' => 'name']);
-            $errors->add('name', $errMessage);
+            $errors->add($inputName, $errMessage);
         }
     }
 
@@ -23,11 +23,13 @@ class BaseModelNameValidationService
      * Checks if the name of base model meets the necessary criteria
      *
      * @param string $name Base model's name
+     * @param string $inputName
+     * The name of the input to which validation errors will be added.
      * @param UserInputErrors $errors
      * Data structure, where discovered errors will be stored.
      */
-    public function validate(string $name, UserInputErrors $errors) : void
+    public function validate(string $name, string $inputName, UserInputErrors $errors) : void
     {
-        $this->validateLength($name, $errors);
+        $this->validateLength($name, $inputName, $errors);
     }
 }

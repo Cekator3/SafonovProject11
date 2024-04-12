@@ -34,45 +34,43 @@ class BaseModelsCreationService
 
         $sizeValidator = new BaseModelSizeValidationService();
         foreach ($sizes as $size)
-        {
             $sizeValidator->validate($size, $errors);
-            if ($errors->hasAny())
-                return;
-        }
     }
 
     /**
      * @param UploadedFile[]|null $images
+     * @param string $inputName
+     * The name of the input to which validation errors will be added.
      */
-    private function validateGalleryImages(array|null $images, UserInputErrors $errors) : void
+    private function validateGalleryImages(array|null $images, string $inputName, UserInputErrors $errors) : void
     {
         if (empty($images))
         {
             $errMessage = __('validation.required', ['attribute' => 'gallery image']);
-            $errors->add('previewImage', $errMessage);
+            $errors->add($inputName, $errMessage);
             return;
         }
 
         $imageValidator = new ImageFormatValidationService();
         foreach ($images as $image)
-        {
-            $imageValidator->validate($image, $errors, 'galleryImages');
-            if ($errors->hasAny())
-                return;
-        }
+            $imageValidator->validate($image, $errors, $inputName);
     }
 
-    private function validateThumbnail(UploadedFile|null $image, UserInputErrors $errors) : void
+    /**
+     * @param string $inputName
+     * The name of the input to which validation errors will be added.
+     */
+    private function validateThumbnail(UploadedFile|null $image, string $inputName, UserInputErrors $errors) : void
     {
         if ($image === null)
         {
             $errMessage = __('validation.required', ['attribute' => 'preview image']);
-            $errors->add('previewImage', $errMessage);
+            $errors->add($inputName, $errMessage);
             return;
         }
 
         $imageValidator = new ImageFormatValidationService();
-        $imageValidator->validate($image, $errors, 'previewImage');
+        $imageValidator->validate($image, $errors, $inputName);
     }
 
     private function validateUserInput(BaseModelCreationViewModel $model,
@@ -81,12 +79,12 @@ class BaseModelsCreationService
         $nameValidator = new BaseModelNameValidationService();
         $descriptionValidator = new BaseModelDescriptionValidationService();
 
-        $nameValidator->validate($model->name, $errors);
-        $descriptionValidator->validate($model->description, $errors);
+        $nameValidator->validate($model->name, $model->nameInputName, $errors);
+        $descriptionValidator->validate($model->description, $model->descriptionInputName, $errors);
         $this->validateModelSizes($model->modelSizes, $errors);
 
-        $this->validateThumbnail($model->thumbnail, $errors);
-        $this->validateGalleryImages($model->galleryImages, $errors);
+        $this->validateThumbnail($model->thumbnail, $model->thumbnailInputName, $errors);
+        $this->validateGalleryImages($model->galleryImages, $model->galleryImagesInputName, $errors);
     }
 
     private function isExists(BaseModelCreationViewModel $model) : bool
@@ -109,7 +107,7 @@ class BaseModelsCreationService
             if ($creationErrors->isAlreadyExist())
             {
                 $errMessage = __('validation.unique', ['attribute' => 'name']);
-                $errors->add('name', $errMessage);
+                $errors->add($model->nameInputName, $errMessage);
             }
         }
     }
@@ -178,7 +176,7 @@ class BaseModelsCreationService
         if ($this->isExists($model))
         {
             $errMessage = __('validation.unique', ['attribute' => 'name']);
-            $errors->add('name', $errMessage);
+            $errors->add($model->nameInputName, $errMessage);
             return;
         }
 

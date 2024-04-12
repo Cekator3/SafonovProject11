@@ -14,4 +14,13 @@ class BaseModelSize
     public int $length;
     public int $height;
     public int $width;
+
+    /**
+     * @var string $multiplierInputName the name of the input.
+     * It will be used to add errors to the input.
+     */
+    public string $multiplierInputName;
+    public string $lengthInputName;
+    public string $heightInputName;
+    public string $widthInputName;
 }

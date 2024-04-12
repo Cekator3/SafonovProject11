@@ -64,6 +64,7 @@
     <fieldset>
         <legend>Множители размеров</legend>
         <ul class="model-sizes">
+            @if (empty(old('model-sizes')))
             <li>
                 <div class="multiplier">
                     <x-forms.inputs.text :name=" 'model-sizes[][multiplier]' "
@@ -95,6 +96,45 @@
                 </div>
                 <button class="delete">X</button>
             </li>
+            @else
+            @foreach (old('model-sizes') as $size)
+            <li>
+                <div class="multiplier">
+                    <x-forms.inputs.text :name=" 'model-sizes['.$loop->index.'][multiplier]' "
+                                         :type=" 'number' "
+                                         :placeholder=" 'Множитель размера' "
+                                         :value=" $size['multiplier'] "
+                                         autocomplete="off"
+                                         required
+                    />
+                </div>
+                <div class="actual-values">
+                    <x-forms.inputs.text :name=" 'model-sizes['.$loop->index.'][length]' "
+                                         :type=" 'number' "
+                                         :placeholder=" 'Длина' "
+                                         :value=" $size['length'] "
+                                         autocomplete="off"
+                                         required
+                    />
+                    <x-forms.inputs.text :name=" 'model-sizes['.$loop->index.'][width]' "
+                                         :type=" 'number' "
+                                         :placeholder=" 'Ширина' "
+                                         :value=" $size['width'] "
+                                         autocomplete="off"
+                                         required
+                    />
+                    <x-forms.inputs.text :name=" 'model-sizes['.$loop->index.'][height]' "
+                                         :type=" 'number' "
+                                         :placeholder=" 'Высота' "
+                                         :value=" $size['height'] "
+                                         autocomplete="off"
+                                         required
+                    />
+                </div>
+                <button class="delete">X</button>
+            </li>
+            @endforeach
+            @endif
             <li class="add"><button>+</button></li>
         </ul>
     </fieldset>
