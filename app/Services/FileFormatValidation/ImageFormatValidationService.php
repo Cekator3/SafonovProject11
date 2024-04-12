@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Services\FileFormatValidation;
+
 use App\Errors\UserInputErrors;
 use Illuminate\Http\UploadedFile;
 
@@ -21,16 +22,16 @@ class ImageFormatValidationService
      * @param array|UploadedFile $file File input
      * @param UserInputErrors $errors
      * Data structure, where discovered errors will be stored.
-     * @param string $userInputName Name of the input field
+     * @param string $inputName Name of the input field
      */
     public function validate(array|UploadedFile $file,
                              UserInputErrors $errors,
-                             string $userInputName) : void
+                             string $inputName) : void
     {
         if (! $this->isImage($file))
         {
-            $errMessage = __('validation.image', ['attribute' => 'image']);
-            $errors->add($userInputName, $errMessage);
+            $errMessage = __('validation.image', ['attribute' => $file->getClientOriginalName(), 'mime' => $file->getMimeType()]);
+            $errors->add($inputName, $errMessage);
         }
     }
 }
