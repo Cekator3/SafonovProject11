@@ -23,6 +23,39 @@ class BaseModelsUpdateService
     /**
      * @param BaseModelSize[]|null $sizes
      */
+    private function ensureModelSizesDontHaveDuplicates(array|null $sizes,
+                                                        UserInputErrors $errors) : void
+    {
+        // 1. Get all size multipliers
+        $multipliers = [];
+        foreach ($sizes as $size)
+            $multipliers []= $size->multiplier;
+
+        // 2. Count amount of each multipliers occurrence
+        $occurrences = array_count_values($multipliers);
+
+        // 3. Find indexes of repeating multipliers and add
+        // error message to appropriate inputs
+        foreach ($occurrences as $multiplier => $amount)
+        {
+            if ($amount === 1)
+                continue;
+
+            for ($i = 0; $i < count($sizes); $i++)
+            {
+                if ($sizes[$i]->multiplier !== $multiplier)
+                    continue;
+
+                $errMessage = __('admin/base_model_validation.size.unique_multiplier', ['multiplier' => $multiplier,
+                                                                                        'amount' => $amount]);
+                $errors->add("model-sizes[$i][multiplier]", $errMessage);
+            }
+        }
+    }
+
+    /**
+     * @param BaseModelSize[]|null $sizes
+     */
     private function validateModelSizes(array|null $sizes, UserInputErrors $errors) : void
     {
         if (empty($sizes))
@@ -35,6 +68,8 @@ class BaseModelsUpdateService
         $sizeValidator = new BaseModelSizeValidationService();
         foreach ($sizes as $size)
             $sizeValidator->validate($size, $errors);
+
+        $this->ensureModelSizesDontHaveDuplicates($sizes, $errors);
     }
 
     /**

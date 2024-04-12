@@ -17,7 +17,7 @@ class ModelSizeWithPriceDTO
     private float $price;
 
     public function __construct(int $id,
-                                float $sizeMultiplier,
+                                int $sizeMultiplier,
                                 int $length,
                                 int $width,
                                 int $height,

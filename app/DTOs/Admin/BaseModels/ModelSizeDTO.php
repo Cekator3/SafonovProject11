@@ -15,7 +15,7 @@ class ModelSizeDTO
     protected int $height = 0;
 
     public function __construct(int $id,
-                                float $size_multiplier,
+                                int $size_multiplier,
                                 int $length,
                                 int $width,
                                 int $height)

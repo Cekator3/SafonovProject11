@@ -5,8 +5,10 @@ namespace App\Repositories\Admin\BaseModels;
 use stdClass;
 use Illuminate\Support\Facades\DB;
 use App\DTOs\Admin\BaseModels\BaseModelDTO;
+use App\DTOs\Admin\BaseModels\ModelSizeDTO;
 use App\DTOs\Admin\BaseModels\ModelItemListDTO;
 use App\ViewModels\Admin\BaseModel\BaseModelSize;
+use App\DTOs\Admin\BaseModels\ModelGalleryImageDTO;
 use App\Errors\Admin\BaseModel\BaseModelUpdateErrors;
 use App\Errors\Admin\BaseModel\BaseModelCreationErrors;
 use Illuminate\Database\UniqueConstraintViolationException;
@@ -60,12 +62,65 @@ class BaseModelRepository
         return $models;
     }
 
+    private function convertToGalleryImage(stdClass $entry) : ModelGalleryImageDTO
+    {
+        return new ModelGalleryImageDTO($entry->id, $entry->image);
+    }
+
+    /**
+     * @return ModelGalleryImageDTO[]
+     */
+    private function getGalleryImagesOfModel(int $modelId) : array
+    {
+        $entries = DB::table('models_gallery_images')
+                     ->where('model_id', '=', $modelId)
+                     ->get(['id', 'image']);
+
+        $result = [];
+        foreach ($entries as $entry)
+            $result []= $this->convertToGalleryImage($entry);
+        return $result;
+    }
+
+    private function convertToModelSize(stdClass $entry) : ModelSizeDTO
+    {
+        return new ModelSizeDTO($entry->id, $entry->size_multiplier, $entry->length, $entry->width, $entry->height);
+    }
+
+    /**
+     * @return ModelSizeDTO[]
+     */
+    private function getSizesOfModel(int $modelId) : array
+    {
+        $entries = DB::table('models_sizes')
+                     ->where('model_id', '=', $modelId)
+                     ->get(['id', 'size_multiplier', 'length', 'width', 'height']);
+
+        $result = [];
+        foreach ($entries as $entry)
+            $result []= $this->convertToModelSize($entry);
+        return $result;
+    }
+
     /**
      * Returns base models.
      */
     public function get(int $id) : BaseModelDTO|null
     {
-        // ...
+        $entry = DB::table('models')
+                   ->where('id', '=', $id)
+                   ->first(['name', 'preview_image', 'description']);
+
+        if ($entry === null)
+            return null;
+
+        $gallery = $this->getGalleryImagesOfModel($id);
+        $sizes = $this->getSizesOfModel($id);
+        return new BaseModelDTO($id, $entry->name,
+                                     $entry->description,
+                                     $entry->preview_image,
+                                     $gallery,
+                                     $sizes);
     }
 
     /**
@@ -144,6 +199,18 @@ class BaseModelRepository
         $this->addGalleryImages($modelId, $model->galleryImagesFilenames);
     }
 
+    private function removeAllModelSizes(int $modelId) : void
+    {
+        DB::table('models_sizes')->where('model_id', '=', $modelId)->delete();
+    }
+
+    /**
+     * @param int[] $ids
+     */
+    private function removeGalleryImages(array $ids) : void
+    {
+        DB::table('models_gallery_images')->whereIn('id', $ids)->delete();
+    }
 
     /**
      * Updates base model.
@@ -155,7 +222,29 @@ class BaseModelRepository
     public function update(BaseModelUpdateViewModel $model,
                            BaseModelUpdateErrors $errors) : void
     {
-        // ...
+        $newData = [
+            'name' => $model->name,
+            'description' => $model->description,
+        ];
+        if (isset($model->thumbnailFilename))
+            $newData['preview_image'] = $model->thumbnailFilename;
+
+        try
+        {
+            DB::table('models')->where('id', '=', $model->id)->update($newData);
+        }
+        catch (UniqueConstraintViolationException $e)
+        {
+            $errors->add(BaseModelUpdateErrors::ERROR_BASE_MODEL_ALREADY_EXIST);
+            return;
+        }
+
+        if (!empty($model->removedGalleryImages))
+            $this->removeGalleryImages($model->removedGalleryImages);
+        $this->removeAllModelSizes($model->id);
+        $this->addModelSizes($model->id, $model->modelSizes);
+        if (!empty($model->newGalleryImagesFilenames))
+            $this->addGalleryImages($model->id, $model->newGalleryImagesFilenames);
     }
 
     /**

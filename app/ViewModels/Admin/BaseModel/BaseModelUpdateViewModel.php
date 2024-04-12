@@ -28,7 +28,7 @@ class BaseModelUpdateViewModel
     /**
      * @var string[]
      */
-    public array $newGalleryImagesFilenames;
+    public array $newGalleryImagesFilenames = [];
     /**
      * Identifiers of removed gallery images
      * @var int[]
