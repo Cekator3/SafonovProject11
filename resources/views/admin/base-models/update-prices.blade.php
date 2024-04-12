@@ -42,11 +42,11 @@
             <li>
                 <h3>{{ $printingTechnology->getName() }}</h3>
                 <p>{{ $printingTechnology->getDescription() }}</p>
-                <input type="hidden" name="prices[printing-technologies][{{ $counter }}][id]" value="{{ $printingTechnology->getId() }}">
+                <input type="hidden" name="prices[printing-technologies][{{ $counter }}][id]" value="{{ old('prices.printing-technologies.'.$counter.'.price') ?? $printingTechnology->getId() }}">
                 <x-forms.inputs.text :type=" 'number' "
                                     :name=" 'prices[printing-technologies]['. $counter . '][price]' "
                                     :placeholder=" 'Цена' "
-                                    :value=" $printingTechnology->getPrice() "
+                                    :value=" old('prices.printing-technologies.'.$counter.'.price') ?? $printingTechnology->getPrice() "
                                     step="0.01"
                                     required
                                     autocomplete="off"
@@ -69,11 +69,11 @@
             <li>
                 <h3>{{ $filamentType->getName() }}</h3>
                 <p>{{ $filamentType->getDescription() }}</p>
-                <input type="hidden" name="prices[filament-types][{{ $counter }}][id]" value="{{ $filamentType->getId() }}">
+                <input type="hidden" name="prices[filament-types][{{ $counter }}][id]" value="{{ old('prices.filament-types.'.$counter.'.price') ?? $filamentType->getId() }}">
                 <x-forms.inputs.text :type=" 'number' "
                                     :name=" 'prices[filament-types]['. $counter . '][price]' "
                                     :placeholder=" 'Цена' "
-                                    :value=" $filamentType->getPrice()"
+                                    :value=" old('prices.filament-types.'.$counter.'.price') ?? $filamentType->getPrice()"
                                     step="0.01"
                                     required
                                     autocomplete="off"
@@ -96,11 +96,11 @@
         @foreach ($model->getColors() as $color)
             <li>
                 <span style="background: {{ $color->getRgbCss() }}"></span>
-                <input type="hidden" name="prices[colors][{{ $counter }}][id]" value="{{ $color->getId() }}">
+                <input type="hidden" name="prices[colors][{{ $counter }}][id]" value="{{ old('prices.colors.'.$counter.'.price') ?? $color->getId() }}">
                 <x-forms.inputs.text :type=" 'number' "
                                     :name=" 'prices[colors]['. $counter . '][price]' "
                                     :placeholder=" 'Цена' "
-                                    :value=" $color->getPrice()"
+                                    :value=" old('prices.colors.'.$counter.'.price') ?? $color->getPrice()"
                                     step="0.01"
                                     autocomplete="off"
                 />
@@ -130,11 +130,11 @@
                     <span>{{ $size->getHeight() }}mm</span>
                     <span>)</span>
                 </h3>
-                <input type="hidden" name="prices[model-sizes][{{ $counter }}][id]" value="{{ $size->getId() }}">
+                <input type="hidden" name="prices[model-sizes][{{ $counter }}][id]" value="{{ old('prices.model-sizes.'.$counter.'.price') ?? $size->getId() }}">
                 <x-forms.inputs.text :type=" 'number' "
-                                    :name=" 'prices[model-sizes]['. $counter . '][price]' "
+                                    :name=" 'prices[model-sizes]['. $counter.'][price]' "
                                     :placeholder=" 'Цена' "
-                                    :value=" $size->getPrice()"
+                                    :value=" old('prices.model-sizes.'.$counter.'.price') ?? $size->getPrice()"
                                     step="0.01"
                                     autocomplete="off"
                                     required
@@ -160,14 +160,14 @@
                 <p>{{ $service->getDescription() }}</p>
                 <img src="{{ $service->getPreviewImageUrl() }}" alt="">
 
-                <input type="hidden" name="prices[additional-services][{{ $counter }}][id]" value="{{ $service->getId() }}">
+                <input type="hidden" name="prices[additional-services][{{ $counter }}][id]" value="{{ old('prices.additional-services.'.$counter.'.id') ?? $service->getId() }}">
                 <x-forms.inputs.text :type=" 'number' "
-                                    :name=" 'prices[additional-services]['. $counter . '][price]' "
-                                    :placeholder=" 'Цена' "
-                                    :value=" $service->getPrice() "
-                                    step="0.01"
-                                    required
-                                    autocomplete="off"
+                                     :name=" 'prices[additional-services]['. $counter . '][price]' "
+                                     :placeholder=" 'Цена' "
+                                     :value=" old('prices.additional-services.'.$counter.'.price') ?? $service->getPrice() "
+                                     step="0.01"
+                                     required
+                                     autocomplete="off"
                 />
             </li>
             @php
@@ -185,7 +185,7 @@
                 <x-forms.inputs.text :type=" 'number' "
                                     :name=" 'prices[solid]' "
                                     :placeholder=" 'Цена' "
-                                    :value=" $model->getPriceForSolidType()"
+                                    :value=" old('prices.solid') ?? $model->getPriceForSolidType()"
                                     step="0.01"
                                     autocomplete="off"
                                     required
@@ -196,7 +196,7 @@
                 <x-forms.inputs.text :type=" 'number' "
                                     :name=" 'prices[holed]' "
                                     :placeholder=" 'Цена' "
-                                    :value=" $model->getPriceForHoledType()"
+                                    :value=" old('prices.holed') ?? $model->getPriceForHoledType()"
                                     step="0.01"
                                     autocomplete="off"
                                     required
@@ -213,7 +213,7 @@
                 <x-forms.inputs.text :type=" 'number' "
                                     :name=" 'prices[parted]' "
                                     :placeholder=" 'Цена' "
-                                    :value=" $model->getPriceForPartedType()"
+                                    :value=" old('prices.parted') ?? $model->getPriceForPartedType()"
                                     step="0.01"
                                     autocomplete="off"
                                     required
@@ -224,7 +224,7 @@
                 <x-forms.inputs.text :type=" 'number' "
                                     :name=" 'prices[not-parted]' "
                                     :placeholder=" 'Цена' "
-                                    :value=" $model->getPriceForNotPartedType()"
+                                    :value=" old('prices.not-parted') ?? $model->getPriceForNotPartedType()"
                                     step="0.01"
                                     autocomplete="off"
                                     required

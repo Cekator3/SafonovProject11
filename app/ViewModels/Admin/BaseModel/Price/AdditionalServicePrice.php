@@ -12,4 +12,10 @@ class AdditionalServicePrice
 {
     public int $id;
     public float $price;
+
+    /**
+     * @var string $inputName the name of the input.
+     * It will be used to add errors to the input.
+     */
+    public string $inputName;
 }

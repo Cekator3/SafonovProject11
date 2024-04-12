@@ -46,4 +46,13 @@ class BaseModelPricesUpdateViewModel
     public float $priceForHoledType;
     public float $priceForPartedType;
     public float $priceForNotPartedType;
+
+    /**
+     * @var string $priceForSolidTypeInputName the name of the input.
+     * It will be used to add errors to the input.
+     */
+    public string $priceForSolidTypeInputName;
+    public string $priceForHoledTypeInputName;
+    public string $priceForPartedTypeInputName;
+    public string $priceForNotPartedTypeInputName;
 }

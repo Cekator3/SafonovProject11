@@ -161,7 +161,7 @@ class BaseModelsUpdateService
     }
 
     /**
-     * Tries to create a new base model from user's input.
+     * Tries to update a base model from user's input.
      *
      * @param BaseModelUpdateViewModel $model User's input
      * @param UserInputErrors $errors
