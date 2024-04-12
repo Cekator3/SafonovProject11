@@ -20,7 +20,7 @@ return new class extends Migration
 
             // Holed type printing prices
             $table->decimal('price_holed', 10, 2)->nullable();
-            $table->decimal('price_not_holed', 10, 2)->nullable();
+            $table->decimal('price_solid', 10, 2)->nullable();
 
             // Parted type printing prices
             $table->decimal('price_parted', 10, 2)->nullable();
