@@ -27,19 +27,13 @@ class AppServiceProvider extends ServiceProvider
         Model::preventSilentlyDiscardingAttributes(! $this->app->isProduction());
         Model::preventAccessingMissingAttributes(! $this->app->isProduction());
         $this->logDatabaseQueries();
-        $this->logHttpQueries($request);
     }
 
     private function logDatabaseQueries() : void
     {
         DB::listen(function ($query) {
-            Log::info("SQL QUERY: {$query->sql}");     
-            Log::info("SQL QUERY TIME: {$query->time} ms"); 
+            Log::info("SQL_QUERY: {$query->sql}");
+            Log::info("SQL_QUERY_TIME: {$query->time}");
         });
-    }
-
-    private function logHttpQueries(Request $request): void
-    {
-        Log::info("HTTP QUERY: {$request->getPathInfo()}");     
     }
 }
