@@ -5,6 +5,10 @@ enum UserRole : string
 {
     case Customer = 'customer';
     case Admin = 'admin';
+    /**
+     * Not authenticated
+     */
+    case Guest = 'g';
 
     /**
      * Returns values associated with UserRole enum.

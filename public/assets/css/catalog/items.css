@@ -1,0 +1,105 @@
+main
+{
+    /* Constants */
+    --list-card-padding: 0.9375rem;   /* 15 px */
+    --list-card-gap-between-gap-and-description: 10px;
+    --list-card-max-paragraph-lines: 5;
+
+    /* Sets gap between site header and main */
+    margin-top: 25px;
+}
+
+main > header
+{
+    /* Aligns header's content on the same line */
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+    align-items: baseline;
+}
+
+/* Header's content */
+main > header > *
+{
+    width: 50%;
+}
+
+/* Search models action */
+main > header > .actions
+{
+    /* Move search field to the right */
+    display: flex;
+    flex-flow: column nowrap;
+    align-items: flex-end;
+}
+
+/* Models list */
+.models
+{
+    /* Removes default styles */
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+
+    /* Sets layout */
+    display: grid;
+    grid-template-columns: repeat(auto-fill, 30%);
+    justify-content: space-between;
+
+    /* Sets vertical gap between models */
+    grid-gap: 70px 0;
+}
+
+/* Card of models list */
+.models > li
+{
+    /* Sets background */
+    padding: var(--list-card-padding);
+    background-color: var(--item-window-bg-color);
+
+    /* Sets rounded borders */
+    border-radius: var(--border-radius);
+}
+
+/* Model */
+.model
+{
+    text-align: center;
+
+    /* Moves control buttons to the end of the card */
+    height: 100%;
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: space-between;
+}
+
+.model > a
+{
+    height: 100%;
+
+    display: grid;
+    grid-template-rows: 1fr min-content;
+    gap: 0;
+}
+
+/* Title of model */
+.model h3
+{
+    /* Sets font */
+    font-weight: 500;
+    font-size: 1.3125rem;       /* 21px */
+    line-height: 1.366rem;
+
+    /* Sets gap between title and description */
+    margin-bottom: var(--list-card-gap-between-gap-and-description);
+}
+
+/* Preview image */
+.model img
+{
+    /* Limits size of image */
+    width: 100%;
+    height: 100%;
+    /* Sets rounded borders */
+    border-radius: var(--border-radius);
+}
