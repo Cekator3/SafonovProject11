@@ -39,7 +39,6 @@
             <li>
                 <h3>{{ $printingTechnology->getName() }}</h3>
                 <p>{{ $printingTechnology->getDescription() }}</p>
-                <input type="hidden" name="prices[printing-technologies][{{ $printingTechnology->getId() }}][id]" value="{{ $printingTechnology->getId() }}">
                 <x-forms.inputs.text :type=" 'number' "
                                      :name=" 'prices[printing-technologies]['.$printingTechnology->getId().'][price]' "
                                      :placeholder=" 'Цена' "
@@ -60,7 +59,6 @@
             <li>
                 <h3>{{ $filamentType->getName() }}</h3>
                 <p>{{ $filamentType->getDescription() }}</p>
-                <input type="hidden" name="prices[filament-types][{{ $filamentType->getId() }}][id]" value="{{ $filamentType->getId() }}">
                 <x-forms.inputs.text :type=" 'number' "
                                      :name=" 'prices[filament-types]['.$filamentType->getId().'][price]' "
                                      :placeholder=" 'Цена' "
@@ -81,7 +79,6 @@
         @foreach ($model->getColors() as $color)
             <li>
                 <span style="background: {{ $color->getRgbCss() }}"></span>
-                <input type="hidden" name="prices[colors][{{ $color->getId() }}][id]" value="{{ $color->getId() }}">
                 <x-forms.inputs.text :type=" 'number' "
                                      :name=" 'prices[colors]['. $color->getId() . '][price]' "
                                      :placeholder=" 'Цена' "
@@ -109,7 +106,6 @@
                     <span>{{ $size->getHeight() }}mm</span>
                     <span>)</span>
                 </h3>
-                <input type="hidden" name="prices[model-sizes][{{ $size->getId() }}][id]" value="{{ $size->getId() }}">
                 <x-forms.inputs.text :type=" 'number' "
                                     :name=" 'prices[model-sizes]['.$size->getId().'][price]' "
                                     :placeholder=" 'Цена' "
@@ -133,7 +129,6 @@
                 <p>{{ $service->getDescription() }}</p>
                 <img src="{{ $service->getPreviewImageUrl() }}" alt="">
 
-                <input type="hidden" name="prices[additional-services][{{ $service->getId() }}][id]" value="{{ $service->getId() }}">
                 <x-forms.inputs.text :type=" 'number' "
                                      :name=" 'prices[additional-services]['.$service->getId().'][price]' "
                                      :placeholder=" 'Цена' "

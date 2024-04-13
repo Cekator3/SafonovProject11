@@ -29,12 +29,6 @@ class ModelSizeWithPriceDTO
         $this->width = $width;
         $this->height = $height;
         $this->price = $price;
-
-        assert($this->size_multiplier > 0.0, 'model size multiplier must be greater than 0.0');
-        assert($this->length > 0, 'model length must be greater than 0');
-        assert($this->width > 0, 'model width must be greater than 0');
-        assert($this->height > 0, 'model height must be greater than 0');
-        assert($this->price > 0, "price for model''s size must be greater than 0");
     }
 
     /**

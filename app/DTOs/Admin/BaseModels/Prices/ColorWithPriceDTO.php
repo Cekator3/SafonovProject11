@@ -32,7 +32,7 @@ class ColorWithPriceDTO
      */
     public function getRgbCss() : string
     {
-        return $this->code;
+        return '#'.$this->code;
     }
 
     /**

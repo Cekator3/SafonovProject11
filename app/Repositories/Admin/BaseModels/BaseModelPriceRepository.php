@@ -27,8 +27,13 @@ class BaseModelPriceRepository
     private function getPrintingTechnologiesWithPrices(int $baseModelId) : array
     {
         $entries = DB::table('printing_technologies AS pt')
-                     ->join('printing_technologies_prices AS p', 'p.printing_technology_id', '=', 'pt.id', 'left')
-                     ->where('p.model_id', '=', $baseModelId)
+                     ->leftJoinLateral(
+                            DB::table('printing_technologies_prices')
+                              ->whereColumn('printing_technology_id', '=', 'pt.id')
+                              ->where('model_id', '=', $baseModelId)
+                              ->select(['price'])
+                              ->limit(1)
+                        , 'p')
                      ->select(['pt.id AS id', 'pt.name AS name', 'pt.description AS description', 'p.price AS price'])
                      ->get();
 
@@ -38,7 +43,7 @@ class BaseModelPriceRepository
             $id = $entry->id;
             $name = $entry->name;
             $description = $entry->description;
-            $price = $entry->price;
+            $price = $entry->price ?? 0.0;
 
             $result []= new PrintingTechnologyWithPriceDTO($id, $name, $description, $price);
         }
@@ -51,8 +56,13 @@ class BaseModelPriceRepository
     private function getFilamentTypesWithPrices(int $baseModelId) : array
     {
         $entries = DB::table('filament_types AS ft')
-                     ->join('filament_types_prices AS p', 'p.filament_type_id', '=', 'ft.id', 'left')
-                     ->where('p.model_id', '=', $baseModelId)
+                     ->leftJoinLateral(
+                            DB::table('filament_types_prices')
+                              ->whereColumn('filament_type_id', '=', 'ft.id')
+                              ->where('model_id', '=', $baseModelId)
+                              ->select(['price'])
+                              ->limit(1)
+                        , 'p')
                      ->select(['ft.id AS id', 'ft.name AS name', 'ft.description AS description', 'p.price AS price'])
                      ->get();
 
@@ -62,7 +72,7 @@ class BaseModelPriceRepository
             $id = $entry->id;
             $name = $entry->name;
             $description = $entry->description;
-            $price = $entry->price;
+            $price = $entry->price ?? 0.0;
 
             $result []= new FilamentTypeWithPriceDTO($id, $name, $description, $price);
         }
@@ -70,13 +80,20 @@ class BaseModelPriceRepository
     }
 
     /**
+     * Returns all colors with their price for base models (if exists).
      * @return ColorWithPriceDTO[]
      */
     private function getColorsWithPrices(int $baseModelId) : array
     {
+
         $entries = DB::table('colors AS c')
-                     ->join('colors_prices AS p', 'p.color_id', '=', 'c.id', 'left')
-                     ->where('p.model_id', '=', $baseModelId)
+                     ->leftJoinLateral(
+                            DB::table('colors_prices')
+                              ->whereColumn('color_id', '=', 'c.id')
+                              ->where('model_id', '=', $baseModelId)
+                              ->select(['price'])
+                              ->limit(1)
+                        , 'p')
                      ->select(['c.id AS id', 'c.code AS code', 'p.price AS price'])
                      ->get();
 
@@ -85,7 +102,7 @@ class BaseModelPriceRepository
         {
             $id = $entry->id;
             $code = $entry->code;
-            $price = $entry->price;
+            $price = $entry->price ?? 0.0;
 
             $result []= new ColorWithPriceDTO($id, $code, $price);
         }
@@ -110,7 +127,7 @@ class BaseModelPriceRepository
             $length = $entry->length;
             $width = $entry->width;
             $height = $entry->height;
-            $price = $entry->price;
+            $price = $entry->price ?? 0.0;
 
             $result []= new ModelSizeWithPriceDTO($id, $multiplier, $length, $width, $height, $price);
         }
@@ -122,10 +139,15 @@ class BaseModelPriceRepository
      */
     private function getAdditionalServicesWithPrices(int $baseModelId) : array
     {
-        $entries = DB::table('additional_services AS service')
-                     ->join('additional_services_prices AS p', 'p.additional_service_id', '=', 'service.id', 'left')
-                     ->where('p.model_id', '=', $baseModelId)
-                     ->select(['service.id AS id', 'service.name AS name', 'service.description AS description', 'service.preview_image AS preview_image', 'p.price AS price'])
+        $entries = DB::table('additional_services AS s')
+                     ->leftJoinLateral(
+                            DB::table('additional_services_prices')
+                              ->whereColumn('additional_service_id', '=', 's.id')
+                              ->where('model_id', '=', $baseModelId)
+                              ->select(['price'])
+                              ->limit(1)
+                        , 'p')
+                     ->select(['s.id AS id', 's.name AS name', 's.description AS description', 's.preview_image AS preview_image', 'p.price AS price'])
                      ->get();
 
         $result = [];
@@ -135,7 +157,7 @@ class BaseModelPriceRepository
             $name = $entry->name;
             $description = $entry->description;
             $previewImage = $entry->preview_image;
-            $price = $entry->price;
+            $price = $entry->price ?? 0.0;
 
             $result []= new AdditionalServiceWithPriceDTO($id, $name, $description, $previewImage, $price);
         }
@@ -154,16 +176,16 @@ class BaseModelPriceRepository
         $colors = $this->getColorsWithPrices($baseModelId);
         $modelSizes = $this->getModelSizesWithPrices($baseModelId);
         $additionalServices = $this->getAdditionalServicesWithPrices($baseModelId);
-        $model = new BaseModelPrintPriceDTO($baseModelId,
-                                            $printingTechnologies,
-                                            $filamentTypes,
-                                            $colors,
-                                            $modelSizes,
-                                            $additionalServices,
-                                            $entry->price_holed,
-                                            $entry->price_solid,
-                                            $entry->price_parted,
-                                            $entry->price_not_parted);
+        return new BaseModelPrintPriceDTO($baseModelId,
+                                          $printingTechnologies,
+                                          $filamentTypes,
+                                          $colors,
+                                          $modelSizes,
+                                          $additionalServices,
+                                          $entry->price_holed ?? 0.0,
+                                          $entry->price_solid ?? 0.0,
+                                          $entry->price_parted ?? 0.0,
+                                          $entry->price_not_parted ?? 0.0);
     }
 
     /**
@@ -183,10 +205,14 @@ class BaseModelPriceRepository
     {
         foreach ($additionalServices as $additionalService)
         {
+            $conditions = [
+                'additional_service_id' => $additionalService->id,
+                'model_id' => $baseModelId
+            ];
+            $values = ['price' => $additionalService->price];
+
             DB::table('additional_services_prices')
-                    ->where('additional_service_id', '=', $additionalService->id)
-                    ->where('model_id', '=', $baseModelId)
-                    ->update(['price' => $additionalService->price]);
+                    ->updateOrInsert($conditions, $values);
         }
     }
 
@@ -197,10 +223,14 @@ class BaseModelPriceRepository
     {
         foreach ($printingTechnologies as $printingTechnology)
         {
+            $conditions = [
+                'printing_technology_id' => $printingTechnology->id,
+                'model_id' => $baseModelId
+            ];
+            $values = ['price' => $printingTechnology->price];
+
             DB::table('printing_technologies_prices')
-                    ->where('printing_technology_id', '=', $printingTechnology->id)
-                    ->where('model_id', '=', $baseModelId)
-                    ->update(['price' => $printingTechnology->price]);
+                    ->updateOrInsert($conditions, $values);
         }
     }
 
@@ -211,10 +241,14 @@ class BaseModelPriceRepository
     {
         foreach ($filamentTypes as $filamentType)
         {
+            $conditions = [
+                'filament_type_id' => $filamentType->id,
+                'model_id' => $baseModelId
+            ];
+            $values = ['price' => $filamentType->price];
+
             DB::table('filament_types_prices')
-                    ->where('filament_type_id', '=', $filamentType->id)
-                    ->where('model_id', '=', $baseModelId)
-                    ->update(['price' => $filamentType->price]);
+                    ->updateOrInsert($conditions, $values);
         }
     }
 
@@ -225,10 +259,14 @@ class BaseModelPriceRepository
     {
         foreach ($colors as $color)
         {
-            DB::table('filament_types_prices')
-                    ->where('filament_type_id', '=', $color->id)
-                    ->where('model_id', '=', $baseModelId)
-                    ->update(['price' => $color->price]);
+            $conditions = [
+                'color_id' => $color->id,
+                'model_id' => $baseModelId
+            ];
+            $values = ['price' => $color->price];
+
+            DB::table('colors_prices')
+                    ->updateOrInsert($conditions, $values);
         }
     }
 
