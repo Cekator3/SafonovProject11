@@ -1,12 +1,12 @@
 <?php
 namespace App\Enums;
 
-enum OrderStatus : string
+enum OrderStatus : int
 {
-    case WaitingForPayment = 'waiting_for_payment';
-    case OnExecution = 'on_execution';
-    case OnDelivery = 'on_delivery';
-    case Completed = 'completed';
+    case WaitingForPayment = 1;
+    case OnExecution = 2;
+    case OnDelivery = 3;
+    case Completed = 4;
 
     /**
      * Returns values associated with OrderStatus enum.
