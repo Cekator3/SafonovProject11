@@ -10,6 +10,9 @@
     --header-height: 11%;
     --border-radius: 20px;
 
+    /* Gap between main content and site's header */
+    --header-main-gap: 2.375rem;    /* 38px */
+
     /* Витрина предметов */
     --item-window-bg-color: #191919;
 

@@ -7,6 +7,7 @@
 <link href="/assets/css/links/link-button.css" rel="stylesheet" type="text/css">
 
 {{-- Specific --}}
+<link href="/assets/css/catalog/item.css" rel="stylesheet" type="text/css">
 @endsection
 
 @section('navigation')
@@ -24,14 +25,17 @@
 @endsection
 
 @section('main')
-<header>
-    <h1>{{ $model->getName() }}</h1>
-    <p>{{ $model->getDescription() }}</p>
-    <a class="link button" href="#">Купить</a>
-</header>
 
-<div class="gallery">
-    <img src="{{ $model->getPreviewImageUrl() }}" alt="">
+<div class="catalog-item">
+    <section class="info">
+        <header><h3>{{ $model->getName() }}</h3></header>
+        <p class="description">{{ $model->getDescription() }}</p>
+        <a class="link button buy" href="#">Купить</a>
+    </section>
+
+    <div class="gallery">
+        <img loading="lazy" src="{{ $model->getPreviewImageUrl() }}" alt="">
+    </div>
 </div>
 
 

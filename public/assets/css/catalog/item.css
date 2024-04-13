@@ -1,0 +1,72 @@
+/* Catalog item */
+.catalog-item
+{
+    /* Sets layout of gallery and info sections */
+    display: grid;
+    grid-template-columns: [gallery] 1fr [info] 1fr;
+    grid-template-areas: "gallery info"
+                         "gallery info";
+
+    /* Sets gap between sections */
+    gap: 0 2%;
+
+    /* Sets gap between content and site's header */
+    margin-top: var(--header-main-gap);
+}
+
+/* Catalog item's Gallery */
+.catalog-item > .gallery
+{
+    grid-area: [gallery];
+}
+
+/* Gallery thumbnail */
+.catalog-item > .gallery img
+{
+    /* Sets image's limit size */
+    width: 100%;
+    height: 100%;
+
+    /* Rounds corners */
+    border-radius: var(--border-radius);
+
+    /* Sets background */
+    background-color: var(--item-window-bg-color);
+    padding: 0.9375rem;   /* 15 px */
+}
+
+/* Catalog item's header, description and buy button */
+.catalog-item .info
+{
+    grid-area: info;
+}
+
+.catalog-item .info h3
+{
+    /* Sets font */
+    font-size: 2.3125rem;    /* 37px */
+    font-weight: 700;
+    line-height: 3.125rem;   /* 50px */
+    /* Removes standard margin */
+    margin: 0;
+}
+
+.catalog-item .info .description
+{
+    /* Sets font */
+    font-size: 21px;
+    font-weight: 300;
+    line-height: 29px;
+    color: var(--description-text-color);
+}
+
+/* "Buy model" button */
+.catalog-item .info .link.buy
+{
+    /* Sets font */
+    font-weight: 400;
+    font-size: 1.125rem;
+    /* Sets the height of link button */
+    --height: 4rem;
+    width: 30%;
+}
