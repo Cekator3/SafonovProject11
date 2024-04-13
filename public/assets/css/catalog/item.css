@@ -60,13 +60,19 @@
     color: var(--description-text-color);
 }
 
-/* "Buy model" button */
-.catalog-item .info .link.buy
+/* Action buttons (buy, modify, delete...) on catalog models */
+.catalog-item .info .actions
+{
+    width: 32%;
+}
+
+/* Action button */
+.catalog-item .info .actions a.button
 {
     /* Sets font */
     font-weight: 400;
     font-size: 1.125rem;
-    /* Sets the height of link button */
+
+    /* Sets the height */
     --height: 4rem;
-    width: 30%;
 }

@@ -30,7 +30,8 @@
     <section class="info">
         <header><h3>{{ $model->getName() }}</h3></header>
         <p class="description">{{ $model->getDescription() }}</p>
-        <a class="link button buy" href="#">Купить</a>
+        <x-catalog.item.actions :userRole=" $userRole "
+                                :baseModelId=" $model->getId() " />
     </section>
 
     <div class="gallery">
