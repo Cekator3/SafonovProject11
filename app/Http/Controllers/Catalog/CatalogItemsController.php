@@ -3,12 +3,10 @@
 namespace App\Http\Controllers\Catalog;
 
 use App\Enums\UserRole;
-use App\Services\Admin\BaseModels\BaseModelsGetterService;
 use Illuminate\View\View;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Http\RedirectResponse;
-use App\Repositories\Admin\BaseModels\BaseModelRepository;
+use App\Services\Catalog\CatalogItemsGetterService;
 
 class CatalogItemsController
 {
@@ -23,6 +21,8 @@ class CatalogItemsController
                 return UserRole::Customer;
             case UserRole::Admin:
                 return UserRole::Admin;
+            default:
+                assert(false, 'Role '.$user->role.' not implemented yet');
         }
     }
 
@@ -31,18 +31,17 @@ class CatalogItemsController
      */
     public function showCatalogItems(Request $request) : View
     {
-        $models = new BaseModelsGetterService();
+        $models = new CatalogItemsGetterService();
         return view('catalog.items', ['models' => $models->getAll(), 'userRole' => $this->getUserRole()]);
     }
 
     /**
      * Tries to find relevant catalog items
      */
-    public function searchCatalogItems(Request $request) : View|RedirectResponse
+    public function searchCatalogItems(Request $request) : View
     {
-        // ...
-        $searchQuery = $request->query('search', '');
-        $models = new BaseModelsGetterService();
+        $searchQuery = $request->string('search', '');
+        $models = new CatalogItemsGetterService();
 
         // Apply the search query if exists
         $result = [];
@@ -52,5 +51,14 @@ class CatalogItemsController
             $result = $models->find($searchQuery);
 
         return view('catalog.items', ['models' => $result, 'userRole' => $this->getUserRole()]);
+    }
+
+    /**
+     * Displays the details about catalog item.
+     */
+    public function showCatalogItem(Request $request, int $baseModelId) : View
+    {
+        $models = new CatalogItemsGetterService();
+        return view('catalog.item', ['model' => $models->get($baseModelId), 'userRole' => $this->getUserRole()]);
     }
 }

@@ -53,6 +53,7 @@ class BaseModelRepository
     {
         $entries = DB::table('models')
                      ->whereFullText('name', $name)
+                     ->select(['id', 'name', 'preview_image'])
                      ->get();
 
         $models = [];
