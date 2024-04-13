@@ -14,9 +14,15 @@ final class ModelSizeWithPriceDTO
     private int $length = 0;
     private int $width = 0;
     private int $height = 0;
+    private bool $isSelected;
     private float $price;
 
+    /**
+     * @param bool $isSelected indicates whether the user chose to use that
+     * model size to print the model
+     */
     public function __construct(int $id,
+                                bool $isSelected,
                                 int $sizeMultiplier,
                                 int $length,
                                 int $width,
@@ -24,6 +30,7 @@ final class ModelSizeWithPriceDTO
                                 float $price)
     {
         $this->id = $id;
+        $this->isSelected = $isSelected;
         $this->size_multiplier = $sizeMultiplier;
         $this->length = $length;
         $this->width = $width;
@@ -37,6 +44,15 @@ final class ModelSizeWithPriceDTO
     public function getId() : int
     {
         return $this->id;
+    }
+
+    /**
+     * Returns true if user chose to use that color
+     * to print the model
+     */
+    public function isSelected() : bool
+    {
+        return $this->isSelected();
     }
 
     /**

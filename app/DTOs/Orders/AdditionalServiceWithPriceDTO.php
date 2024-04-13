@@ -11,19 +11,26 @@ final class AdditionalServiceWithPriceDTO
     private int $id;
     private string $name = '';
     private string $description = '';
+    private bool $isSelected;
     private string $previewImageFilename = '';
     private string $previewImageUrl = '';
     private float $price;
 
+    /**
+     * @param bool $isSelected indicates whether the user chose to use that
+     * additional service to print the model
+     */
     public function __construct(int $id,
                                 string $name,
                                 string $description,
+                                bool $isSelected,
                                 string $previewImageFilename,
                                 float $price)
     {
         $this->id = $id;
         $this->name = $name;
         $this->description = $description;
+        $this->isSelected = $isSelected;
         $this->previewImageFilename = $previewImageFilename;
         $this->price = $price;
     }
@@ -50,6 +57,15 @@ final class AdditionalServiceWithPriceDTO
     public function getDescription() : string
     {
         return $this->description;
+    }
+
+    /**
+     * Returns true if user chose to use that color
+     * to print the model
+     */
+    public function isSelected() : bool
+    {
+        return $this->isSelected();
     }
 
     /**

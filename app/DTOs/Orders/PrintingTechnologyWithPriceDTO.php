@@ -11,13 +11,23 @@ final class PrintingTechnologyWithPriceDTO
     private int $id;
     private string $name;
     private string $description;
+    private bool $isSelected;
     private float $price;
 
-    public function __construct(int $id, string $name, string $description, float $price)
+    /**
+     * @param bool $isSelected indicates whether the user chose to use that
+     * printing technology to print the model
+     */
+    public function __construct(int $id,
+                                string $name,
+                                string $description,
+                                bool $isSelected,
+                                float $price)
     {
         $this->id = $id;
         $this->name = $name;
         $this->description = $description;
+        $this->isSelected = $isSelected;
         $this->price = $price;
     }
 
@@ -45,6 +55,15 @@ final class PrintingTechnologyWithPriceDTO
     {
         assert($this->description !== '', 'accessing not initialized property: $description');
         return $this->description;
+    }
+
+    /**
+     * Returns true if user chose to use that printing technology
+     * to print the model
+     */
+    public function isSelected() : bool
+    {
+        return $this->isSelected();
     }
 
     /**

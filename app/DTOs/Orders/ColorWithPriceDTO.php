@@ -10,12 +10,18 @@ final class ColorWithPriceDTO
 {
     private int $id;
     private string $code = '';
+    private bool $isSelected;
     private float $price;
 
-    public function __construct(int $id, string $code, float $price)
+    /**
+     * @param bool $isSelected indicates whether the user chose to use that
+     * color to print the model
+     */
+    public function __construct(int $id, string $code, bool $isSelected, float $price)
     {
         $this->id = $id;
         $this->code = $code;
+        $this->isSelected = $isSelected;
         $this->price = $price;
     }
 
@@ -33,6 +39,15 @@ final class ColorWithPriceDTO
     public function getRgbCss() : string
     {
         return '#'.$this->code;
+    }
+
+    /**
+     * Returns true if user chose to use that color
+     * to print the model
+     */
+    public function isSelected() : bool
+    {
+        return $this->isSelected();
     }
 
     /**

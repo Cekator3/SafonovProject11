@@ -12,18 +12,25 @@ final class FilamentTypeWithPriceDTO
     private int $id;
     private string $name = '';
     private string $description = '';
+    private bool $isSelected;
     private FilamentTypeCharacteristics $characteristics;
     private float $price;
 
+    /**
+     * @param bool $isSelected indicates whether the user chose to use that
+     * filament type to print the model
+     */
     public function __construct(int $id,
                                 string $name,
                                 string $description,
+                                bool $isSelected,
                                 FilamentTypeCharacteristics $characteristics,
                                 float $price)
     {
         $this->id = $id;
         $this->name = $name;
         $this->description = $description;
+        $this->isSelected = $isSelected;
         $this->characteristics = $characteristics;
         $this->price = $price;
     }
@@ -50,6 +57,15 @@ final class FilamentTypeWithPriceDTO
     public function getDescription() : string
     {
         return $this->description;
+    }
+
+    /**
+     * Returns true if user chose to use that filament type
+     * to print the model
+     */
+    public function isSelected() : bool
+    {
+        return $this->isSelected();
     }
 
     /**

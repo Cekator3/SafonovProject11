@@ -4,17 +4,32 @@ namespace App\DTOs\Orders;
 
 /**
  * A subsystem for reading application data about
- * ordered models
+ * ordered models.
  */
 final class OrderedModelDTO
 {
     private int $id;
     private int $amount;
-    private PrintingTechnologyWithPriceDTO $printingTechnology;
-    private FilamentTypeWithPriceDTO $filamentType;
-    private ColorWithPriceDTO $color;
-    private ModelSizeWithPriceDTO $modelSize;
-    private AdditionalServiceWithPriceDTO $additionalService;
+    /**
+     * @var PrintingTechnologyWithPriceDTO[]
+     */
+    private array $printingTechnologies;
+    /**
+     * @var FilamentTypeWithPriceDTO[]
+     */
+    private array $filamentTypes;
+    /**
+     * @var ColorWithPriceDTO[]
+     */
+    private array $colors;
+    /**
+     * @var ModelSizeWithPriceDTO[]
+     */
+    private array $modelSizes;
+    /**
+     * @var AdditionalServiceWithPriceDTO[]
+     */
+    private array $additionalServices;
     private bool $isHoled;
     private bool $isParted;
     private float $priceForHoledType;
@@ -22,13 +37,22 @@ final class OrderedModelDTO
     private float $priceForPartedType;
     private float $priceForNotPartedType;
 
+    /**
+     * @param PrintingTechnologyWithPriceDTO[] $printingTechnologies
+     * @param FilamentTypeWithPriceDTO[] $filamentTypes
+     * @param ColorWithPriceDTO[] $colors
+     * @param ModelSizeWithPriceDTO[] $modelSizes
+     * @param AdditionalServiceWithPriceDTO[] $additionalServices
+     * @param bool $isHoled indicates whether user chose holed version of the model
+     * @param bool $isParted indicates whether user chose parted version of the model
+     */
     public function __construct(int $id,
                                 int $amount,
-                                PrintingTechnologyWithPriceDTO $printingTechnology,
-                                FilamentTypeWithPriceDTO $filamentType,
-                                ColorWithPriceDTO $color,
-                                ModelSizeWithPriceDTO $modelSize,
-                                AdditionalServiceWithPriceDTO $additionalService,
+                                array $printingTechnologies,
+                                array $filamentTypes,
+                                array $colors,
+                                array $modelSizes,
+                                array $additionalServices,
                                 bool $isHoled,
                                 bool $isParted,
                                 float $priceForHoledType,
@@ -38,11 +62,11 @@ final class OrderedModelDTO
     {
         $this->id = $id;
         $this->amount = $amount;
-        $this->printingTechnology = $printingTechnology;
-        $this->filamentType = $filamentType;
-        $this->color = $color;
-        $this->modelSize = $modelSize;
-        $this->additionalService = $additionalService;
+        $this->printingTechnology = $printingTechnologies;
+        $this->filamentType = $filamentTypes;
+        $this->color = $colors;
+        $this->modelSize = $modelSizes;
+        $this->additionalService = $additionalServices;
         $this->isHoled = $isHoled;
         $this->isParted = $isParted;
         $this->priceForHoledType = $priceForHoledType;
@@ -68,47 +92,63 @@ final class OrderedModelDTO
     }
 
     /**
-     * Returns the printing technology of the model in the user's order
+     * Returns the printing technologies with their prices for using them
+     * when printing this model.
+     *
+     * @return PrintingTechnologyWithPriceDTO[]
      */
-    public function getPrintingTechnology() : PrintingTechnologyWithPriceDTO
+    public function getPrintingTechnology() : array
     {
-        return $this->printingTechnology;
+        return $this->printingTechnologies;
     }
 
     /**
-     * Returns the filament type of the model in the user's order
+     * Returns the filament types with their prices for using them
+     * when printing this model.
+     *
+     * @return FilamentTypeWithPriceDTO[]
      */
-    public function getFilamentType() : FilamentTypeWithPriceDTO
+    public function getFilamentType() : array
     {
-        return $this->filamentType;
+        return $this->filamentTypes;
     }
 
     /**
-     * Returns the color of the model in the user's order
+     * Returns the colors with their prices for using them
+     * when printing this model.
+     *
+     * @return ColorWithPriceDTO[]
      */
-    public function getColor() : ColorWithPriceDTO
+    public function getColor() : array
     {
-        return $this->color;
+        return $this->colors;
     }
 
     /**
-     * Returns the size of the model in the user's order
+     * Returns the model's sizes with their prices for using them
+     * to print this model.
+     *
+     * @return ModelSizeWithPriceDTO[]
      */
-    public function getModelSize() : ModelSizeWithPriceDTO
+    public function getModelSize() : array
     {
-        return $this->modelSize;
+        return $this->modelSizes;
     }
 
     /**
-     * Returns the additional service of the model in the user's order
+     * Returns the additional services with their prices for using them
+     * to print this model.
+     *
+     * @return AdditionalServiceWithPriceDTO[]
      */
-    public function getAdditionalService() : AdditionalServiceWithPriceDTO
+    public function getAdditionalService() : array
     {
-        return $this->additionalService;
+        return $this->additionalServices;
     }
 
     /**
-     * Returns true if the model is holed in the user's order
+     * Returns true if user chose holed version of the model
+     * Returns false if he chose solid version.
      */
     public function isHoled() : bool
     {
@@ -116,7 +156,8 @@ final class OrderedModelDTO
     }
 
     /**
-     * Returns true if the model is parted in the user's order
+     * Returns true if user chose parted version of the model.
+     * Returns false if he chose not parted version.
      */
     public function isParted() : bool
     {
