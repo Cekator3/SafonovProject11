@@ -43,7 +43,7 @@
 <li>
     <section class="model">
         {{-- Title and description --}}
-        <a href="{{ route('catalog.item', ['modelId' => $model->getId()]) }}">
+        <a href="{{ route('catalog.item', ['baseModelId'=> $model->getId()]) }}">
             {{-- Preview image and title --}}
             <img loading="lazy" src="{{ $model->getPreviewImageUrl() }}">
             <header>
