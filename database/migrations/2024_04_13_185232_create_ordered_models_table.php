@@ -16,8 +16,8 @@ return new class extends Migration
             $table->integer('id')->generatedAs()->always()->primary();
             $table->integer('order_id');
 
-            $table->integer('base_model_id');
-            $table->smallInteger('base_model_size_id');
+            $table->integer('model_id');
+            $table->smallInteger('model_size_id');
             $table->smallInteger('printing_technology_id');
             $table->smallInteger('filament_type_id');
             $table->smallInteger('color_id');
@@ -27,11 +27,11 @@ return new class extends Migration
             $table->foreign('order_id')
                   ->references('id')->on('orders')
                   ->onDelete('cascade');
-            $table->foreign('base_model_id')
-                  ->references('id')->on('base_models')
+            $table->foreign('model_id')
+                  ->references('id')->on('models')
                   ->onDelete('restrict');
-            $table->foreign('base_model_size_id')
-                  ->references('id')->on('base_model_sizes')
+            $table->foreign('model_size_id')
+                  ->references('id')->on('models_sizes')
                   ->onDelete('restrict');
             $table->foreign('printing_technology_id')
                   ->references('id')->on('printing_technologies')
