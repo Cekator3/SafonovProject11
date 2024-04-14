@@ -12,22 +12,31 @@ final class PrintingTechnologyWithPriceDTO
     private string $name;
     private string $description;
     private bool $isSelected;
+    /**
+     * @var int[] $supportedFilamentTypesIds
+     * Identifiers of filament types that can be used with that printing technology
+     */
+    private array $supportedFilamentTypesIds;
     private float $price;
 
     /**
      * @param bool $isSelected indicates whether the user chose to use that
      * printing technology to print the model
+     * @param int[] $supportedFilamentTypesIds
+     * Identifiers of filament types that can be used with that printing technology
      */
     public function __construct(int $id,
                                 string $name,
                                 string $description,
                                 bool $isSelected,
+                                array $supportedFilamentTypesIds,
                                 float $price)
     {
         $this->id = $id;
         $this->name = $name;
         $this->description = $description;
         $this->isSelected = $isSelected;
+        $this->supportedFilamentTypesIds = $supportedFilamentTypesIds;
         $this->price = $price;
     }
 
@@ -64,6 +73,17 @@ final class PrintingTechnologyWithPriceDTO
     public function isSelected() : bool
     {
         return $this->isSelected();
+    }
+
+    /**
+     * Returns identifiers of filament types that can be
+     * used with that printing technology
+     *
+     * @return int[]
+     */
+    public function getSupportedFilamentTypes() : array
+    {
+        return $this->supportedFilamentTypesIds;
     }
 
     /**

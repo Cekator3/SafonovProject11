@@ -11,16 +11,27 @@ final class PrintingTechnologyWithPriceDTO
     private int $id;
     private string $name;
     private string $description;
+    /**
+     * @var int[] $supportedFilamentTypesIds
+     * Identifiers of filament types that can be used with that printing technology
+     */
+    private array $supportedFilamentTypesIds;
     private float $price;
 
+    /**
+     * @param int[] $supportedFilamentTypesIds
+     * Identifiers of filament types that can be used with that printing technology
+     */
     public function __construct(int $id,
                                 string $name,
                                 string $description,
+                                array $supportedFilamentTypesIds,
                                 float $price)
     {
         $this->id = $id;
         $this->name = $name;
         $this->description = $description;
+        $this->supportedFilamentTypesIds = $supportedFilamentTypesIds;
         $this->price = $price;
     }
 
@@ -46,6 +57,17 @@ final class PrintingTechnologyWithPriceDTO
     public function getDescription() : string
     {
         return $this->description;
+    }
+
+    /**
+     * Returns identifiers of filament types that can be
+     * used with that printing technology
+     *
+     * @return int[]
+     */
+    public function getSupportedFilamentTypes() : array
+    {
+        return $this->supportedFilamentTypesIds;
     }
 
     /**
