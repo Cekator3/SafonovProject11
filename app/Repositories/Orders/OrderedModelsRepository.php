@@ -8,81 +8,77 @@ use App\ViewModels\Orders\OrderedCatalogModelViewModel;
 use App\DTOs\Orders\ExistingOrderedCatalogModel\ExistingOrderedCatalogModelDTO;
 
 /**
- * Subsystem for interaction with stored information on models orders
+ * Subsystem for interaction with stored information on order's models.
  *
  * Current purposes:
- * 1. Retrieving models from a user's order
- * 2. Adding a new model to an user's order
+ * 1. Retrieving models from particular order
+ * 2. Adding a new model to an order
  * 3. Updating details of an ordered model
- * 4. Removing a model from an user's order
+ * 4. Removing a model from order
+ * 5. Checking whether model is in the order.
  */
 class OrderedModelsRepository
 {
     /**
-     * Fetches a model from a user's current order.
+     * Fetches a model from order.
      */
-    public function get(int $userId, int $modelId) : ExistingOrderedCatalogModelDTO
+    public function get(int $orderId, int $modelId) : ExistingOrderedCatalogModelDTO
     {
         // ...
     }
 
     /**
-     * Retrieves all models in a user's current order.
+     * Retrieves all models from order.
      *
      * @return ExistingOrderedCatalogModelDTO[]
      */
-    public function getAll(int $userId) : array
+    public function getAll(int $orderId) : array
     {
         // ...
     }
 
     /**
-     * Retrieves all models from a user's specific order.
-     *
-     * @param int $modelId Model to be removed
-     * @return ExistingOrderedCatalogModelDTO[]
+     * Removes a model from the order.
      */
-    public function getAllFromOrder(int $orderId) : array
+    public function remove(int $orderId, int $modelId) : void
     {
         // ...
     }
 
     /**
-     * Adds model to the user's current order.
+     * Checks if the model is in the order.
+     */
+    public function exists(int $orderId, int $modelId) : bool
+    {
+        // ...
+    }
+
+    /**
+     * Adds model to the order.
      *
      * @param OrderedCatalogModelViewModel $model
      * Information on new ordered model.
      * @param OrderModelAdditionErrors $errors
      * An object for storing operation errors.
      */
-    public function add(OrderedCatalogModelViewModel $model,
+    public function add(int $orderId,
+                        OrderedCatalogModelViewModel $model,
                         OrderModelAdditionErrors $errors) : void
     {
         // ...
     }
 
     /**
-     * Updates model from the user's current order
+     * Updates model in the order
      *
      * @param OrderedCatalogModelViewModel $model
      * Information on ordered model.
      * @param OrderedModelUpdateErrors $errors
      * An object for storing operation errors.
      */
-    public function update(OrderedCatalogModelViewModel $model,
+    public function update(int $orderId,
+                           OrderedCatalogModelViewModel $model,
                            OrderedModelUpdateErrors $errors) : void
-    {
-        // ...
-    }
-
-    /**
-     * Removes a model from the user's current order.
-     *
-     * @param int $userId
-     * User from whose order the model will be removed
-     * @param int $modelId Model to be removed
-     */
-    public function remove(int $userId, int $modelId) : void
     {
         // ...
     }
