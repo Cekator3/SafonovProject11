@@ -9,11 +9,17 @@ use App\DTOs\Orders\ExistingOrderedCatalogModel\ExistingOrderedCatalogModelDTO;
 
 /**
  * Subsystem for interaction with stored information on models orders
+ *
+ * Current purposes:
+ * 1. Retrieving models from a user's order
+ * 2. Adding a new model to an user's order
+ * 3. Updating details of an ordered model
+ * 4. Removing a model from an user's order
  */
 class OrderedModelsRepository
 {
     /**
-     * Returns model from the user's current order.
+     * Fetches a model from a user's current order.
      */
     public function get(int $userId, int $modelId) : ExistingOrderedCatalogModelDTO
     {
@@ -21,7 +27,7 @@ class OrderedModelsRepository
     }
 
     /**
-     * Returns all models from the user's current order.
+     * Retrieves all models in a user's current order.
      *
      * @return ExistingOrderedCatalogModelDTO[]
      */
@@ -31,7 +37,7 @@ class OrderedModelsRepository
     }
 
     /**
-     * Returns all models from the user's order.
+     * Retrieves all models from a user's specific order.
      *
      * @param int $modelId Model to be removed
      * @return ExistingOrderedCatalogModelDTO[]
@@ -70,7 +76,7 @@ class OrderedModelsRepository
     }
 
     /**
-     * Removes model from the user's current order
+     * Removes a model from the user's current order.
      *
      * @param int $userId
      * User from whose order the model will be removed
