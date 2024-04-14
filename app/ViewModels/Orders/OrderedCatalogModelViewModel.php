@@ -4,8 +4,8 @@ namespace App\ViewModels\Orders;
 
 /**
  * class for transferring input
- * that was entered while adding a model from catalog
- * to the user's order from interfaces (views)
+ * that was entered while adding or updating a model
+ * from the user's order from interfaces (views)
  * to the application (services and repositories).
  */
 class OrderedCatalogModelViewModel
