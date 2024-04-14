@@ -19,4 +19,10 @@ class OrderedCatalogModelViewModel
     public int $colorId;
     public bool $isHoled;
     public bool $isParted;
+
+    /**
+     * @var string $amountInputName the name of the input.
+     * It will be used to add errors to the input.
+     */
+    public string $amountInputName;
 }
