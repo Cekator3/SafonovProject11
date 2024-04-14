@@ -1,6 +1,6 @@
 <?php
 
-namespace App\DTOs\Orders;
+namespace App\DTOs\Orders\ExistingOrderedCatalogModel;
 
 /**
  * A subsystem for reading application data about colors

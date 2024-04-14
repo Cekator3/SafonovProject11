@@ -1,6 +1,6 @@
 <?php
 
-namespace App\DTOs\Orders;
+namespace App\DTOs\Orders\NewOrderedCatalogModel;
 
 /**
  * A subsystem for reading application data about printing technologies
@@ -11,23 +11,16 @@ final class PrintingTechnologyWithPriceDTO
     private int $id;
     private string $name;
     private string $description;
-    private bool $isSelected;
     private float $price;
 
-    /**
-     * @param bool $isSelected indicates whether the user chose to use that
-     * printing technology to print the model
-     */
     public function __construct(int $id,
                                 string $name,
                                 string $description,
-                                bool $isSelected,
                                 float $price)
     {
         $this->id = $id;
         $this->name = $name;
         $this->description = $description;
-        $this->isSelected = $isSelected;
         $this->price = $price;
     }
 
@@ -44,7 +37,6 @@ final class PrintingTechnologyWithPriceDTO
      */
     public function getName() : string
     {
-        assert($this->name !== '', 'accessing not initialized property: $name');
         return $this->name;
     }
 
@@ -53,17 +45,7 @@ final class PrintingTechnologyWithPriceDTO
      */
     public function getDescription() : string
     {
-        assert($this->description !== '', 'accessing not initialized property: $description');
         return $this->description;
-    }
-
-    /**
-     * Returns true if user chose to use that printing technology
-     * to print the model
-     */
-    public function isSelected() : bool
-    {
-        return $this->isSelected();
     }
 
     /**

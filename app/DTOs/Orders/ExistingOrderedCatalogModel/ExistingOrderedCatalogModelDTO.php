@@ -1,12 +1,15 @@
 <?php
 
-namespace App\DTOs\Orders;
+namespace App\DTOs\Orders\ExistingOrderedCatalogModel;
 
 /**
- * A subsystem for reading application data about
- * ordered models.
+ * A subsystem for reading application data required
+ * to add a model from the catalogue to the user's order.
+ *
+ * A subsystem for reading the application data required
+ * to modify the model from the catalogue in the user's order..
  */
-final class OrderedModelDTO
+final class ExistingOrderedCatalogModelDTO
 {
     private int $id;
     private int $amount;

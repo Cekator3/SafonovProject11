@@ -1,6 +1,7 @@
 <?php
 
-namespace App\DTOs\Orders;
+namespace App\DTOs\Orders\ExistingOrderedCatalogModel;
+
 use App\DTOs\Admin\FilamentTypes\FilamentTypeCharacteristics;
 
 /**
