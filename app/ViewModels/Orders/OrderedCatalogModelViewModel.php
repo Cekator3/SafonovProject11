@@ -25,4 +25,10 @@ class OrderedCatalogModelViewModel
      * It will be used to add errors to the input.
      */
     public string $amountInputName;
+
+    /**
+     * @var string $generalErrorsName the name of the container for general errors.
+     * Such as "Color not exist", "Model size not exist", etc.
+     */
+    public string $generalErrorsName;
 }
