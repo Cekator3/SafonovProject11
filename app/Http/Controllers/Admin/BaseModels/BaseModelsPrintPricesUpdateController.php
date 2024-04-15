@@ -31,7 +31,7 @@ class BaseModelsPrintPricesUpdateController
     {
         $result = [];
 
-        $printingTechnologies = $request->input('prices.printing-technologies');
+        $printingTechnologies = $request->input('prices.printing-technologies', []);
         foreach ($printingTechnologies as $id => $printingTechnology)
         {
             $price = new PrintingTechnologyPrice();
@@ -52,7 +52,7 @@ class BaseModelsPrintPricesUpdateController
     {
         $result = [];
 
-        $filamentTypes = $request->input('prices.filament-types');
+        $filamentTypes = $request->input('prices.filament-types', []);
         foreach ($filamentTypes as $id => $filamentType)
         {
             $price = new FilamentTypePrice();
@@ -73,7 +73,7 @@ class BaseModelsPrintPricesUpdateController
     {
         $result = [];
 
-        $colors = $request->input('prices.colors');
+        $colors = $request->input('prices.colors', []);
         foreach ($colors as $id => $color)
         {
             $price = new ColorPrice();
@@ -94,7 +94,7 @@ class BaseModelsPrintPricesUpdateController
     {
         $result = [];
 
-        $sizes = $request->input('prices.model-sizes');
+        $sizes = $request->input('prices.model-sizes', []);
         foreach ($sizes as $id => $size)
         {
             $price = new BaseModelSizePrice();
@@ -115,7 +115,7 @@ class BaseModelsPrintPricesUpdateController
     {
         $result = [];
 
-        $additionalServices = $request->input('prices.additional-services');
+        $additionalServices = $request->input('prices.additional-services', []);
         foreach ($additionalServices as $id => $additionalService)
         {
             $price = new AdditionalServicePrice();
