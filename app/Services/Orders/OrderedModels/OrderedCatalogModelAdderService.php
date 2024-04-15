@@ -1,15 +1,14 @@
 <?php
 
-namespace App\Services\Orders;
+namespace App\Services\Orders\OrderedModels;
 
 use App\Errors\UserInputErrors;
 use App\ViewModels\Orders\OrderedCatalogModelViewModel;
 
 /**
- * Subsystem for storing information about a new model
- * for the user's current order.
+ * Subsystem for adding a catalog model to the user's current order.
  */
-class CatalogModelOrderAdderService
+class OrderedCatalogModelAdderService
 {
     /**
      * Tries to add a new model to the user's current order.

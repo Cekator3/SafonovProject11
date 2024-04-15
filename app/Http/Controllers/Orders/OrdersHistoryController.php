@@ -18,7 +18,7 @@ class OrdersHistoryController
     /**
      * Displays details about user's order.
      */
-    public function showOrderDetails(Request $request, int $baseModelId) : View
+    public function showOrderDetails(Request $request, int $orderId) : View
     {
         // ...
     }

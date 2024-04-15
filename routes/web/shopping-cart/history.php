@@ -9,7 +9,6 @@ Route::middleware([EnsureIsCustomer::class, EnsureCustomerCredentialsAreVerified
      ->controller(OrdersHistoryController::class)
      ->group(function ()
 {
-    // Add catalog model to the order
     Route::get('/', 'showOrdersHistory');
-    Route::get('/{baseModelId}', 'showOrderDetails');
+    Route::get('/{orderId}', 'showOrderDetails');
 });

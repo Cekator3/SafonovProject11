@@ -1,6 +1,6 @@
 <?php
 
-namespace App\DTOs\Orders\ShoppingCart;
+namespace App\DTOs\Orders\History;
 
 /**
  * A subsystem for reading application data about order's model.
