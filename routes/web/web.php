@@ -41,3 +41,5 @@ require __DIR__.'/admin/printing-technologies.php';
 require __DIR__.'/admin/filament-types.php';
 require __DIR__.'/admin/baseModels.php';
 require __DIR__.'/catalog/catalog-items.php';
+require __DIR__.'/shopping-cart/ordered-models.php';
+require __DIR__.'/shopping-cart/history.php';

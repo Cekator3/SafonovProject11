@@ -14,6 +14,6 @@ Route::middleware([EnsureCustomerCredentialsAreVerified::class])
     Route::get('/search', 'searchCatalogItems')
          ->name('catalog.search');
 
-    Route::get('/item/{baseModelId}', 'showCatalogItem')
+    Route::get('/{baseModelId}', 'showCatalogItem')
          ->name('catalog.item');
 });
