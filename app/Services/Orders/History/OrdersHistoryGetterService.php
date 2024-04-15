@@ -2,7 +2,9 @@
 
 namespace App\Services\Orders\History;
 
+use Illuminate\Support\Facades\Auth;
 use App\DTOs\Orders\History\OrderDTO;
+use App\Repositories\Orders\OrderRepository;
 use App\DTOs\Orders\History\OrderItemListDTO;
 
 /**
@@ -17,7 +19,9 @@ class OrdersHistoryGetterService
      */
     public function getAll() : array
     {
-        // ...
+        $userId = Auth::user()->id;
+        $orders = new OrderRepository();
+        return $orders->getAll($userId);
     }
 
     /**
@@ -25,6 +29,8 @@ class OrdersHistoryGetterService
      */
     public function get(int $orderId) : OrderDTO|null
     {
-        // ...
+        $userId = Auth::user()->id;
+        $orders = new OrderRepository();
+        return $orders->get($userId, $orderId);
     }
 }
