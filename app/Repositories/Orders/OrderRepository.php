@@ -2,6 +2,8 @@
 
 namespace App\Repositories\Orders;
 
+use App\DTOs\Orders\OrderDTO;
+use App\DTOs\Orders\OrderItemListDTO;
 use App\Errors\Orders\OrderCreationErrors;
 
 /**
@@ -12,7 +14,7 @@ use App\Errors\Orders\OrderCreationErrors;
  * 2. Retrieving all user's orders.
  * 3. Adding order to user.
  */
-class OrdersRepository
+class OrderRepository
 {
     /**
      * Retrieves the identifier of the user's not completed (current) order.
@@ -20,21 +22,23 @@ class OrdersRepository
      * @return int|null Order identifier.
      * If user don't have one, null will be returned.
      */
-    public function getCurrentOrderId(int $userId) : int|null
+    public function getCurrentOrderId(int $userId) : int | null
     {
         // ...
     }
 
-    public function get(int $userId, int $orderId) : OrderDTO
+    /**
+     * Retrieves user's order.
+     */
+    public function get(int $userId, int $orderId) : OrderDTO | null
     {
-        // 1. Find by id
-        // 2. If userId !== $userId then orderId is faked by user
+        // ...
     }
 
     /**
-     * Retrieves all user's orders
+     * Retrieves all user's orders.
      *
-     * @return OrderDTO[]
+     * @return OrderItemListDTO[]
      */
     public function getAll(int $userId) : array
     {
@@ -42,7 +46,9 @@ class OrdersRepository
     }
 
     /**
-     * Adds new order for user
+     * Adds new order for user.
+     *
+     * @param int $orderId Identifier of created order.
      */
     public function add(int $userId, int &$orderId, OrderCreationErrors $errors) : void
     {

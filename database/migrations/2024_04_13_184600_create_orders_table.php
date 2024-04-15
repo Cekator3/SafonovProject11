@@ -15,9 +15,10 @@ return new class extends Migration
         Schema::create('orders', function (Blueprint $table)
         {
             $table->integer('id')->generatedAs()->always()->primary();
-            $table->integer('customer_id')->unique();
-            $table->enum('status', OrderStatus::GetAllValues());
-            $table->timestamp('payed_at');
+            $table->integer('customer_id');
+            $table->enum('status', OrderStatus::GetAllValues())->default(OrderStatus::WaitingForPayment);
+            $table->timestamp('payed_at')->nullable();
+            $table->timestamp('completed_at')->nullable();
 
             $table->foreign('customer_id')
                   ->references('id')->on('users')

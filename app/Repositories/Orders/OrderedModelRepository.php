@@ -4,6 +4,7 @@ namespace App\Repositories\Orders;
 
 use App\Errors\Orders\OrderedModelUpdateErrors;
 use App\Errors\Orders\OrderModelAdditionErrors;
+use App\DTOs\Orders\ShoppingCart\ShoppingCartDTO;
 use App\ViewModels\Orders\OrderedCatalogModelViewModel;
 use App\DTOs\Orders\ExistingOrderedCatalogModel\ExistingOrderedCatalogModelDTO;
 
@@ -14,10 +15,10 @@ use App\DTOs\Orders\ExistingOrderedCatalogModel\ExistingOrderedCatalogModelDTO;
  * 1. Retrieving models from particular order
  * 2. Adding a new model to an order
  * 3. Updating details of an ordered model
- * 4. Removing a model from order
- * 5. Checking whether model is in the order.
+ * 4. Removing a model from an order
+ * 5. Checking if a model exists in an order.
  */
-class OrderedModelsRepository
+class OrderedModelRepository
 {
     /**
      * Fetches a model from order.
@@ -28,11 +29,17 @@ class OrderedModelsRepository
     }
 
     /**
-     * Retrieves all models from order.
+     * Retrieves all models from order to display them in
+     * shopping cart.
      *
-     * @return ExistingOrderedCatalogModelDTO[]
+     * @return ShoppingCartDTO
+     *
+     * TODO OrderedModelsRepository is too abstract:
+     * admins functionalities need one piece of information,
+     * print masters functionalities - another,
+     * customers - another.
      */
-    public function getAll(int $orderId) : array
+    public function getAllAsShoppingCart(int $orderId) : ShoppingCartDTO
     {
         // ...
     }
