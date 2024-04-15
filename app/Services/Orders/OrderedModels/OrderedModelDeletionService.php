@@ -14,6 +14,9 @@ use App\ViewModels\Orders\OrderedCatalogModelViewModel;
  */
 class OrderedModelDeletionService
 {
+    /**
+     * Returns user's current order if exists.
+     */
     private function getUserCurrentOrderId() : int|null
     {
         $userId = Auth::user()->id;
@@ -30,7 +33,10 @@ class OrderedModelDeletionService
     {
         $currentOrderId = $this->getUserCurrentOrderId();
         if ($currentOrderId === null)
+        {
+            assert(false, 'Something is wrong');
             return;
+        }
 
         $models = new OrderedModelRepository();
         $models->remove($currentOrderId, $baseModelId);
