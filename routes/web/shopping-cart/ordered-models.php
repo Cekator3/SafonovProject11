@@ -1,12 +1,13 @@
 <?php
 
 use App\Http\Middleware\EnsureIsCustomer;
+use Illuminate\Auth\Middleware\Authenticate;
 use App\Http\Middleware\EnsureCustomerCredentialsAreVerified;
 use App\Http\Controllers\Orders\OrderedModels\OrderedModelRemoverController;
 use App\Http\Controllers\Orders\OrderedModels\OrderedModelUpdaterController;
 use App\Http\Controllers\Orders\OrderedModels\OrderedCatalogModelAdderController;
 
-Route::middleware([EnsureIsCustomer::class, EnsureCustomerCredentialsAreVerified::class])
+Route::middleware([Authenticate::class, EnsureIsCustomer::class, EnsureCustomerCredentialsAreVerified::class])
      ->prefix('shopping-cart')
      ->group(function ()
 {

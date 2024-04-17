@@ -30,22 +30,22 @@
     @method('PUT')
 
     <fieldset class="printing-technologies">
-        <legend>Способ печати</legend>
-        <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Obcaecati quis molestias eveniet natus ipsum ullam nihil porro, ipsam, possimus magnam eos autem consequuntur cum quia quos magni reprehenderit facilis sunt.</p>
+        <legend>Технология печати</legend>
+        <p>Выберите технологию, которая должна применяться для печати.</p>
         <ul>
         @foreach ($model->getPrintingTechnologies() as $printingTechnology)
             <li class="option">
                 <div class="description">
                     <x-forms.inputs.checkbox-radio :type=" 'radio' "
-                                                    :name=" 'printing-technology' "
-                                                    :placeholder=" $printingTechnology->getName() "
-                                                    :id=" 'printing-technology-'.$printingTechnology->getId() "
-                                                    value="{{ $printingTechnology->getId() }}"
-                                                    required
+                                                   :name=" 'printing-technology' "
+                                                   :placeholder=" $printingTechnology->getName() "
+                                                   :id=" 'printing-technology-'.$printingTechnology->getId() "
+                                                   value="{{ $printingTechnology->getId() }}"
+                                                   required
                     />
                     <p>{{ $printingTechnology->getDescription() }}</p>
                 </div>
-                <div class="price">{{ $printingTechnology->getPrice() }}</div>
+                <data class="price" value="{{ $printingTechnology->getPrice() }}">{{ $printingTechnology->getPrice() }} рублей</data>
             </li>
         @endforeach
         </ul>
@@ -66,7 +66,7 @@
                     />
                     <p>{{ $size->getLength() . 'X' . $size->getWidth() . 'X' . $size->getHeight() . 'СМ' }}</p>
                 </div>
-                <div class="price">{{ $size->getPrice() }}</div>
+                <data class="price" value="{{ $size->getPrice() }}">{{ $size->getPrice() }} рублей</data>
             </li>
         @endforeach
         </ul>
@@ -87,7 +87,9 @@
                     />
                     <p>{{ $filamentType->getDescription() }}</p>
                 </div>
-                <div class="price">{{ $filamentType->getPrice() }}</div>
+
+                <data class="price" value="{{ $filamentType->getPrice() }}">{{ $filamentType->getPrice() }} рублей</data>
+
                 <ul class="characteristics">
                     <li>
                         <span>Прочность</span>
@@ -138,7 +140,7 @@
                     />
                     <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Repellat, commodi doloremque accusantium molestiae nobis perspiciatis beatae voluptatum laudantium earum ipsa voluptas at asperiores autem repudiandae ipsum aliquam voluptates magni vero?</p>
                 </div>
-                <div class="price">{{ $model->getPriceForSolidType() }}</div>
+                <data class="price" value="{{ $model->getPriceForSolidType() }}">{{ $model->getPriceForSolidType() }} рублей</data>
             </li>
             <li class="option">
                 <div class="description">
@@ -151,7 +153,7 @@
                     />
                     <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Repellat, commodi doloremque accusantium molestiae nobis perspiciatis beatae voluptatum laudantium earum ipsa voluptas at asperiores autem repudiandae ipsum aliquam voluptates magni vero?</p>
                 </div>
-                <div class="price">{{ $model->getPriceForHoledType() }}</div>
+                <data class="price" value="{{ $model->getPriceForHoledType() }}">{{ $model->getPriceForHoledType() }} рублей</data>
             </li>
         </ul>
     </fieldset>
@@ -170,7 +172,7 @@
                     />
                     <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Repellat, commodi doloremque accusantium molestiae nobis perspiciatis beatae voluptatum laudantium earum ipsa voluptas at asperiores autem repudiandae ipsum aliquam voluptates magni vero?</p>
                 </div>
-                <div class="price">{{ $model->getPriceForNotPartedType() }}</div>
+                <data class="price" value="{{ $model->getPriceForNotPartedType() }}">{{ $model->getPriceForNotPartedType() }} рублей</data>
             </li>
 
             <li class="option">
@@ -184,7 +186,7 @@
                     />
                     <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Repellat, commodi doloremque accusantium molestiae nobis perspiciatis beatae voluptatum laudantium earum ipsa voluptas at asperiores autem repudiandae ipsum aliquam voluptates magni vero?</p>
                 </div>
-                <div class="price">{{ $model->getPriceForPartedType() }}</div>
+                <data class="price" value="{{ $model->getPriceForPartedType() }}">{{ $model->getPriceForPartedType() }} рублей</data>
             </li>
         </ul>
     </fieldset>
@@ -204,7 +206,7 @@
                     />
                     <span style="background: {{ $color->getRgbCss() }}; height: 40px; width: 40px;"></span>
                 </div>
-                <div class="price">{{ $color->getPrice() }}</div>
+                <data class="price" value="{{ $color->getPrice() }}">{{ $color->getPrice() }} рублей</data>
             </li>
         @endforeach
         </ul>
@@ -228,7 +230,7 @@
                         <figcaption>{{ $additionalService->getDescription() }}</figcaption>
                     </figure>
                 </div>
-                <div class="price">{{ $color->getPrice() }}</div>
+                <data class="price" value="{{ $additionalService->getPrice() }}">{{ $additionalService->getPrice() }} рублей</data>
             </li>
         @endforeach
         </ul>
@@ -236,4 +238,5 @@
 
     <x-forms.submit :placeholder=" 'Добавить' " />
 </form>
+
 @endsection
