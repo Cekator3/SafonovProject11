@@ -11,7 +11,6 @@ namespace App\ViewModels\Orders;
 class OrderedCatalogModelViewModel
 {
     public int $amount;
-    public int $userId;
     public int $modelId;
     public int $modelSizeId;
     public int $printingTechnologyId;

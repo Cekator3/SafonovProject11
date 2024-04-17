@@ -32,7 +32,7 @@ Route::middleware([EnsureIsCustomer::class, EnsureCustomerCredentialsAreVerified
     Route::controller(OrderedModelRemoverController::class)
          ->group(function ()
     {
-        Route::get('/remove/{baseModelId}', 'removeOrderedModel')
+        Route::get('/remove/{orderedModelId}', 'removeOrderedModel')
              ->name('shopping-cart.remove');
     });
 });
