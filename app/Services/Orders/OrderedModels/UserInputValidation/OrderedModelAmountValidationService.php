@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services\Orders\UserInputValidation;
+namespace App\Services\Orders\OrderedModels\UserInputValidation;
 
 use App\Errors\UserInputErrors;
 

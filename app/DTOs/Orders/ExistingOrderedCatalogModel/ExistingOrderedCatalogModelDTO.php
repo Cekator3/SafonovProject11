@@ -8,7 +8,9 @@ namespace App\DTOs\Orders\ExistingOrderedCatalogModel;
  */
 final class ExistingOrderedCatalogModelDTO
 {
-    private int $id;
+    private int $orderedModelId;
+    private int $baseModelId;
+    private string $baseModelName;
     private int $userId;
     private int $amount;
     /**
@@ -47,8 +49,9 @@ final class ExistingOrderedCatalogModelDTO
      * @param bool $isHoled indicates whether user chose holed version of the model
      * @param bool $isParted indicates whether user chose parted version of the model
      */
-    public function __construct(int $id,
-                                int $userId,
+    public function __construct(int $orderedModelId,
+                                int $baseModelId,
+                                string $baseModelName,
                                 int $amount,
                                 array $printingTechnologies,
                                 array $filamentTypes,
@@ -62,8 +65,9 @@ final class ExistingOrderedCatalogModelDTO
                                 float $priceForPartedType,
                                 float $priceForNotPartedType)
     {
-        $this->id = $id;
-        $this->userId = $userId;
+        $this->orderedModelId = $orderedModelId;
+        $this->baseModelId = $baseModelId;
+        $this->baseModelName = $baseModelName;
         $this->amount = $amount;
         $this->printingTechnology = $printingTechnologies;
         $this->filamentType = $filamentTypes;
@@ -79,19 +83,24 @@ final class ExistingOrderedCatalogModelDTO
     }
 
     /**
-     * Returns the id of the ordered model
+     * Returns the id of the model in the order
      */
-    public function getId() : int
+    public function getIdInOrder() : int
     {
-        return $this->id;
+        return $this->orderedModelId;
     }
 
     /**
-     * Returns the identifier of user whose ordered that model
+     * Returns the id of the base model
      */
-    public function getUserId() : int
+    public function getId() : int
     {
-        return $this->userId;
+        return $this->baseModelId;
+    }
+
+    public function getName() : string
+    {
+        return $this->baseModelName;
     }
 
     /**
@@ -108,7 +117,7 @@ final class ExistingOrderedCatalogModelDTO
      *
      * @return PrintingTechnologyWithPriceDTO[]
      */
-    public function getPrintingTechnology() : array
+    public function getPrintingTechnologies() : array
     {
         return $this->printingTechnologies;
     }
@@ -119,7 +128,7 @@ final class ExistingOrderedCatalogModelDTO
      *
      * @return FilamentTypeWithPriceDTO[]
      */
-    public function getFilamentType() : array
+    public function getFilamentTypes() : array
     {
         return $this->filamentTypes;
     }
@@ -130,7 +139,7 @@ final class ExistingOrderedCatalogModelDTO
      *
      * @return ColorWithPriceDTO[]
      */
-    public function getColor() : array
+    public function getColors() : array
     {
         return $this->colors;
     }
@@ -141,7 +150,7 @@ final class ExistingOrderedCatalogModelDTO
      *
      * @return ModelSizeWithPriceDTO[]
      */
-    public function getModelSize() : array
+    public function getModelSizes() : array
     {
         return $this->modelSizes;
     }
@@ -152,7 +161,7 @@ final class ExistingOrderedCatalogModelDTO
      *
      * @return AdditionalServiceWithPriceDTO[]
      */
-    public function getAdditionalService() : array
+    public function getAdditionalServices() : array
     {
         return $this->additionalServices;
     }

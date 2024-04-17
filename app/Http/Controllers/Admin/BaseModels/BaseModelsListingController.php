@@ -2,10 +2,9 @@
 
 namespace App\Http\Controllers\Admin\BaseModels;
 
-use App\DTOs\Admin\BaseModels\ModelItemListDTO;
-use App\Services\Admin\BaseModels\BaseModelsGetterService;
 use Illuminate\View\View;
 use Illuminate\Http\Request;
+use App\Services\Admin\BaseModels\BaseModelsGetterService;
 
 class BaseModelsListingController
 {
