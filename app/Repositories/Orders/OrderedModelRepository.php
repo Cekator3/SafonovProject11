@@ -6,6 +6,7 @@ use App\Errors\Orders\OrderedModelUpdateErrors;
 use App\Errors\Orders\OrderModelAdditionErrors;
 use App\DTOs\Orders\ShoppingCart\ShoppingCartDTO;
 use App\ViewModels\Orders\OrderedCatalogModelViewModel;
+use App\DTOs\Orders\NewOrderedCatalogModel\NewOrderedCatalogModelDTO;
 use App\DTOs\Orders\ExistingOrderedCatalogModel\ExistingOrderedCatalogModelDTO;
 
 /**
@@ -22,8 +23,24 @@ class OrderedModelRepository
 {
     /**
      * Fetches a model from order.
+     *
+     * Returns null if ordered model not exists
+     * or if this ordered model do not belong to user.
+     *
+     * @param int $id Ordered model's identifier
      */
-    public function get(int $orderId, int $modelId) : ExistingOrderedCatalogModelDTO
+    public function get(int $id, int $userId) : ExistingOrderedCatalogModelDTO | null
+    {
+        // ...
+    }
+
+    /**
+     * Returns data required to add a model
+     * from the catalogue to the user's order.
+     *
+     * @param int $modelId Base model's identifier
+     */
+    public function getOnlyCatalogPrices(int $modelId) : NewOrderedCatalogModelDTO
     {
         // ...
     }
@@ -39,23 +56,27 @@ class OrderedModelRepository
      * print masters functionalities - another,
      * customers - another.
      */
-    public function getAllAsShoppingCart(int $orderId) : ShoppingCartDTO
+    public function getAllAsShoppingCart(int $userId, int $orderId) : ShoppingCartDTO
     {
         // ...
     }
 
     /**
      * Removes a model from the order.
+     *
+     * @param int $id Ordered model's identifier
+     * @param int $userId Identifier of the user whose ordered model will be removed
+     * @param int $orderId Identifier of the order from which the model will be removed
      */
-    public function remove(int $orderId, int $modelId) : void
+    public function remove(int $id, int $userId, int $orderId) : void
     {
         // ...
     }
 
     /**
-     * Checks if the model is in the order.
+     * Checks if the model with given configuration is in the user's order
      */
-    public function exists(int $orderId, int $modelId) : bool
+    public function exists(OrderedCatalogModelViewModel $model, int $userId, int $orderId) : bool
     {
         // ...
     }
@@ -68,8 +89,8 @@ class OrderedModelRepository
      * @param OrderModelAdditionErrors $errors
      * An object for storing operation errors.
      */
-    public function add(int $orderId,
-                        OrderedCatalogModelViewModel $model,
+    public function add(OrderedCatalogModelViewModel $model,
+                        int $orderId,
                         OrderModelAdditionErrors $errors) : void
     {
         // ...

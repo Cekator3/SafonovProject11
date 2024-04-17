@@ -9,7 +9,6 @@ namespace App\DTOs\Orders\NewOrderedCatalogModel;
 final class NewOrderedCatalogModelDTO
 {
     private int $id;
-    private int $amount;
     /**
      * @var PrintingTechnologyWithPriceDTO[]
      */
@@ -30,8 +29,6 @@ final class NewOrderedCatalogModelDTO
      * @var AdditionalServiceWithPriceDTO[]
      */
     private array $additionalServices;
-    private bool $isHoled;
-    private bool $isParted;
     private float $priceForHoledType;
     private float $priceForSolidType;
     private float $priceForPartedType;
@@ -47,28 +44,22 @@ final class NewOrderedCatalogModelDTO
      * @param bool $isParted indicates whether user chose parted version of the model
      */
     public function __construct(int $id,
-                                int $amount,
                                 array $printingTechnologies,
                                 array $filamentTypes,
                                 array $colors,
                                 array $modelSizes,
                                 array $additionalServices,
-                                bool $isHoled,
-                                bool $isParted,
                                 float $priceForHoledType,
                                 float $priceForSolidType,
                                 float $priceForPartedType,
                                 float $priceForNotPartedType)
     {
         $this->id = $id;
-        $this->amount = $amount;
         $this->printingTechnology = $printingTechnologies;
         $this->filamentType = $filamentTypes;
         $this->color = $colors;
         $this->modelSize = $modelSizes;
         $this->additionalService = $additionalServices;
-        $this->isHoled = $isHoled;
-        $this->isParted = $isParted;
         $this->priceForHoledType = $priceForHoledType;
         $this->priceForSolidType = $priceForSolidType;
         $this->priceForPartedType = $priceForPartedType;
@@ -81,14 +72,6 @@ final class NewOrderedCatalogModelDTO
     public function getId() : int
     {
         return $this->id;
-    }
-
-    /**
-     * Returns the amount of the model in the user's order
-     */
-    public function getAmount() : int
-    {
-        return $this->amount;
     }
 
     /**
@@ -144,24 +127,6 @@ final class NewOrderedCatalogModelDTO
     public function getAdditionalService() : array
     {
         return $this->additionalServices;
-    }
-
-    /**
-     * Returns true if user chose holed version of the model
-     * Returns false if he chose solid version.
-     */
-    public function isHoled() : bool
-    {
-        return $this->isHoled;
-    }
-
-    /**
-     * Returns true if user chose parted version of the model.
-     * Returns false if he chose not parted version.
-     */
-    public function isParted() : bool
-    {
-        return $this->isParted;
     }
 
     /**

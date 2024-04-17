@@ -9,6 +9,7 @@ namespace App\DTOs\Orders\ExistingOrderedCatalogModel;
 final class ExistingOrderedCatalogModelDTO
 {
     private int $id;
+    private int $userId;
     private int $amount;
     /**
      * @var PrintingTechnologyWithPriceDTO[]
@@ -47,6 +48,7 @@ final class ExistingOrderedCatalogModelDTO
      * @param bool $isParted indicates whether user chose parted version of the model
      */
     public function __construct(int $id,
+                                int $userId,
                                 int $amount,
                                 array $printingTechnologies,
                                 array $filamentTypes,
@@ -61,6 +63,7 @@ final class ExistingOrderedCatalogModelDTO
                                 float $priceForNotPartedType)
     {
         $this->id = $id;
+        $this->userId = $userId;
         $this->amount = $amount;
         $this->printingTechnology = $printingTechnologies;
         $this->filamentType = $filamentTypes;
@@ -81,6 +84,14 @@ final class ExistingOrderedCatalogModelDTO
     public function getId() : int
     {
         return $this->id;
+    }
+
+    /**
+     * Returns the identifier of user whose ordered that model
+     */
+    public function getUserId() : int
+    {
+        return $this->userId;
     }
 
     /**
