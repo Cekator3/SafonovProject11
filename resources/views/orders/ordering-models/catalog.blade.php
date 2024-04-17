@@ -45,7 +45,7 @@
                     />
                     <p>{{ $printingTechnology->getDescription() }}</p>
                 </div>
-                <data class="price" value="{{ $printingTechnology->getPrice() }}">{{ $printingTechnology->getPrice() }} рублей</data>
+                <data class="price" value="{{ $printingTechnology->getPrice() }}">{{ $printingTechnology->getPrice() }} ₽</data>
             </li>
         @endforeach
         </ul>
@@ -66,7 +66,7 @@
                     />
                     <p>{{ $size->getLength() . 'X' . $size->getWidth() . 'X' . $size->getHeight() . 'СМ' }}</p>
                 </div>
-                <data class="price" value="{{ $size->getPrice() }}">{{ $size->getPrice() }} рублей</data>
+                <data class="price" value="{{ $size->getPrice() }}">{{ $size->getPrice() }} ₽</data>
             </li>
         @endforeach
         </ul>
@@ -88,7 +88,7 @@
                     <p>{{ $filamentType->getDescription() }}</p>
                 </div>
 
-                <data class="price" value="{{ $filamentType->getPrice() }}">{{ $filamentType->getPrice() }} рублей</data>
+                <data class="price" value="{{ $filamentType->getPrice() }}">{{ $filamentType->getPrice() }} ₽</data>
 
                 <ul class="characteristics">
                     <li>
@@ -138,9 +138,9 @@
                                                 value="solid"
                                                 required
                     />
-                    <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Repellat, commodi doloremque accusantium molestiae nobis perspiciatis beatae voluptatum laudantium earum ipsa voluptas at asperiores autem repudiandae ipsum aliquam voluptates magni vero?</p>
+                    <p>Моделька будет полностью заполнена изнутри. Будет использовано больше филамента.</p>
                 </div>
-                <data class="price" value="{{ $model->getPriceForSolidType() }}">{{ $model->getPriceForSolidType() }} рублей</data>
+                <data class="price" value="{{ $model->getPriceForSolidType() }}">{{ $model->getPriceForSolidType() }} ₽</data>
             </li>
             <li class="option">
                 <div class="description">
@@ -151,9 +151,9 @@
                                                 value="holed"
                                                 required
                     />
-                    <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Repellat, commodi doloremque accusantium molestiae nobis perspiciatis beatae voluptatum laudantium earum ipsa voluptas at asperiores autem repudiandae ipsum aliquam voluptates magni vero?</p>
+                    <p>Для экономии филамента моделька будет иметь полости изнутри. Это не повлияет на её конечные характеристики.</p>
                 </div>
-                <data class="price" value="{{ $model->getPriceForHoledType() }}">{{ $model->getPriceForHoledType() }} рублей</data>
+                <data class="price" value="{{ $model->getPriceForHoledType() }}">{{ $model->getPriceForHoledType() }} ₽</data>
             </li>
         </ul>
     </fieldset>
@@ -170,9 +170,9 @@
                                                 value="not-parted"
                                                 required
                     />
-                    <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Repellat, commodi doloremque accusantium molestiae nobis perspiciatis beatae voluptatum laudantium earum ipsa voluptas at asperiores autem repudiandae ipsum aliquam voluptates magni vero?</p>
+                    <p>Модельку нельзя будет разобрать.</p>
                 </div>
-                <data class="price" value="{{ $model->getPriceForNotPartedType() }}">{{ $model->getPriceForNotPartedType() }} рублей</data>
+                <data class="price" value="{{ $model->getPriceForNotPartedType() }}">{{ $model->getPriceForNotPartedType() }} ₽</data>
             </li>
 
             <li class="option">
@@ -184,9 +184,9 @@
                                                 value="parted"
                                                 required
                     />
-                    <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Repellat, commodi doloremque accusantium molestiae nobis perspiciatis beatae voluptatum laudantium earum ipsa voluptas at asperiores autem repudiandae ipsum aliquam voluptates magni vero?</p>
+                    <p>Модельку можно будет разобрать на части, как конструктор.</p>
                 </div>
-                <data class="price" value="{{ $model->getPriceForPartedType() }}">{{ $model->getPriceForPartedType() }} рублей</data>
+                <data class="price" value="{{ $model->getPriceForPartedType() }}">{{ $model->getPriceForPartedType() }} ₽</data>
             </li>
         </ul>
     </fieldset>
@@ -206,7 +206,7 @@
                     />
                     <span style="background: {{ $color->getRgbCss() }}; height: 40px; width: 40px;"></span>
                 </div>
-                <data class="price" value="{{ $color->getPrice() }}">{{ $color->getPrice() }} рублей</data>
+                <data class="price" value="{{ $color->getPrice() }}">{{ $color->getPrice() }} ₽</data>
             </li>
         @endforeach
         </ul>
@@ -221,7 +221,7 @@
                     <x-forms.inputs.checkbox-radio :type=" 'radio' "
                                                    :name=" 'additional-services[]' "
                                                    :placeholder=" $additionalService->getName() "
-                                                   :id=" 'additional-service-'.$color->getPrice() "
+                                                   :id=" 'additional-service-'.$additionalService->getPrice() "
                                                    value="{{ $additionalService->getId() }}"
                                                    required
                     />
@@ -230,7 +230,7 @@
                         <figcaption>{{ $additionalService->getDescription() }}</figcaption>
                     </figure>
                 </div>
-                <data class="price" value="{{ $additionalService->getPrice() }}">{{ $additionalService->getPrice() }} рублей</data>
+                <data class="price" value="{{ $additionalService->getPrice() }}">{{ $additionalService->getPrice() }} ₽</data>
             </li>
         @endforeach
         </ul>
