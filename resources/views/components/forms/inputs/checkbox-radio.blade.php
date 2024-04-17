@@ -1,9 +1,9 @@
 {{-- Checkbox button with radio style --}}
 
-@props(['name', 'placeholder', 'id' => null, 'checked' => false])
+@props(['name', 'placeholder', 'id' => null, 'checked' => false, 'type' => 'checkbox'])
 
 <div class="input-field checkbox-radio">
-    <input type="checkbox"
+    <input type="{{ $type }}"
            name="{{ $name }}"
            id="{{ $id ?? $name }}"
            @checked($checked || old($name))

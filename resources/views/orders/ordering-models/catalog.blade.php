@@ -20,22 +20,25 @@
 
 @section('main')
 <header>
-    <h1>Добавления {{ $model->getName() }} в заказ</h1>
+    <h1>Добавление {{ $model->getName() }} в заказ</h1>
 </header>
 
 <form method="POST"
       action="{{ route('shopping-cart.add.catalog-model', ['baseModelId' => $model->getId()]) }}"
 >
     @csrf
+    @method('PUT')
 
     <fieldset>
         <legend>Способ печати</legend>
         @foreach ($model->getPrintingTechnologies() as $printingTechnology)
             <div class="option">
-                <x-forms.inputs.checkbox-radio :name=" 'printing-technology' "
+                <x-forms.inputs.checkbox-radio :type=" 'radio' "
+                                               :name=" 'printing-technology' "
                                                :placeholder=" $printingTechnology->getName() "
                                                :id=" 'printing-technology-'.$printingTechnology->getId() "
                                                value="{{ $printingTechnology->getId() }}"
+                                               required
                 />
                 <span>{{ $printingTechnology->getPrice() }}</span>
             </div>
@@ -47,10 +50,12 @@
         <legend>Размер</legend>
         @foreach ($model->getModelSizes() as $size)
             <div class="option">
-                <x-forms.inputs.checkbox-radio :name=" 'model-size' "
+                <x-forms.inputs.checkbox-radio :type=" 'radio' "
+                                               :name=" 'model-size' "
                                                :placeholder=" $size->getMultiplier().'%' "
                                                :id=" 'model-size-'.$size->getId() "
                                                value="{{ $size->getId() }}"
+                                               required
                 />
                 <span>{{ $size->getPrice() }}</span>
             </div>
@@ -62,10 +67,12 @@
         <legend>Филамент</legend>
         @foreach ($model->getFilamentTypes() as $filamentType)
             <div class="option">
-                <x-forms.inputs.checkbox-radio :name=" 'filament-type' "
+                <x-forms.inputs.checkbox-radio :type=" 'radio' "
+                                               :name=" 'filament-type' "
                                                :placeholder=" $filamentType->getName() "
                                                :id=" 'filament-type-'.$filamentType->getId() "
                                                value="{{ $filamentType->getId() }}"
+                                               required
                 />
                 <span>{{ $filamentType->getPrice() }}</span>
             </div>
@@ -101,10 +108,12 @@
         <legend>Заполненность</legend>
         <div>
             <div class="option">
-                <x-forms.inputs.checkbox-radio :name=" 'holedness' "
-                                            :placeholder=" 'Целая' "
-                                            :id=" 'holedness-solid' "
-                                            value="solid"
+                <x-forms.inputs.checkbox-radio :type=" 'radio' "
+                                               :name=" 'holedness' "
+                                               :placeholder=" 'Целая' "
+                                               :id=" 'holedness-solid' "
+                                               value="solid"
+                                               required
                 />
                 <span>{{ $model->getPriceForSolidType() }}</span>
             </div>
@@ -112,10 +121,12 @@
         </div>
         <div>
             <div class="option">
-                <x-forms.inputs.checkbox-radio :name=" 'holedness' "
+                <x-forms.inputs.checkbox-radio :type=" 'radio' "
+                                               :name=" 'holedness' "
                                                :placeholder=" 'Полая' "
                                                :id=" 'holedness-holed' "
                                                value="holed"
+                                               required
                 />
                 <span>{{ $model->getPriceForHoledType() }}</span>
             </div>
@@ -127,10 +138,12 @@
         <legend>Разбираемость</legend>
         <div>
             <div class="option">
-                <x-forms.inputs.checkbox-radio :name=" 'partedness' "
+                <x-forms.inputs.checkbox-radio :type=" 'radio' "
+                                               :name=" 'partedness' "
                                                :placeholder=" 'Обычная' "
                                                :id=" 'partedness-not-parted' "
                                                value="not-parted"
+                                               required
                 />
                 <span>{{ $model->getPriceForNotPartedType() }}</span>
             </div>
@@ -138,10 +151,12 @@
         </div>
         <div>
             <div class="option">
-                <x-forms.inputs.checkbox-radio :name=" 'partedness' "
+                <x-forms.inputs.checkbox-radio :type=" 'radio' "
+                                               :name=" 'partedness' "
                                                :placeholder=" 'Разбираемая' "
                                                :id=" 'partedness-parted' "
                                                value="parted"
+                                               required
                 />
                 <span>{{ $model->getPriceForPartedType() }}</span>
             </div>
@@ -154,10 +169,12 @@
         <div class="option">
             @foreach ($model->getColors() as $color)
                 <div class="color">
-                    <x-forms.inputs.checkbox-radio :name=" 'color' "
+                    <x-forms.inputs.checkbox-radio :type=" 'radio' "
+                                                   :name=" 'color' "
                                                    :placeholder=" '' "
                                                    :id=" 'color-'.$color->getPrice() "
                                                    value="{{ $color->getId() }}"
+                                                   required
                     />
                     <span style="background: {{ $color->getRgbCss() }}; height: 40px; width: 40px;"></span>
                 </div>
@@ -169,14 +186,21 @@
     <fieldset>
         <legend>Доп услуги</legend>
         <div class="option">
-            @foreach ($model->getColors() as $color)
+            @foreach ($model->getAdditionalServices() as $additionalService)
                 <div class="color">
-                    <x-forms.inputs.checkbox-radio :name=" 'color' "
+                    <x-forms.inputs.checkbox-radio :type=" 'radio' "
+                                                   :name=" 'additional-services[]' "
                                                    :placeholder=" '' "
-                                                   :id=" 'color-'.$color->getPrice() "
-                                                   value="{{ $color->getId() }}"
+                                                   :id=" 'additional-service-'.$color->getPrice() "
+                                                   value="{{ $additionalService->getId() }}"
+                                                   required
                     />
-                    <span style="background: {{ $color->getRgbCss() }}; height: 40px; width: 40px;"></span>
+                    <section>
+                        <header><h3>{{ $additionalService->getName() }}</h3></header>
+                        <img loading="lazy" src="{{ $additionalService->getPreviewImageUrl() }}" alt="">
+
+                        <p>{{ $additionalService->getDescription() }}</p>
+                    </section>
                 </div>
                 <span>{{ $color->getPrice() }}</span>
             @endforeach
