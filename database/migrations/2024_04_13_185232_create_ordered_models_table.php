@@ -23,6 +23,10 @@ return new class extends Migration
             $table->smallInteger('color_id');
             $table->boolean('is_parted');
             $table->boolean('is_holed');
+            // Must have column: if user wants to order multiple variations of the
+            // same model (model id is not unique in order).
+            // I must think about how printing will be done
+            $table->integer('amount');
 
             $table->foreign('order_id')
                   ->references('id')->on('orders')
@@ -42,6 +46,7 @@ return new class extends Migration
             $table->foreign('color_id')
                   ->references('id')->on('colors')
                   ->onDelete('restrict');
+            $table->unique(['order_id', 'model_id', 'model_size_id', 'printing_technology_id', 'filament_type_id', 'color_id', 'is_parted', 'is_holed']);
         });
     }
 

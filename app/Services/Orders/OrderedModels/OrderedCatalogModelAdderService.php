@@ -21,6 +21,8 @@ class OrderedCatalogModelAdderService
     public function add(OrderedCatalogModelViewModel $model,
                         UserInputErrors $errors) : void
     {
-        // ...
+        // 1 Validate user's input
+        // 2 Check if user already ordered model with exact same configuration
+        // 3 Add model to the user's current order
     }
 }

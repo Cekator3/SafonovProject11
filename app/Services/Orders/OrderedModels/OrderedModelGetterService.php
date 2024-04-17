@@ -26,8 +26,10 @@ class OrderedModelGetterService
     /**
      * Returns ordered model from user's current order.
      */
-    public function get(int $baseModelId) : ExistingOrderedCatalogModelDTO|null
+    public function get(int $orderedModelId) : ExistingOrderedCatalogModelDTO|null
     {
+        // 1. Ensure that the ordered model belongs to the user's current order.
+        // 2. Remove the model from user's order
         $currentOrderId = $this->getUserCurrentOrderId();
         if ($currentOrderId === null)
         {

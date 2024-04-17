@@ -76,7 +76,7 @@ final class ExistingOrderedCatalogModelDTO
     }
 
     /**
-     * Returns the id of the model in the user's order
+     * Returns the id of the ordered model
      */
     public function getId() : int
     {

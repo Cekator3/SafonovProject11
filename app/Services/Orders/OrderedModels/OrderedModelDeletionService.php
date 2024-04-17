@@ -27,18 +27,22 @@ class OrderedModelDeletionService
     /**
      * Removes a model from the user's current order.
      *
-     * @param int $baseModelId The identifier of the base model.
+     * @param int $baseModelId The identifier of the ordered model.
      */
-    public function remove(int $baseModelId) : void
+    public function remove(int $orderedModelId) : void
     {
+        // 1. Ensure that the ordered model belongs to the user's current order.
+        // 2. Remove the model from user's order
+
+        $userId = Auth::user()->id;
+        $models = new OrderedModelRepository();
         $currentOrderId = $this->getUserCurrentOrderId();
         if ($currentOrderId === null)
         {
             assert(false, 'Something is wrong');
-            return;
+            return null;
         }
 
-        $models = new OrderedModelRepository();
         $models->remove($currentOrderId, $baseModelId);
     }
 }

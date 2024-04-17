@@ -22,6 +22,9 @@ class OrderedModelUpdateService
     public function update(OrderedCatalogModelViewModel $model,
                            UserInputErrors $errors) : void
     {
-        // ...
+        // 1 Validate user's input
+        // 2 Ensure that the ordered model belongs to the user's current order.
+        // 3 Check if user already ordered model with exact same configuration
+        // 4 Add model to the user's current order
     }
 }
