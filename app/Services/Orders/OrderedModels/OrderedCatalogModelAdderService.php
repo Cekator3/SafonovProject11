@@ -2,10 +2,10 @@
 
 namespace App\Services\Orders\OrderedModels;
 
-use App\Errors\Orders\OrderModelAdditionErrors;
 use App\Errors\UserInputErrors;
 use Illuminate\Support\Facades\Auth;
 use App\Repositories\Orders\OrderRepository;
+use App\Errors\Orders\OrderModelAdditionErrors;
 use App\Repositories\Orders\OrderedModelRepository;
 use App\ViewModels\Orders\OrderedCatalogModelViewModel;
 use App\Services\Orders\UserInputValidation\OrderedModelAmountValidationService;

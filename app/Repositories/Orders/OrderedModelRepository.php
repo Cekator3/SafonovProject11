@@ -104,8 +104,8 @@ class OrderedModelRepository
      * @param OrderedModelUpdateErrors $errors
      * An object for storing operation errors.
      */
-    public function update(int $orderId,
-                           OrderedCatalogModelViewModel $model,
+    public function update(OrderedCatalogModelViewModel $model,
+                           int $orderId,
                            OrderedModelUpdateErrors $errors) : void
     {
         // ...
