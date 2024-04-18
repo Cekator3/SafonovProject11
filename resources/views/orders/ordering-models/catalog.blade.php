@@ -10,8 +10,7 @@
 <link href="/assets/css/form/submit.css" rel="stylesheet" type="text/css">
 
 {{-- Specific --}}
-<link href="/assets/css/admin/base-models/model-size-list.css" rel="stylesheet" type="text/css">
-<link href="/assets/css/admin/base-models/create.css" rel="stylesheet" type="text/css">
+<link href="/assets/css/orders/ordering-model/common.css" rel="stylesheet" type="text/css">
 @endsection
 
 @section('navigation')
@@ -20,7 +19,7 @@
 
 @section('main')
 <header>
-    <h1>Добавление {{ $model->getName() }} в заказ</h1>
+    <h1>Добавление <strong>{{ $model->getName() }}</strong> в заказ</h1>
 </header>
 
 <form method="POST"
@@ -92,33 +91,33 @@
 
                 <ul class="characteristics">
                     <li>
-                        <span>Прочность</span>
-                        <span>{{ $filamentType->getStrength() }}</span>
+                        <span class="name">Прочность</span>
+                        <span class="value">{{ $filamentType->getStrength() }}</span>
                     </li>
 
                     <li>
-                        <span>Жёсткость</span>
-                        <span>{{ $filamentType->getHardness() }}</span>
+                        <span class="name">Жёсткость</span>
+                        <span class="value">{{ $filamentType->getHardness() }}</span>
                     </li>
 
                     <li>
-                        <span>Ударостойкость</span>
-                        <span>{{ $filamentType->getImpactResistance() }}</span>
+                        <span class="name">Ударостойкость</span>
+                        <span class="value">{{ $filamentType->getImpactResistance() }}</span>
                     </li>
 
                     <li>
-                        <span>Износостойкость</span>
-                        <span>{{ $filamentType->getDurability() }}</span>
+                        <span class="name">Износостойкость</span>
+                        <span class="value">{{ $filamentType->getDurability() }}</span>
                     </li>
 
                     <li>
-                        <span>Температура эксплуатации</span>
-                        <span>от {{ $filamentType->getMinWorkTemperature() }} до {{ $filamentType->getMaxWorkTemperature() }}</span>
+                        <span class="name">Температура эксплуатации</span>
+                        <span class="value">от {{ $filamentType->getMinWorkTemperature() }}° до {{ $filamentType->getMaxWorkTemperature() }}°</span>
                     </li>
 
                     <li>
-                        <span>Возможность контакта с пищей</span>
-                        <span>{{ $filamentType->isFoodContactAllowed() ? 'Да' : 'Нет' }}</span>
+                        <span class="name">Возможность контакта с пищей</span>
+                        <span class="value">{{ $filamentType->isFoodContactAllowed() ? 'Да' : 'Нет' }}</span>
                     </li>
                 </ul>
             </li>
@@ -197,14 +196,15 @@
         @foreach ($model->getColors() as $color)
             <li class="option">
                 <div class="description">
-                    <x-forms.inputs.checkbox-radio :type=" 'radio' "
+                    <x-forms.inputs.checkbox-radio-new
+                                                    :type=" 'radio' "
                                                     :name=" 'color' "
-                                                    :placeholder=" '' "
-                                                    :id=" 'color-'.$color->getPrice() "
+                                                    id="color-.{{ $color->getId() }}"
                                                     value="{{ $color->getId() }}"
                                                     required
-                    />
-                    <span style="background: {{ $color->getRgbCss() }}; height: 40px; width: 40px;"></span>
+                    >
+                        <label class="showcase" for="color-.{{ $color->getId() }}" style="background: {{ $color->getRgbCss() }};"></label>
+                    </x-forms.inputs.checkbox-radio-new>
                 </div>
                 <data class="price" value="{{ $color->getPrice() }}">{{ $color->getPrice() }} ₽</data>
             </li>

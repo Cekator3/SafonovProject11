@@ -1,0 +1,181 @@
+/* Common styles for ordering model pages */
+
+/* Constants */
+main > form
+{
+    --main-font-weight: 300;
+    --main-font-size: 17px;
+    --main-font-height: 23.22px;
+}
+
+main > header > h1
+{
+    /* Sets font */
+    font-size: 1.4375rem;     /* 23 px */
+    line-height: 2rem;        /* 32 px */
+    font-weight: 400;
+    text-align: center;
+
+    /* Sets margin between site's header and main's header */
+    margin-top: 4.375rem;     /* 70 px */
+
+    /* Sets margin between main's header and main's content */
+    margin-bottom: 0.75rem;   /* 12 px */
+}
+
+/* Model's name */
+main > header > h1 > strong
+{
+    font-weight: 700;
+}
+
+/*************************/
+/* Model's ordering form */
+/*************************/
+main > form > fieldset > legend
+{
+    /* Sets font */
+    font-size: 1.6875rem;       /* 27 px */
+    font-weight: 400;
+    line-height: 2.305rem;      /* 36.88 px */
+
+    /* Sets margin between legend and fieldset's content */
+    margin-bottom: 35px;
+}
+
+/* Second element of fieldset */
+main > form > fieldset > legend + *
+{
+    /* Removes standard margin between legend and fieldset's content */
+    margin-top: 0px;
+}
+
+/* Fieldset's description */
+main > form > fieldset > p
+{
+    /* Sets font */
+    font-size: var(--main-font-size);
+    font-weight: var(--main-font-weight);
+    font-synthesis: var(--main-font-height);
+
+    /* Removes gaps */
+    margin: 0;
+}
+
+main > form > fieldset > ul
+{
+    /* Removes standard list styles */
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+/* First option  */
+main > form > fieldset > ul > li:first-child
+{
+    /* Sets gap between fieldset's options and fieldset's description */
+    margin-top: 1.8125rem;      /* 29 px */
+}
+
+main > form > fieldset > ul:nth-child(2) > li:first-child
+{
+    /* Removes gap if fieldset don't have description */
+    margin-top: 0;
+}
+
+main > form > fieldset > ul > li
+{
+    /* Sets gap between options */
+    margin-bottom: 44px;
+
+    /* Sets layout for option's description and price */
+    display: grid;
+    grid-template-columns: 90fr 10fr;
+
+    /* Set's description and price on the same text line */
+    align-items: baseline;
+}
+
+main > form > fieldset > ul > li:last-child
+{
+    /* Removes last option's uneccecary gap */
+    margin-bottom: 0 !important;
+}
+
+
+/* Input's label o*/
+main > form > fieldset > ul > li > .description > .input-field label
+{
+    /* Sets font */
+    font-weight: 400;
+    font-size: 22px;
+    line-height: 30px;
+}
+
+/* Description of fieldset's option */
+main > form > fieldset > ul > li > .description > p
+{
+    /* Sets gap same as input's button */
+    margin-left: calc(1rem + 2px);
+
+    /* Sets fonts */
+    font-size: 1.0625rem;          /* 17px */
+    font-weight: 300;
+    line-height: 1.45125rem;    /* 23.22 px */
+}
+
+/* Fieldset option's price  */
+main > form > fieldset > ul > li > data
+{
+    /* Sets font */
+    font-weight: 400;
+    font-size: 22px;
+    line-height: 30.05px;
+
+    text-wrap: nowrap;
+}
+/************************/
+
+fieldset.model-sizes > ul > li,
+fieldset.holedness > ul > li,
+fieldset.partedness > ul > li
+{
+    /* Sets gap between options */
+    margin-bottom: 22px;
+}
+
+/* Filament type's characteristics */
+fieldset.filament-type ul.characteristics
+{
+    /* Removes standard list styles */
+    margin: 0;
+    padding: 0;
+    list-style: none;
+
+    /* Sets gap same as input's button */
+    margin-left: calc(1rem + 2px);
+}
+
+fieldset.filament-type ul.characteristics > li
+{
+    /* Sets layout of characteristic's name and it's value */
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+
+    /* Sets font */
+    font-size: 17px;
+    line-height: 23.22px;
+    font-weight: 300;
+}
+
+/* Color ball */
+fieldset.colors > ul > li > .description .showcase
+{
+    width: 42px;     /* 20px */
+    height: 42px;    /* 20px */
+
+
+    /* Makes it circle */
+    border-radius: 50%;
+}

@@ -2,6 +2,8 @@
 /* Checkbox button with radio style */
 /* ---------------------------------*/
 
+/* TODO ability to change bullet's size */
+
 .input-field.checkbox-radio input
 {
     /* Removes standard checkbox bullet */
@@ -20,7 +22,8 @@
 {
     /* Centers checkbox bullet and label */
     display: flex;
-    align-items: baseline;
+    /* align-items: baseline; */
+    align-items: center;
 
     /* Sets cursor type */
     cursor: pointer;
