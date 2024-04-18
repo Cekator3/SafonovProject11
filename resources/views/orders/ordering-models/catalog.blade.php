@@ -7,6 +7,7 @@
 <link href="/assets/css/form/common.css" rel="stylesheet" type="text/css">
 <link href="/assets/css/form/fieldset.css" rel="stylesheet" type="text/css">
 <link href="/assets/css/form/checkbox-radio.css" rel="stylesheet" type="text/css">
+<link href="/assets/css/form/star-rate-display.css" rel="stylesheet" type="text/css">
 <link href="/assets/css/form/submit.css" rel="stylesheet" type="text/css">
 
 {{-- Specific --}}
@@ -92,22 +93,22 @@
                 <ul class="characteristics">
                     <li>
                         <span class="name">Прочность</span>
-                        <span class="value">{{ $filamentType->getStrength() }}</span>
+                        <x-forms.inputs.star-rate-display :value=" $filamentType->getStrength() " />
                     </li>
 
                     <li>
                         <span class="name">Жёсткость</span>
-                        <span class="value">{{ $filamentType->getHardness() }}</span>
+                        <x-forms.inputs.star-rate-display :value=" $filamentType->getHardness() " />
                     </li>
 
                     <li>
                         <span class="name">Ударостойкость</span>
-                        <span class="value">{{ $filamentType->getImpactResistance() }}</span>
+                        <x-forms.inputs.star-rate-display :value=" $filamentType->getImpactResistance() " />
                     </li>
 
                     <li>
                         <span class="name">Износостойкость</span>
-                        <span class="value">{{ $filamentType->getDurability() }}</span>
+                        <x-forms.inputs.star-rate-display :value=" $filamentType->getDurability() " />
                     </li>
 
                     <li>

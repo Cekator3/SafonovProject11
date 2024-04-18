@@ -4,8 +4,8 @@
 main > form
 {
     --main-font-weight: 300;
-    --main-font-size: 17px;
-    --main-font-height: 23.22px;
+    --main-font-size: 1.0625rem;     /* 17 px */
+    --main-font-height: 1.45125rem;  /* 23.22 px */
 }
 
 main > header > h1
@@ -40,14 +40,14 @@ main > form > fieldset > legend
     line-height: 2.305rem;      /* 36.88 px */
 
     /* Sets margin between legend and fieldset's content */
-    margin-bottom: 35px;
+    margin-bottom: 2.1875rem;   /* 35 px */
 }
 
 /* Second element of fieldset */
 main > form > fieldset > legend + *
 {
     /* Removes standard margin between legend and fieldset's content */
-    margin-top: 0px;
+    margin-top: 0;
 }
 
 /* Fieldset's description */
@@ -86,7 +86,7 @@ main > form > fieldset > ul:nth-child(2) > li:first-child
 main > form > fieldset > ul > li
 {
     /* Sets gap between options */
-    margin-bottom: 44px;
+    margin-bottom: 2.75rem;    /* 44 px */
 
     /* Sets layout for option's description and price */
     display: grid;
@@ -108,8 +108,8 @@ main > form > fieldset > ul > li > .description > .input-field label
 {
     /* Sets font */
     font-weight: 400;
-    font-size: 22px;
-    line-height: 30px;
+    font-size: 1.375rem;      /* 22 px */
+    line-height: 1.875rem;    /* 30 px */
 }
 
 /* Description of fieldset's option */
@@ -129,8 +129,8 @@ main > form > fieldset > ul > li > data
 {
     /* Sets font */
     font-weight: 400;
-    font-size: 22px;
-    line-height: 30.05px;
+    font-size: 1.375rem;       /* 22 px */
+    line-height: 1.878125rem;  /* 30.05 px */
 
     text-wrap: nowrap;
 }
@@ -141,7 +141,7 @@ fieldset.holedness > ul > li,
 fieldset.partedness > ul > li
 {
     /* Sets gap between options */
-    margin-bottom: 22px;
+    margin-bottom: 1.375rem;       /* 22 px */
 }
 
 /* Filament type's characteristics */
@@ -164,9 +164,9 @@ fieldset.filament-type ul.characteristics > li
     align-items: baseline;
 
     /* Sets font */
-    font-size: 17px;
-    line-height: 23.22px;
-    font-weight: 300;
+    font-size: var(--main-font-size);
+    line-height: var(--main-font-height);
+    font-weight: var(--main-font-weight);
 }
 
 
@@ -177,12 +177,12 @@ fieldset.colors > ul > li > .description .showcase
     position: absolute;
     top: 0;
     /* Creates gap between checkbox and circle */
-    left: 20px;
+    left: 1.25rem;       /* 20 px */
 
     /* Sets circle's sizes */
     display: inline-block;
-    width: 42px;     /* 20px */
-    height: 42px;    /* 20px */
+    width: 2.625rem;     /* 42 px */
+    height: 2.625rem;    /* 42 px */
 
     /* Makes it circle */
     border-radius: 50%;
@@ -206,7 +206,7 @@ fieldset.additional-services > ul > li .description > figure
     align-items: center;
 
     /* Creates gap between description adn preview image*/
-    gap: 22px;
+    gap: 1.375rem;          /* 22 px */
 }
 
 /* Preview image of additional service */
@@ -226,7 +226,7 @@ fieldset.additional-services > ul > li .description > figure > img
 fieldset.additional-services > ul > li .description > figure > figcaption
 {
     /* Sets font */
-    font-size: 17px;
-    line-height: 23.22px;
-    font-weight: 300;
+    font-size: var(--main-font-size);
+    line-height: var(--main-font-height);
+    font-weight: var(--main-font-weight);
 }

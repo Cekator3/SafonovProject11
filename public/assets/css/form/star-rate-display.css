@@ -1,0 +1,27 @@
+/* ------------------------*/
+/* Star rating input field */
+/* ------------------------*/
+.star-rate.display
+{
+    /* Constants */
+    --star-color: rgba(255, 214, 0, 1);
+
+    /* Hides standard meter's bar */
+    position: relative;
+    appearance: none;
+    color: transparent;
+    width: auto;
+    display: inline-block;
+    vertical-align: baseline;
+}
+
+.star-rate.display::before
+{
+    content: '★ ★ ★ ★ ★';
+    font-size: 1.5625rem;       /* 25px */
+    color: rgba(0,0,0,0.2);
+    background:
+    linear-gradient(90deg, var(--star-color) var(--value), rgba(0,0,0,0) var(--value));
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
