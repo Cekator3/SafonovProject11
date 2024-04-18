@@ -196,15 +196,14 @@
         @foreach ($model->getColors() as $color)
             <li class="option">
                 <div class="description">
-                    <x-forms.inputs.checkbox-radio-new
-                                                    :type=" 'radio' "
+                    <x-forms.inputs.checkbox-radio :type=" 'radio' "
                                                     :name=" 'color' "
-                                                    id="color-.{{ $color->getId() }}"
+                                                    :placeholder=" '' "
+                                                    :id=" 'color-'.$color->getPrice() "
                                                     value="{{ $color->getId() }}"
                                                     required
-                    >
-                        <label class="showcase" for="color-.{{ $color->getId() }}" style="background: {{ $color->getRgbCss() }};"></label>
-                    </x-forms.inputs.checkbox-radio-new>
+                    />
+                    <span class="showcase" style="background: {{ $color->getRgbCss() }};"></span>
                 </div>
                 <data class="price" value="{{ $color->getPrice() }}">{{ $color->getPrice() }} ₽</data>
             </li>

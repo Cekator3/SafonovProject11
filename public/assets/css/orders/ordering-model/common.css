@@ -169,13 +169,64 @@ fieldset.filament-type ul.characteristics > li
     font-weight: 300;
 }
 
-/* Color ball */
+
+/* Color circle */
 fieldset.colors > ul > li > .description .showcase
 {
+    /* Moves circle in the center of checkbox */
+    position: absolute;
+    top: 0;
+    /* Creates gap between checkbox and circle */
+    left: 20px;
+
+    /* Sets circle's sizes */
+    display: inline-block;
     width: 42px;     /* 20px */
     height: 42px;    /* 20px */
 
-
     /* Makes it circle */
     border-radius: 50%;
+}
+
+/* To move circle at the center of checkbox input field */
+fieldset.colors > ul > li
+{
+    position: relative;
+}
+
+
+/* Additional service's preview image*/
+fieldset.additional-services > ul > li .description > figure
+{
+    /* Sets gap same as input's button */
+    margin: 32px 0 0 calc(1rem + 2px);
+
+    /* Sets layout of text description and preview image */
+    display: flex;
+    align-items: center;
+
+    /* Creates gap between description adn preview image*/
+    gap: 22px;
+}
+
+/* Preview image of additional service */
+fieldset.additional-services > ul > li .description > figure > img
+{
+    /* Sets size */
+    width: 35%;
+
+    /* Sets background */
+    background-color: var(--item-window-bg-color);
+    padding: 0.9375rem;
+
+    /* Sets rounded borders */
+    border-radius: var(--border-radius);
+}
+
+fieldset.additional-services > ul > li .description > figure > figcaption
+{
+    /* Sets font */
+    font-size: 17px;
+    line-height: 23.22px;
+    font-weight: 300;
 }

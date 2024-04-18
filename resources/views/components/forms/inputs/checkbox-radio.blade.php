@@ -9,5 +9,5 @@
            @checked($checked || old($name))
            {{ $attributes }}
     >
-    <label for="{{ $id ?? $name }}">{{ $placeholder }}</label>
+    <label for="{{ $id ?? $name }}">{!! $placeholder !!}</label>
 </div>
