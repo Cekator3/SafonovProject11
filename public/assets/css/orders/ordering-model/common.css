@@ -145,7 +145,7 @@ fieldset.partedness > ul > li
 }
 
 /* Filament type's characteristics */
-fieldset.filament-type ul.characteristics
+fieldset.filament-types ul.characteristics
 {
     /* Removes standard list styles */
     margin: 0;
@@ -156,7 +156,7 @@ fieldset.filament-type ul.characteristics
     margin-left: calc(1rem + 2px);
 }
 
-fieldset.filament-type ul.characteristics > li
+fieldset.filament-types ul.characteristics > li
 {
     /* Sets layout of characteristic's name and it's value */
     display: flex;
@@ -167,6 +167,12 @@ fieldset.filament-type ul.characteristics > li
     font-size: var(--main-font-size);
     line-height: var(--main-font-height);
     font-weight: var(--main-font-weight);
+}
+
+/* (JavaScript) Hidden filament types */
+fieldset.filament-types ul.characteristics > li.hidden
+{
+    display: none;
 }
 
 

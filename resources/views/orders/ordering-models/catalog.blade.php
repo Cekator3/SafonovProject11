@@ -72,7 +72,7 @@
         </ul>
     </fieldset>
 
-    <fieldset class="filament-type">
+    <fieldset class="filament-types">
         <legend>Тип филамента</legend>
         <ul>
         @foreach ($model->getFilamentTypes() as $filamentType)

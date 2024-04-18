@@ -4,14 +4,25 @@
 
 'use strict';
 
-/**
- * Returns input of filament type DOM element
- * @param {HTMLLIElement} filamentType
- * @returns {HTMLInputElement}
- */
-function getInput(filamentType)
-{
+let ID_PREFIX = 'filament-type-';
 
+/**
+ * Returns selected filament type DOM element
+ * @returns {HTMLInputElement | null}
+ */
+function getSelected()
+{
+    return document.querySelector('.filament-types input:checked');
+}
+
+/**
+ * Retrieves number from filament type DOM element
+ * @param {HTMLInputElement} filamentType
+ * @returns {number}
+ */
+function getIdentifier(filamentType)
+{
+    return +filamentType.id.substring(ID_PREFIX.length, filamentType.id.length);
 }
 
 /**
@@ -20,7 +31,8 @@ function getInput(filamentType)
  */
 export function SelectedFilamentTypeGet()
 {
-    // ...
+    let filamentType = getSelected();
+    return getIdentifier(filamentType);
 }
 
 /**
@@ -30,5 +42,8 @@ export function SelectedFilamentTypeGet()
  */
 export function SelectedFilamentTypeUnselect(id)
 {
-    // ...
+    let filamentType = document.getElementById(ID_PREFIX + id);
+    if (filamentType === null)
+        return;
+    filamentType.checked = false;
 }
