@@ -34,7 +34,7 @@
         <p>Выберите технологию, которая должна применяться для печати.</p>
         <ul>
         @foreach ($model->getPrintingTechnologies() as $printingTechnology)
-            <li class="option">
+            <li class="option" supported-filament-types="{{ $printingTechnology->getSupportedFilamentTypesAsJSON() }}">
                 <div class="description">
                     <x-forms.inputs.checkbox-radio :type=" 'radio' "
                                                    :name=" 'printing-technology' "
@@ -218,8 +218,7 @@
         @foreach ($model->getAdditionalServices() as $additionalService)
             <li class="option">
                 <div class="description">
-                    <x-forms.inputs.checkbox-radio :type=" 'radio' "
-                                                   :name=" 'additional-services[]' "
+                    <x-forms.inputs.checkbox-radio :name=" 'additional-services[]' "
                                                    :placeholder=" $additionalService->getName() "
                                                    :id=" 'additional-service-'.$additionalService->getPrice() "
                                                    value="{{ $additionalService->getId() }}"
