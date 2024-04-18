@@ -14,6 +14,13 @@
 <link href="/assets/css/orders/ordering-model/common.css" rel="stylesheet" type="text/css">
 @endsection
 
+@section('scripts')
+<script defer src="/assets/js/orders/ordering-models/SelectedFilamentType.js" type="module"></script>
+<script defer src="/assets/js/orders/ordering-models/SelectedPrintingTechnology.js" type="module"></script>
+<script defer src="/assets/js/orders/ordering-models/VisibleFilamentTypes.js" type="module"></script>
+<script defer src="/assets/js/orders/ordering-models/init.js" type="module"></script>
+@endsection
+
 @section('navigation')
 <x-navigation.customer />
 @endsection
@@ -34,7 +41,7 @@
         <p>Выберите технологию, которая должна применяться для печати.</p>
         <ul>
         @foreach ($model->getPrintingTechnologies() as $printingTechnology)
-            <li class="option" supported-filament-types="{{ $printingTechnology->getSupportedFilamentTypesAsJSON() }}">
+            <li class="option" data-supported-filament-types-ids="{{ $printingTechnology->getSupportedFilamentTypesAsJSON() }}">
                 <div class="description">
                     <x-forms.inputs.checkbox-radio :type=" 'radio' "
                                                    :name=" 'printing-technology' "
@@ -58,11 +65,11 @@
             <li class="option">
                 <div class="description">
                     <x-forms.inputs.checkbox-radio :type=" 'radio' "
-                                                :name=" 'model-size' "
-                                                :placeholder=" $size->getMultiplier().'%' "
-                                                :id=" 'model-size-'.$size->getId() "
-                                                value="{{ $size->getId() }}"
-                                                required
+                                                   :name=" 'model-size' "
+                                                   :placeholder=" $size->getMultiplier().'%' "
+                                                   :id=" 'model-size-'.$size->getId() "
+                                                   value="{{ $size->getId() }}"
+                                                   required
                     />
                     <p>{{ $size->getLength() . 'X' . $size->getWidth() . 'X' . $size->getHeight() . 'СМ' }}</p>
                 </div>
@@ -79,11 +86,11 @@
             <li class="option">
                 <div class="description">
                     <x-forms.inputs.checkbox-radio :type=" 'radio' "
-                                                :name=" 'filament-type' "
-                                                :placeholder=" $filamentType->getName() "
-                                                :id=" 'filament-type-'.$filamentType->getId() "
-                                                value="{{ $filamentType->getId() }}"
-                                                required
+                                                   :name=" 'filament-type' "
+                                                   :placeholder=" $filamentType->getName() "
+                                                   :id=" 'filament-type-'.$filamentType->getId() "
+                                                   value="{{ $filamentType->getId() }}"
+                                                   required
                     />
                     <p>{{ $filamentType->getDescription() }}</p>
                 </div>
