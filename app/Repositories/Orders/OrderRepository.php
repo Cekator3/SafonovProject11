@@ -71,6 +71,16 @@ class OrderRepository
     }
 
     /**
+     * Checks if order belongs to user
+     */
+    public function belongsToUser(int $orderId, int $userId) : bool
+    {
+        return DB::table('orders')->where('order_id', '=', $orderId)
+                                  ->where('user_id', '=', $userId)
+                                  ->exists();
+    }
+
+    /**
      * Adds new order for user.
      *
      * @param int $orderId Identifier of created order.

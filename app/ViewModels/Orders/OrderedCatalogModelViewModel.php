@@ -10,6 +10,7 @@ namespace App\ViewModels\Orders;
  */
 class OrderedCatalogModelViewModel
 {
+    public int $orderedModelId;
     public int $amount;
     public int $modelId;
     public int $modelSizeId;

@@ -28,14 +28,9 @@ class OrderedModelDeletionService
     public function remove(int $orderedModelId) : void
     {
         $userId = Auth::user()->id;
-        $currentOrderId = $this->getUserCurrentOrderId();
-        if ($currentOrderId === null)
-        {
-            assert(false, 'Something is wrong');
-            return;
-        }
-
         $models = new OrderedModelRepository();
-        $models->remove($orderedModelId, $userId, $currentOrderId);
+
+        if ($models->belongsToUser($orderedModelId, $userId))
+            $models->remove($orderedModelId);
     }
 }

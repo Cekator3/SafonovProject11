@@ -94,33 +94,11 @@ FROM
 WHERE
     om.order_id = 1;
 
-SELECT
-    om.id                  AS ordered_model_id,
-    om.model_id            AS model_id,
-    m.name                 AS model_name,
-    om.amount              AS amount,
-    om.is_holed            AS is_holed,
-    om.is_parted           AS is_parted,
-    m.price_holed          AS price_holed,
-    m.price_solid          AS price_solid,
-    m.price_parted         AS price_parted,
-    m.price_not_parted     AS price_not_parted
-
-FROM
-    ordered_models AS om
-    JOIN
-        models AS m
-    ON
-        m.id = om.model_id
-
-WHERE
-    om.id = 1
-
-LIMIT 1;
 
 SELECT
-    additional_service_id
+    1
 FROM
-    additional_services_of_ordered_models
+    orders
 WHERE
-    ordered_model_id = 1;
+    id = 1 AND
+    customer_id = 1002;

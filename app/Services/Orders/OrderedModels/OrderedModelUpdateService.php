@@ -2,12 +2,13 @@
 
 namespace App\Services\Orders\OrderedModels;
 
-use App\Errors\Orders\OrderedModelUpdateErrors;
 use App\Errors\UserInputErrors;
 use Illuminate\Support\Facades\Auth;
+use App\Repositories\Orders\OrderRepository;
+use App\Errors\Orders\OrderedModelUpdateErrors;
 use App\Repositories\Orders\OrderedModelRepository;
 use App\ViewModels\Orders\OrderedCatalogModelViewModel;
-use App\Services\Orders\UserInputValidation\OrderedModelAmountValidationService;
+use App\Services\Orders\OrderedModels\UserInputValidation\OrderedModelAmountValidationService;
 
 /**
  * Subsystem for updating stored information about ordered models
@@ -65,8 +66,13 @@ class OrderedModelUpdateService
         // 1 Validate user's input
         $this->validateUserInput($model, $errors);
 
-        // 2 Update ordered model
+        // 2. Check if ordered model belongs to the user
         $userId = Auth::user()->id;
+        $models = new OrderedModelRepository();
+        if (! $models->belongsToUser($model->orderedModelId, $userId))
+            return;
+
+        // 3 Update ordered model
         $orderId = $this->getUserCurrentOrderId($userId);
         $this->updateModelInUserOrder($model, $orderId, $errors);
     }

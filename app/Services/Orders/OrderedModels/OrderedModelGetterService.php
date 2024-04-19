@@ -2,6 +2,7 @@
 
 namespace App\Services\Orders\OrderedModels;
 
+use App\Repositories\Orders\OrderRepository;
 use Illuminate\Support\Facades\Auth;
 use App\DTOs\Orders\ShoppingCart\ModelDTO;
 use App\DTOs\Orders\ShoppingCart\ShoppingCartDTO;
@@ -42,7 +43,10 @@ class OrderedModelGetterService
         $models = new OrderedModelRepository();
         $userId = Auth::user()->id;
 
-        $model = $models->get($orderedModelId, $userId);
+        if (! $models->belongsToUser($orderedModelId, $userId))
+            return null;
+
+        $model = $models->get($orderedModelId);
         if ($model === null)
             return null;
 
@@ -85,13 +89,18 @@ class OrderedModelGetterService
     /**
      * Retrieves all models from order to display them in
      * shopping cart.
+     * Returns null if order do not belongs to user.
      */
-    public function getAllAsShoppingCart(int $orderId) : ShoppingCartDTO
+    public function getAllAsShoppingCart(int $orderId) : ShoppingCartDTO | null
     {
         $models = new OrderedModelRepository();
+        $orders = new OrderRepository();
         $userId = Auth::user()->id;
 
-        $shoppingCart = $models->getAllAsShoppingCart($orderId, $userId);
+        if (! $orders->belongsToUser($orderId, $userId))
+            return null;
+
+        $shoppingCart = $models->getAllAsShoppingCart($orderId);
 
         $this->setModelsThumbnailsUrls($shoppingCart->getModels());
 

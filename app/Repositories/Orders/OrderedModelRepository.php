@@ -18,7 +18,6 @@ use App\DTOs\Orders\NewOrderedCatalogModel\NewOrderedCatalogModelDTO;
 use App\DTOs\Orders\NewOrderedCatalogModel\AdditionalServiceWithPriceDTO;
 use App\DTOs\Orders\NewOrderedCatalogModel\PrintingTechnologyWithPriceDTO;
 use App\DTOs\Orders\ExistingOrderedCatalogModel\ExistingOrderedCatalogModelDTO;
-use stdClass;
 
 /**
  * Subsystem for interaction with stored information on order's models.
@@ -581,7 +580,7 @@ class OrderedModelRepository
     /**
      * Returns true if the ordered model belongs to user
      */
-    public function isBelongToUser(int $orderedModelId, int $userId) : bool
+    public function belongsToUser(int $orderedModelId, int $userId) : bool
     {
         return DB::table('ordered_models AS om')
                     ->join('orders AS o', 'om.order_id', '=', 'o.id')
