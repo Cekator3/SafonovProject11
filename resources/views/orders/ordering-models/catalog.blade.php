@@ -217,7 +217,7 @@
                     <x-forms.inputs.checkbox-radio :type=" 'radio' "
                                                     :name=" 'color' "
                                                     :placeholder=" '' "
-                                                    :id=" 'color-'.$color->getPrice() "
+                                                    :id=" 'color-'.$color->getId() "
                                                     value="{{ $color->getId() }}"
                                                     required
                     />
@@ -237,7 +237,7 @@
                 <div class="description">
                     <x-forms.inputs.checkbox-radio :name=" 'additional-services[]' "
                                                    :placeholder=" $additionalService->getName() "
-                                                   :id=" 'additional-service-'.$additionalService->getPrice() "
+                                                   :id=" 'additional-service-'.$additionalService->getId() "
                                                    value="{{ $additionalService->getId() }}"
                     />
                     <figure>

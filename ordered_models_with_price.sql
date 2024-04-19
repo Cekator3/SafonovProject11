@@ -27,7 +27,7 @@ FROM
             SUM(price) AS price
         FROM
         (
-            -- model sizes prices
+            -- model size price
             SELECT
                 price
             FROM
@@ -37,7 +37,7 @@ FROM
 
             UNION ALL
 
-            -- printing technologies prices
+            -- printing technology price
             SELECT
                 price
             FROM
@@ -48,7 +48,7 @@ FROM
 
             UNION ALL
 
-            -- Filament types prices
+            -- Filament type price
             SELECT
                 price
             FROM
@@ -59,7 +59,7 @@ FROM
 
             UNION ALL
 
-            -- Color prices
+            -- Color price
             SELECT
                 price
             FROM
@@ -67,6 +67,23 @@ FROM
             WHERE
                 cp.color_id = om.color_id AND
                 cp.model_id = om.model_id
+
+            UNION ALL
+
+            -- Additional services prices
+            SELECT
+                SUM(asp.price) AS price
+
+            FROM
+                additional_services_of_ordered_models AS asom
+                JOIN
+                    additional_services_prices AS asp
+                ON
+                    asp.additional_service_id = asom.additional_service_id
+
+            WHERE
+                asom.ordered_model_id = om.id AND
+                asp.model_id = om.model_id
         )
     )
 

@@ -28,7 +28,7 @@ final class OrderModelAdditionErrors
      */
     public function isAlreadyExist() : bool
     {
-        return ($this->errors & static::ERROR_BASE_MODEL_ALREADY_EXIST) !== 0;
+        return ($this->errors & static::ERROR_MODEL_ALREADY_IN_ORDER) !== 0;
     }
 
     /**

@@ -2,13 +2,13 @@
 
 namespace App\Repositories\Orders;
 
-use App\DTOs\Admin\FilamentTypes\FilamentTypeCharacteristics;
-use Illuminate\Database\UniqueConstraintViolationException;
 use Illuminate\Support\Facades\DB;
 use App\Errors\Orders\OrderedModelUpdateErrors;
 use App\Errors\Orders\OrderModelAdditionErrors;
 use App\DTOs\Orders\ShoppingCart\ShoppingCartDTO;
 use App\ViewModels\Orders\OrderedCatalogModelViewModel;
+use Illuminate\Database\UniqueConstraintViolationException;
+use App\DTOs\Admin\FilamentTypes\FilamentTypeCharacteristics;
 use App\DTOs\Orders\NewOrderedCatalogModel\ColorWithPriceDTO;
 use App\DTOs\Orders\NewOrderedCatalogModel\ModelSizeWithPriceDTO;
 use App\DTOs\Orders\NewOrderedCatalogModel\FilamentTypeWithPriceDTO;
@@ -281,7 +281,9 @@ class OrderedModelRepository
      */
     public function remove(int $id, int $userId, int $orderId) : void
     {
-        // ...
+        DB::table('ordered_models')->where('order_id', '=', $orderId)
+                                   ->where('user_id', '=', $userId)
+                                   ->delete($id);
     }
 
     /**
@@ -307,7 +309,7 @@ class OrderedModelRepository
     {
         try
         {
-            DB::table('ordered_models')->insert([
+            $id = DB::table('ordered_models')->insertGetId([
                 'order_id' => $orderId,
                 'model_id' => $model->modelId,
                 'model_size_id' => $model->modelSizeId,
@@ -318,6 +320,16 @@ class OrderedModelRepository
                 'is_holed' => $model->isHoled,
                 'is_parted' => $model->isParted
             ]);
+
+            $additionalServicesData = [];
+            foreach ($model->additionalServices as $additionalServiceId)
+            {
+                $additionalServicesData []= [
+                    'ordered_model_id' => $id,
+                    'additional_service_id' => $additionalServiceId
+                ];
+            }
+            DB::table('additional_services_of_ordered_models')->insert($additionalServicesData);
         }
         catch (UniqueConstraintViolationException $e)
         {
@@ -334,9 +346,24 @@ class OrderedModelRepository
      * An object for storing operation errors.
      */
     public function update(OrderedCatalogModelViewModel $model,
-                           int $orderId,
+                           int $orderedModelId,
                            OrderedModelUpdateErrors $errors) : void
     {
-        // ...
+        try
+        {
+            DB::table('ordered_models')->update([
+                'model_size_id' => $model->modelSizeId,
+                'printing_technology_id' => $model->printingTechnologyId,
+                'filament_type_id' => $model->filamentTypeId,
+                'color_id' => $model->colorId,
+                'amount' => $model->amount,
+                'is_holed' => $model->isHoled,
+                'is_parted' => $model->isParted
+            ]);
+        }
+        catch (UniqueConstraintViolationException $e)
+        {
+            $errors->add(OrderModelAdditionErrors::ERROR_MODEL_ALREADY_IN_ORDER);
+        }
     }
 }
