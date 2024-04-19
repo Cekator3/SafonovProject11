@@ -4,7 +4,7 @@
 
 'use strict';
 
-let ID_PREFIX = 'filament-type-';
+var ID_PREFIX = 'filament-type-';
 
 /**
  * Retrieves all filament types

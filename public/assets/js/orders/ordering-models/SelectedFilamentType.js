@@ -4,7 +4,7 @@
 
 'use strict';
 
-let ID_PREFIX = 'filament-type-';
+var ID_PREFIX = 'filament-type-';
 
 /**
  * Returns selected filament type DOM element
@@ -27,11 +27,14 @@ function getIdentifier(filamentType)
 
 /**
  * Retrieves identifier of filament type that is selected by user
- * @returns {number}
+ * @returns {number | null}
  */
 export function SelectedFilamentTypeGet()
 {
     let filamentType = getSelected();
+    if (filamentType === null)
+        return null;
+
     return getIdentifier(filamentType);
 }
 

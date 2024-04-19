@@ -16,7 +16,7 @@
 
 @section('scripts')
 <script defer src="/assets/js/orders/ordering-models/SelectedFilamentType.js" type="module"></script>
-<script defer src="/assets/js/orders/ordering-models/SelectedPrintingTechnology.js" type="module"></script>
+<script defer src="/assets/js/orders/ordering-models/SupportedFilamentTypes.js" type="module"></script>
 <script defer src="/assets/js/orders/ordering-models/VisibleFilamentTypes.js" type="module"></script>
 <script defer src="/assets/js/orders/ordering-models/init.js" type="module"></script>
 @endsection
@@ -41,7 +41,7 @@
         <p>Выберите технологию, которая должна применяться для печати.</p>
         <ul>
         @foreach ($model->getPrintingTechnologies() as $printingTechnology)
-            <li class="option" data-supported-filament-types-ids="{{ $printingTechnology->getSupportedFilamentTypesAsJSON() }}">
+            <li class="option">
                 <div class="description">
                     <x-forms.inputs.checkbox-radio :type=" 'radio' "
                                                    :name=" 'printing-technology' "
@@ -244,5 +244,9 @@
 
     <x-forms.submit :placeholder=" 'Добавить' " />
 </form>
+
+<script type="application/json" id="printing-technologies-supported-filament-types">
+{!! $model->getPrintingTechnologiesSupportedFilamentTypesAsJSON() !!}
+</script>
 
 @endsection

@@ -60,14 +60,14 @@ final class PrintingTechnologyWithPriceDTO
     }
 
     /**
-     * Returns as JSON string identifiers of filament types that can be
+     * Returns identifiers of filament types that can be
      * used with that printing technology
      *
-     * @return string
+     * @return int[]
      */
-    public function getSupportedFilamentTypesAsJSON() : string
+    public function getSupportedFilamentTypes() : array
     {
-        return json_encode($this->supportedFilamentTypesIds);
+        return $this->supportedFilamentTypesIds;
     }
 
     /**

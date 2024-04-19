@@ -170,7 +170,7 @@ fieldset.filament-types ul.characteristics > li
 }
 
 /* (JavaScript) Hidden filament types */
-fieldset.filament-types ul.characteristics > li.hidden
+fieldset.filament-types > ul > li.hidden
 {
     display: none;
 }

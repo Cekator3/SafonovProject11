@@ -97,6 +97,22 @@ final class NewOrderedCatalogModelDTO
     }
 
     /**
+     * Returns the JSON string of printing technologies and their supported filament types
+     */
+    public function getPrintingTechnologiesSupportedFilamentTypesAsJSON() : string
+    {
+        $result = [];
+        foreach ($this->getPrintingTechnologies() as $printingTechnology)
+        {
+            $result []= [
+                "printingTechnologyId" => $printingTechnology->getId(),
+                "supportedFilamentTypes" => $printingTechnology->getSupportedFilamentTypes()
+            ];
+        }
+        return json_encode($result);
+    }
+
+    /**
      * Returns the filament types with their prices for using them
      * when printing this model.
      *
