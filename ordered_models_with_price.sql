@@ -1,5 +1,5 @@
 SELECT
-    m.id                AS id,
+    om.id               AS ordered_model_id,
     m.name              AS name,
     m.preview_image     AS thumbnail,
     om.amount           AS amount,

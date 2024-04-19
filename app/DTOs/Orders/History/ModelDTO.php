@@ -7,20 +7,20 @@ namespace App\DTOs\Orders\History;
  */
 final class ModelDTO
 {
-    private int $id;
+    private int $ordered_model_id;
     private string $name;
     private int $amount;
     private float $price;
     private string $thumbnailFilename;
     private string $thumbnailUrl;
 
-    public function __construct (int $id,
+    public function __construct (int $ordered_model_id,
                                  string $name,
                                  int $amount,
                                  float $price,
                                  string $thumbnailFilename)
     {
-        $this->id = $id;
+        $this->ordered_model_id = $ordered_model_id;
         $this->name = $name;
         $this->amount = $amount;
         $this->price = $price;
@@ -28,11 +28,11 @@ final class ModelDTO
     }
 
     /**
-     * Returns the id of the model.
+     * Returns the id of the ordered model.
      */
     public function getId() : int
     {
-        return $this->id;
+        return $this->ordered_model_id;
     }
 
     /**

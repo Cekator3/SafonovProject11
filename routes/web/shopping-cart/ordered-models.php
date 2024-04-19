@@ -24,9 +24,9 @@ Route::middleware([Authenticate::class, EnsureIsCustomer::class, EnsureCustomerC
     Route::controller(OrderedModelUpdaterController::class)
          ->group(function ()
     {
-        Route::get('/update/{baseModelId}', 'showUpdateModelForm')
+        Route::get('/update/{orderedModelId}', 'showUpdateModelForm')
             ->name('shopping-cart.update');
-        Route::put('/update/{baseModelId}', 'updateOrderedModel');
+        Route::put('/update/{orderedModelId}', 'updateOrderedModel');
     });
 
     // Remove catalog model from the order

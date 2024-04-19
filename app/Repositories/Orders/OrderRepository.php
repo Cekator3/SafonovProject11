@@ -67,19 +67,7 @@ class OrderRepository
      */
     public function get(int $userId, int $orderId) : OrderDTO | null
     {
-        // $orderEntry = DB::table('orders')
-        //                     ->where('customer_id', '=', $userId)
-        //                     ->where('orderId', '=', $orderId)
-        //                     ->select(['status', 'payed_at', 'completed_at'])
-        //                     ->first();
-
-        // if ($orderEntry === null)
-        //     return null;
-
-        // $orderedModelsEntries = DB::table('ordered_models')
-        //                                 ->where('orderId', '=', $orderId)
-        //                                 ->select(['model_id', 'model'])
-
+        // ordered_models_with_price.sql
     }
 
     /**
