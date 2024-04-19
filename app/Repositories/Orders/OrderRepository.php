@@ -2,9 +2,13 @@
 
 namespace App\Repositories\Orders;
 
-use App\DTOs\Orders\OrderDTO;
-use App\DTOs\Orders\OrderItemListDTO;
+use App\Enums\OrderStatus;
+use Illuminate\Database\UniqueConstraintViolationException;
+use Illuminate\Support\Facades\DB;
+use App\DTOs\Orders\History\OrderDTO;
 use App\Errors\Orders\OrderCreationErrors;
+use App\DTOs\Orders\History\OrderItemListDTO;
+use stdClass;
 
 /**
  * Subsystem for interaction with stored information on user's orders
@@ -24,15 +28,20 @@ class OrderRepository
      */
     public function getCurrentOrderId(int $userId) : int | null
     {
-        // ...
+        $entry = DB::table('orders')->where('status', '<>', OrderStatus::Completed)
+                           ->select('id')
+                           ->first();
+        return $entry->id;
     }
 
-    /**
-     * Retrieves user's order.
-     */
-    public function get(int $userId, int $orderId) : OrderDTO | null
+    private function convertToOrderItemList(stdClass $entry) : OrderItemListDTO
     {
-        // ...
+        $id = $entry->id;
+        $status = $entry->status;
+        $completedAt = $entry->completed_at;
+        $payedAt = $entry->payed_at;
+
+        return new OrderItemListDTO($id, $status, $payedAt, $completedAt);
     }
 
     /**
@@ -42,7 +51,34 @@ class OrderRepository
      */
     public function getAll(int $userId) : array
     {
-        // ...
+        $entries = DB::table('orders')->where('customer_id', '=', $userId)
+                           ->select('id', 'status', 'payed_at', 'completed_at')
+                           ->get();
+
+        $result = [];
+        foreach ($entries as $entry)
+            $result []= $this->convertToOrderItemList($entry);
+        return $result;
+    }
+
+    /**
+     * Retrieves user's order.
+     */
+    public function get(int $userId, int $orderId) : OrderDTO | null
+    {
+        // $orderEntry = DB::table('orders')
+        //                     ->where('customer_id', '=', $userId)
+        //                     ->where('orderId', '=', $orderId)
+        //                     ->select(['status', 'payed_at', 'completed_at'])
+        //                     ->first();
+
+        // if ($orderEntry === null)
+        //     return null;
+
+        // $orderedModelsEntries = DB::table('ordered_models')
+        //                                 ->where('orderId', '=', $orderId)
+        //                                 ->select(['model_id', 'model'])
+
     }
 
     /**
@@ -52,6 +88,9 @@ class OrderRepository
      */
     public function add(int $userId, int &$orderId, OrderCreationErrors $errors) : void
     {
-        // ...
+        $orderId = DB::table('orders')->insertGetId([
+            'customer_id' => $userId,
+            'status' => OrderStatus::WaitingForPayment
+        ]);
     }
 }

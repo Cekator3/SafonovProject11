@@ -2,16 +2,13 @@
 
 namespace App\Services\Orders\OrderedModels;
 
-use App\Errors\Orders\OrderCreationErrors;
-use App\Repositories\Images\BaseModelThumbnailRepository;
 use Illuminate\Support\Facades\Auth;
 use App\DTOs\Orders\ShoppingCart\ModelDTO;
-use App\Repositories\Orders\OrderRepository;
 use App\DTOs\Orders\ShoppingCart\ShoppingCartDTO;
 use App\Repositories\Orders\OrderedModelRepository;
+use App\Repositories\Images\BaseModelThumbnailRepository;
 use App\Repositories\Images\AdditionalServiceThumbnailRepository;
 use App\DTOs\Orders\NewOrderedCatalogModel\NewOrderedCatalogModelDTO;
-use App\DTOs\Orders\NewOrderedCatalogModel\AdditionalServiceWithPriceDTO;
 use App\DTOs\Orders\ExistingOrderedCatalogModel\ExistingOrderedCatalogModelDTO;
 
 /**
@@ -20,27 +17,6 @@ use App\DTOs\Orders\ExistingOrderedCatalogModel\ExistingOrderedCatalogModelDTO;
  */
 class OrderedModelGetterService
 {
-    /**
-     * Returns user's current order if exists.
-     */
-    private function getUserCurrentOrderId(int $userId) : int|null
-    {
-        $orders = new OrderRepository();
-        $orderId =  $orders->getCurrentOrderId($userId);
-
-        if (!is_null($orderId))
-            return $orderId;
-
-        // Create new order for user
-        $creationErrors = new OrderCreationErrors();
-        $orders->add($userId, $orderId, $creationErrors);
-
-        if ($creationErrors->isAlreadyExist())
-            $orderId = $orders->getCurrentOrderId($userId);
-
-        assert(!is_null($orderId), 'Order id should not be null at this point');
-    }
-
     /**
      * @param \App\DTOs\Orders\NewOrderedCatalogModel\AdditionalServiceWithPriceDTO[] | \App\DTOs\Orders\ExistingOrderedCatalogModel\AdditionalServiceWithPriceDTO[] $additionalServices
      */

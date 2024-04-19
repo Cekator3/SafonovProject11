@@ -4,6 +4,7 @@ namespace App\Services\Orders\OrderedModels;
 
 use App\Errors\UserInputErrors;
 use Illuminate\Support\Facades\Auth;
+use App\Errors\Orders\OrderCreationErrors;
 use App\Repositories\Orders\OrderRepository;
 use App\Errors\Orders\OrderModelAdditionErrors;
 use App\Repositories\Orders\OrderedModelRepository;
@@ -23,12 +24,23 @@ class OrderedCatalogModelAdderService
     }
 
     /**
-     * Returns user's current order if exists.
+     * Returns user's current order.
      */
-    private function getUserCurrentOrderId(int $userId) : int|null
+    private function getUserCurrentOrderId(int $userId) : int
     {
         $orders = new OrderRepository();
-        return $orders->getCurrentOrderId($userId);
+        $orderId =  $orders->getCurrentOrderId($userId);
+
+        if (!is_null($orderId))
+            return $orderId;
+
+        // Create new order for user
+        $creationErrors = new OrderCreationErrors();
+        $orders->add($userId, $orderId, $creationErrors);
+
+        assert(!is_null($orderId), 'Order id should not be null at this point');
+
+        return $orderId;
     }
 
     private function ensureNotExistInUserOrder(OrderedCatalogModelViewModel $model,

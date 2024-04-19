@@ -2,6 +2,7 @@
 
 namespace App\DTOs\Orders\History;
 
+use App\Enums\OrderStatus;
 use DateTime;
 
 /**
@@ -9,8 +10,10 @@ use DateTime;
  */
 class OrderDTO
 {
-    private string $status;
+    private int $id;
+    private OrderStatus $status;
     private DateTime|null $completed_at = null;
+    private DateTime|null $payed_at = null;
     /**
      * @var ModelDTO[]
      */
@@ -19,18 +22,29 @@ class OrderDTO
     /**
      * @param ModelDTO[] $models
      */
-    public function __construct(string $status, string $completedAt, array $models)
+    public function __construct(int $id, int $status, array $models, string $payedAt = '', string $completedAt = '')
     {
-        $this->status = $status;
+        $this->id = $id;
         $this->models = $models;
-        if ($completedAt !== '')
+        $this->status = OrderStatus::GetByValue($status);
+        if (! empty($completedAt))
             $this->completed_at = new DateTime($completedAt);
+        if (! empty($payedAt))
+            $this->payed_at = new DateTime($payedAt);
+    }
+
+    /**
+     * Returns the identifier of the order.
+     */
+    public function getId() : int
+    {
+        return $this->id;
     }
 
     /**
      * Returns the order's status
      */
-    public function getStatus() : string
+    public function getStatus() : OrderStatus
     {
         return $this->status;
     }
@@ -41,6 +55,14 @@ class OrderDTO
     public function getCompletionDate() : DateTime|null
     {
         return $this->completed_at;
+    }
+
+    /**
+     * Returns the order's payment date.
+     */
+    public function getPaymentDate() : DateTime|null
+    {
+        return $this->payed_at;
     }
 
     /**

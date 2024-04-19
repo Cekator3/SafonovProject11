@@ -57,7 +57,6 @@ class OrderedCatalogModelAdderController
     public function addCatalogModelToOrder(Request $request, int $baseModelId) : RedirectResponse
     {
         $model = $this->getUserInput($request, $baseModelId);
-        dd($model, $request->input());
         $errors = new UserInputErrors();
 
         $models = new OrderedCatalogModelAdderService();

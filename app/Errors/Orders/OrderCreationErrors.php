@@ -8,7 +8,6 @@ namespace App\Errors\Orders;
  */
 final class OrderCreationErrors
 {
-    public const ERROR_USER_ALREADY_HAVE_CURRENT_ORDER = 1;
     private int $errors = 0;
 
     /**
@@ -19,15 +18,6 @@ final class OrderCreationErrors
     public function add(int $error) : void
     {
         $this->errors |= $error;
-    }
-
-    /**
-     * Returns true if occurred an error because base model
-     * already exists (not unique)
-     */
-    public function isAlreadyExist() : bool
-    {
-        return ($this->errors & static::ERROR_BASE_MODEL_ALREADY_EXIST) !== 0;
     }
 
     /**
