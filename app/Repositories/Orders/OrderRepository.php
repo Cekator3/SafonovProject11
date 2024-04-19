@@ -2,13 +2,12 @@
 
 namespace App\Repositories\Orders;
 
+use stdClass;
 use App\Enums\OrderStatus;
-use Illuminate\Database\UniqueConstraintViolationException;
 use Illuminate\Support\Facades\DB;
 use App\DTOs\Orders\History\OrderDTO;
 use App\Errors\Orders\OrderCreationErrors;
 use App\DTOs\Orders\History\OrderItemListDTO;
-use stdClass;
 
 /**
  * Subsystem for interaction with stored information on user's orders
@@ -31,6 +30,8 @@ class OrderRepository
         $entry = DB::table('orders')->where('status', '<>', OrderStatus::Completed)
                            ->select('id')
                            ->first();
+        if ($entry === null)
+            return null;
         return $entry->id;
     }
 
@@ -86,7 +87,7 @@ class OrderRepository
      *
      * @param int $orderId Identifier of created order.
      */
-    public function add(int $userId, int &$orderId, OrderCreationErrors $errors) : void
+    public function add(int $userId, int|null &$orderId, OrderCreationErrors $errors) : void
     {
         $orderId = DB::table('orders')->insertGetId([
             'customer_id' => $userId,

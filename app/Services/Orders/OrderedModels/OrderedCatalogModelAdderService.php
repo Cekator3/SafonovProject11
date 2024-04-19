@@ -46,7 +46,7 @@ class OrderedCatalogModelAdderService
     private function ensureNotExistInUserOrder(OrderedCatalogModelViewModel $model,
                                                int $userId,
                                                int $orderId,
-                                               UserInputErrors $errors) : bool
+                                               UserInputErrors $errors) : void
     {
         $models = new OrderedModelRepository();
         if ($models->exists($model, $userId, $orderId))

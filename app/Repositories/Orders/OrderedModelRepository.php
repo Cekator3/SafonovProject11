@@ -3,6 +3,7 @@
 namespace App\Repositories\Orders;
 
 use App\DTOs\Admin\FilamentTypes\FilamentTypeCharacteristics;
+use Illuminate\Database\UniqueConstraintViolationException;
 use Illuminate\Support\Facades\DB;
 use App\Errors\Orders\OrderedModelUpdateErrors;
 use App\Errors\Orders\OrderModelAdditionErrors;
@@ -288,6 +289,7 @@ class OrderedModelRepository
      */
     public function exists(OrderedCatalogModelViewModel $model, int $userId, int $orderId) : bool
     {
+        return false;
         // ...
     }
 
@@ -303,7 +305,24 @@ class OrderedModelRepository
                         int $orderId,
                         OrderModelAdditionErrors $errors) : void
     {
-        // ...
+        try
+        {
+            DB::table('ordered_models')->insert([
+                'order_id' => $orderId,
+                'model_id' => $model->modelId,
+                'model_size_id' => $model->modelSizeId,
+                'printing_technology_id' => $model->printingTechnologyId,
+                'filament_type_id' => $model->filamentTypeId,
+                'color_id' => $model->colorId,
+                'amount' => $model->amount,
+                'is_holed' => $model->isHoled,
+                'is_parted' => $model->isParted
+            ]);
+        }
+        catch (UniqueConstraintViolationException $e)
+        {
+            $errors->add(OrderModelAdditionErrors::ERROR_MODEL_ALREADY_IN_ORDER);
+        }
     }
 
     /**

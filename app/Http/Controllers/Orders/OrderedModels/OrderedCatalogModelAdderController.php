@@ -36,12 +36,12 @@ class OrderedCatalogModelAdderController
         $model->modelSizeId = $request->integer('model-size');
         $model->printingTechnologyId = $request->integer('printing-technology');
         $model->filamentTypeId = $request->integer('filament-type');
-        $model->isHoled = $request->string('holedness') === 'holed';
-        $model->isParted = $request->string('partedness') === 'parted';
+        $model->isHoled = $request->string('holedness') == 'holed';
+        $model->isParted = $request->string('partedness') == 'parted';
         $model->colorId = $request->integer('color');
         $model->amount = $request->integer('amount');
         $res = [];
-        foreach ($request->input('additional-services') as $additionalServiceId)
+        foreach ($request->input('additional-services', []) as $additionalServiceId)
         {
             $res []= (int) $additionalServiceId;
         }
