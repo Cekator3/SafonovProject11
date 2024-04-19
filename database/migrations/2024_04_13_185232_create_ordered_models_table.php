@@ -46,7 +46,6 @@ return new class extends Migration
             $table->foreign('color_id')
                   ->references('id')->on('colors')
                   ->onDelete('restrict');
-            $table->unique(['order_id', 'model_id', 'model_size_id', 'printing_technology_id', 'filament_type_id', 'color_id', 'is_parted', 'is_holed']);
         });
     }
 

@@ -273,26 +273,66 @@ class OrderedModelRepository
     }
 
     /**
+     * Returns true if the ordered model belongs to user
+     */
+    public function isBelongToUser(int $orderedModelId, int $userId) : bool
+    {
+        return DB::table('ordered_models AS om')
+                    ->join('orders AS o', 'om.order_id', '=', 'o.id')
+                    ->where('om.id', '=', $orderedModelId)
+                    ->where('o.customer_id', '=', $userId)
+                    ->exists();
+    }
+
+    /**
      * Removes a model from the order.
      *
      * @param int $id Ordered model's identifier
-     * @param int $userId Identifier of the user whose ordered model will be removed
-     * @param int $orderId Identifier of the order from which the model will be removed
      */
-    public function remove(int $id, int $userId, int $orderId) : void
+    public function remove(int $id) : void
     {
-        DB::table('ordered_models')->where('order_id', '=', $orderId)
-                                   ->where('user_id', '=', $userId)
-                                   ->delete($id);
+        DB::table('ordered_models')->delete($id);
+    }
+
+    private function isListsHasSameValues(array $list1, array $list2) : bool
+    {
+        return (count($list1) === count($list2)) && (! array_diff($list1, $list2));
+    }
+
+    /**
+     * @return int[]
+     */
+    private function getAdditionalServicesOfOrderedModel(int $orderedModelId) : array
+    {
+        return DB::table('additional_services_of_ordered_models')
+                    ->where('ordered_model_id', '=', $orderedModelId)
+                    ->pluck('additional_service_id')
+                    ->toArray();
     }
 
     /**
      * Checks if the model with given configuration is in the user's order
      */
-    public function exists(OrderedCatalogModelViewModel $model, int $userId, int $orderId) : bool
+    public function exists(OrderedCatalogModelViewModel $model, int $orderId) : bool
     {
-        return false;
-        // ...
+        $orderedModelId = DB::table('ordered_models')->whereAll([
+            ['order_id', '=', $orderId],
+            ['model_id', '=', $model->modelId],
+            ['model_size_id', '=', $model->modelSizeId],
+            ['printing_technology_id', '=', $model->printingTechnologyId],
+            ['filament_type_id', '=', $model->filamentTypeId],
+            ['color_id', '=', $model->colorId],
+            ['is_parted', '=', $model->isParted],
+            ['is_holed', '=', $model->isHoled],
+        ])->first(['id']);
+
+        $orderedModelId = +$orderedModelId->id;
+
+        if ($orderedModelId === null)
+            return false;
+
+        $currAdditionalServices = $this->getAdditionalServicesOfOrderedModel($orderedModelId);
+        return $this->isListsHasSameValues($model->additionalServices, $currAdditionalServices);
     }
 
     /**
@@ -351,7 +391,9 @@ class OrderedModelRepository
     {
         try
         {
-            DB::table('ordered_models')->update([
+            DB::table('ordered_models')
+                        ->where('id', '=', $orderedModelId)
+                        ->update([
                 'model_size_id' => $model->modelSizeId,
                 'printing_technology_id' => $model->printingTechnologyId,
                 'filament_type_id' => $model->filamentTypeId,
@@ -360,6 +402,22 @@ class OrderedModelRepository
                 'is_holed' => $model->isHoled,
                 'is_parted' => $model->isParted
             ]);
+
+            // here i should use transactions but the code is ugly already.
+            // So i will save it for later
+            DB::table('additional_services_of_ordered_models')
+                            ->where('ordered_model_id', '=', $orderedModelId)
+                            ->delete();
+
+            $additionalServicesData = [];
+            foreach ($model->additionalServices as $additionalServiceId)
+            {
+                $additionalServicesData []= [
+                    'ordered_model_id' => $orderedModelId,
+                    'additional_service_id' => $additionalServiceId
+                ];
+            }
+            DB::table('additional_services_of_ordered_models')->insert($additionalServicesData);
         }
         catch (UniqueConstraintViolationException $e)
         {
