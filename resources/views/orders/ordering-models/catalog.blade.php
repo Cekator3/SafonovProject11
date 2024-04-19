@@ -229,7 +229,6 @@
                                                    :placeholder=" $additionalService->getName() "
                                                    :id=" 'additional-service-'.$additionalService->getPrice() "
                                                    value="{{ $additionalService->getId() }}"
-                                                   required
                     />
                     <figure>
                         <img loading="lazy" src="{{ $additionalService->getPreviewImageUrl() }}" alt="">

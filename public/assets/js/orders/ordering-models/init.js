@@ -11,10 +11,11 @@ for (let printingTechnology of printingTechnologies)
     printingTechnology.addEventListener('change', (event) =>
     {
         let printingTechnologyId = +event.target.value;
-        let supportedFilamentTypesIds = SupportedFilamentTypesGet(printingTechnologyId);
 
         let selectedFilamentTypeId = SelectedFilamentTypeGet();
-        if (supportedFilamentTypesIds.includes(selectedFilamentTypeId))
+        let supportedFilamentTypesIds = SupportedFilamentTypesGet(printingTechnologyId);
+
+        if (! supportedFilamentTypesIds.includes(selectedFilamentTypeId))
             SelectedFilamentTypeUnselect(selectedFilamentTypeId);
 
         VisibleFilamentTypesSet(supportedFilamentTypesIds);

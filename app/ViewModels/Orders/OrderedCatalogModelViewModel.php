@@ -18,6 +18,10 @@ class OrderedCatalogModelViewModel
     public int $colorId;
     public bool $isHoled;
     public bool $isParted;
+    /**
+     * @var int[]
+     */
+    public array $additionalServices;
 
     /**
      * @var string $amountInputName the name of the input.

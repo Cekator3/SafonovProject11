@@ -8,7 +8,7 @@ use App\Repositories\Orders\OrderRepository;
 use App\Errors\Orders\OrderModelAdditionErrors;
 use App\Repositories\Orders\OrderedModelRepository;
 use App\ViewModels\Orders\OrderedCatalogModelViewModel;
-use App\Services\Orders\UserInputValidation\OrderedModelAmountValidationService;
+use App\Services\Orders\OrderedModels\UserInputValidation\OrderedModelAmountValidationService;
 
 /**
  * Subsystem for adding a catalog model to the user's current order.
@@ -29,6 +29,19 @@ class OrderedCatalogModelAdderService
     {
         $orders = new OrderRepository();
         return $orders->getCurrentOrderId($userId);
+    }
+
+    private function ensureNotExistInUserOrder(OrderedCatalogModelViewModel $model,
+                                               int $userId,
+                                               int $orderId,
+                                               UserInputErrors $errors) : bool
+    {
+        $models = new OrderedModelRepository();
+        if ($models->exists($model, $userId, $orderId))
+        {
+            $errMessage = 'Модель с такой же конфигурацией уже существует в заказе';
+            $errors->add($model->generalErrorsName, $errMessage);
+        }
     }
 
     private function addModelToUserOrder(OrderedCatalogModelViewModel $model,
@@ -63,12 +76,17 @@ class OrderedCatalogModelAdderService
     {
         $this->validateUserInput($model, $errors);
 
+        if ($errors->hasAny())
+            return;
+
         // 2 Check if user already ordered model with exact same configuration
         $userId = Auth::user()->id;
         $orderId = $this->getUserCurrentOrderId($userId);
 
-        $models = new OrderedModelRepository();
-        $models->exists($model, $userId, $orderId);
+        $this->ensureNotExistInUserOrder($model, $userId, $orderId, $errors);
+
+        if ($errors->hasAny())
+            return;
 
         // 3 Add model to the user's current order
         $this->addModelToUserOrder($model, $orderId, $errors);

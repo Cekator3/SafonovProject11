@@ -31,7 +31,22 @@ class OrderedCatalogModelAdderController
     public function getUserInput(Request $request, int $baseModelId) : OrderedCatalogModelViewModel
     {
         $model = new OrderedCatalogModelViewModel();
-        // ...
+        $model->amount = 1;
+        $model->modelId = $baseModelId;
+        $model->modelSizeId = $request->integer('model-size');
+        $model->printingTechnologyId = $request->integer('printing-technology');
+        $model->filamentTypeId = $request->integer('filament-type');
+        $model->isHoled = $request->string('holedness') === 'holed';
+        $model->isParted = $request->string('partedness') === 'parted';
+        $model->colorId = $request->integer('color');
+        $res = [];
+        foreach ($request->input('additional-services') as $additionalServiceId)
+        {
+            $res []= (int) $additionalServiceId;
+        }
+        $model->additionalServices = $res;
+        $model->amountInputName = 'blah';
+        $model->generalErrorsName = 'blah';
         return $model;
     }
 
@@ -41,7 +56,6 @@ class OrderedCatalogModelAdderController
     public function addCatalogModelToOrder(Request $request, int $baseModelId) : RedirectResponse
     {
         $model = $this->getUserInput($request, $baseModelId);
-        dd($request->input());
         $errors = new UserInputErrors();
 
         $models = new OrderedCatalogModelAdderService();

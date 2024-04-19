@@ -2,6 +2,7 @@
 
 namespace App\Services\Orders\OrderedModels;
 
+use App\Errors\Orders\OrderCreationErrors;
 use App\Repositories\Images\BaseModelThumbnailRepository;
 use Illuminate\Support\Facades\Auth;
 use App\DTOs\Orders\ShoppingCart\ModelDTO;
@@ -25,7 +26,19 @@ class OrderedModelGetterService
     private function getUserCurrentOrderId(int $userId) : int|null
     {
         $orders = new OrderRepository();
-        return $orders->getCurrentOrderId($userId);
+        $orderId =  $orders->getCurrentOrderId($userId);
+
+        if (!is_null($orderId))
+            return $orderId;
+
+        // Create new order for user
+        $creationErrors = new OrderCreationErrors();
+        $orders->add($userId, $orderId, $creationErrors);
+
+        if ($creationErrors->isAlreadyExist())
+            $orderId = $orders->getCurrentOrderId($userId);
+
+        assert(!is_null($orderId), 'Order id should not be null at this point');
     }
 
     /**
