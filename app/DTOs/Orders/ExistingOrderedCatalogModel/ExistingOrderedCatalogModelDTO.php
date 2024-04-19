@@ -11,7 +11,6 @@ final class ExistingOrderedCatalogModelDTO
     private int $orderedModelId;
     private int $baseModelId;
     private string $baseModelName;
-    private int $userId;
     private int $amount;
     /**
      * @var PrintingTechnologyWithPriceDTO[]

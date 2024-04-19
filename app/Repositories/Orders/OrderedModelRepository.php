@@ -2,7 +2,9 @@
 
 namespace App\Repositories\Orders;
 
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
+use App\DTOs\Orders\ShoppingCart\ModelDTO;
 use App\Errors\Orders\OrderedModelUpdateErrors;
 use App\Errors\Orders\OrderModelAdditionErrors;
 use App\DTOs\Orders\ShoppingCart\ShoppingCartDTO;
@@ -16,6 +18,7 @@ use App\DTOs\Orders\NewOrderedCatalogModel\NewOrderedCatalogModelDTO;
 use App\DTOs\Orders\NewOrderedCatalogModel\AdditionalServiceWithPriceDTO;
 use App\DTOs\Orders\NewOrderedCatalogModel\PrintingTechnologyWithPriceDTO;
 use App\DTOs\Orders\ExistingOrderedCatalogModel\ExistingOrderedCatalogModelDTO;
+use stdClass;
 
 /**
  * Subsystem for interaction with stored information on order's models.
@@ -41,11 +44,11 @@ class OrderedModelRepository
     }
 
     /**
-     * @return PrintingTechnologyWithPriceDTO[]
+     * @return Collection
      */
-    private function getPrintingTechnologiesWithPrices(int $baseModelId) : array
+    private function getPrintingTechnologiesEntries(int $baseModelId) : Collection
     {
-        $entries = DB::table('printing_technologies AS pt')
+        return DB::table('printing_technologies AS pt')
                      ->leftJoinLateral(
                             DB::table('printing_technologies_prices')
                               ->whereColumn('printing_technology_id', '=', 'pt.id')
@@ -55,6 +58,14 @@ class OrderedModelRepository
                         , 'p')
                      ->select(['pt.id AS id', 'pt.name AS name', 'pt.description AS description', 'p.price AS price'])
                      ->get();
+    }
+
+    /**
+     * @return PrintingTechnologyWithPriceDTO[]
+     */
+    private function getPrintingTechnologiesForAddingCatalogModelToOrder(int $baseModelId) : array
+    {
+        $entries = $this->getPrintingTechnologiesEntries($baseModelId);
 
         $result = [];
         foreach ($entries as $entry)
@@ -71,11 +82,29 @@ class OrderedModelRepository
     }
 
     /**
-     * @return FilamentTypeWithPriceDTO[]
+     * @return \App\DTOs\Orders\ExistingOrderedCatalogModel\PrintingTechnologyWithPriceDTO[]
      */
-    private function getFilamentTypesWithPrices(int $baseModelId) : array
+    private function getPrintingTechnologiesForUpdatingCatalogModelInOrder(int $baseModelId, int $selectedPrintingTechnologyId) : array
     {
-        $entries = DB::table('filament_types AS ft')
+        $entries = $this->getPrintingTechnologiesEntries($baseModelId);
+
+        $result = [];
+        foreach ($entries as $entry)
+        {
+            $id = $entry->id;
+            $name = $entry->name;
+            $description = $entry->description;
+            $price = $entry->price ?? 0.0;
+            $supportedFilamentTypes = $this->getSupportedFilamentTypes($id);
+
+            $result []= new \App\DTOs\Orders\ExistingOrderedCatalogModel\PrintingTechnologyWithPriceDTO($id, $name, $description, $id === $selectedPrintingTechnologyId, $supportedFilamentTypes, $price);
+        }
+        return $result;
+    }
+
+    private function getFilamentTypesEntries(int $baseModelId) : Collection
+    {
+        return DB::table('filament_types AS ft')
                      ->leftJoinLateral(
                             DB::table('filament_types_prices')
                               ->whereColumn('filament_type_id', '=', 'ft.id')
@@ -95,7 +124,14 @@ class OrderedModelRepository
                                'ft.food_contact_allowed AS food_contact_allowed',
                                'p.price AS price'])
                      ->get();
+    }
 
+    /**
+     * @return FilamentTypeWithPriceDTO[]
+     */
+    private function getFilamentTypesForAddingCatalogModelToOrder(int $baseModelId) : array
+    {
+        $entries = $this->getFilamentTypesEntries($baseModelId);
         $result = [];
         foreach ($entries as $entry)
         {
@@ -119,13 +155,36 @@ class OrderedModelRepository
     }
 
     /**
-     * Returns all colors with their price for base models (if exists).
-     * @return ColorWithPriceDTO[]
+     * @return \App\DTOs\Orders\ExistingOrderedCatalogModel\FilamentTypeWithPriceDTO[]
      */
-    private function getColorsWithPrices(int $baseModelId) : array
+    private function getFilamentTypesForUpdatingCatalogModelInOrder(int $baseModelId, int $selectedFilamentTypeId) : array
     {
+        $entries = $this->getFilamentTypesEntries($baseModelId);
+        $result = [];
+        foreach ($entries as $entry)
+        {
+            $id = $entry->id;
+            $name = $entry->name;
+            $description = $entry->description;
+            $price = $entry->price;
+            $strength = $entry->strength;
+            $hardness = $entry->hardness;
+            $impactResistance = $entry->impact_resistance;
+            $durability = $entry->durability;
+            $minWorkTemperature = $entry->min_work_temperature;
+            $maxWorkTemperature = $entry->max_work_temperature;
+            $isFoodContactAllowed = $entry->food_contact_allowed;
 
-        $entries = DB::table('colors AS c')
+            $characteristics = new FilamentTypeCharacteristics($strength, $hardness, $impactResistance, $durability, $minWorkTemperature, $maxWorkTemperature, $isFoodContactAllowed);
+
+            $result []= new \App\DTOs\Orders\ExistingOrderedCatalogModel\FilamentTypeWithPriceDTO($id, $name, $description, $id === $selectedFilamentTypeId, $characteristics, $price);
+        }
+        return $result;
+    }
+
+    private function getColorsEntries(int $baseModelId) : Collection
+    {
+        return DB::table('colors AS c')
                      ->leftJoinLateral(
                             DB::table('colors_prices')
                               ->whereColumn('color_id', '=', 'c.id')
@@ -135,7 +194,15 @@ class OrderedModelRepository
                         , 'p')
                      ->select(['c.id AS id', 'c.code AS code', 'p.price AS price'])
                      ->get();
+    }
 
+    /**
+     * Returns all colors with their price for base models (if exists).
+     * @return ColorWithPriceDTO[]
+     */
+    private function getColorsForAddingCatalogModelToOrder(int $baseModelId) : array
+    {
+        $entries = $this->getColorsEntries($baseModelId);
         $result = [];
         foreach ($entries as $entry)
         {
@@ -149,15 +216,37 @@ class OrderedModelRepository
     }
 
     /**
-     * @return ModelSizeWithPriceDTO[]
+     * @return \App\DTOs\Orders\ExistingOrderedCatalogModel\ColorWithPriceDTO[]
      */
-    private function getModelSizesWithPrices(int $baseModelId) : array
+    private function getColorsForUpdatingCatalogModelInOrder(int $baseModelId, int $selectedColorId) : array
     {
-        $entries = DB::table('models_sizes AS s')
+        $entries = $this->getColorsEntries($baseModelId);
+        $result = [];
+        foreach ($entries as $entry)
+        {
+            $id = $entry->id;
+            $code = $entry->code;
+            $price = $entry->price ?? 0.0;
+
+            $result []= new \App\DTOs\Orders\ExistingOrderedCatalogModel\ColorWithPriceDTO($id, $code, $id === $selectedColorId, $price);
+        }
+        return $result;
+    }
+
+    private function getModelSizesEntries(int $baseModelId) : Collection
+    {
+        return DB::table('models_sizes AS s')
                      ->where('s.model_id', '=', $baseModelId)
                      ->select(['s.id AS id', 's.size_multiplier AS size_multiplier', 's.length AS length', 's.width AS width', 's.height AS height', 's.price AS price'])
                      ->get();
+    }
 
+    /**
+     * @return ModelSizeWithPriceDTO[]
+     */
+    private function getModelSizesForAddingCatalogModelToOrder(int $baseModelId) : array
+    {
+        $entries = $this->getModelSizesEntries($baseModelId);
         $result = [];
         foreach ($entries as $entry)
         {
@@ -174,24 +263,51 @@ class OrderedModelRepository
     }
 
     /**
-     * @return AdditionalServiceWithPriceDTO[]
+     * @return \App\DTOs\Orders\ExistingOrderedCatalogModel\ModelSizeWithPriceDTO[]
      */
-    private function getAdditionalServicesWithPrices(int $baseModelId) : array
+    private function getModelSizesForUpdatingCatalogModelInOrder(int $baseModelId, int $selectedModelSizeId) : array
     {
-        $entries = DB::table('additional_services AS s')
-                     ->leftJoinLateral(
-                            DB::table('additional_services_prices')
-                              ->whereColumn('additional_service_id', '=', 's.id')
-                              ->where('model_id', '=', $baseModelId)
-                              ->select(['price'])
-                              ->limit(1)
-                        , 'p')
-                     ->select(['s.id AS id', 's.name AS name', 's.description AS description', 's.preview_image AS preview_image', 'p.price AS price'])
-                     ->get();
-
+        $entries = $this->getModelSizesEntries($baseModelId);
         $result = [];
         foreach ($entries as $entry)
         {
+            $id = $entry->id;
+            $isSelected = $id === $selectedModelSizeId;
+            $multiplier = $entry->size_multiplier;
+            $length = $entry->length;
+            $width = $entry->width;
+            $height = $entry->height;
+            $price = $entry->price ?? 0.0;
+
+            $result []= new \App\DTOs\Orders\ExistingOrderedCatalogModel\ModelSizeWithPriceDTO($id, $isSelected, $multiplier, $length, $width, $height, $price);
+        }
+        return $result;
+    }
+
+    private function getAdditionalServicesEntries(int $baseModelId) : Collection
+    {
+        return DB::table('additional_services AS s')
+                 ->leftJoinLateral(
+                     DB::table('additional_services_prices')
+                         ->whereColumn('additional_service_id', '=', 's.id')
+                         ->where('model_id', '=', $baseModelId)
+                         ->select(['price'])
+                         ->limit(1)
+                 , 'p')
+                 ->select(['s.id AS id', 's.name AS name', 's.description AS description', 's.preview_image AS preview_image', 'p.price AS price'])
+                 ->get();
+    }
+
+    /**
+     * @return AdditionalServiceWithPriceDTO[]
+     */
+    private function getAdditionalServicesForAddingCatalogModelToOrder(int $baseModelId) : array
+    {
+        $entries = $this->getAdditionalServicesEntries($baseModelId);
+        $result = [];
+        foreach ($entries as $entry)
+        {
+            // getModelSizesForAddingCatalogModelToOrder
             $id = $entry->id;
             $name = $entry->name;
             $description = $entry->description;
@@ -204,6 +320,39 @@ class OrderedModelRepository
     }
 
     /**
+     * @param int[] $selectedAdditionalServicesIds
+     * @return \App\DTOs\Orders\ExistingOrderedCatalogModel\AdditionalServiceWithPriceDTO[]
+     */
+    private function getAdditionalServicesForUpdatingCatalogModelInOrder(int $baseModelId, array $selectedAdditionalServicesIds) : array
+    {
+        $entries = $this->getAdditionalServicesEntries($baseModelId);
+        $result = [];
+        foreach ($entries as $entry)
+        {
+            $id = $entry->id;
+            $isSelected = in_array($baseModelId, $selectedAdditionalServicesIds, true);
+            $name = $entry->name;
+            $description = $entry->description;
+            $previewImage = $entry->preview_image;
+            $price = $entry->price ?? 0.0;
+
+            $result []= new \App\DTOs\Orders\ExistingOrderedCatalogModel\AdditionalServiceWithPriceDTO($id, $name, $description, $isSelected, $previewImage, $price);
+        }
+        return $result;
+    }
+
+    /**
+     * @return int[]
+     */
+    private function getAdditionalServicesOfOrderedModel(int $orderedModelId) : array
+    {
+        return DB::table('additional_services_of_ordered_models')
+                    ->where('ordered_model_id', '=', $orderedModelId)
+                    ->pluck('additional_service_id')
+                    ->toArray();
+    }
+
+    /**
      * Fetches a model from order.
      *
      * Returns null if ordered model not exists
@@ -211,9 +360,55 @@ class OrderedModelRepository
      *
      * @param int $id Ordered model's identifier
      */
-    public function get(int $id, int $userId) : ExistingOrderedCatalogModelDTO | null
+    public function get(int $id) : ExistingOrderedCatalogModelDTO | null
     {
-        // ...
+        $entry = DB::table('ordered_models AS om')
+                   ->join('models AS m', 'm.id', '=', 'om.model_id')
+                   ->find($id)
+                   ->first([
+                        'om.id AS ordered_model_id',
+                        'om.model_id AS model_id',
+                        'm.name AS model_name',
+                        'om.amount AS amount',
+                        'om.is_holed AS is_holed',
+                        'om.is_parted AS is_parted',
+                        'm.price_holed AS price_holed',
+                        'm.price_solid AS price_solid',
+                        'm.price_parted AS price_parted',
+                        'm.price_not_parted AS price_not_parted',
+
+                        'om.printing_technology_id AS selected_printing_technology_id',
+                        'om.filament_type_id AS selected_filament_type_id',
+                        'om.color_id AS selected_color_id',
+                        'om.model_size_id AS selected_model_size_id'
+                   ]);
+
+        if ($entry === null)
+            return null;
+
+        $selectedAdditionalServices = $this->getAdditionalServicesOfOrderedModel($id);
+
+        $printingTechnologies = $this->getPrintingTechnologiesForUpdatingCatalogModelInOrder($entry->model_id, $entry->selected_printing_technology_id);
+        $filamentTypes = $this->getFilamentTypesForUpdatingCatalogModelInOrder($entry->model_id, $entry->selected_filament_type_id);
+        $colors = $this->getColorsForUpdatingCatalogModelInOrder($entry->model_id, $entry->selected_color_id);
+        $modelSizes = $this->getModelSizesForUpdatingCatalogModelInOrder($entry->model_id, $entry->selected_model_size_id);
+        $additionalServices = $this->getAdditionalServicesForUpdatingCatalogModelInOrder($entry->model_id, $selectedAdditionalServices);
+
+        return new ExistingOrderedCatalogModelDTO($id,
+                                                  $entry->model_id,
+                                                  $entry->model_name,
+                                                  $entry->amount,
+                                                  $printingTechnologies,
+                                                  $filamentTypes,
+                                                  $colors,
+                                                  $modelSizes,
+                                                  $additionalServices,
+                                                  $entry->is_holed,
+                                                  $entry->is_parted,
+                                                  $entry->price_holed,
+                                                  $entry->price_solid,
+                                                  $entry->price_parted,
+                                                  $entry->price_not_parted);
     }
 
     /**
@@ -234,11 +429,11 @@ class OrderedModelRepository
 
         $id = $modelId;
         $name = $entry->name;
-        $printingTechnologies = $this->getPrintingTechnologiesWithPrices($modelId);
-        $filamentTypes = $this->getFilamentTypesWithPrices($modelId);
-        $colors = $this->getColorsWithPrices($modelId);
-        $modelSizes = $this->getModelSizesWithPrices($modelId);
-        $additionalServices = $this->getAdditionalServicesWithPrices($modelId);
+        $printingTechnologies = $this->getPrintingTechnologiesForAddingCatalogModelToOrder($modelId);
+        $filamentTypes = $this->getFilamentTypesForAddingCatalogModelToOrder($modelId);
+        $colors = $this->getColorsForAddingCatalogModelToOrder($modelId);
+        $modelSizes = $this->getModelSizesForAddingCatalogModelToOrder($modelId);
+        $additionalServices = $this->getAdditionalServicesForAddingCatalogModelToOrder($modelId);
         $priceHoled = $entry->price_holed;
         $priceSolid = $entry->price_solid;
         $priceParted = $entry->price_parted;
@@ -257,8 +452,113 @@ class OrderedModelRepository
     }
 
     /**
+     * @return ModelDTO[]
+     */
+    private function getShoppingCartItems(int $orderId) : array
+    {
+        // shopping_cart_items.sql
+        $entries = DB::select(
+            'SELECT
+                om.id               AS ordered_model_id,
+                m.name              AS name,
+                m.preview_image     AS thumbnail,
+                om.amount           AS amount,
+
+                CASE
+                    WHEN om.is_parted AND om.is_holed THEN
+                        om.amount * (price + m.price_parted + m.price_holed)
+                    WHEN om.is_parted AND NOT om.is_holed THEN
+                        om.amount * (price + m.price_parted + m.price_solid)
+                    WHEN NOT om.is_parted AND om.is_holed THEN
+                        om.amount * (price + m.price_not_parted + m.price_holed)
+                    ELSE
+                        om.amount * (price + m.price_not_parted + m.price_solid)
+                END AS price
+
+            FROM
+                ordered_models AS om
+
+                JOIN models AS m
+                    ON m.id = om.model_id
+
+                -- Calculating printing prices
+                CROSS JOIN LATERAL (
+                    SELECT
+                        SUM(price) AS price
+                    FROM
+                    (
+                        -- model size price
+                        (SELECT
+                            price
+                        FROM
+                            models_sizes AS ms
+                        WHERE
+                            ms.id = om.model_size_Id
+                        LIMIT 1)
+
+                        UNION ALL
+
+                        -- printing technology price
+                        (SELECT
+                            price
+                        FROM
+                            printing_technologies_prices AS ptp
+                        WHERE
+                            ptp.printing_technology_id = om.printing_technology_id AND
+                            ptp.model_id = om.model_id
+                        LIMIT 1)
+
+                        UNION ALL
+
+                        -- Filament type price
+                        (SELECT
+                            price
+                        FROM
+                            filament_types_prices AS ftp
+                        WHERE
+                            ftp.filament_type_id = om.filament_type_id AND
+                            ftp.model_id = om.model_id
+                        LIMIT 1)
+
+                        UNION ALL
+
+                        -- Color price
+                        (SELECT
+                            price
+                        FROM
+                            colors_prices AS cp
+                        WHERE
+                            cp.color_id = om.color_id AND
+                            cp.model_id = om.model_id
+                        LIMIT 1)
+
+                        UNION ALL
+
+                        -- Additional services prices
+                        (SELECT
+                            SUM(asp.price) AS price
+
+                        FROM
+                            additional_services_of_ordered_models AS asom
+                            JOIN
+                                additional_services_prices AS asp
+                            ON
+                                asp.additional_service_id = asom.additional_service_id
+
+                        WHERE
+                            asom.ordered_model_id = om.id AND
+                            asp.model_id = om.model_id)
+                    )
+                )
+
+            WHERE
+                om.order_id = ?;', [$orderId]
+        );
+    }
+
+    /**
      * Retrieves all models from order to display them in
-     * shopping cart.
+     * shopping cart. Returns null if order do not exist.
      *
      * @return ShoppingCartDTO
      *
@@ -267,9 +567,15 @@ class OrderedModelRepository
      * print masters functionalities - another,
      * customers - another.
      */
-    public function getAllAsShoppingCart(int $userId, int $orderId) : ShoppingCartDTO
+    public function getAllAsShoppingCart(int $orderId) : ShoppingCartDTO | null
     {
-        // ...
+        $entry = DB::table('orders')->find($orderId)->first('status');
+        if ($entry === null)
+            return null;
+
+        $status = $entry->status;
+        $models = $this->getShoppingCartItems($orderId);
+        return new ShoppingCartDTO($status, $models);
     }
 
     /**
@@ -297,17 +603,6 @@ class OrderedModelRepository
     private function isListsHasSameValues(array $list1, array $list2) : bool
     {
         return (count($list1) === count($list2)) && (! array_diff($list1, $list2));
-    }
-
-    /**
-     * @return int[]
-     */
-    private function getAdditionalServicesOfOrderedModel(int $orderedModelId) : array
-    {
-        return DB::table('additional_services_of_ordered_models')
-                    ->where('ordered_model_id', '=', $orderedModelId)
-                    ->pluck('additional_service_id')
-                    ->toArray();
     }
 
     /**
@@ -403,12 +698,6 @@ class OrderedModelRepository
                 'is_parted' => $model->isParted
             ]);
 
-            // here i should use transactions but the code is ugly already.
-            // So i will save it for later
-            DB::table('additional_services_of_ordered_models')
-                            ->where('ordered_model_id', '=', $orderedModelId)
-                            ->delete();
-
             $additionalServicesData = [];
             foreach ($model->additionalServices as $additionalServiceId)
             {
@@ -417,7 +706,14 @@ class OrderedModelRepository
                     'additional_service_id' => $additionalServiceId
                 ];
             }
+
+            DB::beginTransaction();
+            DB::table('additional_services_of_ordered_models')
+                            ->where('ordered_model_id', '=', $orderedModelId)
+                            ->delete();
+
             DB::table('additional_services_of_ordered_models')->insert($additionalServicesData);
+            DB::commit();
         }
         catch (UniqueConstraintViolationException $e)
         {

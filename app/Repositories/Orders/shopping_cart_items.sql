@@ -28,50 +28,54 @@ FROM
         FROM
         (
             -- model size price
-            SELECT
+            (SELECT
                 price
             FROM
                 models_sizes AS ms
             WHERE
                 ms.id = om.model_size_Id
+            LIMIT 1)
 
             UNION ALL
 
             -- printing technology price
-            SELECT
+            (SELECT
                 price
             FROM
                 printing_technologies_prices AS ptp
             WHERE
                 ptp.printing_technology_id = om.printing_technology_id AND
                 ptp.model_id = om.model_id
+            LIMIT 1)
 
             UNION ALL
 
             -- Filament type price
-            SELECT
+            (SELECT
                 price
             FROM
                 filament_types_prices AS ftp
             WHERE
                 ftp.filament_type_id = om.filament_type_id AND
                 ftp.model_id = om.model_id
+            LIMIT 1)
 
             UNION ALL
 
             -- Color price
-            SELECT
+            (SELECT
                 price
             FROM
                 colors_prices AS cp
             WHERE
                 cp.color_id = om.color_id AND
                 cp.model_id = om.model_id
+            LIMIT 1)
 
             UNION ALL
 
             -- Additional services prices
-            SELECT
+            (SELECT
                 SUM(asp.price) AS price
 
             FROM
@@ -83,9 +87,40 @@ FROM
 
             WHERE
                 asom.ordered_model_id = om.id AND
-                asp.model_id = om.model_id
+                asp.model_id = om.model_id)
         )
     )
 
 WHERE
     om.order_id = 1;
+
+SELECT
+    om.id                  AS ordered_model_id,
+    om.model_id            AS model_id,
+    m.name                 AS model_name,
+    om.amount              AS amount,
+    om.is_holed            AS is_holed,
+    om.is_parted           AS is_parted,
+    m.price_holed          AS price_holed,
+    m.price_solid          AS price_solid,
+    m.price_parted         AS price_parted,
+    m.price_not_parted     AS price_not_parted
+
+FROM
+    ordered_models AS om
+    JOIN
+        models AS m
+    ON
+        m.id = om.model_id
+
+WHERE
+    om.id = 1
+
+LIMIT 1;
+
+SELECT
+    additional_service_id
+FROM
+    additional_services_of_ordered_models
+WHERE
+    ordered_model_id = 1;

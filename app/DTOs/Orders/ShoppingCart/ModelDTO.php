@@ -7,20 +7,20 @@ namespace App\DTOs\Orders\ShoppingCart;
  */
 final class ModelDTO
 {
-    private int $id;
+    private int $orderedModelId;
     private string $name;
     private int $amount;
     private float $price;
     private string $thumbnailFilename;
     private string $thumbnailUrl;
 
-    public function __construct (int $id,
+    public function __construct (int $orderedModelId,
                                  string $name,
                                  int $amount,
                                  float $price,
                                  string $thumbnailFilename)
     {
-        $this->id = $id;
+        $this->orderedModelId = $orderedModelId;
         $this->name = $name;
         $this->amount = $amount;
         $this->price = $price;
@@ -28,7 +28,7 @@ final class ModelDTO
     }
 
     /**
-     * Returns the id of the model.
+     * Returns the id of the model in order.
      */
     public function getId() : int
     {
