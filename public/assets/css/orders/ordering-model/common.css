@@ -236,3 +236,9 @@ fieldset.additional-services > ul > li .description > figure > figcaption
     line-height: var(--main-font-height);
     font-weight: var(--main-font-weight);
 }
+
+fieldset.amount .input-field
+{
+    width: 20%;
+    min-width: 200px;
+}

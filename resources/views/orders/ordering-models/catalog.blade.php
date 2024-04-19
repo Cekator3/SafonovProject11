@@ -6,6 +6,7 @@
 {{-- Form --}}
 <link href="/assets/css/form/common.css" rel="stylesheet" type="text/css">
 <link href="/assets/css/form/fieldset.css" rel="stylesheet" type="text/css">
+<link href="/assets/css/form/text.css" rel="stylesheet" type="text/css">
 <link href="/assets/css/form/checkbox-radio.css" rel="stylesheet" type="text/css">
 <link href="/assets/css/form/star-rate-display.css" rel="stylesheet" type="text/css">
 <link href="/assets/css/form/submit.css" rel="stylesheet" type="text/css">
@@ -197,6 +198,15 @@
             </li>
         </ul>
     </fieldset>
+
+    <fieldset class="amount">
+        <legend>Количество печатаемых экземпляров</legend>
+        <x-forms.inputs.text :type=" 'number' "
+                             :name=" 'amount' "
+                             :placeholder=" 'Количество' "
+        />
+    </fieldset>
+
 
     <fieldset class="colors">
         <legend>Цвет</legend>

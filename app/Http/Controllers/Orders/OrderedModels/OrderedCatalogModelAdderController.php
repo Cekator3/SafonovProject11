@@ -39,13 +39,14 @@ class OrderedCatalogModelAdderController
         $model->isHoled = $request->string('holedness') === 'holed';
         $model->isParted = $request->string('partedness') === 'parted';
         $model->colorId = $request->integer('color');
+        $model->amount = $request->integer('amount');
         $res = [];
         foreach ($request->input('additional-services') as $additionalServiceId)
         {
             $res []= (int) $additionalServiceId;
         }
         $model->additionalServices = $res;
-        $model->amountInputName = 'blah';
+        $model->amountInputName = 'amount';
         $model->generalErrorsName = 'blah';
         return $model;
     }
@@ -56,6 +57,7 @@ class OrderedCatalogModelAdderController
     public function addCatalogModelToOrder(Request $request, int $baseModelId) : RedirectResponse
     {
         $model = $this->getUserInput($request, $baseModelId);
+        dd($model, $request->input());
         $errors = new UserInputErrors();
 
         $models = new OrderedCatalogModelAdderService();
