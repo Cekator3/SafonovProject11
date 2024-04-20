@@ -9,6 +9,7 @@
 <link href="/assets/css/links/link-button.css" rel="stylesheet" type="text/css">
 
 {{-- Specific --}}
+<link href="/assets/css/orders/ordering-model/shopping-cart.css" rel="stylesheet" type="text/css">
 @endsection
 
 @section('navigation')
@@ -24,7 +25,7 @@
 {{-- Order info --}}
 <header>
     <h1>Заказ №{!! $shoppingCart->getOrderId() !!}</h1>
-    @if (! $shoppingCart->hasAnyModels())
+    @if ($shoppingCart->hasAnyModels())
         <span class="status">{!! $shoppingCart->getOrderStatus() !!}</span>
     @endif
 </header>
@@ -50,13 +51,14 @@
     <img loading="lazy" src="{!! $model->getThumbnailUrl() !!}" alt="">
 
     <footer>
+        {{-- <data value="{!! $model->getPrice() !!}">{!! $model->getPrice() !!} ₽</data> --}}
         <p>{!! $model->getPrice() !!} ₽</p>
     </footer>
 </section>
 @endforeach
 
 {{-- Order's summary --}}
-@if (! $shoppingCart->hasAnyModels())
+@if ($shoppingCart->hasAnyModels())
 <footer>
     <p>Сумма к оплате: {!! $shoppingCart->getTotalPrice() !!} ₽</p>
     <a class="link button" href="#">Оформить заказ</a>

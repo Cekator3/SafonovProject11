@@ -43,16 +43,16 @@ final class ShoppingCartDTO
         switch ($this->orderStatus)
         {
             case OrderStatus::WaitingForPayment:
-                return 'Ожидает оплаты';
+                return 'ОЖИДАЕТ ОПЛАТЫ';
             case OrderStatus::OnExecution:
-                return 'Выполняется';
+                return 'ВЫПОЛНЯЕТСЯ';
             case OrderStatus::OnDelivery:
-                return 'В доставке';
+                return 'В ДОСТАВКЕ';
             case OrderStatus::Completed:
-                return 'Выполнен';
+                return 'ВЫПОЛНЕН';
             default:
                 assert(false, 'Unknown order status: ' . $this->orderStatus->name);
-                return 'Произошла ошибка';
+                return 'ПРОИЗОШЛА ОШИБКА';
         }
     }
 
