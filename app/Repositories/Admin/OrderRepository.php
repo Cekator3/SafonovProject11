@@ -2,6 +2,7 @@
 
 namespace App\Repositories\Admin;
 
+use App\DTOs\Admin\Orders\BaseModelInfo;
 use stdClass;
 use App\Enums\OrderStatus;
 use Illuminate\Support\Facades\DB;
@@ -16,7 +17,10 @@ class OrderRepository
 {
     public function getOrderInfo(stdClass $entry) : OrderInfo
     {
-
+        return new OrderInfo($entry->order_id,
+                             $entry->order_status,
+                             $entry->order_payed_at,
+                             $entry->order_completed_at);
     }
 
     /**
@@ -42,6 +46,13 @@ class OrderRepository
         return $result;
     }
 
+    private function getModelInfo(stdClass $entry) : BaseModelInfo
+    {
+        return new BaseModelInfo($entry->model_id,
+                                 $entry->model_name,
+                                 $entry->model_thumbnail);
+    }
+
     /**
      * Retrieves order.
      *
@@ -49,7 +60,63 @@ class OrderRepository
      */
     public function get(int $orderId) : OrderDTO | null
     {
-        // ...
+        $entries = DB::select(
+            'SELECT
+                u.email             AS user_email,
+                o.status            AS order_status,
+                o.payed_at          AS order_payed_at,
+                o.completed_at      AS order_completed_at,
+                m.id                AS model_id,
+                m.name              AS model_name,
+                m.preview_image     AS model_thumbnail,
+                pt.id               AS printing_technology_id,
+                pt.name             AS printing_technology_name,
+                ft.id               AS filament_type_id,
+                ft.name             AS filament_type_name,
+                c.code              AS color_code,
+                ms.size_multiplier  AS model_size_multiplier,
+                ms.length           AS model_length,
+                ms.width            AS model_width,
+                ms.height           AS model_height
+
+            FROM
+                ordered_models AS om
+
+                JOIN orders AS o
+                    ON o.id = om.order_id
+
+                JOIN users AS u
+                    ON u.id = o.customer_id
+
+                JOIN models AS m
+                    ON m.id = om.model_id
+
+                JOIN printing_technologies AS pt
+                    ON pt.id = om.printing_technology_id
+
+                JOIN filament_types AS ft
+                    ON ft.id = om.filament_type_id
+
+                JOIN colors AS c
+                    on c.id = om.color_id
+
+                JOIN models_sizes AS ms
+                    on ms.id = om.model_size_Id
+
+            WHERE
+                om.order_id = ?', [$orderId]);
+
+        if ($entries === null)
+            return null;
+
+        $userEmail = $entries[0]->user_email;
+
+        $entries[0]->order_id = $orderId;
+        $orderInfo = $this->getOrderInfo($entries[0]);
+        foreach ($entries as $entry)
+        {
+            $modelInfo = $this->getModelInfo($entry);
+        }
     }
 
     /**
