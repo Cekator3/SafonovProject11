@@ -2,16 +2,23 @@
 
 namespace App\Repositories\Admin;
 
+use stdClass;
 use App\Enums\OrderStatus;
 use Illuminate\Support\Facades\DB;
 use App\DTOs\Admin\Orders\OrderDTO;
-use App\DTOs\Orders\History\OrderItemListDTO;
+use App\DTOs\Admin\Orders\OrderInfo;
+use App\DTOs\Admin\Orders\OrderItemListDTO;
 
 /**
  * Subsystem for interaction with stored information on user's orders (administrator)
  */
 class OrderRepository
 {
+    public function getOrderInfo(stdClass $entry) : OrderInfo
+    {
+
+    }
+
     /**
      * Retrieves all orders.
      *
@@ -19,7 +26,20 @@ class OrderRepository
      */
     public function getAll() : array
     {
-        // ...
+        $entries = DB::table('orders AS o')->join('users AS u', 'u.id', '=', 'o.customer_id')
+                                ->get(['u.email         AS user_email',
+                                       'o.id            AS order_id',
+                                       'o.status        AS order_status',
+                                       'o.payed_at      AS order_payed_at',
+                                       'o.completed_at  AS order_completed_at']);
+
+        $result = [];
+        foreach ($entries as $entry)
+        {
+            $orderInfo = $this->getOrderInfo($entry);
+            $result []= new OrderItemListDTO($entry->user_email, $orderInfo);
+        }
+        return $result;
     }
 
     /**

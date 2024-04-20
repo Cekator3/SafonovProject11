@@ -99,7 +99,7 @@ WHERE
 -- (1) List of orders in admin's panel
 SELECT
     o.id                AS order_id,
-    u.email             AS customer_email,
+    u.email             AS user_email,
     o.status            AS order_status,
     o.payed_at          AS order_payed_at,
     o.completed_at      AS order_completed_at
