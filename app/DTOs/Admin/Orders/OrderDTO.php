@@ -12,9 +12,7 @@ class OrderDTO
     private OrderInfo $orderInfo;
     private BaseModelInfo $modelInfo;
     private PrintingTechnologyInfo $printingTechnologyInfo;
-    // Filament type's info
-    private int $filamentTypeId;
-    private string $filamentTypeName;
+    private FilamentTypeInfo $filamentTypeInfo;
     // Color's info
     private string $colorCode;
     // Model size's info
@@ -26,12 +24,16 @@ class OrderDTO
     public function __construct(string $userEmail,
                                 OrderInfo $orderInfo,
                                 BaseModelInfo $modelInfo,
-                                PrintingTechnologyInfo $printingTechnologyInfo)
+                                PrintingTechnologyInfo $printingTechnologyInfo,
+                                FilamentTypeInfo $filamentTypeInfo,
+                                string $colorCode)
     {
         $this->userEmail = $userEmail;
         $this->orderInfo = $orderInfo;
         $this->modelInfo = $modelInfo;
         $this->printingTechnologyInfo = $printingTechnologyInfo;
+        $this->filamentTypeInfo = $filamentTypeInfo;
+        $this->colorCode = $colorCode;
     }
 
     /**
@@ -129,5 +131,30 @@ class OrderDTO
     public function getPrintingTechnologyName() : string
     {
         return $this->printingTechnologyInfo->getName();
+    }
+
+
+    /**
+     * Returns the id of the filament type
+     */
+    public function getFilamentTypeId() : int
+    {
+        return $this->filamentTypeInfo->getId();
+    }
+
+    /**
+     * Returns the name of the filament type
+     */
+    public function getFilamentTypeName() : string
+    {
+        return $this->filamentTypeInfo->getName();
+    }
+
+    /**
+     * Returns the model's color as rgb CSS string
+     */
+    public function getColorAsRgbCSS() : string
+    {
+        return '#'.$this->colorCode;
     }
 }

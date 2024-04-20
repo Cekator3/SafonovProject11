@@ -3,9 +3,9 @@
 namespace App\DTOs\Admin\Orders;
 
 /**
- * A subsystem for reading application data about the printing technology (administrator)
+ * A subsystem for reading application data about the filament type (administrator)
  */
-class PrintingTechnologyInfo
+class FilamentTypeInfo
 {
     private int $id;
     private string $name;
@@ -17,7 +17,7 @@ class PrintingTechnologyInfo
     }
 
     /**
-     * Returns the id of the printing technology
+     * Returns the id of the filament type
      */
     public function getId() : int
     {
@@ -25,7 +25,7 @@ class PrintingTechnologyInfo
     }
 
     /**
-     * Returns the name of the printing technology
+     * Returns the name of the filament type
      */
     public function getName() : string
     {
