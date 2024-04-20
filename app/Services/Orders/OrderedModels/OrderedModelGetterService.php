@@ -94,7 +94,7 @@ class OrderedModelGetterService
     private function getUserCurrentOrder(int $userId) : int
     {
         $orders = new OrderRepository();
-        return $orders->getCurrentOrderId($userId);
+        return $orders->getCurrentOrderId($userId) ?? -1;
     }
 
     private function createNewOrderForUser(int $userId, int &$orderId) : void

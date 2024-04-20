@@ -16,7 +16,7 @@ class OrdersListingController
     {
         $orders = new OrdersGetterService();
 
-        return view('', ['orders' => $orders->getAll()]);
+        return view('admin.orders.listing', ['orders' => $orders->getAll()]);
     }
 
     /**
@@ -30,6 +30,6 @@ class OrdersListingController
         if ($order === null)
             abort(HttpResponseStatus::NotFound->value);
 
-        return view('', ['order' => $order]);
+        return view('admin.orders.order-details', ['order' => $order]);
     }
 }

@@ -27,7 +27,9 @@ class OrderRepository
      */
     public function getCurrentOrderId(int $userId) : int | null
     {
-        $entry = DB::table('orders')->where('status', '<>', OrderStatus::Completed)
+        $entry = DB::table('orders')
+                           ->where('status', '<>', OrderStatus::Completed)
+                           ->where('customer_id', '=', $userId)
                            ->select('id')
                            ->first();
         if ($entry === null)
