@@ -113,13 +113,13 @@ FROM
 -- (2) Order's models list for administrator
 -- Предпологаю, что order_id будет известен до запроса
 SELECT
-    u.email             AS customer_email,
+    u.email             AS user_email,
     o.status            AS order_status,
     o.payed_at          AS order_payed_at,
     o.completed_at      AS order_completed_at,
     m.id                AS model_id,
     m.name              AS model_name,
-    m.preview_image     AS model_preview_image,
+    m.preview_image     AS model_thumbnail,
     pt.id               AS printing_technology_id,
     pt.name             AS printing_technology_name,
     ft.id               AS filament_type_id,
