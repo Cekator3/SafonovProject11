@@ -14,9 +14,7 @@ class OrderDTO
     // User's info
     private string $userEmail;
     // Order's info
-    private OrderStatus $status;
-    private DateTime $payedAt;
-    private DateTime $completedAt;
+    private OrderInfo $orderInfo;
     // model's info
     private int $modelId;
     private string $modelName;
@@ -36,115 +34,51 @@ class OrderDTO
     private int $modelSizeHeight;
     private int $modelSizeWidth;
 
-    public function __construct()
+    public function __construct(string $userEmail,
+                                OrderInfo $orderInfo)
     {
-        // ...
+        $this->userEmail = $userEmail;
+        $this->orderInfo = $orderInfo;
     }
 
     /**
-     * Returns the id of the filament type
+     * Returns the user's email
      */
-    public function getId() : int
+    public function getUserEmail() : string
     {
-        return $this->id;
+        return $this->userEmail;
     }
 
     /**
-     * Returns the name of the filament type
+     * Returns the id of the order
      */
-    public function getName() : string
+    public function getOrderId() : int
     {
-        assert($this->name !== '', 'accessing not initialized property: $name');
-        return $this->name;
+        return $this->orderInfo->getId();
     }
 
     /**
-     * Returns the description of the filament type
+     * Returns the status of the order
      */
-    public function getDescription() : string
+    public function getOrderStatus() : string
     {
-        assert($this->description !== '', 'accessing not initialized property: $description');
-        return $this->description;
+        return $this->orderInfo->getStatus();
+    }
+
+
+    /**
+     * Returns the order's payment date.
+     */
+    public function getOrderPaymentDate() : string
+    {
+        return $this->orderInfo->getPaymentDate();
     }
 
     /**
-     * Returns the printing technologies in which that filament type is used
-     *
-     * @return PrintingTechnologyNameOnlyDTO[]
+     * Returns the order's completion date.
      */
-    public function getPrintingTechnologies() : array
+    public function getCompletionDate() : string
     {
-        return $this->printingTechnologies;
-    }
-
-    /**
-     * Checks if filament type is used in printing technology
-     *
-     * @return bool
-     */
-    public function isUsedInPrintingTechnology(int $printingTechnologyId) : bool
-    {
-        foreach ($this->printingTechnologies as $printingTechnology)
-        {
-            if ($printingTechnology->getId() === $printingTechnologyId)
-                return true;
-        }
-        return false;
-    }
-
-    /**
-     * Returns the strength rate of the filament type
-     */
-    public function getStrength() : int
-    {
-        return $this->characteristics->getStrength();
-    }
-
-    /**
-     * Returns the hardness rate of the filament type
-     */
-    public function getHardness() : int
-    {
-        return $this->characteristics->getHardness();
-    }
-
-    /**
-     * Returns the impact resistance rate of the filament type
-     */
-    public function getImpactResistance() : int
-    {
-        return $this->characteristics->getImpactResistance();
-    }
-
-    /**
-     * Returns the durability rate of the filament type
-     */
-    public function getDurability() : int
-    {
-        return $this->characteristics->getDurability();
-    }
-
-    /**
-     * Returns the min work temperature of the filament type
-     */
-    public function getMinWorkTemperature() : int
-    {
-        return $this->characteristics->getMinWorkTemperature();
-    }
-
-    /**
-     * Returns the max work temperature of the filament type
-     */
-    public function getMaxWorkTemperature() : int
-    {
-        return $this->characteristics->getMaxWorkTemperature();
-    }
-
-    /**
-     * Returns true if food contact is allowed for that filament type.
-     */
-    public function isFoodContactAllowed() : bool
-    {
-        return $this->characteristics->isFoodContactAllowed();
+        return $this->orderInfo->getCompletionDate();
     }
 }

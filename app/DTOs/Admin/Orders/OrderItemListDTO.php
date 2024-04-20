@@ -2,9 +2,6 @@
 
 namespace App\DTOs\Admin\Orders;
 
-use DateTime;
-use App\Enums\OrderStatus;
-
 /**
  * A subsystem for reading application data specifically
  * to display a list of orders (administrator).
@@ -13,48 +10,53 @@ class OrderItemListDTO
 {
     // User's info
     private string $userEmail;
-    // Order's info
-    private OrderStatus $status;
-    private DateTime $payedAt;
-    private DateTime $completedAt;
+    private OrderInfo $orderInfo;
 
-    /**
-     * @param PrintingTechnologyNameOnlyDTO[] $printingTechnologies
-     */
-    public function __construct(int $id,
-                                string $name,
-                                array $printingTechnologies)
+    public function __construct(string $userEmail,
+                                OrderInfo $orderInfo)
     {
-        $this->id = $id;
-        $this->name = $name;
-        $this->printingTechnologies = $printingTechnologies;
+        $this->userEmail = $userEmail;
+        $this->orderInfo = $orderInfo;
     }
 
     /**
-     * Returns the id of the additional service
+     * Returns the user's email
      */
-    public function getId() : int
+    public function getUserEmail() : string
     {
-        assert($this->id !== -1, 'accessing not initialized property: $id');
-        return $this->id;
+        return $this->userEmail;
     }
 
     /**
-     * Returns the name of the additional service
+     * Returns the id of the order
      */
-    public function getName() : string
+    public function getOrderId() : int
     {
-        assert($this->name !== '', 'accessing not initialized property: $name');
-        return $this->name;
+        return $this->orderInfo->getId();
     }
 
     /**
-     * Returns the printing technologies in which that filament type is used
-     *
-     * @return PrintingTechnologyNameOnlyDTO[]
+     * Returns the status of the order
      */
-    public function getPrintingTechnologies() : array
+    public function getOrderStatus() : string
     {
-        return $this->printingTechnologies;
+        return $this->orderInfo->getStatus();
+    }
+
+
+    /**
+     * Returns the order's payment date.
+     */
+    public function getOrderPaymentDate() : string
+    {
+        return $this->orderInfo->getPaymentDate();
+    }
+
+    /**
+     * Returns the order's completion date.
+     */
+    public function getCompletionDate() : string
+    {
+        return $this->orderInfo->getCompletionDate();
     }
 }
