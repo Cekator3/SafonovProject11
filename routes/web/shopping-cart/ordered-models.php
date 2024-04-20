@@ -6,11 +6,19 @@ use App\Http\Middleware\EnsureCustomerCredentialsAreVerified;
 use App\Http\Controllers\Orders\OrderedModels\OrderedModelRemoverController;
 use App\Http\Controllers\Orders\OrderedModels\OrderedModelUpdaterController;
 use App\Http\Controllers\Orders\OrderedModels\OrderedCatalogModelAdderController;
+use App\Http\Controllers\Orders\OrderedModels\ShoppingCartItemsListingController;
 
 Route::middleware([Authenticate::class, EnsureIsCustomer::class, EnsureCustomerCredentialsAreVerified::class])
      ->prefix('shopping-cart')
      ->group(function ()
 {
+    Route::controller(ShoppingCartItemsListingController::class)
+         ->group(function ()
+    {
+        Route::get('/', 'showItems')
+             ->name('shopping-cart.list');
+    });
+
     // Add catalog model to the order
     Route::controller(OrderedCatalogModelAdderController::class)
          ->group(function ()

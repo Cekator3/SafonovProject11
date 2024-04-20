@@ -2,6 +2,7 @@
 
 namespace App\Services\Orders\OrderedModels;
 
+use App\Errors\Orders\OrderCreationErrors;
 use App\Repositories\Orders\OrderRepository;
 use Illuminate\Support\Facades\Auth;
 use App\DTOs\Orders\ShoppingCart\ModelDTO;
@@ -87,18 +88,34 @@ class OrderedModelGetterService
     }
 
     /**
+     * Returns user's current order identifier.
+     * Returns -1 if user don't have uncompleted orders.
+     */
+    private function getUserCurrentOrder(int $userId) : int
+    {
+        $orders = new OrderRepository();
+        return $orders->getCurrentOrderId($userId);
+    }
+
+    private function createNewOrderForUser(int $userId, int &$orderId) : void
+    {
+        $orders = new OrderRepository();
+        $creationErrors= new OrderCreationErrors();
+        $orders->add($userId, $orderId, $creationErrors);
+    }
+
+    /**
      * Retrieves all models from order to display them in
      * shopping cart.
-     * Returns null if order do not belongs to user.
      */
-    public function getAllAsShoppingCart(int $orderId) : ShoppingCartDTO | null
+    public function getAllAsShoppingCart() : ShoppingCartDTO
     {
         $models = new OrderedModelRepository();
-        $orders = new OrderRepository();
         $userId = Auth::user()->id;
 
-        if (! $orders->belongsToUser($orderId, $userId))
-            return null;
+        $orderId = $this->getUserCurrentOrder($userId);
+        if ($orderId === -1)
+            $this->createNewOrderForUser($userId, $orderId);
 
         $shoppingCart = $models->getAllAsShoppingCart($orderId);
 

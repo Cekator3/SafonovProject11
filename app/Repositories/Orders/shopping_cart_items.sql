@@ -4,15 +4,16 @@ SELECT
     m.preview_image     AS thumbnail,
     om.amount           AS amount,
 
+    -- Price for one item
     CASE
         WHEN om.is_parted AND om.is_holed THEN
-            om.amount * (price + m.price_parted + m.price_holed)
+            price + m.price_parted + m.price_holed
         WHEN om.is_parted AND NOT om.is_holed THEN
-            om.amount * (price + m.price_parted + m.price_solid)
+            price + m.price_parted + m.price_solid
         WHEN NOT om.is_parted AND om.is_holed THEN
-            om.amount * (price + m.price_not_parted + m.price_holed)
+            price + m.price_not_parted + m.price_holed
         ELSE
-            om.amount * (price + m.price_not_parted + m.price_solid)
+            price + m.price_not_parted + m.price_solid
     END AS price
 
 FROM
@@ -93,12 +94,3 @@ FROM
 
 WHERE
     om.order_id = 1;
-
-
-SELECT
-    1
-FROM
-    orders
-WHERE
-    id = 1 AND
-    customer_id = 1002;

@@ -32,7 +32,7 @@ final class ModelDTO
      */
     public function getId() : int
     {
-        return $this->id;
+        return $this->orderedModelId;
     }
 
     /**
@@ -62,9 +62,9 @@ final class ModelDTO
     /**
      * Returns the total price of the model.
      */
-    public function getTotalPrice() : float
+    public function getPrice() : float
     {
-        return $this->price * $this->amount;
+        return $this->price;
     }
 
 
@@ -82,7 +82,7 @@ final class ModelDTO
      */
     public function setThumbnailUrl(string $thumbnailUrl) : void
     {
-        assert(! isset($this->previewImageUrl), 'Trying to replace the URL: $thumbnailUrl = ' . $thumbnailUrl);
-        $this->previewImageUrl = $thumbnailUrl;
+        assert(! isset($this->thumbnailUrl), 'Trying to replace the URL: $thumbnailUrl = ' . $thumbnailUrl);
+        $this->thumbnailUrl = $thumbnailUrl;
     }
 }

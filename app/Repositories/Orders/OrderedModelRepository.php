@@ -463,15 +463,16 @@ class OrderedModelRepository
                 m.preview_image     AS thumbnail,
                 om.amount           AS amount,
 
+                -- Price for one item
                 CASE
                     WHEN om.is_parted AND om.is_holed THEN
-                        om.amount * (price + m.price_parted + m.price_holed)
+                        price + m.price_parted + m.price_holed
                     WHEN om.is_parted AND NOT om.is_holed THEN
-                        om.amount * (price + m.price_parted + m.price_solid)
+                        price + m.price_parted + m.price_solid
                     WHEN NOT om.is_parted AND om.is_holed THEN
-                        om.amount * (price + m.price_not_parted + m.price_holed)
+                        price + m.price_not_parted + m.price_holed
                     ELSE
-                        om.amount * (price + m.price_not_parted + m.price_solid)
+                        price + m.price_not_parted + m.price_solid
                 END AS price
 
             FROM
@@ -553,6 +554,19 @@ class OrderedModelRepository
             WHERE
                 om.order_id = ?;', [$orderId]
         );
+
+        $result = [];
+
+        foreach ($entries as $entry)
+        {
+            $result []= new ModelDTO($entry->ordered_model_id,
+                                     $entry->name,
+                                     $entry->amount,
+                                     $entry->price,
+                                     $entry->thumbnail);
+        }
+
+        return $result;
     }
 
     /**
@@ -568,13 +582,13 @@ class OrderedModelRepository
      */
     public function getAllAsShoppingCart(int $orderId) : ShoppingCartDTO | null
     {
-        $entry = DB::table('orders')->find($orderId)->first('status');
+        $entry = DB::table('orders')->select(['status'])->find($orderId);
         if ($entry === null)
             return null;
 
         $status = $entry->status;
         $models = $this->getShoppingCartItems($orderId);
-        return new ShoppingCartDTO($status, $models);
+        return new ShoppingCartDTO($orderId, $status, $models);
     }
 
     /**

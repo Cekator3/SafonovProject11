@@ -53,7 +53,7 @@
     {{-- Profile picture and submit button --}}
     <div>
         <div class="profile-picture">
-            <label for="profile_picture"><img src="{{ $profilePicture }}"></label>
+            <label for="profile_picture"><img loading="lazy" src="{{ $profilePicture }}"></label>
             <x-forms.inputs.file :name=" 'profile_picture' "
                                  accept="image/*"
             />

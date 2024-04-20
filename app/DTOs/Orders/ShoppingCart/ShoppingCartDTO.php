@@ -1,6 +1,7 @@
 <?php
 
 namespace App\DTOs\Orders\ShoppingCart;
+use App\Enums\OrderStatus;
 
 /**
  * A subsystem for reading application data about the order
@@ -8,19 +9,30 @@ namespace App\DTOs\Orders\ShoppingCart;
  */
 final class ShoppingCartDTO
 {
-    private string $orderStatus;
+    private int $orderId;
+    private OrderStatus $orderStatus;
     /**
      * @var ModelDTO[]
      */
     private array $models;
+    private float $totalPrice = 0.0;
 
     /**
      * @param ModelDTO[] $models
      */
-    public function __construct(string $orderStatus, array $models)
+    public function __construct(int $orderId, string $orderStatus, array $models)
     {
-        $this->orderStatus = $orderStatus;
+        $this->orderId = $orderId;
+        $this->orderStatus = OrderStatus::GetByValue($orderStatus);
         $this->models = $models;
+
+        foreach ($models as $model)
+            $this->totalPrice += $model->getPrice() * $model->getAmount();
+    }
+
+    public function getOrderId() : int
+    {
+        return $this->orderId;
     }
 
     /**
@@ -28,7 +40,20 @@ final class ShoppingCartDTO
      */
     public function getOrderStatus() : string
     {
-        return $this->orderStatus;
+        switch ($this->orderStatus)
+        {
+            case OrderStatus::WaitingForPayment:
+                return 'Ожидает оплаты';
+            case OrderStatus::OnExecution:
+                return 'Выполняется';
+            case OrderStatus::OnDelivery:
+                return 'В доставке';
+            case OrderStatus::Completed:
+                return 'Выполнен';
+            default:
+                assert(false, 'Unknown order status: ' . $this->orderStatus->name);
+                return 'Произошла ошибка';
+        }
     }
 
     /**
@@ -39,5 +64,10 @@ final class ShoppingCartDTO
     public function getModels() : array
     {
         return $this->models;
+    }
+
+    public function getTotalPrice() : float
+    {
+        return $this->totalPrice;
     }
 }
