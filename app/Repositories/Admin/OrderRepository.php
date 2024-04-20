@@ -3,6 +3,9 @@
 namespace App\Repositories\Admin;
 
 use App\DTOs\Admin\Orders\BaseModelInfo;
+use App\DTOs\Admin\Orders\FilamentTypeInfo;
+use App\DTOs\Admin\Orders\ModelSizeInfo;
+use App\DTOs\Admin\Orders\PrintingTechnologyInfo;
 use stdClass;
 use App\Enums\OrderStatus;
 use Illuminate\Support\Facades\DB;
@@ -51,6 +54,26 @@ class OrderRepository
         return new BaseModelInfo($entry->model_id,
                                  $entry->model_name,
                                  $entry->model_thumbnail);
+    }
+
+    private function getPrintingTechnologyInfo(stdClass $entry) : PrintingTechnologyInfo
+    {
+        return new PrintingTechnologyInfo($entry->printing_technology_id,
+                                          $entry->printing_technology_name);
+    }
+
+    private function getFilamentTypeInfo(stdClass $entry) : FilamentTypeInfo
+    {
+        return new FilamentTypeInfo($entry->filament_type_id,
+                                    $entry->filament_type_name);
+    }
+
+    private function getModelSizeInfo(stdClass $entry) : ModelSizeInfo
+    {
+        return new ModelSizeInfo($entry->model_size_multiplier,
+                                 $entry->model_length,
+                                 $entry->model_height,
+                                 $entry->model_width);
     }
 
     /**
@@ -109,14 +132,30 @@ class OrderRepository
         if ($entries === null)
             return null;
 
-        $userEmail = $entries[0]->user_email;
+
+        $result = [];
 
         $entries[0]->order_id = $orderId;
         $orderInfo = $this->getOrderInfo($entries[0]);
+        $userEmail = $entries[0]->user_email;
         foreach ($entries as $entry)
         {
             $modelInfo = $this->getModelInfo($entry);
+            $printingTechnologyInfo = $this->getPrintingTechnologyInfo($entry);
+            $filamentTypeInfo = $this->getFilamentTypeInfo($entry);
+            $colorCode = $entry->color_code;
+            $modelSizeInfo = $this->getModelSizeInfo($entry);
+
+            $result []= new OrderDTO($userEmail,
+                                     $orderInfo,
+                                     $modelInfo,
+                                     $printingTechnologyInfo,
+                                     $filamentTypeInfo,
+                                     $colorCode,
+                                     $modelSizeInfo);
         }
+
+        return $result;
     }
 
     /**
