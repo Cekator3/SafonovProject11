@@ -22,7 +22,7 @@ class OrdersListingController
     /**
      * Show the order's details
      */
-    public function showOrder(Request $request, int $orderId) : View
+    public function showOrderDetails(Request $request, int $orderId) : View
     {
         $orders = new OrdersGetterService();
 
