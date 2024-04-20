@@ -2,24 +2,15 @@
 
 namespace App\DTOs\Admin\Orders;
 
-use DateTime;
-use App\Enums\OrderStatus;
-
 /**
  * A subsystem for reading application data about the user's order and
  * it's ordered models (administrator)
  */
 class OrderDTO
 {
-    // User's info
     private string $userEmail;
-    // Order's info
     private OrderInfo $orderInfo;
-    // model's info
-    private int $modelId;
-    private string $modelName;
-    private string $modelThumbnailFilename;
-    private string $modelThumbnailUrl;
+    private BaseModelInfo $modelInfo;
     // Printing technology's info
     private int $printingTechnologyId;
     private string $printingTechnologyName;
@@ -35,10 +26,12 @@ class OrderDTO
     private int $modelSizeWidth;
 
     public function __construct(string $userEmail,
-                                OrderInfo $orderInfo)
+                                OrderInfo $orderInfo,
+                                BaseModelInfo $modelInfo)
     {
         $this->userEmail = $userEmail;
         $this->orderInfo = $orderInfo;
+        $this->modelInfo = $modelInfo;
     }
 
     /**
@@ -77,8 +70,48 @@ class OrderDTO
     /**
      * Returns the order's completion date.
      */
-    public function getCompletionDate() : string
+    public function getOrderCompletionDate() : string
     {
         return $this->orderInfo->getCompletionDate();
+    }
+
+    /**
+     * Returns the id of the base model
+     */
+    public function getModelId() : int
+    {
+        return $this->modelInfo->getId();
+    }
+
+    /**
+     * Returns the name of the base model
+     */
+    public function getModelName() : string
+    {
+        return $this->modelInfo->getName();
+    }
+
+    /**
+     * Returns the filename of the base model's thumbnail (only needed to set the url later)
+     */
+    public function getModelThumbnailFilename() : string
+    {
+        return $this->modelInfo->getThumbnailFilename();
+    }
+
+    /**
+     * Sets the URL of the base model's thumbnail
+     */
+    public function setModelThumbnailUrl(string $url) : void
+    {
+        $this->modelInfo->setThumbnailUrl($url);
+    }
+
+    /**
+     * Returns the url of base model's thumbnail
+     */
+    public function getModelThumbnailUrl() : string
+    {
+        return $this->modelInfo->getThumbnailUrl();
     }
 }
