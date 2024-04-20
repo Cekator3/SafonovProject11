@@ -77,7 +77,7 @@ class OrderRepository
     }
 
     /**
-     * Retrieves order.
+     * Retrieves order with its models.
      *
      * @return OrderDTO
      */
