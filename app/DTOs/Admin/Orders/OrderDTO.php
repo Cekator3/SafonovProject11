@@ -11,9 +11,7 @@ class OrderDTO
     private string $userEmail;
     private OrderInfo $orderInfo;
     private BaseModelInfo $modelInfo;
-    // Printing technology's info
-    private int $printingTechnologyId;
-    private string $printingTechnologyName;
+    private PrintingTechnologyInfo $printingTechnologyInfo;
     // Filament type's info
     private int $filamentTypeId;
     private string $filamentTypeName;
@@ -27,11 +25,13 @@ class OrderDTO
 
     public function __construct(string $userEmail,
                                 OrderInfo $orderInfo,
-                                BaseModelInfo $modelInfo)
+                                BaseModelInfo $modelInfo,
+                                PrintingTechnologyInfo $printingTechnologyInfo)
     {
         $this->userEmail = $userEmail;
         $this->orderInfo = $orderInfo;
         $this->modelInfo = $modelInfo;
+        $this->printingTechnologyInfo = $printingTechnologyInfo;
     }
 
     /**
@@ -113,5 +113,21 @@ class OrderDTO
     public function getModelThumbnailUrl() : string
     {
         return $this->modelInfo->getThumbnailUrl();
+    }
+
+    /**
+     * Returns the id of the printing technology
+     */
+    public function getPrintingTechnologyId() : int
+    {
+        return $this->printingTechnologyInfo->getId();
+    }
+
+    /**
+     * Returns the name of the printing technology
+     */
+    public function getPrintingTechnologyName() : string
+    {
+        return $this->printingTechnologyInfo->getName();
     }
 }
