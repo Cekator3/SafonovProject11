@@ -1,11 +1,12 @@
 <?php
 namespace App\Enums;
 
+use Exception;
+
 enum OrderStatus : int
 {
     case WaitingForPayment = 1;
     case OnExecution = 2;
-    case OnDelivery = 3;
     case Completed = 4;
 
     /**
@@ -17,13 +18,14 @@ enum OrderStatus : int
         return [
             static::WaitingForPayment->value,
             static::OnExecution->value,
-            static::OnDelivery->value,
-            static::Completed->value,
+            static::Completed->value
         ];
     }
 
     /**
      * Returns enum value by associated with OrderStatus enum value.
+     *
+     * @throws Exception if given order status not exists
      */
     public static function GetByValue(int $orderStatus) : OrderStatus
     {
@@ -33,13 +35,10 @@ enum OrderStatus : int
                 return static::WaitingForPayment;
             case static::OnExecution->value:
                 return static::OnExecution;
-            case static::OnDelivery->value:
-                return static::OnDelivery;
             case static::Completed->value:
                 return static::Completed;
             default:
-                assert(false, 'Given order status not exists');
-                return static::WaitingForPayment;
+                throw new Exception('Given order status not exists');
         }
     }
 }

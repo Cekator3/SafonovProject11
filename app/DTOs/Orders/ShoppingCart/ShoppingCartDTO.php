@@ -46,8 +46,6 @@ final class ShoppingCartDTO
                 return 'ОЖИДАЕТ ОПЛАТЫ';
             case OrderStatus::OnExecution:
                 return 'ВЫПОЛНЯЕТСЯ';
-            case OrderStatus::OnDelivery:
-                return 'В ДОСТАВКЕ';
             case OrderStatus::Completed:
                 return 'ВЫПОЛНЕН';
             default:
