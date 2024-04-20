@@ -24,7 +24,6 @@ main
 }
 h1
 {
-    font-family: Manrope;
     font-size: 30px;
     font-weight: 700;
     line-height: 40.98px;

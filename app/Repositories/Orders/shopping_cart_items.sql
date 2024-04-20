@@ -94,3 +94,65 @@ FROM
 
 WHERE
     om.order_id = 1;
+
+
+-- (1) List of orders in admin's panel
+SELECT
+    o.id                AS order_id,
+    u.email             AS customer_email,
+    o.status            AS order_status,
+    o.payed_at          AS order_payed_at,
+    o.completed_at      AS order_completed_at
+FROM
+    orders AS o
+
+    JOIN users AS u
+        ON u.id = o.customer_id;
+
+
+-- (2) Order's models list for administrator
+-- Предпологаю, что order_id будет известен до запроса
+SELECT
+    u.email             AS customer_email,
+    o.status            AS order_status,
+    o.payed_at          AS order_payed_at,
+    o.completed_at      AS order_completed_at,
+    m.id                AS model_id,
+    m.name              AS model_name,
+    m.preview_image     AS model_preview_image,
+    pt.id               AS printing_technology_id,
+    pt.name             AS printing_technology_name,
+    ft.id               AS filament_type_id,
+    ft.name             AS filament_type_name,
+    c.code              AS color_code,
+    ms.size_multiplier  AS model_size_multiplier,
+    ms.length           AS model_length,
+    ms.width            AS model_width,
+    ms.height           AS model_height
+
+FROM
+    ordered_models AS om
+
+    JOIN orders AS o
+        ON o.id = om.order_id
+
+    JOIN users AS u
+        ON u.id = o.customer_id
+
+    JOIN models AS m
+        ON m.id = om.model_id
+
+    JOIN printing_technologies AS pt
+        ON pt.id = om.printing_technology_id
+
+    JOIN filament_types AS ft
+        ON ft.id = om.filament_type_id
+
+    JOIN colors AS c
+        on c.id = om.color_id
+
+    JOIN models_sizes AS ms
+        on ms.id = om.model_size_Id
+
+WHERE
+    om.order_id = 1;
