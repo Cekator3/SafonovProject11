@@ -16,17 +16,15 @@ class OrderDTO
     // Color's info
     private string $colorCode;
     // Model size's info
-    private int $modelSizeMultiplier;
-    private int $modelSizeLength;
-    private int $modelSizeHeight;
-    private int $modelSizeWidth;
+    private ModelSizeInfo $modelSizeInfo;
 
     public function __construct(string $userEmail,
                                 OrderInfo $orderInfo,
                                 BaseModelInfo $modelInfo,
                                 PrintingTechnologyInfo $printingTechnologyInfo,
                                 FilamentTypeInfo $filamentTypeInfo,
-                                string $colorCode)
+                                string $colorCode,
+                                ModelSizeInfo $modelSizeInfo)
     {
         $this->userEmail = $userEmail;
         $this->orderInfo = $orderInfo;
@@ -34,6 +32,7 @@ class OrderDTO
         $this->printingTechnologyInfo = $printingTechnologyInfo;
         $this->filamentTypeInfo = $filamentTypeInfo;
         $this->colorCode = $colorCode;
+        $this->modelSizeInfo = $modelSizeInfo;
     }
 
     /**
@@ -156,5 +155,37 @@ class OrderDTO
     public function getColorAsRgbCSS() : string
     {
         return '#'.$this->colorCode;
+    }
+
+    /**
+     * Returns the model's size multiplier
+     */
+    public function getModelSizeMultiplier() : int
+    {
+        return $this->modelSizeInfo->getMultiplier();
+    }
+
+    /**
+     * Returns the model's length
+     */
+    public function getModelLength() : int
+    {
+        return $this->modelSizeInfo->getLength();
+    }
+
+    /**
+     * Returns the model's width
+     */
+    public function getModelWidth() : int
+    {
+        return $this->modelSizeInfo->getWidth();
+    }
+
+    /**
+     * Returns the model's height
+     */
+    public function getModelHeight() : int
+    {
+        return $this->modelSizeInfo->getHeight();
     }
 }
