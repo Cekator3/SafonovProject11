@@ -176,15 +176,18 @@ class BaseModelRepository
      *
      * @param BaseModelCreationViewModel $model
      * new base model's data.
+     * @param int &$baseModelId
+     * Stored base model's identifier.
      * @param BaseModelCreationErrors $errors
      * An object for storing operation errors.
      */
     public function add(BaseModelCreationViewModel $model,
+                        int &$baseModelId,
                         BaseModelCreationErrors $errors) : void
     {
         try
         {
-            $modelId = DB::table('models')->insertGetId([
+            $baseModelId = DB::table('models')->insertGetId([
                 'name' => $model->name,
                 'description' => $model->description,
                 'preview_image' => $model->thumbnailFilename,
@@ -196,8 +199,8 @@ class BaseModelRepository
             return;
         }
 
-        $this->addModelSizes($modelId, $model->modelSizes);
-        $this->addGalleryImages($modelId, $model->galleryImagesFilenames);
+        $this->addModelSizes($baseModelId, $model->modelSizes);
+        $this->addGalleryImages($baseModelId, $model->galleryImagesFilenames);
     }
 
     private function removeAllModelSizes(int $modelId) : void

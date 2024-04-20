@@ -8,6 +8,7 @@ namespace App\DTOs\Orders\ExistingOrderedCatalogModel;
  */
 final class ExistingOrderedCatalogModelDTO
 {
+    private int $orderId;
     private int $orderedModelId;
     private int $baseModelId;
     private string $baseModelName;
@@ -49,6 +50,7 @@ final class ExistingOrderedCatalogModelDTO
      * @param bool $isParted indicates whether user chose parted version of the model
      */
     public function __construct(int $orderedModelId,
+                                int $orderId,
                                 int $baseModelId,
                                 string $baseModelName,
                                 int $amount,
@@ -65,20 +67,26 @@ final class ExistingOrderedCatalogModelDTO
                                 float $priceForNotPartedType)
     {
         $this->orderedModelId = $orderedModelId;
+        $this->orderId = $orderId;
         $this->baseModelId = $baseModelId;
         $this->baseModelName = $baseModelName;
         $this->amount = $amount;
-        $this->printingTechnology = $printingTechnologies;
-        $this->filamentType = $filamentTypes;
-        $this->color = $colors;
-        $this->modelSize = $modelSizes;
-        $this->additionalService = $additionalServices;
+        $this->printingTechnologies = $printingTechnologies;
+        $this->filamentTypes = $filamentTypes;
+        $this->colors = $colors;
+        $this->modelSizes = $modelSizes;
+        $this->additionalServices = $additionalServices;
         $this->isHoled = $isHoled;
         $this->isParted = $isParted;
         $this->priceForHoledType = $priceForHoledType;
         $this->priceForSolidType = $priceForSolidType;
         $this->priceForPartedType = $priceForPartedType;
         $this->priceForNotPartedType = $priceForNotPartedType;
+    }
+
+    public function getOrderId() : int
+    {
+        return $this->orderId;
     }
 
     /**
@@ -120,6 +128,23 @@ final class ExistingOrderedCatalogModelDTO
     {
         return $this->printingTechnologies;
     }
+
+    /**
+     * Returns the JSON string of printing technologies and their supported filament types
+     */
+    public function getPrintingTechnologiesSupportedFilamentTypesAsJSON() : string
+    {
+        $result = [];
+        foreach ($this->getPrintingTechnologies() as $printingTechnology)
+        {
+            $result []= [
+                "printingTechnologyId" => $printingTechnology->getId(),
+                "supportedFilamentTypes" => $printingTechnology->getSupportedFilamentTypes()
+            ];
+        }
+        return json_encode($result);
+    }
+
 
     /**
      * Returns the filament types with their prices for using them

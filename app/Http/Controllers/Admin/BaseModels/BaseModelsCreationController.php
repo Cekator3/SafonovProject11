@@ -76,7 +76,8 @@ class BaseModelsCreationController
         $model = $this->getUserInput($request);
         $errors = new UserInputErrors();
 
-        $models->add($model, $errors);
+        $baseModelId = -1;
+        $models->add($model, $baseModelId, $errors);
 
         if ($errors->hasAny()) {
             return redirect()->back()
@@ -84,6 +85,6 @@ class BaseModelsCreationController
                              ->withInput();
         }
 
-        return redirect()->route('base-models.update-prices');
+        return redirect()->route('base-models.update-prices', ['id' => $baseModelId]);
     }
 }

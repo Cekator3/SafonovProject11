@@ -329,7 +329,7 @@ class OrderedModelRepository
         foreach ($entries as $entry)
         {
             $id = $entry->id;
-            $isSelected = in_array($baseModelId, $selectedAdditionalServicesIds, true);
+            $isSelected = in_array($id, $selectedAdditionalServicesIds, true);
             $name = $entry->name;
             $description = $entry->description;
             $previewImage = $entry->preview_image;
@@ -363,9 +363,10 @@ class OrderedModelRepository
     {
         $entry = DB::table('ordered_models AS om')
                    ->join('models AS m', 'm.id', '=', 'om.model_id')
-                   ->find($id)
+                   ->where('om.id', '=', $id)
                    ->first([
                         'om.id AS ordered_model_id',
+                        'om.order_id AS order_id',
                         'om.model_id AS model_id',
                         'm.name AS model_name',
                         'om.amount AS amount',
@@ -394,6 +395,7 @@ class OrderedModelRepository
         $additionalServices = $this->getAdditionalServicesForUpdatingCatalogModelInOrder($entry->model_id, $selectedAdditionalServices);
 
         return new ExistingOrderedCatalogModelDTO($id,
+                                                  $entry->order_id,
                                                   $entry->model_id,
                                                   $entry->model_name,
                                                   $entry->amount,

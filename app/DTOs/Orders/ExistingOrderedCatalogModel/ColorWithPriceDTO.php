@@ -47,7 +47,7 @@ final class ColorWithPriceDTO
      */
     public function isSelected() : bool
     {
-        return $this->isSelected();
+        return $this->isSelected;
     }
 
     /**

@@ -25,7 +25,7 @@ class OrderedCatalogModelAdderController
         if ($model === null)
             return abort(HttpResponseStatus::NotFound->value);
 
-        return view('orders.ordering-models.catalog', ['model' => $model]);
+        return view('orders.ordering-models.create', ['model' => $model]);
     }
 
     public function getUserInput(Request $request, int $baseModelId) : OrderedCatalogModelViewModel

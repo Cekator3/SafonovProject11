@@ -52,7 +52,7 @@ final class ModelSizeWithPriceDTO
      */
     public function isSelected() : bool
     {
-        return $this->isSelected();
+        return $this->isSelected;
     }
 
     /**

@@ -130,12 +130,13 @@ class BaseModelsCreationService
     }
 
     private function storeInformation(BaseModelCreationViewModel $model,
+                                      int &$baseModelId,
                                       UserInputErrors $errors) : void
     {
         $creationErrors = new BaseModelCreationErrors();
         $models = new BaseModelRepository();
 
-        $models->add($model, $creationErrors);
+        $models->add($model, $baseModelId, $creationErrors);
 
         if ($creationErrors->hasAny())
         {
@@ -195,10 +196,13 @@ class BaseModelsCreationService
      *
      * @param BaseModelCreationViewModel $model
      * User's input about new base model
+     * @param int &$baseModelId
+     * Stored base model's identifier
      * @param UserInputErrors $errors
      * User's inputs errors that prevented successful execution of the action.
      */
     public function add(BaseModelCreationViewModel $model,
+                        int &$baseModelId,
                         UserInputErrors $errors) : void
     {
         // 1. validate user's input
@@ -225,7 +229,7 @@ class BaseModelsCreationService
         assert(count($model->galleryImages) === count($model->galleryImagesFilenames), 'Not all gallery images were saved');
 
         // 5. save information about new base model
-        $this->storeInformation($model, $errors);
+        $this->storeInformation($model, $baseModelId, $errors);
 
         if ($errors->hasAny())
         {

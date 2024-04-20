@@ -61,7 +61,7 @@
 @if ($shoppingCart->hasAnyModels())
 <footer>
     <p>Сумма к оплате: {!! $shoppingCart->getTotalPrice() !!} ₽</p>
-    <a class="link button" href="#">Оформить заказ</a>
+    <a class="link button" href="{!! route('shopping-cart.payment') !!}">Оформить заказ</a>
 </footer>
 @endif
 

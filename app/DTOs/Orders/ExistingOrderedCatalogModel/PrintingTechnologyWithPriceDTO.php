@@ -72,7 +72,7 @@ final class PrintingTechnologyWithPriceDTO
      */
     public function isSelected() : bool
     {
-        return $this->isSelected();
+        return $this->isSelected;
     }
 
     /**

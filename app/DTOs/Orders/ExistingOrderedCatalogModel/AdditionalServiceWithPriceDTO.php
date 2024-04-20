@@ -65,7 +65,7 @@ final class AdditionalServiceWithPriceDTO
      */
     public function isSelected() : bool
     {
-        return $this->isSelected();
+        return $this->isSelected;
     }
 
     /**
