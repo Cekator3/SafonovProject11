@@ -13,7 +13,7 @@ class OrderStatusSetterService
     /**
      * Tries to update order's status
      */
-    public function update(int $orderId, OrderStatus $status) : void
+    public function setStatus(int $orderId, OrderStatus $status) : void
     {
         $orders = new OrderRepository();
         $orders->setStatus($orderId, $status);

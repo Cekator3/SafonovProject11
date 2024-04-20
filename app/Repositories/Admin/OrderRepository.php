@@ -18,7 +18,7 @@ use App\DTOs\Admin\Orders\PrintingTechnologyInfo;
  */
 class OrderRepository
 {
-    public function getOrderInfo(stdClass $entry) : OrderInfo
+    private function getOrderInfo(stdClass $entry) : OrderInfo
     {
         return new OrderInfo($entry->order_id,
                              $entry->order_status,
