@@ -623,7 +623,7 @@ class OrderedModelRepository
      */
     public function exists(OrderedCatalogModelViewModel $model, int $orderId) : bool
     {
-        $orderedModelId = DB::table('ordered_models')->whereAll([
+        $orderedModelId = DB::table('ordered_models')->where([
             ['order_id', '=', $orderId],
             ['model_id', '=', $model->modelId],
             ['model_size_id', '=', $model->modelSizeId],
@@ -634,10 +634,10 @@ class OrderedModelRepository
             ['is_holed', '=', $model->isHoled],
         ])->first(['id']);
 
-        $orderedModelId = +$orderedModelId->id;
-
         if ($orderedModelId === null)
             return false;
+
+        $orderedModelId = +$orderedModelId->id;
 
         $currAdditionalServices = $this->getAdditionalServicesOfOrderedModel($orderedModelId);
         return $this->isListsHasSameValues($model->additionalServices, $currAdditionalServices);

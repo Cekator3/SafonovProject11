@@ -20,47 +20,47 @@
 @endsection
 
 @section('main')
-<h1>Корзина</h1>
 
-{{-- Order --}}
-<article>
-    {{-- Order info --}}
+{{-- Order info --}}
+<header>
+    <h1>Заказ №{!! $shoppingCart->getOrderId() !!}</h1>
+    @if (! $shoppingCart->hasAnyModels())
+        <span class="status">{!! $shoppingCart->getOrderStatus() !!}</span>
+    @endif
+</header>
+
+{{-- Ordered models --}}
+@foreach ($shoppingCart->getModels() as $model)
+<section>
     <header>
-        <h2>Заказ №{{ $shoppingCart->getOrderId() }}</h2>
-        <span class="status">{{ $shoppingCart->getOrderStatus() }}</span>
+        <h2>{{ $model->getName() }}</h2>
+        <span class="edit">
+            <a href="{!! route('shopping-cart.update', ['orderedModelId' => $model->getId()]) !!}">
+                <i class="fa-solid fa-pencil"></i>
+            </a>
+        </span>
+        <span class="remove">
+            <a href="{!! route('shopping-cart.remove', ['orderedModelId' => $model->getId()]) !!}">
+                <i class="fa-solid fa-trash"></i>
+            </a>
+        </span>
+        <span class="amount">{!! $model->getAmount() !!} шт.</span>
     </header>
 
-    {{-- Ordered models --}}
-    @foreach ($shoppingCart->getModels() as $model)
-    <section>
-        <header>
-            <h3>{{ $model->getName() }}</h3>
-            <span class="edit">
-                <a href="{!! route('shopping-cart.update', ['orderedModelId' => $model->getId()]) !!}">
-                    <i class="fa-solid fa-pencil"></i>
-                </a>
-            </span>
-            <span class="remove">
-                <a href="{!! route('shopping-cart.remove', ['orderedModelId' => $model->getId()]) !!}">
-                    <i class="fa-solid fa-trash"></i>
-                </a>
-            </span>
-            <span class="amount">{!! $model->getAmount() !!} шт.</span>
-        </header>
+    <img loading="lazy" src="{!! $model->getThumbnailUrl() !!}" alt="">
 
-        <img loading="lazy" src="{!! $model->getThumbnailUrl() !!}" alt="">
-
-        <footer>
-            <p>{!! $model->getPrice() !!}</p>
-        </footer>
-    </section>
-    @endforeach
-
-    {{-- Order's summary --}}
     <footer>
-        <p>Сумма к оплате: {!! $shoppingCart->getTotalPrice() !!}</p>
+        <p>{!! $model->getPrice() !!} ₽</p>
     </footer>
-</article>
+</section>
+@endforeach
 
-<a class="link button" href="#">Оформить заказ</a>
+{{-- Order's summary --}}
+@if (! $shoppingCart->hasAnyModels())
+<footer>
+    <p>Сумма к оплате: {!! $shoppingCart->getTotalPrice() !!} ₽</p>
+    <a class="link button" href="#">Оформить заказ</a>
+</footer>
+@endif
+
 @endsection

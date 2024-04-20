@@ -66,6 +66,17 @@ final class ShoppingCartDTO
         return $this->models;
     }
 
+    /**
+     * Returns true if at least one model exists in the order.
+     */
+    public function hasAnyModels() : bool
+    {
+        return count($this->models) !== 0;
+    }
+
+    /**
+     * Returns total price for all models in the order.
+     */
     public function getTotalPrice() : float
     {
         return $this->totalPrice;

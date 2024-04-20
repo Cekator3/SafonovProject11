@@ -204,6 +204,7 @@
         <x-forms.inputs.text :type=" 'number' "
                              :name=" 'amount' "
                              :placeholder=" 'Количество' "
+                             required
         />
     </fieldset>
 
