@@ -1,6 +1,6 @@
 @extends('layouts.main')
 
-@section('title', 'Заказы')
+@section('title', 'Заказ пользователя')
 
 @section('styles')
 {{-- Form --}}
@@ -14,7 +14,7 @@
 
 @section('main')
 <header>
-    <h1>Заказы</h1>
+    <h1>Заказ пользователя</h1>
 </header>
 
 @dump($order)
