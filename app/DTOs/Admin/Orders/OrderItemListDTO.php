@@ -9,28 +9,28 @@ namespace App\DTOs\Admin\Orders;
 class OrderItemListDTO
 {
     // User's info
-    private string $userEmail;
+    private string $customerEmail;
     private OrderInfo $orderInfo;
 
-    public function __construct(string $userEmail,
+    public function __construct(string $customerEmail,
                                 OrderInfo $orderInfo)
     {
-        $this->userEmail = $userEmail;
+        $this->customerEmail = $customerEmail;
         $this->orderInfo = $orderInfo;
     }
 
     /**
-     * Returns the user's email
+     * Returns the customer's email
      */
-    public function getUserEmail() : string
+    public function getCustomerEmail() : string
     {
-        return $this->userEmail;
+        return $this->customerEmail;
     }
 
     /**
      * Returns the id of the order
      */
-    public function getOrderId() : int
+    public function getId() : int
     {
         return $this->orderInfo->getId();
     }
@@ -38,16 +38,15 @@ class OrderItemListDTO
     /**
      * Returns the status of the order
      */
-    public function getOrderStatus() : string
+    public function getStatus() : string
     {
         return $this->orderInfo->getStatus();
     }
 
-
     /**
      * Returns the order's payment date.
      */
-    public function getOrderPaymentDate() : string
+    public function getPaymentDate() : string
     {
         return $this->orderInfo->getPaymentDate();
     }

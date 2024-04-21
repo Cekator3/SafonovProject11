@@ -10,6 +10,7 @@ use App\DTOs\Admin\Orders\OrderInfo;
 use App\DTOs\Admin\Orders\BaseModelInfo;
 use App\DTOs\Admin\Orders\ModelSizeInfo;
 use App\DTOs\Admin\Orders\FilamentTypeInfo;
+use App\DTOs\Admin\Orders\OrderedModelInfo;
 use App\DTOs\Admin\Orders\OrderItemListDTO;
 use App\DTOs\Admin\Orders\PrintingTechnologyInfo;
 
@@ -33,12 +34,13 @@ class OrderRepository
      */
     public function getAll() : array
     {
-        $entries = DB::table('orders AS o')->join('users AS u', 'u.id', '=', 'o.customer_id')
-                                ->get(['u.email         AS user_email',
-                                       'o.id            AS order_id',
-                                       'o.status        AS order_status',
-                                       'o.payed_at      AS order_payed_at',
-                                       'o.completed_at  AS order_completed_at']);
+        $entries = DB::table('orders AS o')
+                     ->join('users AS u', 'u.id', '=', 'o.customer_id')
+                     ->get(['u.email         AS user_email',
+                            'o.id            AS order_id',
+                            'o.status        AS order_status',
+                            'o.payed_at      AS order_payed_at',
+                            'o.completed_at  AS order_completed_at']);
 
         $result = [];
         foreach ($entries as $entry)
@@ -74,6 +76,21 @@ class OrderRepository
                                  $entry->model_length,
                                  $entry->model_height,
                                  $entry->model_width);
+    }
+
+    private function getOrderedModelsInfo(stdClass $entry) : OrderedModelInfo
+    {
+        $modelInfo = $this->getModelInfo($entry);
+        $printingTechnologyInfo = $this->getPrintingTechnologyInfo($entry);
+        $filamentTypeInfo = $this->getFilamentTypeInfo($entry);
+        $colorCode = $entry->color_code;
+        $modelSizeInfo = $this->getModelSizeInfo($entry);
+
+        return new OrderedModelInfo($modelInfo,
+                                    $printingTechnologyInfo,
+                                    $filamentTypeInfo,
+                                    $colorCode,
+                                    $modelSizeInfo);
     }
 
     /**
@@ -133,29 +150,16 @@ class OrderRepository
             return null;
 
 
-        $result = [];
 
         $entries[0]->order_id = $orderId;
         $orderInfo = $this->getOrderInfo($entries[0]);
         $userEmail = $entries[0]->user_email;
+
+        $models = [];
         foreach ($entries as $entry)
-        {
-            $modelInfo = $this->getModelInfo($entry);
-            $printingTechnologyInfo = $this->getPrintingTechnologyInfo($entry);
-            $filamentTypeInfo = $this->getFilamentTypeInfo($entry);
-            $colorCode = $entry->color_code;
-            $modelSizeInfo = $this->getModelSizeInfo($entry);
+            $models []= $this->getOrderedModelsInfo($entry);
 
-            $result []= new OrderDTO($userEmail,
-                                     $orderInfo,
-                                     $modelInfo,
-                                     $printingTechnologyInfo,
-                                     $filamentTypeInfo,
-                                     $colorCode,
-                                     $modelSizeInfo);
-        }
-
-        return $result;
+        return new OrderDTO($userEmail, $orderInfo, $models);
     }
 
     /**

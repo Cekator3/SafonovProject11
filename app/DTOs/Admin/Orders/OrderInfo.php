@@ -39,11 +39,11 @@ class OrderInfo
         switch ($this->status)
         {
             case OrderStatus::WaitingForPayment:
-                return 'ОЖИДАЕТ ОПЛАТЫ';
+                return 'Ожидает оплаты';
             case OrderStatus::OnExecution:
-                return 'ВЫПОЛНЯЕТСЯ';
+                return 'Выполняется';
             case OrderStatus::Completed:
-                return 'ВЫПОЛНЕН';
+                return 'Выполнен';
             default:
                 assert(false, 'Unknown order status: ' . $this->status->name);
                 return 'ПРОИЗОШЛА ОШИБКА';
@@ -55,7 +55,7 @@ class OrderInfo
      */
     public function getPaymentDate() : string
     {
-        return $this->payedAt;
+        return $this->payedAt ?? '';
     }
 
     /**
@@ -63,6 +63,6 @@ class OrderInfo
      */
     public function getCompletionDate() : string
     {
-        return $this->completedAt;
+        return $this->completedAt ?? '';
     }
 }

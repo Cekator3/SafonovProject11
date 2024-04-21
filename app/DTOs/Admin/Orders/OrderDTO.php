@@ -8,45 +8,37 @@ namespace App\DTOs\Admin\Orders;
  */
 class OrderDTO
 {
-    private string $userEmail;
+    private string $customerEmail;
     private OrderInfo $orderInfo;
-    private BaseModelInfo $modelInfo;
-    private PrintingTechnologyInfo $printingTechnologyInfo;
-    private FilamentTypeInfo $filamentTypeInfo;
-    // Color's info
-    private string $colorCode;
-    // Model size's info
-    private ModelSizeInfo $modelSizeInfo;
+    /**
+     * @var OrderedModelInfo
+     */
+    private array $models;
 
-    public function __construct(string $userEmail,
+    /**
+     * @param OrderedModelInfo[] $models
+     */
+    public function __construct(string $customerEmail,
                                 OrderInfo $orderInfo,
-                                BaseModelInfo $modelInfo,
-                                PrintingTechnologyInfo $printingTechnologyInfo,
-                                FilamentTypeInfo $filamentTypeInfo,
-                                string $colorCode,
-                                ModelSizeInfo $modelSizeInfo)
+                                array $models)
     {
-        $this->userEmail = $userEmail;
+        $this->customerEmail = $customerEmail;
         $this->orderInfo = $orderInfo;
-        $this->modelInfo = $modelInfo;
-        $this->printingTechnologyInfo = $printingTechnologyInfo;
-        $this->filamentTypeInfo = $filamentTypeInfo;
-        $this->colorCode = $colorCode;
-        $this->modelSizeInfo = $modelSizeInfo;
+        $this->models = $models;
     }
 
     /**
-     * Returns the user's email
+     * Returns the customer's email
      */
-    public function getUserEmail() : string
+    public function getCustomerEmail() : string
     {
-        return $this->userEmail;
+        return $this->customerEmail;
     }
 
     /**
      * Returns the id of the order
      */
-    public function getOrderId() : int
+    public function getId() : int
     {
         return $this->orderInfo->getId();
     }
@@ -54,16 +46,15 @@ class OrderDTO
     /**
      * Returns the status of the order
      */
-    public function getOrderStatus() : string
+    public function getStatus() : string
     {
         return $this->orderInfo->getStatus();
     }
 
-
     /**
      * Returns the order's payment date.
      */
-    public function getOrderPaymentDate() : string
+    public function getPaymentDate() : string
     {
         return $this->orderInfo->getPaymentDate();
     }
@@ -71,121 +62,18 @@ class OrderDTO
     /**
      * Returns the order's completion date.
      */
-    public function getOrderCompletionDate() : string
+    public function getCompletionDate() : string
     {
         return $this->orderInfo->getCompletionDate();
     }
 
     /**
-     * Returns the id of the base model
+     * Returns the ordered models of the user's order.
+     *
+     * @return OrderedModelInfo[]
      */
-    public function getModelId() : int
+    public function getModels() : array
     {
-        return $this->modelInfo->getId();
-    }
-
-    /**
-     * Returns the name of the base model
-     */
-    public function getModelName() : string
-    {
-        return $this->modelInfo->getName();
-    }
-
-    /**
-     * Returns the filename of the base model's thumbnail (only needed to set the url later)
-     */
-    public function getModelThumbnailFilename() : string
-    {
-        return $this->modelInfo->getThumbnailFilename();
-    }
-
-    /**
-     * Sets the URL of the base model's thumbnail
-     */
-    public function setModelThumbnailUrl(string $url) : void
-    {
-        $this->modelInfo->setThumbnailUrl($url);
-    }
-
-    /**
-     * Returns the url of base model's thumbnail
-     */
-    public function getModelThumbnailUrl() : string
-    {
-        return $this->modelInfo->getThumbnailUrl();
-    }
-
-    /**
-     * Returns the id of the printing technology
-     */
-    public function getPrintingTechnologyId() : int
-    {
-        return $this->printingTechnologyInfo->getId();
-    }
-
-    /**
-     * Returns the name of the printing technology
-     */
-    public function getPrintingTechnologyName() : string
-    {
-        return $this->printingTechnologyInfo->getName();
-    }
-
-
-    /**
-     * Returns the id of the filament type
-     */
-    public function getFilamentTypeId() : int
-    {
-        return $this->filamentTypeInfo->getId();
-    }
-
-    /**
-     * Returns the name of the filament type
-     */
-    public function getFilamentTypeName() : string
-    {
-        return $this->filamentTypeInfo->getName();
-    }
-
-    /**
-     * Returns the model's color as rgb CSS string
-     */
-    public function getColorAsRgbCSS() : string
-    {
-        return '#'.$this->colorCode;
-    }
-
-    /**
-     * Returns the model's size multiplier
-     */
-    public function getModelSizeMultiplier() : int
-    {
-        return $this->modelSizeInfo->getMultiplier();
-    }
-
-    /**
-     * Returns the model's length
-     */
-    public function getModelLength() : int
-    {
-        return $this->modelSizeInfo->getLength();
-    }
-
-    /**
-     * Returns the model's width
-     */
-    public function getModelWidth() : int
-    {
-        return $this->modelSizeInfo->getWidth();
-    }
-
-    /**
-     * Returns the model's height
-     */
-    public function getModelHeight() : int
-    {
-        return $this->modelSizeInfo->getHeight();
+        return $this->models;
     }
 }

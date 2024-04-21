@@ -3,9 +3,7 @@
 @section('title', 'Заказы')
 
 @section('styles')
-{{-- Form --}}
-
-{{-- Specific --}}
+<link href="/assets/css/admin/orders/listing.css" rel="stylesheet" type="text/css">
 @endsection
 
 @section('navigation')
@@ -13,10 +11,32 @@
 @endsection
 
 @section('main')
-<header>
-    <h1>Заказы</h1>
-</header>
+<h1>Заказы</h1>
 
-@dump($orders)
+<table>
+    <thead>
+        <tr>
+        <th>ID</th>
+        <th>Email заказчика</th>
+        <th>Статус</th>
+        <th>Дата оплаты</th>
+        <th>Дата завершения</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach ($orders as $order)
+        @php
+            $href = route('admin.orders.orderDetails', ['orderId' => $order->getId()]);
+        @endphp
+            <tr>
+            <td><a href="{!! $href !!}">{!! $order->getId() !!}</a></td>
+            <td><a href="{!! $href !!}">{{ $order->getCustomerEmail() }}</a></td>
+            <td><a href="{!! $href !!}">{!! $order->getStatus() !!}</a></td>
+            <td><a href="{!! $href !!}">{!! $order->getPaymentDate() !!}</a></td>
+            <td><a href="{!! $href !!}">{!! $order->getCompletionDate() !!}</a></td>
+            </tr>
+        @endforeach
+    </tbody>
+</table>
 
 @endsection
