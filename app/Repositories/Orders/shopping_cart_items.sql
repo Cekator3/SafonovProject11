@@ -156,3 +156,17 @@ FROM
 
 WHERE
     om.order_id = 1;
+
+
+SELECT
+    s.id                        AS additional_service_id,
+    s.name                      AS additional_service_name
+
+FROM
+    additional_services_of_ordered_models AS asom
+
+    JOIN additional_services AS s
+        ON s.id = asom.additional_service_id
+
+WHERE
+    asom.ordered_model_id = 1;

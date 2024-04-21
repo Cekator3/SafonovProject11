@@ -12,6 +12,7 @@ use App\DTOs\Admin\Orders\ModelSizeInfo;
 use App\DTOs\Admin\Orders\FilamentTypeInfo;
 use App\DTOs\Admin\Orders\OrderedModelInfo;
 use App\DTOs\Admin\Orders\OrderItemListDTO;
+use App\DTOs\Admin\Orders\AdditionalServiceInfo;
 use App\DTOs\Admin\Orders\PrintingTechnologyInfo;
 
 /**
@@ -78,7 +79,10 @@ class OrderRepository
                                  $entry->model_width);
     }
 
-    private function getOrderedModelsInfo(stdClass $entry) : OrderedModelInfo
+    /**
+     * @param AdditionalServiceInfo[] $additionalServicesInfo
+     */
+    private function getOrderedModelsInfo(stdClass $entry, array $additionalServicesInfo) : OrderedModelInfo
     {
         $modelInfo = $this->getModelInfo($entry);
         $printingTechnologyInfo = $this->getPrintingTechnologyInfo($entry);
@@ -90,7 +94,28 @@ class OrderRepository
                                     $printingTechnologyInfo,
                                     $filamentTypeInfo,
                                     $colorCode,
-                                    $modelSizeInfo);
+                                    $modelSizeInfo,
+                                    $additionalServicesInfo);
+    }
+
+    /**
+     * @return AdditionalServiceInfo[]
+     */
+    private function getAdditionalServicesInfos(int $orderedModelId) : array
+    {
+        $entries = DB::table('additional_services_of_ordered_models AS asom')
+                     ->join('additional_services AS s',
+                                's.id', '=', 'asom.additional_service_id')
+                     ->where('asom.ordered_model_id', '=', $orderedModelId)
+                     ->get(['s.id   AS id',
+                            's.name AS name']);
+
+        $result = [];
+
+        foreach ($entries as $entry)
+            $result []= new AdditionalServiceInfo($entry->id, $entry->name);
+
+        return $result;
     }
 
     /**
@@ -102,6 +127,7 @@ class OrderRepository
     {
         $entries = DB::select(
             'SELECT
+                om.id               AS ordered_model_id,
                 u.email             AS user_email,
                 o.status            AS order_status,
                 o.payed_at          AS order_payed_at,
@@ -157,7 +183,10 @@ class OrderRepository
 
         $models = [];
         foreach ($entries as $entry)
-            $models []= $this->getOrderedModelsInfo($entry);
+        {
+            $additionalServicesInfos = $this->getAdditionalServicesInfos($entry->ordered_model_id);
+            $models []= $this->getOrderedModelsInfo($entry, $additionalServicesInfos);
+        }
 
         return new OrderDTO($userEmail, $orderInfo, $models);
     }

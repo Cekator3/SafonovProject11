@@ -14,18 +14,27 @@ class OrderedModelInfo
     // Color's info
     private string $colorCode;
     private ModelSizeInfo $modelSizeInfo;
+    /**
+     * @var AdditionalServiceInfo[]
+     */
+    private array $additionalServicesInfo;
 
+    /**
+     * @param AdditionalServiceInfo[] $additionalServicesInfo
+     */
     public function __construct(BaseModelInfo $modelInfo,
                                 PrintingTechnologyInfo $printingTechnologyInfo,
                                 FilamentTypeInfo $filamentTypeInfo,
                                 string $colorCode,
-                                ModelSizeInfo $modelSizeInfo)
+                                ModelSizeInfo $modelSizeInfo,
+                                array $additionalServicesInfo)
     {
         $this->modelInfo = $modelInfo;
         $this->printingTechnologyInfo = $printingTechnologyInfo;
         $this->filamentTypeInfo = $filamentTypeInfo;
         $this->colorCode = $colorCode;
         $this->modelSizeInfo = $modelSizeInfo;
+        $this->additionalServicesInfo = $additionalServicesInfo;
     }
 
     /**
@@ -139,5 +148,13 @@ class OrderedModelInfo
     public function getHeight() : int
     {
         return $this->modelSizeInfo->getHeight();
+    }
+
+    /**
+     * @return AdditionalServiceInfo[]
+     */
+    public function getAdditionalServices() : array
+    {
+        return $this->additionalServicesInfo;
     }
 }
