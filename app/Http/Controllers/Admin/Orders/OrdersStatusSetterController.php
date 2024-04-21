@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin\Orders;
 
 use App\Enums\OrderStatus;
+use App\Errors\UserInputErrors;
 use App\Services\Admin\Orders\OrderStatusSetterService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
@@ -18,11 +19,24 @@ class OrdersStatusSetterController
         $orders = new OrderStatusSetterService();
 
         $statusValue = $request->integer('status', -1);
-        if ($statusValue === -1)
-            return redirect()->back();
+        $errors = new UserInputErrors();
+        if (! OrderStatus::HasValue($statusValue))
+        {
+            $errors->add('status', 'Неизвестное значение статуса заказа');
+            return redirect()->back()
+                             ->withInput()
+                             ->withErrors($errors->getAll());
+        }
 
         $status = OrderStatus::GetByValue($statusValue);
-        $orders->setStatus($orderId, $status);
+        $orders->setStatus($orderId, $status, $errors);
+
+        if ($errors->hasAny())
+        {
+            return redirect()->back()
+                             ->withInput()
+                             ->withErrors($errors->getAll());
+        }
 
         return redirect()->back();
     }

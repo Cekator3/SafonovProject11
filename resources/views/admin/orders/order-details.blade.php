@@ -49,6 +49,11 @@
                                                    required
                     />
             @endforeach
+            <ul class="errors" style="list-style: none; color: red;">
+                @foreach ($errors->get('status') as $message)
+                    <li>{{ $message }}</li>
+                @endforeach
+            </ul>
         </fieldset>
         <x-forms.submit :placeholder=" 'Сохранить' " />
     </form>

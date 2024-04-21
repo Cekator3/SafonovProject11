@@ -201,7 +201,7 @@ class OrderRepository
         if ($entry === null)
             return null;
 
-        return OrderStatus::GetByValue($entry);
+        return OrderStatus::GetByValue($entry->status);
     }
 
     /**

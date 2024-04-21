@@ -22,6 +22,11 @@ enum OrderStatus : int
         ];
     }
 
+    public static function HasValue(int $value) : bool
+    {
+        return in_array($value, static::GetAllValues());
+    }
+
     /**
      * Returns enum value by associated with OrderStatus enum value.
      *
