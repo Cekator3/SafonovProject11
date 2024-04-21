@@ -22,7 +22,7 @@ Route::middleware([Authenticate::class, EnsureIsAdmin::class])
 
 
     // Set order's status
-    Route::put('/', [OrdersStatusSetterController::class, 'setOrderStatus'])
+    Route::put('/{orderId}', [OrdersStatusSetterController::class, 'setOrderStatus'])
          ->name('admin.orders.setStatus');
     /////
 });

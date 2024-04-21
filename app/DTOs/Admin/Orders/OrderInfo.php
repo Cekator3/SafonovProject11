@@ -34,7 +34,15 @@ class OrderInfo
     /**
      * Returns the status of the order
      */
-    public function getStatus() : string
+    public function getStatus() : OrderStatus
+    {
+        return $this->status;
+    }
+
+    /**
+     * Returns the status of the order
+     */
+    public function getStatusAsString() : string
     {
         switch ($this->status)
         {

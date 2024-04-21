@@ -1,0 +1,161 @@
+/* Order's header */
+main > header
+{
+    /* Sets gap between site's header and order's header */
+    margin-top: 68px;
+    /* Sets gap between order's header and order's info */
+    margin-bottom: 24px;
+
+    /* Moves order's header and order's status to the center */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    /* Creates gap between order's header and status */
+    gap: 0 25px;
+}
+
+/* Order's header */
+main > header > h1
+{
+    /* Sets font */
+    font-size: 29px;
+    font-weight: 700;
+    line-height: 39.61px;
+}
+
+/* Order's status */
+main > header > .status
+{
+    /* Sets background */
+    background: #009017;
+    padding: 8.5px 5px;
+
+    /* Sets rounded corners */
+    border-radius: 5px;
+
+    /* Sets font */
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 19.12px;
+}
+
+.order-info
+{
+    margin-bottom: 40px;
+}
+
+.order-info h2
+{
+    /* Sets font */
+    font-size: 27px;
+    font-weight: 700;
+}
+
+.order-info p
+{
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 21.86px;
+}
+
+.order-info form
+{
+    width: fit-content;
+}
+
+.order-info form fieldset
+{
+    margin-bottom: 15px;
+}
+
+.order-info form fieldset legend
+{
+    /* Sets font */
+    font-size: 27px;
+    font-weight: 700;
+}
+
+/* Shopping cart's ordered models */
+.ordered-models
+{
+    /* Sets gap between ordered models */
+    margin-bottom: 52px;
+
+    /* Sets layout */
+    display: grid;
+    grid-template-columns: 400px fit-content(70%);
+    grid-template-areas: 'image header';
+    gap: 0 20px;
+
+    /* Sets rounded corners */
+    border-radius: var(--border-radius);
+
+    /* Sets border */
+    background-color: var(--item-window-bg-color);
+    padding: 0.9375rem;
+
+    width: 60%;
+}
+
+.ordered-models a:hover
+{
+    color: grey;
+}
+
+.ordered-models > img
+{
+    /* Moves image to the left */
+    grid-area: image;
+
+    /* Sets sizes */
+    width: 100%;
+
+}
+
+/* Model's header */
+.ordered-models > header
+{
+    /* Moves header to the center */
+    grid-area: header;
+
+    /* Aligns item's at the same text baseline */
+    display: flex;
+    flex-flow: column nowrap;
+
+    /* Sets gap between header's content */
+    --gap-distance: 12px;
+    gap: 0 var(--gap-distance);
+}
+
+.ordered-models > header > h3
+{
+    /* Removes unnecessary gap */
+    margin-top: 0;
+
+    /* Sets font */
+    font-size: 28px;
+    font-weight: 700;
+    line-height: 38.25px;
+}
+
+/* Model's actions */
+.ordered-models > header > .edit,
+.ordered-models > header > .remove
+{
+    /* Sets font */
+    opacity: 60%;
+    font-size: 20px;
+}
+
+/* Model's amount */
+.ordered-models > header > .amount
+{
+    /* Sets font */
+    font-size: 24px;
+    font-weight: 500;
+    line-height: 32.78px;
+
+    /* Sets gap between model's options and amount */
+    margin-left: calc(29px - var(--gap-distance));
+}

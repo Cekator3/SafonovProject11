@@ -51,7 +51,6 @@
     <img loading="lazy" src="{!! $model->getThumbnailUrl() !!}" alt="">
 
     <footer>
-        {{-- <data value="{!! $model->getPrice() !!}">{!! $model->getPrice() !!} ₽</data> --}}
         <p>{!! $model->getPrice() !!} ₽</p>
     </footer>
 </section>

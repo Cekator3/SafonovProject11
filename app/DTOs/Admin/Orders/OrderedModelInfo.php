@@ -151,6 +151,14 @@ class OrderedModelInfo
     }
 
     /**
+     * Checks if the ordered model has any additional services
+     */
+    public function hasAnyAdditionalServices() : bool
+    {
+        return count($this->additionalServicesInfo) !== 0;
+    }
+
+    /**
      * @return AdditionalServiceInfo[]
      */
     public function getAdditionalServices() : array

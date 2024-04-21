@@ -40,7 +40,7 @@ class OrderItemListDTO
      */
     public function getStatus() : string
     {
-        return $this->orderInfo->getStatus();
+        return $this->orderInfo->getStatusAsString();
     }
 
     /**
