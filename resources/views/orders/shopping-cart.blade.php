@@ -35,16 +35,18 @@
 <section>
     <header>
         <h2>{{ $model->getName() }}</h2>
-        <span class="edit">
-            <a href="{!! route('shopping-cart.update', ['orderedModelId' => $model->getId()]) !!}">
-                <i class="fa-solid fa-pencil"></i>
-            </a>
-        </span>
-        <span class="remove">
-            <a href="{!! route('shopping-cart.remove', ['orderedModelId' => $model->getId()]) !!}">
-                <i class="fa-solid fa-trash"></i>
-            </a>
-        </span>
+        @if ($shoppingCart->isOrderCanBeChanged())
+            <span class="edit">
+                <a href="{!! route('shopping-cart.update', ['orderedModelId' => $model->getId()]) !!}">
+                    <i class="fa-solid fa-pencil"></i>
+                </a>
+            </span>
+            <span class="remove">
+                <a href="{!! route('shopping-cart.remove', ['orderedModelId' => $model->getId()]) !!}">
+                    <i class="fa-solid fa-trash"></i>
+                </a>
+            </span>
+        @endif
         <span class="amount">{!! $model->getAmount() !!} шт.</span>
     </header>
 
@@ -57,7 +59,7 @@
 @endforeach
 
 {{-- Order's summary --}}
-@if ($shoppingCart->hasAnyModels())
+@if ($shoppingCart->hasAnyModels() && $shoppingCart->isOrderCanBeChanged())
 <footer>
     <p>Сумма к оплате: {!! $shoppingCart->getTotalPrice() !!} ₽</p>
     <a class="link button" href="{!! route('shopping-cart.payment') !!}">Оформить заказ</a>

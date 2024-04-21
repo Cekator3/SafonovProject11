@@ -35,6 +35,11 @@ final class ShoppingCartDTO
         return $this->orderId;
     }
 
+    public function isOrderCanBeChanged() : bool
+    {
+        return $this->orderStatus === OrderStatus::WaitingForPayment;
+    }
+
     /**
      * Returns the order's status
      */
