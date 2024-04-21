@@ -22,8 +22,7 @@ class OrderRepository
     /**
      * Retrieves the identifier of the user's not completed (current) order.
      *
-     * @return int|null Order identifier.
-     * If user don't have one, null will be returned.
+     * @return int|null User's identifier.
      */
     public function getCurrentOrderId(int $userId) : int | null
     {
@@ -35,6 +34,25 @@ class OrderRepository
         if ($entry === null)
             return null;
         return $entry->id;
+    }
+
+    /**
+     * Retrieves the completion status of the user's not completed (current) order.
+     *
+     * @return int|null User's identifier.
+     */
+    public function getCurrentOrderStatus(int $userId) : OrderStatus | null
+    {
+        $entry = DB::table('orders')
+                           ->where('status', '<>', OrderStatus::Completed)
+                           ->where('customer_id', '=', $userId)
+                           ->select('status')
+                           ->first();
+
+        if ($entry === null)
+            return null;
+
+        return OrderStatus::GetByValue($entry->status);
     }
 
     private function convertToOrderItemList(stdClass $entry) : OrderItemListDTO
