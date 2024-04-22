@@ -63,7 +63,9 @@ class OrderInfo
      */
     public function getPaymentDate() : string
     {
-        return $this->payedAt ?? '';
+        if ($this->payedAt === null)
+            return '';
+        return $this->payedAt->format('d-m-Y h:m:s');
     }
 
     /**
@@ -71,6 +73,8 @@ class OrderInfo
      */
     public function getCompletionDate() : string
     {
-        return $this->completedAt ?? '';
+        if ($this->completedAt === null)
+            return '';
+        return $this->completedAt->format('d-m-Y h:m:s');
     }
 }

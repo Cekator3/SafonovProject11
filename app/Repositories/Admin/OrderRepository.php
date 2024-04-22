@@ -204,12 +204,37 @@ class OrderRepository
         return OrderStatus::GetByValue($entry->status);
     }
 
+    public function isPayDateSetted(int $orderId) : bool
+    {
+        return DB::table('orders')->where('id', $orderId)
+                                  ->where('completed_at', '<>', null)
+                                  ->exists();
+    }
+
     /**
      * Sets new status to order.
      */
     public function setStatus(int $orderId, OrderStatus $status) : void
     {
+        $newData = ['status' => $status];
+        if ($status === OrderStatus::WaitingForPayment)
+        {
+            $newData['payed_at'] = null;
+            $newData['completed_at'] = null;
+        }
+        if ($status === OrderStatus::OnExecution)
+        {
+            $newData['payed_at'] = now();
+            $newData['completed_at'] = null;
+        }
+        if ($status === OrderStatus::Completed)
+        {
+            $newData['completed_at'] = now();
+            if (! $this->isPayDateSetted($orderId))
+                $newData['payed_at'] = now();
+        }
+
         DB::table('orders')->where('id', $orderId)
-                           ->update(['status' => $status]);
+                           ->update($newData);
     }
 }

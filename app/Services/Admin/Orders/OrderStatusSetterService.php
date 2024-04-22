@@ -17,11 +17,16 @@ class OrderStatusSetterService
     public function setStatus(int $orderId, OrderStatus $status, UserInputErrors $errors) : void
     {
         $orders = new OrderRepository();
-        if ($orders->getStatus($orderId) === OrderStatus::Completed)
+        $currentStatus = $orders->getStatus($orderId);
+        if ($currentStatus === OrderStatus::Completed)
         {
             $errors->add('status', 'Нельзя изменять статус выполненного заказа');
             return;
         }
-        $orders->setStatus($orderId, $status);
+
+        if ($currentStatus === $status)
+            return;
+
+        $orders->setStatus($orderId, $status, $currentStatus);
     }
 }
