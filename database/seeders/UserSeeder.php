@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use App\Enums\UserRole;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Hash;
 
 class UserSeeder extends Seeder
@@ -36,6 +37,7 @@ class UserSeeder extends Seeder
             'role' => UserRole::Admin,
             'password' => Hash::make('1'),
         ]);
-        static::insertUser(1000, UserRole::Customer);
+        if (! App::isProduction())
+            static::insertUser(1000, UserRole::Customer);
     }
 }
