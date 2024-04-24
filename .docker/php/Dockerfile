@@ -1,10 +1,16 @@
-# FROM php:8.3.6-fpm-alpine
+# Install composer
+FROM composer AS composer-build
+
+WORKDIR /var/www/html
+
+COPY composer.json composer.lock /var/www/html/
+
+# Install project's dependencies
+RUN composer install --no-dev --prefer-dist --no-scripts --no-autoloader --no-progress --ignore-platform-reqs
+
+
+# install PHP
 FROM php:8.3.6-fpm
-
-# ENV PHP_INI_DIR=/usr/local/etc/php
-
-ARG UID=1000
-ARG GID=1000
 
 WORKDIR /var/www/html
 
@@ -18,34 +24,28 @@ RUN apt-get install --quiet --yes --no-install-recommends \
     unzip
 
 # Install Database PHP extensions and zip ext.
-RUN docker-php-ext-install zip pdo pgsql pdo_pgsql
-
+RUN docker-php-ext-install zip pdo pgsql pdo_pgsql opcache
 # Install redis PHP extension
 RUN pecl install -o -f redis-6.0.2
 # Enable redis ext.
 RUN docker-php-ext-enable redis
 
+# Use the default production configuration
+RUN mv "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini"
+
+COPY .docker/php/opcache.ini $PHP_INI_DIR/conf.d/
+
 # Install Composer
 COPY --from=composer /usr/bin/composer /usr/bin/composer
 
-# Create app user (with mine user and group id)
-RUN groupadd --gid ${GID} www
-RUN useradd --uid ${UID} -g www www
+# Copy project files to image
+COPY --chown=www-data --from=composer-build /var/www/html/vendor/ /var/www/html/vendor/
+COPY --chown=www-data . /var/www/html
 
-# Copy existing application directory contents
-ADD . /var/www/html
+# Generate autoload files
+ENV COMPOSER_ALLOW_SUPERUSER=1
+RUN composer dump -o
+RUN composer check-platform-reqs
 
-# Copy existing application directory permissions
-RUN chown -R www:www /var/www/html
-RUN find /var/www/html -type d -exec chmod 0775 '{}' \;
-
-# Change php fpm user
-RUN sed -i "s/user = www-data/user = www/g" /usr/local/etc/php-fpm.d/www.conf
-RUN sed -i "s/group = www-data/group = www/g" /usr/local/etc/php-fpm.d/www.conf
-
-# Change current user to www
-USER www
-
-# Expose port 9000 and start php-fpm server
-EXPOSE 9000
-CMD ["php-fpm"]
+# Run migrations
+RUN php artisan optimize
