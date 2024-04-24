@@ -47,5 +47,7 @@ ENV COMPOSER_ALLOW_SUPERUSER=1
 RUN composer dump -o
 RUN composer check-platform-reqs
 
-# Run migrations
+# Create image storage (symbolic link)
+RUN php artisan storage:link
+# Optimize stuff
 RUN php artisan optimize
