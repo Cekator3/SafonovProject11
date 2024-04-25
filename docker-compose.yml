@@ -1,13 +1,15 @@
 volumes:
     public:
     public2:
+    postgres-data:
+    redis-data:
 
 services:
     postgres:
         image: postgres:16.2-alpine3.19
         container_name: ${APP_NAME}_postgres
         volumes:
-            - .docker/postgres/data:/var/lib/postgres
+            - postgres-data:/var/lib/postgresql/data
         environment:
             POSTGRES_USER: '${DB_USERNAME}'
             POSTGRES_PASSWORD: '${DB_PASSWORD}'
@@ -24,7 +26,7 @@ services:
         image: redis:alpine
         container_name: ${APP_NAME}_redis
         volumes:
-            - .docker/redis/data:/data
+            - redis-data:/data
         networks:
             - app
         healthcheck:
