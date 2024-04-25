@@ -13,24 +13,49 @@ RUN apt-get install --quiet --yes --no-install-recommends \
     unzip
 
 # Install Database PHP extensions and zip ext.
-RUN docker-php-ext-install zip pdo pgsql pdo_pgsql opcache
-# Install redis PHP extension
+RUN docker-php-ext-install \
+    zip \
+    pdo \
+    pgsql \
+    pdo_pgsql \
+    opcache
+
+# Install and enable redis PHP extension
 RUN pecl install -o -f redis-6.0.2
-# Enable redis ext.
 RUN docker-php-ext-enable redis
 
-# Use the default production configuration
+# Create PHP-FPM's and nginx user
+RUN groupadd \
+    --gid 1010 \
+    www
+RUN useradd \
+    --uid 1010 \
+    --gid www \
+    --no-create-home \
+    www
+
+# Set image's user
+USER www
+
+# Use the PHP production configuration
 COPY .docker/php/php.ini "$PHP_INI_DIR/php.ini"
+COPY .docker/php/php-fpm.config "$PHP_INI_DIR/php-fpm.config"
 COPY .docker/php/opcache.ini $PHP_INI_DIR/conf.d/
 
 # Copy project files to image
-COPY --chown=www-data . /var/www/html
+COPY --chown=www . /var/www/html
 
 # Install Composer
 COPY --from=composer:latest /usr/bin/composer /usr/local/bin/composer
 # Install project's dependencies
-ENV COMPOSER_ALLOW_SUPERUSER=1
-RUN composer install --no-dev --prefer-dist --no-scripts --no-autoloader --no-progress --ignore-platform-reqs
+RUN composer install \
+            --no-dev \
+            --prefer-dist \
+            --no-scripts \
+            --no-autoloader \
+            --no-progress \
+            --ignore-platform-reqs
+
 # Generate autoload files
 RUN composer dump-autoload
 RUN composer check-platform-reqs
