@@ -5,3 +5,8 @@ tests/
 .gitattributes
 .gitignore
 phpunit.xml
+
+docker-build-images.bash
+docker-compose.yml
+.dockerignore
+.editorconfig

@@ -12,5 +12,5 @@ docker-compose up -d --build
 printf 'waiting for docker services to up'
 sleep 3s
 docker-compose exec php php artisan migrate --seed
-# Changin owner of logs file (from root to www-data)
+# Changing owner of logs file (from root to www-data)
 docker-compose exec php bash -c "chown www-data:www-data /var/www/html/storage/logs/laravel.log"
