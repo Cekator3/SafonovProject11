@@ -140,8 +140,8 @@ main > header > .status
 }
 
 /* Model's actions */
-.ordered-models > header > .edit,
-.ordered-models > header > .remove
+.ordered-models .edit,
+.ordered-models .remove
 {
     /* Sets font */
     opacity: 60%;
@@ -149,7 +149,7 @@ main > header > .status
 }
 
 /* Model's amount */
-.ordered-models > header > .amount
+.ordered-models .amount
 {
     /* Sets font */
     font-size: 24px;
@@ -158,4 +158,15 @@ main > header > .status
 
     /* Sets gap between model's options and amount */
     margin-left: calc(29px - var(--gap-distance));
+}
+
+/* Model's color */
+.ordered-models .color
+{
+    position: absolute;
+
+    width: 1.25rem;     /* 20px */
+    height: 1.25rem;    /* 20px */
+    /* Makes it circle */
+    border-radius: 50%;
 }
