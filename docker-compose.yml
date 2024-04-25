@@ -6,9 +6,10 @@ volumes:
 
 services:
     postgres:
-        image: postgres:16.2-alpine3.19
+        image: postgres:alpine
         container_name: ${APP_NAME}_postgres
         volumes:
+            # To save database data in persistent docker volume
             - postgres-data:/var/lib/postgresql/data
         environment:
             POSTGRES_USER: '${DB_USERNAME}'
@@ -26,6 +27,7 @@ services:
         image: redis:alpine
         container_name: ${APP_NAME}_redis
         volumes:
+            # To save redis data in persistent docker volume
             - redis-data:/data
         networks:
             - app
@@ -39,11 +41,11 @@ services:
         image: nginx_img
         container_name: ${APP_NAME}_nginx
         volumes:
+            # To share public data (css, js, images) between nginx and php
             - public:/var/www/html/public
             - public2:/var/www/html/storage/app/public
         ports:
             - "80:80"
-            - "443:443"
         networks:
             - app
 
@@ -51,12 +53,11 @@ services:
         image: php_img
         container_name: ${APP_NAME}_php
         volumes:
-            - public:/var/www/html/public:rw
-            - public2:/var/www/html/storage/app/public:rw
+            # To share public data (css, js, images) between nginx and php
+            - public:/var/www/html/public
+            - public2:/var/www/html/storage/app/public
         networks:
             - app
-        depends_on:
-            - postgres
 
 networks:
     app:
