@@ -20,7 +20,7 @@ RUN pecl install -o -f redis-6.0.2
 RUN docker-php-ext-enable redis
 
 # Use the default production configuration
-RUN mv "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini"
+COPY .docker/php/php.ini "$PHP_INI_DIR/php.ini"
 COPY .docker/php/opcache.ini $PHP_INI_DIR/conf.d/
 
 # Copy project files to image
