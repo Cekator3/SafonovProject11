@@ -1,14 +1,3 @@
-# Install composer
-FROM composer AS composer-build
-
-WORKDIR /var/www/html
-
-COPY composer.json composer.lock /var/www/html/
-
-# Install project's dependencies
-RUN composer install --no-dev --prefer-dist --no-scripts --no-autoloader --no-progress --ignore-platform-reqs
-
-
 # install PHP
 FROM php:8.3.6-fpm
 
@@ -32,19 +21,18 @@ RUN docker-php-ext-enable redis
 
 # Use the default production configuration
 RUN mv "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini"
-
 COPY .docker/php/opcache.ini $PHP_INI_DIR/conf.d/
 
-# Install Composer
-COPY --from=composer /usr/bin/composer /usr/bin/composer
-
 # Copy project files to image
-COPY --chown=www-data --from=composer-build /var/www/html/vendor/ /var/www/html/vendor/
 COPY --chown=www-data . /var/www/html
 
-# Generate autoload files
+# Install Composer
+COPY --from=composer:latest /usr/bin/composer /usr/local/bin/composer
+# Install project's dependencies
 ENV COMPOSER_ALLOW_SUPERUSER=1
-RUN composer dump -o
+RUN composer install --no-dev --prefer-dist --no-scripts --no-autoloader --no-progress --ignore-platform-reqs
+# Generate autoload files
+RUN composer dump-autoload
 RUN composer check-platform-reqs
 
 # Create image storage (symbolic link)
