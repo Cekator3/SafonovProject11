@@ -1,3 +1,7 @@
+volumes:
+    public:
+    public2:
+
 services:
     postgres:
         image: postgres:16.2-alpine3.19
@@ -32,6 +36,9 @@ services:
     web:
         image: nginx_img
         container_name: ${APP_NAME}_nginx
+        volumes:
+            - public:/var/www/html/public
+            - public2:/var/www/html/storage/app/public
         ports:
             - "80:80"
             - "443:443"
@@ -41,6 +48,9 @@ services:
     php:
         image: php_img
         container_name: ${APP_NAME}_php
+        volumes:
+            - public:/var/www/html/public:rw
+            - public2:/var/www/html/storage/app/public:rw
         networks:
             - app
         depends_on:
