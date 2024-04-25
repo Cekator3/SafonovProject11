@@ -1,4 +1,3 @@
-# install PHP
 FROM php:8.3.6-fpm
 
 WORKDIR /var/www/html
@@ -37,12 +36,12 @@ RUN useradd \
 # Set image's user
 USER www
 
-# Use the PHP production configuration
+# Install the PHP production configuration
 COPY .docker/php/php.ini "$PHP_INI_DIR/php.ini"
 COPY .docker/php/php-fpm.config "$PHP_INI_DIR/php-fpm.config"
 COPY .docker/php/opcache.ini $PHP_INI_DIR/conf.d/
 
-# Copy project files to image
+# Install project files
 COPY --chown=www . /var/www/html
 
 # Install Composer
