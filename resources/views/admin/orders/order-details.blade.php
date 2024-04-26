@@ -72,6 +72,7 @@
                 <p>Тип филамента: <a href="{!! route('filament-types.update', ['id' => $model->getFilamentTypeId()]) !!}">{{ $model->getFilamentTypeName() }}</a></p>
                 <p>Цвет: <span class="color" style="background: {!! $model->getColorAsRgbCss() !!}"></span></p>
                 <p>Размер: {!! $model->getSizeMultiplier().'%'.' ('.$model->getLength().'X'.$model->getWidth().'x'.$model->getHeight().' мм)' !!}</p>
+                <p>Количество: {!! $model->getAmount() !!} шт.</p>
                 @if ($model->hasAnyAdditionalServices())
                     <section>
                         <h3>Дополнительные услуги</h3>

@@ -85,12 +85,14 @@ class OrderRepository
     private function getOrderedModelsInfo(stdClass $entry, array $additionalServicesInfo) : OrderedModelInfo
     {
         $modelInfo = $this->getModelInfo($entry);
+        $amount = $entry->amount;
         $printingTechnologyInfo = $this->getPrintingTechnologyInfo($entry);
         $filamentTypeInfo = $this->getFilamentTypeInfo($entry);
         $colorCode = $entry->color_code;
         $modelSizeInfo = $this->getModelSizeInfo($entry);
 
         return new OrderedModelInfo($modelInfo,
+                                    $amount,
                                     $printingTechnologyInfo,
                                     $filamentTypeInfo,
                                     $colorCode,
@@ -128,6 +130,7 @@ class OrderRepository
         $entries = DB::select(
             'SELECT
                 om.id               AS ordered_model_id,
+                om.amount           AS amount,
                 u.email             AS user_email,
                 o.status            AS order_status,
                 o.payed_at          AS order_payed_at,

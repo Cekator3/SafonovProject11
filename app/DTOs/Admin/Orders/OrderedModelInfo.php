@@ -9,6 +9,7 @@ namespace App\DTOs\Admin\Orders;
 class OrderedModelInfo
 {
     private BaseModelInfo $modelInfo;
+    private int $amount;
     private PrintingTechnologyInfo $printingTechnologyInfo;
     private FilamentTypeInfo $filamentTypeInfo;
     // Color's info
@@ -23,6 +24,7 @@ class OrderedModelInfo
      * @param AdditionalServiceInfo[] $additionalServicesInfo
      */
     public function __construct(BaseModelInfo $modelInfo,
+                                int $amount,
                                 PrintingTechnologyInfo $printingTechnologyInfo,
                                 FilamentTypeInfo $filamentTypeInfo,
                                 string $colorCode,
@@ -30,6 +32,7 @@ class OrderedModelInfo
                                 array $additionalServicesInfo)
     {
         $this->modelInfo = $modelInfo;
+        $this->amount = $amount;
         $this->printingTechnologyInfo = $printingTechnologyInfo;
         $this->filamentTypeInfo = $filamentTypeInfo;
         $this->colorCode = $colorCode;
@@ -51,6 +54,14 @@ class OrderedModelInfo
     public function getName() : string
     {
         return $this->modelInfo->getName();
+    }
+
+    /**
+     * Returns the amount of the ordered model in user's order
+     */
+    public function getAmount() : int
+    {
+        return $this->amount;
     }
 
     /**
