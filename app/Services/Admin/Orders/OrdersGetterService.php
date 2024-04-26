@@ -29,7 +29,7 @@ class OrdersGetterService
      */
     public function setModelsThumbnailUrl(array $models)
     {
-        $thumbnails = new BaseModelThumbnailRepository;
+        $thumbnails = new BaseModelThumbnailRepository();
         foreach ($models as $model)
         {
             $thumbnailFilename = $model->getThumbnailFilename();

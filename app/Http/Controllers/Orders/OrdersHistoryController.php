@@ -15,7 +15,6 @@ class OrdersHistoryController
     public function showOrdersHistory(Request $request) : View
     {
         $orders = new OrdersHistoryGetterService();
-        dd($orders->getAll());
         return view('orders.history.listing', ['orders' => $orders->getAll()]);
     }
 
@@ -26,9 +25,8 @@ class OrdersHistoryController
     {
         $orders = new OrdersHistoryGetterService();
         $order = $orders->get($orderId);
-        dd($order);
         if ($order === null)
             return abort(HttpResponseStatus::NotFound->value);
-        return view('orders.history.order-details', ['orders' => $orders->get($orderId)]);
+        return view('orders.history.order-details', ['order' => $orders->get($orderId)]);
     }
 }
