@@ -20,13 +20,19 @@ class OrderStatusSetterService
         $currentStatus = $orders->getStatus($orderId);
         if ($currentStatus === OrderStatus::Completed)
         {
-            $errors->add('status', 'Нельзя изменять статус выполненного заказа');
+            $errors->add('status', 'Нельзя изменять статус выполненного заказа.');
+            return;
+        }
+
+        if (($currentStatus === OrderStatus::OnExecution) && ($status === OrderStatus::WaitingForPayment))
+        {
+            $errors->add('status', 'Нельзя отменять выполнение заказа.');
             return;
         }
 
         if ($currentStatus === $status)
             return;
 
-        $orders->setStatus($orderId, $status, $currentStatus);
+        $orders->setStatus($orderId, $status);
     }
 }

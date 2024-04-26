@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers\Admin\Orders;
 
-use App\Enums\OrderStatus;
-use App\Errors\UserInputErrors;
-use App\Services\Admin\Orders\OrderStatusSetterService;
-use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
+use App\Enums\OrderStatus;
 use Illuminate\Http\Request;
+use App\Errors\UserInputErrors;
+use Illuminate\Http\RedirectResponse;
+use App\Services\Admin\Orders\OrderStatusSetterService;
 
 class OrdersStatusSetterController
 {
@@ -24,7 +24,6 @@ class OrdersStatusSetterController
         {
             $errors->add('status', 'Неизвестное значение статуса заказа');
             return redirect()->back()
-                             ->withInput()
                              ->withErrors($errors->getAll());
         }
 
@@ -34,7 +33,6 @@ class OrdersStatusSetterController
         if ($errors->hasAny())
         {
             return redirect()->back()
-                             ->withInput()
                              ->withErrors($errors->getAll());
         }
 
