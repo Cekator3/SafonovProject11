@@ -55,23 +55,12 @@ class CatalogItemsController
         return view('catalog.items', ['models' => $result, 'userRole' => $this->getUserRole()]);
     }
 
-    private function getUserCurrentOrderStatus() : OrderStatus | null
-    {
-        $orders = new OrderRepository();
-        $userId = Auth::user()->id;
-        return $orders->getCurrentOrderStatus($userId);
-    }
-
     /**
      * Displays the details about catalog item.
      */
     public function showCatalogItem(Request $request, int $baseModelId) : View
     {
         $models = new CatalogItemsGetterService();
-        $userRole = $this->getUserRole();
-        $userCurrentOrderStatus = null;
-        if ($userRole === UserRole::Customer)
-            $userCurrentOrderStatus = $this->getUserCurrentOrderStatus();
-        return view('catalog.item', ['model' => $models->get($baseModelId), 'userRole' => $this->getUserRole(), 'userCurrentOrderStatus' => $userCurrentOrderStatus]);
+        return view('catalog.item', ['model' => $models->get($baseModelId), 'userRole' => $this->getUserRole()]);
     }
 }

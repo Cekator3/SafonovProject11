@@ -696,13 +696,12 @@ class OrderedModelRepository
      * An object for storing operation errors.
      */
     public function update(OrderedCatalogModelViewModel $model,
-                           int $orderedModelId,
                            OrderedModelUpdateErrors $errors) : void
     {
         try
         {
             DB::table('ordered_models')
-                        ->where('id', '=', $orderedModelId)
+                        ->where('id', '=', $model->orderedModelId)
                         ->update([
                 'model_size_id' => $model->modelSizeId,
                 'printing_technology_id' => $model->printingTechnologyId,
@@ -717,14 +716,14 @@ class OrderedModelRepository
             foreach ($model->additionalServices as $additionalServiceId)
             {
                 $additionalServicesData []= [
-                    'ordered_model_id' => $orderedModelId,
+                    'ordered_model_id' => $model->orderedModelId,
                     'additional_service_id' => $additionalServiceId
                 ];
             }
 
             DB::beginTransaction();
             DB::table('additional_services_of_ordered_models')
-                            ->where('ordered_model_id', '=', $orderedModelId)
+                            ->where('ordered_model_id', '=', $model->orderedModelId)
                             ->delete();
 
             DB::table('additional_services_of_ordered_models')->insert($additionalServicesData);

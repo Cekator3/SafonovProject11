@@ -20,39 +20,20 @@ use App\DTOs\Orders\History\OrderItemListDTO;
 class OrderRepository
 {
     /**
-     * Retrieves the identifier of the user's not completed (current) order.
+     * Retrieves the identifier of the user's not payed order.
      *
      * @return int|null User's identifier.
      */
     public function getCurrentOrderId(int $userId) : int | null
     {
         $entry = DB::table('orders')
-                           ->where('status', '<>', OrderStatus::Completed)
+                           ->where('status', '=', OrderStatus::WaitingForPayment)
                            ->where('customer_id', '=', $userId)
                            ->select('id')
                            ->first();
         if ($entry === null)
             return null;
         return $entry->id;
-    }
-
-    /**
-     * Retrieves the completion status of the user's not completed (current) order.
-     *
-     * @return int|null User's identifier.
-     */
-    public function getCurrentOrderStatus(int $userId) : OrderStatus | null
-    {
-        $entry = DB::table('orders')
-                           ->where('status', '<>', OrderStatus::Completed)
-                           ->where('customer_id', '=', $userId)
-                           ->select('status')
-                           ->first();
-
-        if ($entry === null)
-            return null;
-
-        return OrderStatus::GetByValue($entry->status);
     }
 
     private function convertToOrderItemList(stdClass $entry) : OrderItemListDTO
@@ -72,9 +53,10 @@ class OrderRepository
      */
     public function getAll(int $userId) : array
     {
-        $entries = DB::table('orders')->where('customer_id', '=', $userId)
-                           ->select('id', 'status', 'payed_at', 'completed_at')
-                           ->get();
+        $entries = DB::table('orders')
+                            ->where('customer_id', '=', $userId)
+                            ->select('id', 'status', 'payed_at', 'completed_at')
+                            ->get();
 
         $result = [];
         foreach ($entries as $entry)
@@ -95,9 +77,10 @@ class OrderRepository
      */
     public function belongsToUser(int $orderId, int $userId) : bool
     {
-        return DB::table('orders')->where('order_id', '=', $orderId)
-                                  ->where('user_id', '=', $userId)
-                                  ->exists();
+        return DB::table('orders')
+                        ->where('order_id', '=', $orderId)
+                        ->where('user_id', '=', $userId)
+                        ->exists();
     }
 
     /**

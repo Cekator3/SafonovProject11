@@ -4,7 +4,6 @@ namespace App\Services\Orders\OrderedModels;
 
 use App\Errors\UserInputErrors;
 use Illuminate\Support\Facades\Auth;
-use App\Repositories\Orders\OrderRepository;
 use App\Errors\Orders\OrderedModelUpdateErrors;
 use App\Repositories\Orders\OrderedModelRepository;
 use App\ViewModels\Orders\OrderedCatalogModelViewModel;
@@ -23,23 +22,13 @@ class OrderedModelUpdateService
         $amountValidator->validate($model->amount, $model->amountInputName, $errors);
     }
 
-    /**
-     * Returns user's current order if exists.
-     */
-    private function getUserCurrentOrderId(int $userId) : int|null
-    {
-        $orders = new OrderRepository();
-        return $orders->getCurrentOrderId($userId);
-    }
-
     private function updateModelInUserOrder(OrderedCatalogModelViewModel $model,
-                                            int $orderId,
                                             UserInputErrors $errors) : void
     {
         $models = new OrderedModelRepository();
         $updateErrors = new OrderedModelUpdateErrors();
 
-        $models->update($model, $orderId, $updateErrors);
+        $models->update($model, $updateErrors);
 
         if (! $updateErrors->hasAny())
             return;
@@ -73,7 +62,6 @@ class OrderedModelUpdateService
             return;
 
         // 3 Update ordered model
-        $orderId = $this->getUserCurrentOrderId($userId);
-        $this->updateModelInUserOrder($model, $orderId, $errors);
+        $this->updateModelInUserOrder($model, $errors);
     }
 }

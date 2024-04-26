@@ -31,8 +31,7 @@
         <header><h3>{{ $model->getName() }}</h3></header>
         <p class="description">{{ $model->getDescription() }}</p>
         <x-catalog.item.actions :userRole=" $userRole "
-                                :baseModelId=" $model->getId() "
-                                :userCurrentOrderStatus=" $userCurrentOrderStatus " />
+                                :baseModelId=" $model->getId() " />
     </section>
 
     <div class="gallery">
