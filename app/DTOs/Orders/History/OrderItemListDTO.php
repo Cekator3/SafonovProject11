@@ -2,59 +2,48 @@
 
 namespace App\DTOs\Orders\History;
 
-use App\Enums\OrderStatus;
-use DateTime;
-
 /**
  * A subsystem for reading application data specifically
- * to display a history of user's orders.
+ * to display a list of orders (administrator).
  */
-final class OrderItemListDTO
+class OrderItemListDTO
 {
-    private int $id;
-    private OrderStatus $status;
-    private DateTime|null $completed_at = null;
-    private DateTime|null $payed_at = null;
+    private OrderInfo $orderInfo;
 
-    public function __construct(int $id, int $status, string $payedAt = '', string $completedAt = '')
+    public function __construct(OrderInfo $orderInfo)
     {
-        $this->id = $id;
-        $this->status = OrderStatus::GetByValue($status);
-        if (! empty($completedAt))
-            $this->completed_at = new DateTime($completedAt);
-        if (! empty($payedAt))
-            $this->payed_at = new DateTime($payedAt);
+        $this->orderInfo = $orderInfo;
     }
 
     /**
-     * Returns the identifier of the order.
+     * Returns the id of the order
      */
     public function getId() : int
     {
-        return $this->id;
+        return $this->orderInfo->getId();
     }
 
     /**
-     * Returns the order's completion status
+     * Returns the status of the order
      */
-    public function getStatus() : OrderStatus
+    public function getStatus() : string
     {
-        return $this->status;
-    }
-
-    /**
-     * Returns the order's completion date.
-     */
-    public function getCompletionDate() : DateTime|null
-    {
-        return $this->completed_at;
+        return $this->orderInfo->getStatusAsString();
     }
 
     /**
      * Returns the order's payment date.
      */
-    public function getPaymentDate() : DateTime|null
+    public function getPaymentDate() : string
     {
-        return $this->payed_at;
+        return $this->orderInfo->getPaymentDate();
+    }
+
+    /**
+     * Returns the order's completion date.
+     */
+    public function getCompletionDate() : string
+    {
+        return $this->orderInfo->getCompletionDate();
     }
 }

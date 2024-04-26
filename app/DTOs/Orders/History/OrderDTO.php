@@ -2,76 +2,126 @@
 
 namespace App\DTOs\Orders\History;
 
+use Exception;
 use App\Enums\OrderStatus;
-use DateTime;
 
 /**
- * A subsystem for reading application data about order from user's orders history.
+ * A subsystem for reading application data about the user's order and
+ * it's ordered models (administrator)
  */
 class OrderDTO
 {
-    private int $id;
-    private OrderStatus $status;
-    private DateTime|null $completed_at = null;
-    private DateTime|null $payed_at = null;
+    private OrderInfo $orderInfo;
     /**
-     * @var ModelDTO[]
+     * @var OrderedModelInfo
      */
     private array $models;
 
     /**
-     * @param ModelDTO[] $models
+     * @param OrderedModelInfo[] $models
      */
-    public function __construct(int $id, int $status, array $models, string $payedAt = '', string $completedAt = '')
+    public function __construct(OrderInfo $orderInfo,
+                                array $models)
     {
-        $this->id = $id;
+        $this->orderInfo = $orderInfo;
         $this->models = $models;
-        $this->status = OrderStatus::GetByValue($status);
-        if (! empty($completedAt))
-            $this->completed_at = new DateTime($completedAt);
-        if (! empty($payedAt))
-            $this->payed_at = new DateTime($payedAt);
     }
 
     /**
-     * Returns the identifier of the order.
+     * Returns the id of the order
      */
     public function getId() : int
     {
-        return $this->id;
+        return $this->orderInfo->getId();
     }
 
     /**
-     * Returns the order's status
+     * Returns the status of the order
      */
     public function getStatus() : OrderStatus
     {
-        return $this->status;
+        return $this->orderInfo->getStatus();
     }
 
     /**
-     * Returns the order's completion date.
+     * Returns the status of the order
      */
-    public function getCompletionDate() : DateTime|null
+    public function getStatusAsString() : string
     {
-        return $this->completed_at;
+        return $this->orderInfo->getStatusAsString();
+    }
+
+    /**
+     * Returns all existing order statuses
+     * @return OrderStatus[]
+     */
+    public function getAllStatuses() : array
+    {
+        return OrderStatus::cases();
+    }
+
+    public function getStatusString(OrderStatus $status) : string
+    {
+        switch ($status)
+        {
+            case OrderStatus::WaitingForPayment:
+                return 'Ожидает оплаты';
+            case OrderStatus::OnExecution:
+                return 'Выполняется';
+            case OrderStatus::Completed:
+                return 'Выполнен';
+            default:
+                throw new Exception('Given order status not exists');
+        }
+    }
+
+    /**
+     * Checks if the order has been payed by the customer
+     */
+    public function isPayed() : bool
+    {
+        return $this->orderInfo->getPaymentDate() !== '';
     }
 
     /**
      * Returns the order's payment date.
      */
-    public function getPaymentDate() : DateTime|null
+    public function getPaymentDate() : string
     {
-        return $this->payed_at;
+        return $this->orderInfo->getPaymentDate();
     }
 
     /**
-     * Returns the order's models.
+     * Checks if the order was completed
+     */
+    public function isCompleted() : bool
+    {
+        return $this->orderInfo->getCompletionDate() !== '';
+    }
+
+    /**
+     * Returns the order's completion date.
+     */
+    public function getCompletionDate() : string
+    {
+        return $this->orderInfo->getCompletionDate();
+    }
+
+    /**
+     * Returns the ordered models of the user's order.
      *
-     * @return ModelDTO[]
+     * @return OrderedModelInfo[]
      */
     public function getModels() : array
     {
         return $this->models;
+    }
+
+    /**
+     * Checks if any ordered model exists in the user's order
+     */
+    public function hasAnyModels() : bool
+    {
+        return count($this->models) !== 0;
     }
 }

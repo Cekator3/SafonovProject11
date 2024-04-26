@@ -9,6 +9,7 @@ Route::middleware([EnsureIsCustomer::class, EnsureCustomerCredentialsAreVerified
      ->controller(OrdersHistoryController::class)
      ->group(function ()
 {
-    Route::get('/', 'showOrdersHistory');
+    Route::get('/', 'showOrdersHistory')
+            ->name('order-history');
     Route::get('/{orderId}', 'showOrderDetails');
 });

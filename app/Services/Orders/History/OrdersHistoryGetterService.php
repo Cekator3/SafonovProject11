@@ -31,6 +31,8 @@ class OrdersHistoryGetterService
     {
         $userId = Auth::user()->id;
         $orders = new OrderRepository();
+        if (! $orders->belongsToUser($orderId, $userId))
+            return null;
         return $orders->get($userId, $orderId);
     }
 }
