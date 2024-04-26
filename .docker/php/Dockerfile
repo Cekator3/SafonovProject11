@@ -21,7 +21,8 @@ RUN docker-php-ext-install \
 
 # Install and enable redis PHP extension
 RUN pecl install -o -f redis-6.0.2
-RUN docker-php-ext-enable redis
+RUN docker-php-ext-enable \
+    redis
 
 # Create PHP-FPM's and nginx user
 RUN groupadd \
@@ -37,9 +38,8 @@ RUN useradd \
 USER www
 
 # Install the PHP production configuration
-COPY .docker/php/php.ini "$PHP_INI_DIR/php.ini"
-COPY .docker/php/php-fpm.config "$PHP_INI_DIR/php-fpm.config"
-COPY .docker/php/opcache.ini $PHP_INI_DIR/conf.d/
+COPY --chown=www .docker/php/php.ini "$PHP_INI_DIR/php.ini"
+COPY --chown=www .docker/php/php-fpm.config "$PHP_INI_DIR/php-fpm.config"
 
 # Install project files
 COPY --chown=www . /var/www/html
