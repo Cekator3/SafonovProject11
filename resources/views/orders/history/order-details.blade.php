@@ -7,6 +7,7 @@
 <link href="/assets/css/form/common.css" rel="stylesheet" type="text/css">
 <link href="/assets/css/form/fieldset.css" rel="stylesheet" type="text/css">
 <link href="/assets/css/form/checkbox-radio.css" rel="stylesheet" type="text/css">
+<link href="/assets/css/links/link-button.css" rel="stylesheet" type="text/css">
 <link href="/assets/css/form/submit.css" rel="stylesheet" type="text/css">
 
 {{-- Specific --}}
@@ -66,6 +67,10 @@
     @endforeach
 </article>
 
-
+@if ($order->getStatus() === \app\Enums\OrderStatus::WaitingForPayment)
+<footer>
+    <a class="link button" href="{!! route('shopping-cart.payment', ['order' => $order->getId()]) !!}">Оплатить</a>
+</footer>
+@endif
 
 @endsection

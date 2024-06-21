@@ -6,10 +6,9 @@ use Illuminate\Auth\Middleware\Authenticate;
 use App\Http\Middleware\EnsureCustomerCredentialsAreVerified;
 
 Route::middleware([Authenticate::class, EnsureIsCustomer::class, EnsureCustomerCredentialsAreVerified::class])
-     ->prefix('shopping-cart/payment')
-     ->controller(OrderPaymentController::class)
-     ->group(function ()
-{
-    Route::get('/', 'showPaymentNotifier')
-         ->name('shopping-cart.payment');
-});
+    ->prefix('shopping-cart/payment')
+    ->controller(OrderPaymentController::class)
+    ->group(function () {
+        Route::get('/{order?}', 'showPaymentNotifier')
+            ->name('shopping-cart.payment');
+    });

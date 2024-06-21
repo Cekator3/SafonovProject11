@@ -31,13 +31,13 @@ class OrderRepository
      *
      * @return int|null User's identifier.
      */
-    public function getCurrentOrderId(int $userId) : int | null
+    public function getCurrentOrderId(int $userId) : int|null
     {
         $entry = DB::table('orders')
-                           ->where('status', '=', OrderStatus::WaitingForPayment)
-                           ->where('customer_id', '=', $userId)
-                           ->select('id')
-                           ->first();
+            ->where('status', '=', OrderStatus::New )
+            ->where('customer_id', '=', $userId)
+            ->select('id')
+            ->first();
         if ($entry === null)
             return null;
         return $entry->id;
@@ -46,9 +46,9 @@ class OrderRepository
     private function getOrderInfo(stdClass $entry) : OrderInfo
     {
         return new OrderInfo($entry->order_id,
-                             $entry->order_status,
-                             $entry->order_payed_at,
-                             $entry->order_completed_at);
+            $entry->order_status,
+            $entry->order_payed_at,
+            $entry->order_completed_at);
     }
 
     /**
@@ -59,20 +59,20 @@ class OrderRepository
     public function getAll(int $userId) : array
     {
         $entries = DB::table('orders')
-                            ->where('customer_id', '=', $userId)
-                            ->select(
-                                'id AS order_id',
-                                'status AS order_status',
-                                'payed_at AS order_payed_at',
-                                'completed_at AS order_completed_at'
-                            )
-                            ->get();
+            ->where('customer_id', '=', $userId)
+            ->where('status', '<>', OrderStatus::New )
+            ->select(
+                'id AS order_id',
+                'status AS order_status',
+                'payed_at AS order_payed_at',
+                'completed_at AS order_completed_at'
+            )
+            ->get();
 
         $result = [];
-        foreach ($entries as $entry)
-        {
+        foreach ($entries as $entry) {
             $orderInfo = $this->getOrderInfo($entry);
-            $result []= new OrderItemListDTO($orderInfo);
+            $result[] = new OrderItemListDTO($orderInfo);
         }
         return $result;
     }
@@ -80,28 +80,28 @@ class OrderRepository
     private function getModelInfo(stdClass $entry) : BaseModelInfo
     {
         return new BaseModelInfo($entry->model_id,
-                                 $entry->model_name,
-                                 $entry->model_thumbnail);
+            $entry->model_name,
+            $entry->model_thumbnail);
     }
 
     private function getPrintingTechnologyInfo(stdClass $entry) : PrintingTechnologyInfo
     {
         return new PrintingTechnologyInfo($entry->printing_technology_id,
-                                          $entry->printing_technology_name);
+            $entry->printing_technology_name);
     }
 
     private function getFilamentTypeInfo(stdClass $entry) : FilamentTypeInfo
     {
         return new FilamentTypeInfo($entry->filament_type_id,
-                                    $entry->filament_type_name);
+            $entry->filament_type_name);
     }
 
     private function getModelSizeInfo(stdClass $entry) : ModelSizeInfo
     {
         return new ModelSizeInfo($entry->model_size_multiplier,
-                                 $entry->model_length,
-                                 $entry->model_height,
-                                 $entry->model_width);
+            $entry->model_length,
+            $entry->model_height,
+            $entry->model_width);
     }
 
     /**
@@ -117,12 +117,12 @@ class OrderRepository
         $modelSizeInfo = $this->getModelSizeInfo($entry);
 
         return new OrderedModelInfo($modelInfo,
-                                    $amount,
-                                    $printingTechnologyInfo,
-                                    $filamentTypeInfo,
-                                    $colorCode,
-                                    $modelSizeInfo,
-                                    $additionalServicesInfo);
+            $amount,
+            $printingTechnologyInfo,
+            $filamentTypeInfo,
+            $colorCode,
+            $modelSizeInfo,
+            $additionalServicesInfo);
     }
 
     /**
@@ -131,16 +131,16 @@ class OrderRepository
     private function getAdditionalServicesInfos(int $orderedModelId) : array
     {
         $entries = DB::table('additional_services_of_ordered_models AS asom')
-                     ->join('additional_services AS s',
-                                's.id', '=', 'asom.additional_service_id')
-                     ->where('asom.ordered_model_id', '=', $orderedModelId)
-                     ->get(['s.id   AS id',
-                            's.name AS name']);
+            ->join('additional_services AS s',
+                's.id', '=', 'asom.additional_service_id')
+            ->where('asom.ordered_model_id', '=', $orderedModelId)
+            ->get(['s.id   AS id',
+                's.name AS name']);
 
         $result = [];
 
         foreach ($entries as $entry)
-            $result []= new AdditionalServiceInfo($entry->id, $entry->name);
+            $result[] = new AdditionalServiceInfo($entry->id, $entry->name);
 
         return $result;
     }
@@ -148,7 +148,7 @@ class OrderRepository
     /**
      * Retrieves user's order.
      */
-    public function get(int $userId, int $orderId) : OrderDTO | null
+    public function get(int $userId, int $orderId) : OrderDTO|null
     {
         $entries = DB::select(
             'SELECT
@@ -194,7 +194,7 @@ class OrderRepository
             WHERE
                 om.order_id = ?', [$orderId]);
 
-        if ($entries === null)
+        if (empty($entries))
             return null;
 
 
@@ -202,10 +202,9 @@ class OrderRepository
         $orderInfo = $this->getOrderInfo($entries[0]);
 
         $models = [];
-        foreach ($entries as $entry)
-        {
+        foreach ($entries as $entry) {
             $additionalServicesInfos = $this->getAdditionalServicesInfos($entry->ordered_model_id);
-            $models []= $this->getOrderedModelsInfo($entry, $additionalServicesInfos);
+            $models[] = $this->getOrderedModelsInfo($entry, $additionalServicesInfos);
         }
 
         return new OrderDTO($orderInfo, $models);
@@ -217,9 +216,9 @@ class OrderRepository
     public function belongsToUser(int $orderId, int $userId) : bool
     {
         return DB::table('orders')
-                        ->where('id', '=', $orderId)
-                        ->where('customer_id', '=', $userId)
-                        ->exists();
+            ->where('id', '=', $orderId)
+            ->where('customer_id', '=', $userId)
+            ->exists();
     }
 
     /**
@@ -231,7 +230,7 @@ class OrderRepository
     {
         $orderId = DB::table('orders')->insertGetId([
             'customer_id' => $userId,
-            'status' => OrderStatus::WaitingForPayment
+            'status' => OrderStatus::New
         ]);
     }
 }

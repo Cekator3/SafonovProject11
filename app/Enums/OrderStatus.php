@@ -5,6 +5,7 @@ use Exception;
 
 enum OrderStatus : int
 {
+    case New = 3;
     case WaitingForPayment = 1;
     case OnExecution = 2;
     case Completed = 4;
@@ -16,6 +17,7 @@ enum OrderStatus : int
     public static function GetAllValues() : array
     {
         return [
+            static::New->value,
             static::WaitingForPayment->value,
             static::OnExecution->value,
             static::Completed->value
@@ -36,6 +38,8 @@ enum OrderStatus : int
     {
         switch ($orderStatus)
         {
+            case static::New->value:
+                return static::New;
             case static::WaitingForPayment->value:
                 return static::WaitingForPayment;
             case static::OnExecution->value:

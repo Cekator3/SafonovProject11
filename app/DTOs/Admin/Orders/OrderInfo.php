@@ -46,6 +46,8 @@ class OrderInfo
     {
         switch ($this->status)
         {
+            case OrderStatus::New:
+                return 'Новый';
             case OrderStatus::WaitingForPayment:
                 return 'Ожидает оплаты';
             case OrderStatus::OnExecution:

@@ -44,8 +44,9 @@ class OrderInfo
      */
     public function getStatusAsString() : string
     {
-        switch ($this->status)
-        {
+        switch ($this->status) {
+            case OrderStatus::New:
+                return 'Новый';
             case OrderStatus::WaitingForPayment:
                 return 'Ожидает оплаты';
             case OrderStatus::OnExecution:

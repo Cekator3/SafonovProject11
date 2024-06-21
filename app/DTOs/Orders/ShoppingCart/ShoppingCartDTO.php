@@ -1,6 +1,7 @@
 <?php
 
 namespace App\DTOs\Orders\ShoppingCart;
+
 use App\Enums\OrderStatus;
 
 /**
@@ -37,7 +38,7 @@ final class ShoppingCartDTO
 
     public function isOrderCanBeChanged() : bool
     {
-        return $this->orderStatus === OrderStatus::WaitingForPayment;
+        return $this->orderStatus === OrderStatus::New;
     }
 
     /**
@@ -45,8 +46,9 @@ final class ShoppingCartDTO
      */
     public function getOrderStatus() : string
     {
-        switch ($this->orderStatus)
-        {
+        switch ($this->orderStatus) {
+            case OrderStatus::New:
+                return 'Новый';
             case OrderStatus::WaitingForPayment:
                 return 'ОЖИДАЕТ ОПЛАТЫ';
             case OrderStatus::OnExecution:

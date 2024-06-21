@@ -108,12 +108,13 @@ class OrderedModelGetterService
      * Retrieves all models from order to display them in
      * shopping cart.
      */
-    public function getAllAsShoppingCart() : ShoppingCartDTO
+    public function getAllAsShoppingCart(int|null $orderId = null) : ShoppingCartDTO
     {
         $models = new OrderedModelRepository();
         $userId = Auth::user()->id;
 
-        $orderId = $this->getUserCurrentOrder($userId);
+        if ($orderId === null)
+            $orderId = $this->getUserCurrentOrder($userId);
         if ($orderId === -1)
             $this->createNewOrderForUser($userId, $orderId);
 

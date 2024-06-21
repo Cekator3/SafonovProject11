@@ -51,7 +51,9 @@ class OrdersHistoryGetterService
             return null;
 
         $order = $orders->get($userId, $orderId);
-        $this->setModelsThumbnailUrl($order->getModels());
+
+        if ($order !== null)
+            $this->setModelsThumbnailUrl($order->getModels());
 
         return $order;
     }
