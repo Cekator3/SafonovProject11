@@ -16,7 +16,7 @@ return new class extends Migration
         {
             $table->integer('id')->generatedAs()->always()->primary();
             $table->integer('customer_id');
-            $table->enum('status', OrderStatus::GetAllValues())->default(OrderStatus::WaitingForPayment);
+            $table->enum('status', OrderStatus::GetAllValues());
             $table->timestamp('payed_at')->nullable();
             $table->timestamp('completed_at')->nullable();
 

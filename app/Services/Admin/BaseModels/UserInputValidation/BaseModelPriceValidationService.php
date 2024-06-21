@@ -21,7 +21,7 @@ class BaseModelPriceValidationService
      */
     public function validate(float $price, string $inputName, UserInputErrors $errors) : void
     {
-        if ($price <= 0)
+        if ($price < 0)
         {
             $errMessage = __('admin/base_model_validation.price');
             $errors->add($inputName, $errMessage);
