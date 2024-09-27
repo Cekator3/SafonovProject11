@@ -37,16 +37,11 @@ RUN useradd \
 # Set image's user
 USER www
 
-# Install the PHP production configuration
-COPY --chown=www .docker/php/php.ini "$PHP_INI_DIR/php.ini"
-COPY --chown=www .docker/php/php-fpm.config "$PHP_INI_DIR/php-fpm.config"
-
-# Install project files
-COPY --chown=www . /var/www/html
-
 # Install Composer
 COPY --from=composer/composer:2.7.9-bin /composer /usr/local/bin/composer
+
 # Install project's dependencies
+COPY --chown=www ./composer.json /var/www/html
 RUN composer install \
             --no-dev \
             --optimize-autoloader \
@@ -54,6 +49,13 @@ RUN composer install \
             --no-scripts \
             --no-autoloader \
             --no-progress
+
+# Install the PHP production configuration
+COPY --chown=www .docker/php/php.ini "$PHP_INI_DIR/php.ini"
+COPY --chown=www .docker/php/php-fpm.config "$PHP_INI_DIR/php-fpm.config"
+
+# Install project files
+COPY --chown=www . /var/www/html
 
 # Generate autoload files
 RUN composer dump-autoload --optimize
