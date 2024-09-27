@@ -73,6 +73,33 @@ services:
         networks:
             - app
 
+        develop:
+            watch:
+                - action: rebuild
+                  path: ./app
+                  target: /var/www/html/app
+                - action: rebuild
+                  path: ./bootstrap
+                  target: /var/www/html/bootstrap
+                - action: rebuild
+                  path: ./config
+                  target: /var/www/html/config
+                - action: rebuild
+                  path: ./database
+                  target: /var/www/html/database
+                - action: rebuild
+                  path: ./lang
+                  target: /var/www/html/lang
+                - action: rebuild
+                  path: ./public
+                  target: /var/www/html/public
+                - action: rebuild
+                  path: ./resources
+                  target: /var/www/html/resources
+                - action: rebuild
+                  path: ./routes
+                  target: /var/www/html/routes
+
 networks:
     app:
         driver: bridge
