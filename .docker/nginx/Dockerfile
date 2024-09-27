@@ -1,4 +1,4 @@
-FROM nginx:mainline-alpine-slim
+FROM nginx:mainline-alpine3.20-slim
 
 WORKDIR /var/www/html
 

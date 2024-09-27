@@ -6,7 +6,7 @@ volumes:
 
 services:
     postgres:
-        image: postgres:alpine
+        image: postgres:17.0-alpine3.19
         container_name: ${APP_NAME}_postgres
         volumes:
             # To save database data in persistent docker volume
@@ -16,6 +16,8 @@ services:
             POSTGRES_PASSWORD: '${DB_PASSWORD}'
             POSTGRES_DB: '${DB_DATABASE}'
             PGPASSWORD: '${DB_PASSWORD}'
+        env_file:
+            - .env
         networks:
             - app
         healthcheck:
@@ -24,11 +26,13 @@ services:
             retries: 3
 
     redis:
-        image: redis:alpine
+        image: redis:7.4.0-alpine3.20
         container_name: ${APP_NAME}_redis
         volumes:
             # To save redis data in persistent docker volume
             - redis-data:/data
+        env_file:
+            - .env
         networks:
             - app
         healthcheck:
@@ -40,10 +44,15 @@ services:
     web:
         image: nginx_img
         container_name: ${APP_NAME}_nginx
+        build:
+            context: .
+            dockerfile: .docker/nginx/Dockerfile
         volumes:
             # To share public data (css, js, images) between nginx and php
             - public:/var/www/html/public
             - public2:/var/www/html/storage/app/public
+        env_file:
+            - .env
         ports:
             - "80:80"
         networks:
@@ -52,10 +61,15 @@ services:
     php:
         image: php_img
         container_name: ${APP_NAME}_php
+        build:
+            context: .
+            dockerfile: .docker/php/Dockerfile
         volumes:
             # To share public data (css, js, images) between nginx and php
             - public:/var/www/html/public
             - public2:/var/www/html/storage/app/public
+        env_file:
+            - .env
         networks:
             - app
 

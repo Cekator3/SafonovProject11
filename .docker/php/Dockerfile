@@ -1,4 +1,4 @@
-FROM php:8.3.6-fpm
+FROM php:8.3.12-fpm-bookworm
 
 WORKDIR /var/www/html
 
@@ -45,18 +45,18 @@ COPY --chown=www .docker/php/php-fpm.config "$PHP_INI_DIR/php-fpm.config"
 COPY --chown=www . /var/www/html
 
 # Install Composer
-COPY --from=composer:latest /usr/bin/composer /usr/local/bin/composer
+COPY --from=composer/composer:2.7.9-bin /composer /usr/local/bin/composer
 # Install project's dependencies
 RUN composer install \
             --no-dev \
+            --optimize-autoloader \
             --prefer-dist \
             --no-scripts \
             --no-autoloader \
-            --no-progress \
-            --ignore-platform-reqs
+            --no-progress
 
 # Generate autoload files
-RUN composer dump-autoload
+RUN composer dump-autoload --optimize
 RUN composer check-platform-reqs
 
 # Create image storage (symbolic link)
